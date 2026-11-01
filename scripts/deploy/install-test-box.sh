@@ -107,6 +107,16 @@ fix_pg_hba() {
     chown postgres:postgres "$H"; chmod 600 "$H"
     systemctl reload postgresql
   fi
+  # Stock PG on OL9 hashes passwords as md5, which scram rules reject: switch and re-set.
+  if [[ "$(sudo -u postgres psql -Atc 'show password_encryption' 2>/dev/null)" != "scram-sha-256" ]]; then
+    sudo -u postgres psql -qc "ALTER SYSTEM SET password_encryption = 'scram-sha-256'"
+    systemctl reload postgresql
+  fi
+  local pw
+  pw=$(grep -E '^APP_DB_PASSWORD=' "$ENV_FILE" | head -1 | cut -d= -f2- | awk '{print $1}')
+  if [[ -n "$pw" ]] && sudo -u postgres psql -Atc "select 1 from pg_roles where rolname='safehomeops'" | grep -q 1; then
+    sudo -u postgres psql -qc "ALTER ROLE safehomeops WITH PASSWORD '$pw'"
+  fi
 }
 fix_pg_hba
 
