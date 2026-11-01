@@ -772,6 +772,16 @@
   text-decoration: none;
 }
 
+.vs-req-paid {
+  justify-self: start;
+  padding: 0.15rem 0.55rem;
+  border-radius: 999px;
+  background: #dcfce7;
+  color: #166534;
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+
 .vs-req-main small {
   color: #64748b;
   overflow-wrap: anywhere;

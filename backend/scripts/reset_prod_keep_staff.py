@@ -65,6 +65,16 @@ def _count(db, table) -> int:
     return int(db.execute(select(func.count()).select_from(table)).scalar() or 0)
 
 
+def _all_table_names(db) -> list[str]:
+    """Every table in the live database — the shared Postgres also holds tables from
+    other products / older schemas that this app's models never import."""
+    return [n for n in inspect(db.get_bind()).get_table_names() if n != "alembic_version"]
+
+
+def _count_name(db, name: str) -> int:
+    return int(db.execute(text(f'SELECT count(*) FROM "{name}"')).scalar() or 0)
+
+
 def list_users(db) -> None:
     users = Base.metadata.tables["users"]
     tenants = Base.metadata.tables["tenants"]
@@ -90,13 +100,14 @@ def plan(db, keep_emails: list[str]) -> tuple[list[int], list[tuple[str, int]], 
     keep_ids = [r.id for r in found]
 
     counts: list[tuple[str, int]] = []
-    for t in _tables():
-        n = _count(db, t)
-        if t.name == "users":
-            doomed = int(db.execute(select(func.count()).select_from(users).where(users.c.id.not_in(keep_ids))).scalar() or 0)
-            counts.append(("users (delete)", doomed))
-        elif t.name not in KEEP_TABLES and n:
-            counts.append((t.name, n))
+    doomed_users_n = int(db.execute(select(func.count()).select_from(users).where(users.c.id.not_in(keep_ids))).scalar() or 0)
+    counts.append(("users (delete)", doomed_users_n))
+    for name in sorted(_all_table_names(db)):
+        if name in KEEP_TABLES:
+            continue
+        n = _count_name(db, name)
+        if n:
+            counts.append((name, n))
     doomed_users = db.execute(
         select(users.c.id, users.c.email, users.c.role).where(users.c.id.not_in(keep_ids)).order_by(users.c.id)
     ).all()
@@ -137,17 +148,34 @@ def apply(db, keep_ids: list[int]) -> None:
                 if (t.name, col.name) in UNASSIGN:
                     db.execute(t.update().values({col.name: None}))
 
-    # 3. data tables, children before parents
-    for t in _tables():
-        if t.name in KEEP_TABLES:
-            continue
-        db.execute(t.delete())
-
-    # 4. users: everyone except the keep list; clear their own back-references first
+    # 3. kept users point at clients/caregivers (users.elder_id / caregiver_id):
+    #    clear those links BEFORE the data tables go, or Postgres refuses the delete.
     db.execute(users.update().values(elder_id=None, caregiver_id=None))
+
+    # 4. every non-kept table in the live DB. Order is unknown for tables outside
+    #    our models, so delete in passes: a table that still has dependants fails
+    #    inside a savepoint and is retried after the others.
+    remaining = [n for n in _all_table_names(db) if n not in KEEP_TABLES]
+    for _pass in range(12):
+        failed: list[str] = []
+        for name in remaining:
+            try:
+                with db.begin_nested():
+                    db.execute(text(f'DELETE FROM "{name}"'))
+            except Exception:  # noqa: BLE001 - FK order; retried next pass
+                failed.append(name)
+        if not failed:
+            break
+        if failed == remaining:
+            raise RuntimeError(f"cannot delete (foreign keys into kept tables?): {failed}")
+        remaining = failed
+    else:
+        raise RuntimeError(f"gave up after 12 passes: {remaining}")
+
+    # 5. users: everyone except the keep list
     db.execute(users.delete().where(users.c.id.not_in(keep_ids)))
 
-    # 5. the hub JSON lives on elders, which are gone; nothing else to scrub.
+    # 6. the hub JSON lives on elders, which are gone; nothing else to scrub.
     db.commit()
 
 

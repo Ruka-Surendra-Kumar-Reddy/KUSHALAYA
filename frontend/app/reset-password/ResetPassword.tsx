@@ -17,7 +17,7 @@ function readableError(detail: unknown): string {
       const field = Array.isArray(d?.loc) ? String(d.loc[d.loc.length - 1]) : "";
       const msg = typeof d?.msg === "string" ? d.msg.replace(/^Value error, /, "") : "";
       if (field === "password") return "Use a password of at least 8 characters.";
-      if (field === "email") return "Enter a valid email address.";
+      if (field === "email") return "Enter the email or mobile number you sign in with.";
       if (field === "token") return "This reset link is invalid or has expired. Ask for a new one.";
       return msg;
     });
@@ -42,6 +42,7 @@ async function post(path: string, body: unknown): Promise<void> {
 function ResetPasswordInner() {
   const params = useSearchParams();
   const [token] = useState(() => params.get("token") || "");
+  const [welcome] = useState(() => params.get("welcome") === "1");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
@@ -97,7 +98,7 @@ function ResetPasswordInner() {
   if (token && done) {
     body = (
       <>
-        <p className="ko-login-title">Password changed</p>
+        <p className="ko-login-title">{welcome ? "Your password is set" : "Password changed"}</p>
         <p className="muted ko-login-intro">You can now sign in with your new password.</p>
         <Link className="ko-login-btn rp-btn-link" href="/login">Go to sign in</Link>
       </>
@@ -105,7 +106,7 @@ function ResetPasswordInner() {
   } else if (token) {
     body = (
       <>
-        <p className="ko-login-title">Choose a new password</p>
+        <p className="ko-login-title">{welcome ? "Welcome — set your password" : "Choose a new password"}</p>
         <p className="muted ko-login-intro">Use at least 8 characters.</p>
         <form onSubmit={onReset} noValidate>
           <div className="ko-field">
@@ -148,7 +149,7 @@ function ResetPasswordInner() {
       <>
         <p className="ko-login-title">Check your email</p>
         <p className="muted ko-login-intro">
-          If that email has an account, a reset link is on its way. It can take a minute — check spam too.
+          If that email or number has an account, a reset link is on its way by email and WhatsApp. It can take a minute — check spam too.
         </p>
         <Link className="rp-link" href="/login">Back to sign in</Link>
       </>
@@ -157,14 +158,14 @@ function ResetPasswordInner() {
     body = (
       <>
         <p className="ko-login-title">Forgot your password?</p>
-        <p className="muted ko-login-intro">Enter the email you sign in with and we&rsquo;ll send you a reset link.</p>
+        <p className="muted ko-login-intro">Enter the email or mobile number you sign in with and we&rsquo;ll send you a reset link.</p>
         <form onSubmit={onRequest} noValidate>
           <div className="ko-field">
-            <label htmlFor="rp-email">Email</label>
+            <label htmlFor="rp-email">Email or mobile number</label>
             <span className="ko-field-input">
               <input
                 id="rp-email"
-                type="email"
+                type="text"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 autoComplete="username"

@@ -14,7 +14,7 @@ import {
   isStaffRole,
 } from "@/lib/auth";
 import { PublicBrandMark } from "@/components/BrandLogo";
-import { PasswordField, looksLikeEmail, normalizeEmail } from "@/components/PasswordField";
+import { PasswordField, looksLikeSignInName, normalizeEmail } from "@/components/PasswordField";
 import { publicBrandName, publicSafetyScoreName } from "@/lib/public-brand";
 import { useTranslation } from "@/lib/i18n/context";
 import { portalFont } from "@/components/portal-font";
@@ -180,7 +180,7 @@ function LoginForm() {
     if (!ident) {
       setEmailError(t("auth.emailRequired"));
       ok = false;
-    } else if (!looksLikeEmail(ident)) {
+    } else if (!looksLikeSignInName(ident)) {
       setEmailError(t("auth.emailInvalid"));
       ok = false;
     } else {
@@ -372,7 +372,7 @@ function LoginForm() {
                 <span className="ko-field-ico">{Icon.mail}</span>
                 <input
                   id="email"
-                  type="email"
+                  type="text"
                   value={email}
                   onChange={(e) => {
                     setEmail(e.target.value);

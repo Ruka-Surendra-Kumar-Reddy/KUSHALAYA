@@ -70,6 +70,17 @@ export function PasswordField({
 }
 
 /** Loose shape check — the server is the authority; this only catches typos early. */
+/** A mobile number as people type it: +91 98765 43210, 09876543210, 9876543210. */
+export function looksLikePhone(value: string): boolean {
+  const digits = value.replace(/\D/g, "");
+  return /^\+?[0-9 ()-]{6,20}$/.test(value.trim()) && digits.length >= 10 && digits.length <= 13;
+}
+
+/** Sign-in name: email or mobile number (both are accepted by /auth/login). */
+export function looksLikeSignInName(value: string): boolean {
+  return looksLikeEmail(value) || looksLikePhone(value);
+}
+
 export function looksLikeEmail(value: string): boolean {
   return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value);
 }

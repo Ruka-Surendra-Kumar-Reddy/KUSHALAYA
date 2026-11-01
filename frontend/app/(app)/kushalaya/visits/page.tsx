@@ -18,6 +18,7 @@ import { VisitReportSheet } from "@/app/caregiver/VisitReportSheet";
 import "@/components/ops/schedule.css";
 import { can } from "@/lib/roles";
 import { arrivalAt, isStaleCheckIn, staleLabel } from "@/lib/run-sheet";
+import { inr } from "@/lib/care-plan-catalog";
 
 type Client = { id: number; first_name: string; last_name: string };
 type Caregiver = { id: number; first_name: string; last_name: string };
@@ -31,6 +32,8 @@ type Request = {
   preferred_at?: string;
   created_at: string;
   requested_by?: string;
+  /** Paid on the website (pay-as-you-go Buy now), in paise. */
+  paid_online_minor?: number;
 };
 
 type Tab = "today" | "upcoming" | "requests" | "missed" | "past";
@@ -916,6 +919,9 @@ export default function VisitsPage() {
                 <div className="vs-req-main">
                   <Link href={`/kushalaya/customers/${r.elder_id}`}>{r.elder_name}</Link>
                   <strong>{r.label}</strong>
+                  {r.paid_online_minor ? (
+                    <span className="vs-req-paid">Paid {inr(r.paid_online_minor)} online</span>
+                  ) : null}
                   {r.notes ? <small>{r.id ? `“${r.notes}”` : r.notes}</small> : null}
                 </div>
                 <dl className="vs-req-meta">

@@ -1,7 +1,7 @@
 "use client";
 
 import { PublicBrandMark } from "@/components/BrandLogo";
-import { PasswordField, looksLikeEmail, normalizeEmail } from "@/components/PasswordField";
+import { PasswordField, looksLikeSignInName, normalizeEmail } from "@/components/PasswordField";
 import { publicBrandFamilyLabel, withPublicBrand } from "@/lib/public-brand";
 import { familyFont } from "@/components/livewell/family/family-font";
 import { DEFAULT_CARE_CONTACT } from "@/components/livewell/family/CareTeamContact";
@@ -237,7 +237,7 @@ export default function FamilyLoginPage() {
     if (!ident) {
       setEmailError("Enter your email address.");
       bad = true;
-    } else if (!looksLikeEmail(ident)) {
+    } else if (!looksLikeSignInName(ident)) {
       setEmailError("That does not look like an email address.");
       bad = true;
     }
@@ -367,7 +367,7 @@ export default function FamilyLoginPage() {
                 <span className="fh-field-ico">{Icon.mail}</span>
                 <input
                   id="family-email"
-                  type="email"
+                  type="text"
                   value={email}
                   onChange={(e) => {
                     setEmail(e.target.value);

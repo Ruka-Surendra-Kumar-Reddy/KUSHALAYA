@@ -1,3 +1,5 @@
+import re
+
 from fastapi import Request
 from sqlalchemy import func
 from sqlalchemy.orm import Session
@@ -266,7 +268,7 @@ class AuthService:
         # Brute-force guard (429) — runs before any lookup so unknown and known
         # emails behave identically.
         login_throttle.check_login_allowed(db, ident, request)
-        user = db.query(User).filter(func.lower(User.email) == ident).first() if ident else None
+        user = find_user_by_identifier(db, ident)
         if not user or not verify_password(data.password, user.password_hash):
             login_throttle.record_login_failure(db, ident, request)
             raise_bad_request("Invalid credentials")
@@ -354,7 +356,38 @@ def _password_fingerprint(user: User) -> str:
     return password_fingerprint(user)
 
 
-def create_password_reset_token(user: User) -> str:
+def phone_digits(value: str | None) -> str:
+    """Digits only; Indian 10-digit numbers get the 91 prefix so '98765 43210',
+    '+91 98765 43210' and '09876543210' all compare equal."""
+    d = re.sub(r"\D", "", value or "")
+    if len(d) == 11 and d.startswith("0"):
+        d = d[1:]
+    if len(d) == 10:
+        d = "91" + d
+    return d
+
+
+def find_user_by_identifier(db: Session, ident: str) -> User | None:
+    """Sign-in name is an email OR a mobile number (owner decision 2026-11-01).
+    Phones are stored in whatever format staff typed, so compare normalised digits."""
+    ident = (ident or "").strip().lower()
+    if not ident:
+        return None
+    if "@" in ident:
+        return db.query(User).filter(func.lower(User.email) == ident).first()
+    digits = phone_digits(ident)
+    if len(digits) < 10:
+        return None
+    candidates = db.query(User).filter(User.phone.isnot(None), User.phone != "").all()
+    matches = [u for u in candidates if phone_digits(u.phone) == digits]
+    if len(matches) > 1:
+        # Prefer an active login; an ambiguous number never logs anyone in.
+        active = [u for u in matches if u.status == "ACTIVE"]
+        matches = active if len(active) == 1 else []
+    return matches[0] if len(matches) == 1 else None
+
+
+def create_password_reset_token(user: User, *, minutes: int | None = None) -> str:
     from datetime import datetime, timedelta, timezone
 
     from jose import jwt
@@ -365,7 +398,7 @@ def create_password_reset_token(user: User) -> str:
         "sub": str(user.id),
         "type": "pwreset",
         "fp": _password_fingerprint(user),
-        "exp": datetime.now(timezone.utc) + timedelta(minutes=RESET_TOKEN_MINUTES),
+        "exp": datetime.now(timezone.utc) + timedelta(minutes=minutes or RESET_TOKEN_MINUTES),
     }
     return jwt.encode(payload, SECRET_KEY, algorithm=ALGORITHM)
 
@@ -378,10 +411,7 @@ def request_password_reset(db: Session, email: str) -> None:
     from app.core.rbac import ELDER_PORTAL
     from app.livewell import email_notifications
 
-    ident = (email or "").strip().lower()
-    if not ident:
-        return
-    user = db.query(User).filter(func.lower(User.email) == ident).first()
+    user = find_user_by_identifier(db, email)
     if not user or user.status != "ACTIVE":
         return
     now = time.monotonic()
