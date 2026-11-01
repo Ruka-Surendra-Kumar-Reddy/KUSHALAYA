@@ -47,8 +47,8 @@ export default function PrivacyPage() {
         </table>
       </div>
       <p>
-        We do not sell personal data, do not show advertising, do not use Google Sign-In and do not access your
-        Google account. Data is encrypted in transit; access is limited to the staff assigned to you. You can
+        We do not sell personal data and do not show advertising. If you choose &ldquo;Sign in with Google&rdquo;, we
+        receive only your name, email address and profile photo (see section 6). Data is encrypted in transit; access is limited to the staff assigned to you. You can
         delete your account and data at any time (see <a href="#delete">How to delete your data</a>) or email{" "}
         <Mail />.
       </p>
@@ -185,10 +185,28 @@ export default function PrivacyPage() {
 
       <h2>6. Our apps and Google services</h2>
       <p>
-        We do <strong>not</strong> use Google Sign-In and do not access your Google account, contacts, calendar, Gmail
-        or Drive. The Google services we use are:
+        We do <strong>not</strong> access your Google contacts, calendar, Gmail or Drive. The Google services we use
+        are:
       </p>
       <ul>
+        <li>
+          <strong>Sign in with Google</strong> (optional) on family.kushalaya.com and ops.kushalaya.com. If you choose
+          it, Google shares only your <strong>name, email address and profile photo</strong> with us (the
+          &ldquo;openid&rdquo;, &ldquo;email&rdquo; and &ldquo;profile&rdquo; permissions). We use them only to sign
+          you in to the KushAlaya account that already has that email address, and to show your name in the portal.
+          We do not ask for any other Google data, we do not use it for advertising, we do not sell it or share it
+          with anyone, and we do not use it to train AI models. Our use of information received from Google APIs
+          adheres to the{" "}
+          <a href="https://developers.google.com/terms/api-services-user-data-policy" target="_blank" rel="noreferrer">
+            Google API Services User Data Policy
+          </a>
+          , including the Limited Use requirements. You can stop it at any time by removing KushAlaya from your Google
+          account&rsquo;s{" "}
+          <a href="https://myaccount.google.com/connections" target="_blank" rel="noreferrer">
+            third-party connections
+          </a>
+          ; you can still sign in with your email and password.
+        </li>
         <li>
           <strong>Firebase Cloud Messaging</strong> (push notifications) in the KushAlaya Family and KushAlaya Ops
           Android apps. When you allow notifications, the app registers a device token with us so we can send visit

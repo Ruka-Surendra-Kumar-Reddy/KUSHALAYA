@@ -40,9 +40,9 @@ Leave it alone or terminate it to free quota; it is not used by anything we know
 
 1. **DNS** — three A records at the registrar, all → `150.136.230.200`:
    `test.kushalaya.com`, `test-ops.kushalaya.com`, `test-family.kushalaya.com`.
-2. **GitHub deploy key** — add the public key printed during setup as a *read-only*
-   Deploy key on both repos: Settings → Deploy keys → Add deploy key
-   (`Ruka-Surendra-Kumar-Reddy/KUSHALAYA` and `krishnaposa/workforceos-core`).
+2. **GitHub deploy keys** — GitHub allows a deploy key on one repository only, so the test
+   box has two: `github_deploy.pub` → `Ruka-Surendra-Kumar-Reddy/KUSHALAYA` (done), and
+   `github_deploy_core.pub` → `krishnaposa/workforceos-core` (Krishna's account). Both read-only.
 3. **Razorpay test keys** (optional) — from the Razorpay dashboard in Test mode; without
    them the wallet uses the built-in stub.
 

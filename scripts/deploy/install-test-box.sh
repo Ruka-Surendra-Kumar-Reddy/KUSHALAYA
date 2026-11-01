@@ -22,12 +22,15 @@ require_root
 
 ENV_FILE=/etc/workforceos/safehome.env
 DEPLOY_KEY_SRC=/home/opc/.ssh/github_deploy
+# GitHub allows a deploy key on ONE repository, so the shared package has its own key.
+CORE_KEY_SRC=/home/opc/.ssh/github_deploy_core
 TEST_IP=150.136.230.200
 APP_DOMAIN=test-ops.kushalaya.com
 MARKETING_DOMAIN=test.kushalaya.com
 FAMILY_DOMAIN=test-family.kushalaya.com
 
 [[ -f "$DEPLOY_KEY_SRC" ]] || die "Missing $DEPLOY_KEY_SRC (generate: ssh-keygen -t ed25519 -f ~/.ssh/github_deploy as opc)"
+[[ -f "$CORE_KEY_SRC" ]] || die "Missing $CORE_KEY_SRC (ssh-keygen -t ed25519 -f ~/.ssh/github_deploy_core as opc; add .pub to krishnaposa/workforceos-core)"
 
 # --- 0. refuse to run on production -----------------------------------------
 if [[ -f /opt/safehomeops/app/backend/.env ]] && grep -q "^ENVIRONMENT=production" /opt/safehomeops/app/backend/.env \
@@ -47,9 +50,18 @@ for u in opc safehomeops; do
   if ! [ "$DEPLOY_KEY_SRC" -ef "$home/.ssh/github_deploy" ]; then
     install -m 600 -o "$u" -g "$u" "$DEPLOY_KEY_SRC" "$home/.ssh/github_deploy"
   fi
+  if ! [ "$CORE_KEY_SRC" -ef "$home/.ssh/github_deploy_core" ]; then
+    install -m 600 -o "$u" -g "$u" "$CORE_KEY_SRC" "$home/.ssh/github_deploy_core"
+  fi
   cat >"$home/.ssh/config" <<EOF
 Host github.com
   IdentityFile $home/.ssh/github_deploy
+  IdentitiesOnly yes
+  StrictHostKeyChecking accept-new
+Host github-core
+  HostName github.com
+  User git
+  IdentityFile $home/.ssh/github_deploy_core
   IdentitiesOnly yes
   StrictHostKeyChecking accept-new
 EOF
@@ -58,8 +70,8 @@ done
 log "Checking GitHub access for safehomeops"
 sudo -u safehomeops git ls-remote -h git@github.com:Ruka-Surendra-Kumar-Reddy/KUSHALAYA.git develop >/dev/null \
   || die "GitHub refused the deploy key for KUSHALAYA — add $(cat "$DEPLOY_KEY_SRC.pub" 2>/dev/null || echo 'the key') as a read-only deploy key"
-sudo -u opc git ls-remote -h git@github.com:krishnaposa/workforceos-core.git develop >/dev/null \
-  || die "GitHub refused the deploy key for workforceos-core — add the same key there"
+sudo -u opc git ls-remote -h git@github-core:krishnaposa/workforceos-core.git develop >/dev/null \
+  || die "GitHub refused the workforceos-core key — add $(cat "$CORE_KEY_SRC.pub" 2>/dev/null) as a read-only deploy key on krishnaposa/workforceos-core"
 
 # --- 2. config with generated secrets (kept only on this box) -----------------
 mkdir -p /etc/workforceos
