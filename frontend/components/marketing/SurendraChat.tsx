@@ -201,7 +201,7 @@ export function SurendraChat() {
         <div className="ks-chat-panel" role="dialog" aria-label={`Chat with ${NAME}`} ref={panelRef}>
           <header className="ks-chat-head">
             <span className="ks-chat-avatar" aria-hidden="true">
-              S
+              {NAME[0]}
             </span>
             <span className="ks-chat-who">
               <strong>{NAME}</strong>
@@ -278,7 +278,7 @@ export function SurendraChat() {
       {!open ? (
         <button type="button" className="ks-chat-launch" onClick={openChat} aria-label={`Chat with ${NAME}`}>
           <span className="ks-chat-avatar" aria-hidden="true">
-            S
+            {NAME[0]}
           </span>
           <span className="ks-chat-launch-text">Chat with {NAME}</span>
         </button>

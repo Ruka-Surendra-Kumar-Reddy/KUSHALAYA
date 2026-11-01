@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { seoMetadata } from "@/lib/marketing/seo-common";
-import { LEGAL_ENTITY_NAME, LegalPage, Mail, Todo, brand } from "../_legal/LegalPage";
+import { LEGAL_ENTITY_NAME, LegalPage, Mail, brand } from "../_legal/LegalPage";
 
 const B = brand();
 const title = `Privacy Policy | ${B}`;
@@ -33,13 +33,14 @@ export default function PrivacyPage() {
         <strong>Data Fiduciary</strong> for the personal data described here.
       </p>
       <ul>
-        <li>Registered office: <Todo>Registered address</Todo></li>
-        <li>Corporate Identity Number (CIN): <Todo>CIN</Todo></li>
+        <li>Registered office: Uppal, Rangareddy district, Hyderabad, Telangana 500039, India</li>
+        <li>Corporate Identity Number (CIN): U88100TS2026PTC224774</li>
         <li>Email: <Mail /></li>
       </ul>
       <p>
-        This policy covers our website (www.kushalaya.com), the family portal (family.kushalaya.com), our
-        caregiver and staff apps, and our services.
+        This policy covers our website (www.kushalaya.com), the family portal (family.kushalaya.com), the staff
+        portal (ops.kushalaya.com), our Android apps <strong>KushAlaya Family</strong> and{" "}
+        <strong>KushAlaya Ops</strong>, and our services.
       </p>
 
       <h2>2. Whose data this covers</h2>
@@ -151,7 +152,35 @@ export default function PrivacyPage() {
         </li>
       </ul>
 
-      <h2>6. Who we share it with</h2>
+      <h2>6. Our apps and Google services</h2>
+      <p>
+        We do <strong>not</strong> use Google Sign-In and do not access your Google account, contacts, calendar, Gmail
+        or Drive. The Google services we use are:
+      </p>
+      <ul>
+        <li>
+          <strong>Firebase Cloud Messaging</strong> (push notifications) in the KushAlaya Family and KushAlaya Ops
+          Android apps. When you allow notifications, the app registers a device token with us so we can send visit
+          updates, SOS alerts and reminders. The token identifies the device, not you by name. Turning notifications
+          off in Android or deleting your account removes it.
+        </li>
+        <li>
+          <strong>Gemini</strong> (AI photo analysis) as described in section 5: room photos only, with location data
+          removed, never names or health information.
+        </li>
+        <li>
+          <strong>Google Forms</strong>, embedded on our Parent Care Check page. What you type into that form is
+          collected by Google Forms into our account under Google&rsquo;s own privacy policy.
+        </li>
+      </ul>
+      <p>
+        The Android apps also ask for <strong>location</strong> (caregiver check-in at the home and the on-the-way
+        map, section 3), <strong>camera and photos</strong> (visit and assessment photos) and{" "}
+        <strong>microphone</strong> (optional voice notes). Each permission is requested when first needed and can be
+        withdrawn in Android settings.
+      </p>
+
+      <h2>7. Who we share it with</h2>
       <ul>
         <li>
           <strong>Our care team:</strong> care managers and the caregivers assigned to your family member. Each sees
@@ -170,11 +199,14 @@ export default function PrivacyPage() {
         <li><strong>Authorities</strong>, when the law requires it.</li>
       </ul>
       <p>
-        Some of these providers may store or process data outside India. Where they do, we rely on the DPDP Act and
-        any rules the Government of India makes on transfers. <Todo>Hosting region / data location</Todo>
+        <strong>Where your data is stored:</strong> our servers and database run on Oracle Cloud Infrastructure in the
+        US East (Ashburn) region, with encrypted backups on the same servers. Razorpay processes payments in India.
+        Google (Gemini, Firebase) and fal.ai process the specific items described in this policy on their own
+        infrastructure, which may be outside India. Where data leaves India we rely on the DPDP Act and any rules the
+        Government of India makes on transfers.
       </p>
 
-      <h2>7. How long we keep it</h2>
+      <h2>8. How long we keep it</h2>
       <ul>
         <li>We keep your data while you use the service.</li>
         <li>
@@ -189,8 +221,27 @@ export default function PrivacyPage() {
         </li>
         <li>Backups roll off within 8 weeks.</li>
       </ul>
+      <h3 id="delete">How to delete your data</h3>
+      <ul>
+        <li>
+          <strong>Family portal / KushAlaya Family app:</strong> open <em>More &rarr; Privacy &rarr; Delete my
+          account</em>. We confirm the request and erase or anonymise your data within 30 days.
+        </li>
+        <li>
+          <strong>By email:</strong> write to <Mail /> from the address you signed up with, with the subject
+          &ldquo;Delete my data&rdquo;.
+        </li>
+        <li>
+          <strong>Staff and caregivers:</strong> ask your agency administrator, or email us; the account is deactivated
+          at once and personal data erased on the same 30-day timeline.
+        </li>
+      </ul>
+      <p>
+        Deleting your account removes your login, contact details, documents, photos, messages and device tokens.
+        Invoices and payment records are kept for the 8-year statutory period with names and contact details removed.
+      </p>
 
-      <h2>8. Your rights</h2>
+      <h2>9. Your rights</h2>
       <p>Under the DPDP Act you can:</p>
       <ul>
         <li><strong>Access</strong> your data and get a summary of how it is used. You can download it from the family portal.</li>
@@ -210,7 +261,7 @@ export default function PrivacyPage() {
         acting on a request.
       </p>
 
-      <h2>9. Security</h2>
+      <h2>10. Security</h2>
       <p>
         We use reasonable security safeguards, including encrypted connections, sign-in controls and access limited to
         the people who need it. Every consent, data download and delete request is logged. No system is perfectly
@@ -218,33 +269,33 @@ export default function PrivacyPage() {
         requires.
       </p>
 
-      <h2>10. Children</h2>
+      <h2>11. Children</h2>
       <p>
         Our service is for adults. We do not knowingly collect data from children, except where a child&rsquo;s
         details appear in a family member&rsquo;s records.
       </p>
 
-      <h2>11. Cookies</h2>
+      <h2>12. Cookies</h2>
       <p>
         We use the cookies and browser storage needed to keep you signed in and to make the site work. We do not use
         advertising cookies.
       </p>
 
-      <h2>12. Grievance Officer</h2>
+      <h2>13. Grievance Officer</h2>
       <p>For any question, complaint or request about your personal data, contact:</p>
       <ul>
         <li>Grievance Officer, {LEGAL_ENTITY_NAME}</li>
         <li>Name: Krish Posa (Founder)</li>
         <li>Phone: +91 83095 00488</li>
         <li>Email: <Mail /></li>
-        <li>Address: <Todo>Registered address</Todo></li>
+        <li>Address: Uppal, Rangareddy district, Hyderabad, Telangana 500039, India</li>
       </ul>
       <p>
         We aim to reply within 30 days. If you are not satisfied with our answer, you may complain to the Data
         Protection Board of India.
       </p>
 
-      <h2>13. Changes to this policy</h2>
+      <h2>14. Changes to this policy</h2>
       <p>
         We may update this policy. If a change affects what you agreed to, we will ask for your consent again in the
         family portal. The date at the top shows the latest version.

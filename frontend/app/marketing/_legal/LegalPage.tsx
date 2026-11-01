@@ -3,7 +3,7 @@ import { MarketingShell } from "@/components/marketing/MarketingShell";
 import { LEGAL_ENTITY_NAME, publicBrandName } from "@/lib/public-brand";
 import "../legal.css";
 
-export const LEGAL_UPDATED = "11 October 2026";
+export const LEGAL_UPDATED = "1 November 2026";
 export const LEGAL_EMAIL = "contact@kushalaya.com";
 
 /** A fact the owner still has to fill in; shown highlighted so it is never mistaken for real. */

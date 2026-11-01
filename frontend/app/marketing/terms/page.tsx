@@ -193,7 +193,7 @@ export default function TermsPage() {
         <li>These terms are governed by the laws of India.</li>
         <li>Please contact us first at <Mail />. Most problems can be sorted out quickly.</li>
         <li>
-          If we cannot resolve it, the courts at <Todo>City for jurisdiction</Todo> will have jurisdiction, subject to
+          If we cannot resolve it, the courts at Hyderabad, Telangana will have jurisdiction, subject to
           your rights under consumer protection law.
         </li>
       </ul>
