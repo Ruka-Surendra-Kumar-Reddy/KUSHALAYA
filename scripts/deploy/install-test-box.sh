@@ -84,7 +84,7 @@ if [[ ! -f "$ENV_FILE" ]]; then
 else
   log "Keeping existing $ENV_FILE"
 fi
-grep -q "CHANGE_ME" "$ENV_FILE" && die "$ENV_FILE still has CHANGE_ME values"
+grep -v "^[[:space:]]*#" "$ENV_FILE" | grep -q "CHANGE_ME" && die "$ENV_FILE still has CHANGE_ME values"
 
 # --- 3. the standard install (packages, db, clone, build, nginx, tls, units, seed)
 DEPLOY_ENV_FILE="$ENV_FILE" bash "$SCRIPT_DIR/deploy-safehome.sh" --env "$ENV_FILE"

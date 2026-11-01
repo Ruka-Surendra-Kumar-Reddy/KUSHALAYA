@@ -206,6 +206,12 @@ export default function PrivacyPage() {
             third-party connections
           </a>
           ; you can still sign in with your email and password.
+          <br />
+          <strong>How we store and delete Google user data:</strong> we keep only your Google email address, name and
+          a link to your profile photo, stored with your KushAlaya account on our secure cloud servers, encrypted in
+          transit and limited to the staff who look after your family. We do not keep Google passwords or access
+          tokens after you are signed in. This data is deleted when you delete your KushAlaya account or ask us to
+          (email <Mail />) &mdash; within 30 days &mdash; and it is never transferred to anyone else.
         </li>
         <li>
           <strong>Firebase Cloud Messaging</strong> (push notifications) in the KushAlaya Family and KushAlaya Ops
