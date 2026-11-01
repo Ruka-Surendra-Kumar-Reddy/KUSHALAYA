@@ -70,7 +70,8 @@ def test_render_placeholders():
 
 def test_default_templates_and_versioning(client, seed_tenant, admin_headers, auth_headers):
     t = _template(client, admin_headers, "vendor")
-    assert "Replace with KushAlaya's own wording" in t["body"] and t["version"] == 1
+    # Starter text: no "[PLACEHOLDER" note any more, but still flagged as the example.
+    assert "[PLACEHOLDER" not in t["body"] and t["is_placeholder"] and t["version"] == 1
     res = client.put(f"/api/v1/contracts/templates/{t['id']}", headers=admin_headers,
                      json={"title": "Vendor agreement", "body": "Our own wording for {vendor_company}, dated {date}."})
     assert res.status_code == 200, res.text
@@ -78,7 +79,7 @@ def test_default_templates_and_versioning(client, seed_tenant, admin_headers, au
     assert v2["version"] == 2 and v2["id"] != t["id"] and not v2["is_placeholder"]
     versions = client.get(f"/api/v1/contracts/templates/{v2['id']}/versions", headers=admin_headers).json()
     assert [v["version"] for v in versions] == [2, 1]
-    assert "Replace with" in versions[1]["body"]  # old version kept unchanged
+    assert versions[1]["body"].startswith("# Parties")  # old version kept unchanged
     # a care manager can't change templates
     assert client.put(f"/api/v1/contracts/templates/{v2['id']}", headers=auth_headers,
                       json={"title": "x", "body": "y" * 30}).status_code == 403
@@ -279,3 +280,15 @@ def test_vendor_agreement(client, seed_tenant, admin_headers):
     full = client.get(f"/api/v1/contracts/{c['id']}", headers=admin_headers).json()
     assert "Sri Sai Plumbing" in full["body"] and "₹1,500 per visit" in full["body"]
     assert [r["id"] for r in client.get(f"/api/v1/contracts?vendor_id={v['id']}", headers=admin_headers).json()] == [c["id"]]
+
+
+def test_placeholder_note_is_stripped_and_cannot_be_sent(db, client, seed_tenant, admin_headers):
+    from app.models.contract import ContractTemplate
+
+    t = _template(client, admin_headers, "vendor")
+    row = db.get(ContractTemplate, t["id"])
+    row.body = "[PLACEHOLDER — Replace with KushAlaya's own wording before sending to a real vendor.]" + chr(10) * 2 + "# Parties" + chr(10) + "Text."
+    db.commit()
+    rows = client.get("/api/v1/contracts/templates?kind=vendor", headers=admin_headers).json()
+    assert rows[0]["body"].startswith("# Parties")
+    assert svc.is_starter("[PLACEHOLDER x] body") and not svc.is_starter("Our own words")

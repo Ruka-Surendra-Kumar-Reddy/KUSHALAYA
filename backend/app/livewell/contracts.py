@@ -87,9 +87,7 @@ _PH = re.compile(r"\{([a-z_]+)\}")
 DEFAULT_TEMPLATES: dict[str, tuple[str, str]] = {
     "vendor": (
         "Vendor agreement",
-        """[PLACEHOLDER — Replace with KushAlaya's own wording before sending to a real vendor.]
-
-# Parties
+        """# Parties
 This agreement is made on {date} between {company_name}, {company_address} ("KushAlaya") and {vendor_company}, represented by {vendor_name}, {vendor_address} ("the Vendor").
 
 # Services
@@ -109,9 +107,7 @@ From {start_date} until either side ends it with 30 days' written notice.""",
     ),
     "client": (
         "Client service contract",
-        """[PLACEHOLDER — Replace with KushAlaya's own wording before sending to a real client.]
-
-# Parties
+        """# Parties
 This contract is made on {date} between {company_name}, {company_address} ("KushAlaya") and {signer_name}, on behalf of {client_name}, {client_address} ("the Client").
 
 # Services
@@ -334,9 +330,24 @@ def _tenant_id(user: User) -> int:
     return tid
 
 
+_STARTER_NOTE = re.compile(r"^\s*\[PLACEHOLDER[^\]]*\]\s*", re.S)
+
+
+def is_starter(body: str | None) -> bool:
+    """Still the seeded example text (or carries the old placeholder note)."""
+    b = (body or "").strip()
+    return "[PLACEHOLDER" in b or b in {v[1].strip() for v in DEFAULT_TEMPLATES.values()}
+
+
 def ensure_default_templates(db: Session, tenant_id: int) -> None:
+    # Older seeds started with a "[PLACEHOLDER — Replace …]" note that ended up in
+    # sent contracts. Strip it in place from current templates (sent contracts keep
+    # their own copy of the text, so nothing already signed changes).
+    for t in db.query(ContractTemplate).filter(ContractTemplate.tenant_id == tenant_id).all():
+        if t.body and _STARTER_NOTE.match(t.body):
+            t.body = _STARTER_NOTE.sub("", t.body, count=1)
     have = {k for (k,) in db.query(ContractTemplate.kind).filter(ContractTemplate.tenant_id == tenant_id).distinct()}
-    added = False
+    added = bool(db.dirty)
     for kind, (title, body) in DEFAULT_TEMPLATES.items():
         if kind not in have:
             db.add(ContractTemplate(tenant_id=tenant_id, kind=kind, group_key=uuid.uuid4().hex, version=1,
@@ -357,7 +368,7 @@ def template_out(t: ContractTemplate, created_by: str = "") -> dict:
         "archived": t.archived,
         "title": t.title,
         "body": t.body,
-        "is_placeholder": "[PLACEHOLDER" in (t.body or ""),
+        "is_placeholder": is_starter(t.body),
         "created_at": _iso(t.created_at),
         "created_by": created_by,
     }
@@ -753,6 +764,8 @@ def create_contract(db: Session, user: User, data: dict, *, ip: str = "", ua: st
     body = (data.get("body") or "").replace("\r\n", "\n").strip() or render(t.body, values)
     if len(body) > 100_000:
         _bad("The contract text is too long.")
+    if "[PLACEHOLDER" in body:
+        _bad("This template still has placeholder wording. Edit it in Agreement templates before sending.")
     c = Contract(
         tenant_id=t.tenant_id, kind=t.kind, template_id=t.id, template_version=t.version,
         elder_id=elder.id if elder else None, vendor_id=vendor.id if vendor else None,
@@ -1030,12 +1043,22 @@ def render_pdf(db: Session, c: Contract) -> bytes:
         raw = _png_bytes(png) if kind == "drawn" else None
         if raw:
             try:
+                # Flatten the transparent canvas onto white so the ink always prints.
+                from PIL import Image as PILImage
+
+                src = PILImage.open(io.BytesIO(raw)).convert("RGBA")
+                flat = PILImage.new("RGB", src.size, (255, 255, 255))
+                flat.paste(src, mask=src.split()[3])
+                buf = io.BytesIO()
+                flat.save(buf, format="PNG")
+                raw = buf.getvalue()
                 iw, ih = ImageReader(io.BytesIO(raw)).getSize()
                 w = 60 * mm
                 h = min(22 * mm, w * ih / max(iw, 1))
                 return Image(io.BytesIO(raw), width=h * iw / max(ih, 1), height=h)
             except Exception:
-                pass
+                logger.exception("contract_pdf_signature_image_failed")
+                return Paragraph("<i>[drawn signature on file]</i>", small)
         return Paragraph(_pdf_text(text or ""), typed)
 
     party = PARTY_LABEL.get(c.kind, "Signer")

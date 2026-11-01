@@ -222,9 +222,9 @@ export function VendorsList({ canEdit }: { canEdit: boolean }) {
         <PageHeader title="Vendors" />
         {canEdit ? (
           <div className="ks-head-actions">
-            <Link className="secondary" href="/kushalaya/contracts" aria-label="Contracts" title="Contracts and templates">
+            <Link className="secondary" href="/kushalaya/contracts?tab=templates" aria-label="Agreement templates" title="Edit the agreement text sent to vendors">
               <span className="ks-ha-icon" aria-hidden="true">✍</span>
-              <span className="ks-ha-label">Contracts</span>
+              <span className="ks-ha-label">Agreement templates</span>
             </Link>
             <button type="button" onClick={() => openForm("new")} aria-label="Add vendor" title="Add vendor">
               <span className="ks-ha-icon" aria-hidden="true">+</span>
@@ -351,8 +351,8 @@ export function VendorsList({ canEdit }: { canEdit: boolean }) {
                 </span>
                 <span className="vn-act">
                   {canEdit ? (
-                    <button type="button" className="secondary" tabIndex={-1} onClick={(e) => (e.stopPropagation(), setContractFor(v))}>
-                      Contract
+                    <button type="button" className="secondary" tabIndex={-1} title={`Send an agreement to ${v.company_name} to sign`} onClick={(e) => (e.stopPropagation(), setContractFor(v))}>
+                      Send agreement
                     </button>
                   ) : null}
                   <button type="button" tabIndex={-1} onClick={(e) => (e.stopPropagation(), openForm(v))}>

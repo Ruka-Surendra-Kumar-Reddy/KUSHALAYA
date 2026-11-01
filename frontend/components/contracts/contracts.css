@@ -602,3 +602,59 @@ a.ct-wa {
   font-weight: 800;
   font-size: 0.85rem;
 }
+
+/* ——— Template editor in plain words (sections + [details]), Nov 2026 ——— */
+.ct-new { display: grid; gap: 0.4rem; margin: 0 0 0.6rem; }
+.ct-new button { justify-content: flex-start; text-align: left; }
+.ct-title-field { display: grid; gap: 0.3rem; font-weight: 600; }
+.ct-title-field input { font: inherit; font-weight: 600; font-size: 1.05rem; padding: 0.55rem 0.7rem; border: 1px solid #cbd5e1; border-radius: 0.6rem; }
+.ct-viewtabs { display: none; gap: 0.35rem; }
+.ct-viewtabs button { flex: 1; min-height: 44px; border: 1px solid #cbd5e1; background: #fff; border-radius: 999px; font-weight: 600; color: inherit; cursor: pointer; }
+.ct-viewtabs button.is-on { background: #1b4f9c; border-color: #1b4f9c; color: #fff; }
+.ct-sections { display: grid; gap: 0.75rem; align-content: start; min-width: 0; }
+.ct-sec { border: 1px solid #e2e8f0; border-radius: 0.8rem; background: #fff; padding: 0.65rem; display: grid; gap: 0.5rem; }
+.ct-sec:focus-within { border-color: #1b4f9c; box-shadow: 0 0 0 3px rgba(27, 79, 156, 0.12); }
+.ct-sec-head { display: flex; align-items: center; gap: 0.5rem; }
+.ct-sec-n { flex: none; width: 1.7rem; height: 1.7rem; border-radius: 999px; background: #eef3fb; color: #1b4f9c; display: grid; place-items: center; font-weight: 700; font-size: 0.8rem; }
+.ct-sec-title { flex: 1; min-width: 0; font: inherit; font-weight: 700; padding: 0.45rem 0.6rem; border: 1px solid transparent; border-radius: 0.5rem; background: #f8fafc; }
+.ct-sec-title:focus { border-color: #cbd5e1; background: #fff; outline: none; }
+.ct-sec-tools { display: flex; gap: 0.2rem; }
+.ct-icon { width: 36px; height: 36px; border: 1px solid #e2e8f0; border-radius: 0.5rem; background: #fff; cursor: pointer; color: #475569; }
+.ct-icon:disabled { opacity: 0.35; cursor: default; }
+.ct-icon-del:hover { color: #b91c1c; border-color: #fecaca; }
+.ct-sec-text { width: 100%; box-sizing: border-box; font: inherit; font-size: 0.95rem; line-height: 1.55; padding: 0.55rem 0.65rem; border: 1px solid #e2e8f0; border-radius: 0.55rem; resize: vertical; }
+.ct-sec-text:focus { outline: none; border-color: #cbd5e1; }
+.ct-sec-foot { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; justify-content: space-between; }
+.ct-sec-foot select { min-height: 40px; padding: 0 0.6rem; border: 1px solid #cbd5e1; border-radius: 0.5rem; background: #fff; font: inherit; font-size: 0.88rem; }
+.ct-link { border: 0; background: none; color: #1b4f9c; font: inherit; font-size: 0.88rem; font-weight: 600; cursor: pointer; padding: 0.4rem 0.2rem; }
+.ct-savebar { padding: 0.75rem 0 0; border-top: 1px solid #e2e8f0; }
+@media (max-width: 1100px) {
+  .ct-viewtabs { display: flex; }
+  .ct-edit-grid.is-edit .ct-side { display: none; }
+  .ct-edit-grid.is-preview .ct-sections { display: none; }
+  .ct-side { padding-left: 0; }
+}
+@media (max-width: 480px) {
+  .ct-sec { padding: 0.55rem; }
+  .ct-sec-head { flex-wrap: wrap; }
+  .ct-sec-title { flex-basis: calc(100% - 2.3rem); }
+  .ct-sec-tools { margin-left: auto; }
+}
+
+/* Beat the global button look (filled blue) for the small editor controls. */
+.ct-edit .ct-icon {
+  background: #fff !important; color: #475569 !important; box-shadow: none !important;
+  border: 1px solid #e2e8f0 !important; padding: 0 !important; min-height: 0 !important;
+  width: 34px; height: 34px; font-size: 0.95rem; line-height: 1;
+}
+.ct-edit .ct-icon:disabled { opacity: 0.35; }
+.ct-edit .ct-icon-del:hover { color: #b91c1c !important; border-color: #fecaca !important; }
+.ct-edit .ct-link {
+  background: none !important; color: #1b4f9c !important; box-shadow: none !important;
+  border: 0 !important; padding: 0.4rem 0.2rem !important; min-height: 0 !important; width: auto;
+}
+.ct-edit .ct-sec-text { min-height: 6.5rem; }
+@media (max-width: 480px) {
+  .ct-sec-foot { flex-direction: column; align-items: stretch; }
+  .ct-sec-foot .ct-link { align-self: flex-start; }
+}
