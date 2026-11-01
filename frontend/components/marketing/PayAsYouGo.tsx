@@ -18,6 +18,7 @@ export function PayAsYouGo({ ctaHref }: { ctaHref: string }) {
   // null: closed; "": open with no need picked yet.
   const [buying, setBuying] = useState<VisitNeed | "" | null>(null);
   return (
+    <>
     <section className="mk-payg" id="pay-as-you-go" aria-labelledby="payg-title">
       <div className="mk-payg-main">
         <span className="mk-payg-tag">{PAY_AS_YOU_GO.eyebrow}</span>
@@ -56,9 +57,11 @@ export function PayAsYouGo({ ctaHref }: { ctaHref: string }) {
           {PAY_AS_YOU_GO.cta}
         </a>
       </div>
-      {buying !== null ? (
-        <BuyNowSheet planId={VISIT_PLAN_ID} initialCycle="once" initialNeed={buying} onClose={() => setBuying(null)} />
-      ) : null}
     </section>
+    {/* Outside the navy card so its white headings don't leak into the sheet. */}
+    {buying !== null ? (
+      <BuyNowSheet planId={VISIT_PLAN_ID} initialCycle="once" initialNeed={buying} onClose={() => setBuying(null)} />
+    ) : null}
+    </>
   );
 }

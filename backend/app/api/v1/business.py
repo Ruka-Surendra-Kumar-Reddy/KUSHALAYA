@@ -71,6 +71,17 @@ def list_invoices(
     }
 
 
+@router.get("/invoices/shared/{token}")
+def shared_invoice_pdf(token: str, db: Session = Depends(get_db)):
+    """No-login PDF behind a signed, expiring token (sent by email / WhatsApp)."""
+    from app.livewell.invoice_delivery import invoice_from_share_token
+
+    inv = invoice_from_share_token(db, token)
+    if inv is None:
+        raise_not_found("This invoice link is invalid or has expired")
+    return _pdf(db, inv)
+
+
 @router.get("/invoices/{invoice_id}/pdf")
 def invoice_pdf(invoice_id: int, db: Session = Depends(get_db), user: User = Depends(require_roles(*READ_ROLES))):
     inv = gst_invoices.get_visible(db, invoice_id, _tenant(user), team_elder_ids(db, user))

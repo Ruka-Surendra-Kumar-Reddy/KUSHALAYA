@@ -483,7 +483,45 @@ def mark_paid(db: Session, p: PlanPurchase, *, payment_id: str | None) -> PlanPu
     if request is not None:
         _email_staff_visit(db, p, elder, request)
     _email_receipt(db, p, lead, name)
+    _after_payment(db, p, lead, elder, name, payment_id=payment_id)
     return p
+
+
+def _after_payment(db: Session, p: PlanPurchase, lead: ElderProspect, elder, plan_name: str, *, payment_id: str | None) -> None:
+    """Owner decision 2026-11-01: a website payment makes the payer a customer with a
+    family-portal login (set-password link by email + WhatsApp), and the GST invoice
+    goes out automatically by email and WhatsApp. Never undoes the payment."""
+    try:
+        from app.livewell import gst_invoices, invoice_delivery
+        from app.services.account_setup import ensure_family_login, send_account_setup
+
+        user, created = ensure_family_login(
+            db, elder, email=lead.email, phone=lead.phone,
+            first_name=lead.first_name, last_name=lead.last_name, relationship="family",
+        )
+        inv = gst_invoices.issue_invoice(
+            db, tenant_id=p.tenant_id, elder_id=elder.id,
+            source_type="plan_purchase", source_id=str(p.id), amount_paise=p.amount_paise,
+            note=f"{plan_name} — paid online ({reference(p)})", when=p.paid_at,
+        )
+        db.commit()
+        if created and user is not None:
+            send_account_setup(
+                db, user, phone=lead.phone,
+                subject="Welcome to KushAlaya — set up your family portal",
+                intro=(f"Thank you — your payment of {_rupees(p.amount_paise)} for {plan_name} is confirmed. "
+                       "A care manager will be assigned to you shortly and our care team will contact you. "
+                       "Your family portal login is ready."),
+            )
+        if inv is not None:
+            invoice_delivery.send_invoice(
+                db, inv, to_email=lead.email, to_phone=lead.phone,
+                name=f"{lead.first_name or ''} {lead.last_name or ''}".strip() or "Customer",
+                payment_ref=payment_id or p.gateway_order_id,
+            )
+    except Exception:  # noqa: BLE001
+        db.rollback()
+        logger.exception("plan_purchase_after_payment_failed purchase=%s", p.id)
 
 
 def _paid_visit_request(db: Session, p: PlanPurchase, elder, details: dict, *, payment_id: str | None) -> dict:

@@ -19,7 +19,7 @@ export default function FamilyCirclePage() {
   const [saving, setSaving] = useState(false);
   const [form, setForm] = useState({
     email: "",
-    password: "",
+    phone: "",
     first_name: "",
     last_name: "",
     portal_relationship: "son",
@@ -68,10 +68,10 @@ export default function FamilyCirclePage() {
     setMessage("");
     try {
       await inviteFamilyCircleMember({ ...form, elder_id: senior.id });
-      setMessage(`Invited ${form.email}. Share the password you set with them securely.`);
+      setMessage(`Invited ${form.email}. They will get an email${form.phone ? " and a WhatsApp message" : ""} with a link to set their own password.`);
       setForm({
         email: "",
-        password: "",
+        phone: "",
         first_name: "",
         last_name: "",
         portal_relationship: "son",
@@ -121,7 +121,7 @@ export default function FamilyCirclePage() {
       <section className="card home-safety-section">
         <h2>Invite someone</h2>
         <p className="muted home-safety-section-hint">
-          Creates a family login for {seniorName} only. Choose a temporary password and share it
+          Creates a family login for {seniorName} only. They receive a link to set their own password; nothing to share
           privately (WhatsApp / call).
         </p>
         <form className="home-safety-family-invite-form" onSubmit={(e) => void onInvite(e)}>
@@ -153,13 +153,13 @@ export default function FamilyCirclePage() {
             />
           </label>
           <label className="home-safety-field">
-            Temporary password
+            Mobile number (optional, for the WhatsApp link)
             <input
-              type="text"
-              value={form.password}
-              onChange={(e) => setForm({ ...form, password: e.target.value })}
-              minLength={8}
-              required
+              type="tel"
+              inputMode="tel"
+              placeholder="+91 98765 43210"
+              value={form.phone}
+              onChange={(e) => setForm({ ...form, phone: e.target.value })}
             />
           </label>
           <label className="home-safety-field">

@@ -437,6 +437,7 @@ def family_circle_invite(
         current_user,
         email=body.email,
         password=body.password,
+        phone=body.phone,
         first_name=body.first_name,
         last_name=body.last_name,
         portal_relationship=body.portal_relationship,

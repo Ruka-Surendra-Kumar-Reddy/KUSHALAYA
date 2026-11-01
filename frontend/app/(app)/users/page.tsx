@@ -78,6 +78,16 @@ export default function UsersPage() {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
+
+  async function sendSetupLink(userId: number, who: string) {
+    try {
+      const res = await api<{ sent: Record<string, string> }>(`/api/v1/users/${userId}/send-setup-link`, { method: "POST" });
+      const via = Object.entries(res.sent || {}).map(([k, v]) => `${k}: ${v}`).join(", ") || "no channel configured";
+      setMessage(`Setup link sent to ${who} (${via}).`);
+    } catch (e) {
+      setMessage(e instanceof Error ? e.message : "Could not send the setup link");
+    }
+  }
   const [menu, setMenu] = useState<string | null>(null);
   const [panel, setPanel] = useState<Panel>(null);
   const [pf, setPf] = useState(EMPTY_PANEL_FORM);
@@ -499,6 +509,7 @@ export default function UsersPage() {
       items.push({ label: "Edit", onClick: () => openPanel("staff", u.id, "edit") });
       if (!self && u.role !== "SYSTEM_ADMIN") {
         items.push({ label: "Change role", onClick: () => openPanel("staff", u.id, "role") });
+        items.push({ label: "Send setup link", onClick: () => void sendSetupLink(u.id, `${u.first_name} ${u.last_name}`) });
         items.push({ label: "Reset password", onClick: () => openPanel("staff", u.id, "password") });
         if (u.status === "INACTIVE") items.push({ label: "Reactivate", onClick: () => reactivate(u) });
         else items.push({ label: "Deactivate", onClick: () => openPanel("staff", u.id, "deactivate"), danger: true });
@@ -512,6 +523,7 @@ export default function UsersPage() {
     const items: { label: string; onClick: () => void; danger?: boolean }[] = [
       { label: "Edit", onClick: () => openPanel("cg", c.id, "edit") },
     ];
+    if (c.login_user_id) items.push({ label: "Send setup link", onClick: () => void sendSetupLink(c.login_user_id as number, `${c.first_name} ${c.last_name}`) });
     if (c.login_user_id) items.push({ label: "Reset password", onClick: () => openPanel("cg", c.id, "password") });
     items.push({ label: "Mark as left", onClick: () => openPanel("cg", c.id, "left"), danger: true });
     return items;
@@ -734,14 +746,15 @@ export default function UsersPage() {
               <input type="email" value={form.email} onChange={set("email")} required={form.role !== "CAREGIVER"} />
             </div>
             <div>
-              <label>Password</label>
+              <label>Password (optional)</label>
               <input
                 type="password"
                 value={form.password}
                 onChange={set("password")}
-                required={form.role !== "CAREGIVER" || !!form.email}
                 minLength={8}
+                placeholder="Leave blank to send a setup link"
               />
+              <small className="muted">Blank = they get an email and WhatsApp link to set their own password.</small>
             </div>
             <div>
               <label>Phone</label>

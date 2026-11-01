@@ -44,7 +44,9 @@ ensure_safehomeops_user
 for u in opc safehomeops; do
   home=$(getent passwd "$u" | cut -d: -f6)
   install -d -m 700 -o "$u" -g "$u" "$home/.ssh"
-  install -m 600 -o "$u" -g "$u" "$DEPLOY_KEY_SRC" "$home/.ssh/github_deploy"
+  if ! [ "$DEPLOY_KEY_SRC" -ef "$home/.ssh/github_deploy" ]; then
+    install -m 600 -o "$u" -g "$u" "$DEPLOY_KEY_SRC" "$home/.ssh/github_deploy"
+  fi
   cat >"$home/.ssh/config" <<EOF
 Host github.com
   IdentityFile $home/.ssh/github_deploy

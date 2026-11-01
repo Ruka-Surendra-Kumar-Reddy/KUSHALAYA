@@ -3,7 +3,8 @@ from pydantic import BaseModel, EmailStr, Field
 
 class RegisterRequest(BaseModel):
     email: EmailStr
-    password: str = Field(min_length=8)
+    #: Optional since 2026-11-01: no password means the person gets a set-password link.
+    password: str | None = Field(default=None, min_length=8)
     first_name: str
     last_name: str
     tenant_id: int

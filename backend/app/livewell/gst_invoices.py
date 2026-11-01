@@ -59,7 +59,7 @@ DEFAULT_STATE_CODE = "36"  # Telangana (Hyderabad)
 DEFAULT_PREFIX = "KUS"
 GSTIN_RE = re.compile(r"^\d{2}[A-Z]{5}\d{4}[A-Z][1-9A-Z]Z[0-9A-Z]$")
 PREFIX_RE = re.compile(r"^[A-Z0-9]{1,5}$")
-INVOICED_REFERENCES = ("order", "service_request")
+INVOICED_REFERENCES = ("order", "service_request", "plan_purchase")
 
 STATE_NAMES = {
     "01": "Jammu and Kashmir", "02": "Himachal Pradesh", "03": "Punjab", "04": "Chandigarh",
@@ -366,12 +366,16 @@ def on_wallet_entry(db: Session, entry) -> None:
                 wallet = db.get(FamilyWallet, entry.wallet_id)
                 if wallet is None:
                     return
-                issue_invoice(
+                issued = issue_invoice(
                     db, tenant_id=entry.tenant_id, elder_id=wallet.elder_id,
                     source_type=entry.reference_type, source_id=str(entry.reference_id),
                     amount_paise=abs(int(entry.amount_minor)), wallet_transaction_id=entry.public_id,
                     note=entry.note or "",
                 )
+                if issued is not None:
+                    from app.livewell.invoice_delivery import send_invoice_to_family
+                    db.flush()
+                    send_invoice_to_family(db, issued, payment_ref=getattr(entry, 'public_id', None))
             else:
                 issue_credit_note(
                     db, tenant_id=entry.tenant_id, source_type=entry.reference_type,

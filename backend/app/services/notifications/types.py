@@ -4,6 +4,14 @@ from enum import Enum
 from workforceos_core.notifications import WhatsAppTemplateMessage
 
 
+@dataclass(frozen=True)
+class WhatsAppDocumentTemplate(WhatsAppTemplateMessage):
+    """Template whose header is a document (PDF) fetched by WhatsApp from a public URL."""
+
+    header_document_url: str = ""
+    header_filename: str = "document.pdf"
+
+
 class DeliveryStatus(str, Enum):
     """Persisted on monitoring_alerts.status."""
 

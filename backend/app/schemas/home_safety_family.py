@@ -295,7 +295,9 @@ class FamilyStaffReadResponse(BaseModel):
 
 class FamilyCircleInviteRequest(BaseModel):
     email: str
-    password: str
+    #: Optional: without it the invitee gets a set-password link by email / WhatsApp.
+    password: str | None = None
+    phone: str | None = None
     first_name: str = "Family"
     last_name: str = "Member"
     portal_relationship: str = "family"

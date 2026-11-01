@@ -58,6 +58,14 @@ class Msg91WhatsAppProvider(WhatsAppProvider):
         components = {
             f"body_{i}": {"type": "text", "value": _param(p)} for i, p in enumerate(message.body_params, start=1)
         }
+        # Document header (invoice PDF): WhatsApp downloads it from the public URL.
+        doc_url = getattr(message, "header_document_url", "") or ""
+        if doc_url:
+            components["header_1"] = {
+                "type": "document",
+                "value": doc_url,
+                "filename": getattr(message, "header_filename", "") or "document.pdf",
+            }
         payload = {
             "integrated_number": number,
             "content_type": "template",

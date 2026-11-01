@@ -61,7 +61,38 @@ def invite_user(
     data.email = data.email.strip().lower()
     if db.query(User).filter(func.lower(User.email) == data.email).first():
         raise_conflict("Email already registered")
-    return AuthService.register(db, data, current_user)
+    user = AuthService.register(db, data, current_user)
+    if not data.password:
+        from app.services.account_setup import send_account_setup
+
+        # register() returns the response payload, not the row.
+        row = db.query(User).filter(func.lower(User.email) == data.email).first()
+        who = (current_user.first_name or "").strip() or "Your admin"
+        if row is not None:
+            send_account_setup(db, row, phone=data.phone, intro=f"{who} added you to the KushAlaya team.")
+    return user
+
+
+@router.post("/{user_id}/send-setup-link")
+def send_setup_link(
+    user_id: int,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(require_roles(*EDIT_ROLES)),
+):
+    """Email + WhatsApp a set-password link (72 h) to a staff member, caregiver or family login."""
+    from app.core.rbac import resolve_tenant_id
+    from app.core.responses import raise_not_found
+    from app.services.account_setup import send_account_setup
+
+    target = db.query(User).filter(User.id == user_id).first()
+    tid = resolve_tenant_id(current_user)
+    if target is None or (tid is not None and target.tenant_id != tid):
+        raise_not_found("User not found")
+    if target.status != "ACTIVE":
+        raise_bad_request("Reactivate the user first")
+    who = (current_user.first_name or "").strip() or "Your care team"
+    results = send_account_setup(db, target, intro=f"{who} sent you a link to set your KushAlaya password.")
+    return {"ok": True, "sent": results}
 
 
 @router.get("/{user_id}/caseload")

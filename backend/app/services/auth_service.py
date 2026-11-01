@@ -216,7 +216,7 @@ class AuthService:
 
         user = User(
             email=data.email,
-            password_hash=hash_password(data.password),
+            password_hash=hash_password(data.password or _random_password()),
             first_name=first_name,
             last_name=last_name,
             role=data.role,
@@ -354,6 +354,12 @@ def _password_fingerprint(user: User) -> str:
     from app.core.auth import password_fingerprint
 
     return password_fingerprint(user)
+
+
+def _random_password() -> str:
+    from app.services.account_setup import random_password
+
+    return random_password()
 
 
 def phone_digits(value: str | None) -> str:

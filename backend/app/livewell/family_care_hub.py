@@ -860,11 +860,12 @@ class FamilyCareHubService:
         user: User,
         *,
         email: str,
-        password: str,
+        password: str | None = None,
         first_name: str,
         last_name: str,
         portal_relationship: str = "family",
         elder_id: int | None = None,
+        phone: str | None = None,
     ) -> dict:
         from app.livewell.family_elder_access import is_primary_member, list_linked_elders
 
@@ -882,15 +883,18 @@ class FamilyCareHubService:
         email_n = (email or "").strip().lower()
         if not email_n or "@" not in email_n:
             raise_bad_request("Valid email required")
-        if len(password or "") < 8:
+        if password and len(password) < 8:
             raise_bad_request("Password must be at least 8 characters")
         if db.query(User).filter(User.email == email_n).first():
             raise_conflict("Email already registered")
 
         rel = (portal_relationship or "family").strip() or "family"
+        from app.services.account_setup import random_password, send_account_setup
+
         member = User(
             email=email_n,
-            password_hash=hash_password(password),
+            password_hash=hash_password(password or random_password()),
+            phone=(phone or None),
             first_name=(first_name or "").strip() or "Family",
             last_name=(last_name or "").strip() or "Member",
             role=ELDER_PORTAL,
@@ -908,6 +912,14 @@ class FamilyCareHubService:
         link.is_primary = False
         db.commit()
         db.refresh(member)
+        if not password:
+            inviter = (user.first_name or "").strip() or "A family member"
+            senior = (elder.first_name or "").strip() or "your family member"
+            send_account_setup(
+                db, member, phone=phone,
+                intro=f"{inviter} added you to {senior}'s family circle on KushAlaya.",
+                subject="You've been added to a KushAlaya family circle",
+            )
         FamilyCareHubService._push_alert(
             db,
             elder,

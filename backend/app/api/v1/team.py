@@ -19,6 +19,12 @@ from app.core.rbac import (
 )
 from app.core.responses import raise_bad_request, raise_conflict, raise_not_found
 from app.core.security import hash_password
+
+
+def _random_password() -> str:
+    from app.services.account_setup import random_password
+
+    return random_password()
 from app.core.team_scope import assert_caregiver_in_team, scope_caregiver_query, team_elder_ids
 from app.models.caregiver import Caregiver
 from app.models.elder import Elder
@@ -135,8 +141,6 @@ def create_team_caregiver(
     if tid is None:
         raise_bad_request("Pick an agency first")
     email = data.email.lower() if data.email else None
-    if email and not data.password:
-        raise_bad_request("Set a password for the caregiver's login, or leave the email empty")
     if email and db.query(User).filter(func.lower(User.email) == email).first():
         raise_conflict("Email already registered")
     if current_user.role == CARE_MANAGER:
@@ -158,7 +162,7 @@ def create_team_caregiver(
     if email:
         login = User(
             email=email,
-            password_hash=hash_password(data.password),
+            password_hash=hash_password(data.password or _random_password()),
             first_name=cg.first_name,
             last_name=cg.last_name,
             role=CAREGIVER,
@@ -170,6 +174,11 @@ def create_team_caregiver(
     CaregiverService.audit(db, current_user, cg, "caregiver_created", None, CaregiverService.snapshot(cg, login))
     db.commit()
     db.refresh(cg)
+    if email and not data.password:
+        from app.services.account_setup import send_account_setup
+
+        who = (current_user.first_name or "").strip() or "Your care manager"
+        send_account_setup(db, login, phone=data.phone, intro=f"{who} added you as a caregiver on KushAlaya.")
     return _caregiver_row(db, cg)
 
 

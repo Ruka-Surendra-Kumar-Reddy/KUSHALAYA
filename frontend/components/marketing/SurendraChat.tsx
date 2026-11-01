@@ -21,14 +21,17 @@ const PLAN_FACTS = CARE_PLANS.map((p) => ({
 }));
 
 /**
- * Website chat (owner, 11 Oct 2026): "Hi, I'm Surendra — how can I help?".
+ * Website chat. Owner (1 Nov 2026): the assistant is "Kushi" — "Hi, I'm Kushi,
+ * let's make your home safe together. How can I help?" — and it opens by itself
+ * within 10 s on every screen size, on every visit; closing it only hides it for
+ * the rest of that browser tab.
  * Step 1 is scripted: quick replies with links, an emergency answer that never
  * waits on anything, and a call-back request that lands in Ops → Enquiries
  * (kind "website-chat"). It opens by itself a few seconds after a page loads, on
  * laptops and phones, until the visitor closes it (remembered for the tab).
  */
 
-const NAME = "Surendra";
+const NAME = "Kushi";
 /** Open the chat this long after the visitor arrived (navigation start, not page ready). */
 const AUTO_OPEN_MS = 7000;
 const CLOSED_KEY = "ks-chat-closed";
@@ -38,13 +41,12 @@ type Topic = "discovery" | "prices" | "ai" | "emergency" | "abroad" | "callback"
 
 const EMERGENCY_WORDS = /\b(fall|fell|fallen|emergency|ambulance|hospital|unconscious|bleed|bleeding|chest pain|stroke|breath|urgent help)\b/i;
 
-/** Closing the chat keeps it closed for a week (not just this tab). */
-const CLOSED_FOR_MS = 7 * 24 * 60 * 60 * 1000;
-
+/** Closing the chat hides it for the rest of this tab only (owner: it should greet
+ *  every visit). It used to stay closed for a week via localStorage, which is why the
+ *  owner saw it "not opening" on a laptop after dismissing it once. */
 function wasClosed(): boolean {
   try {
-    const at = Number(window.localStorage.getItem(CLOSED_KEY) || 0);
-    return at > 0 && Date.now() - at < CLOSED_FOR_MS;
+    return window.sessionStorage.getItem(CLOSED_KEY) === "1";
   } catch {
     return false;
   }
@@ -52,7 +54,8 @@ function wasClosed(): boolean {
 
 function rememberClosed() {
   try {
-    window.localStorage.setItem(CLOSED_KEY, String(Date.now()));
+    window.sessionStorage.setItem(CLOSED_KEY, "1");
+    window.localStorage.removeItem(CLOSED_KEY); // clear the old week-long memory
   } catch {
     /* private mode — fine */
   }
@@ -66,7 +69,7 @@ export function SurendraChat() {
   const [msgs, setMsgs] = useState<Msg[]>([
     {
       from: "bot",
-      text: `Hi, I'm ${NAME} from KushAlaya 👋 How can I help with your parents' care?`,
+      text: `Hi, I'm ${NAME} from KushAlaya 👋 Let's make your parents' home safe together. How can I help you today?`,
     },
   ]);
   const [form, setForm] = useState(false);
@@ -78,6 +81,11 @@ export function SurendraChat() {
   // After the first close the launcher stays a round avatar.
   const [closedOnce, setClosedOnce] = useState(false);
   useEffect(() => {
+    try {
+      window.localStorage.removeItem(CLOSED_KEY);
+    } catch {
+      /* ignore */
+    }
     if (wasClosed()) setClosedOnce(true);
     const onScroll = () => setCompact(window.scrollY > 320);
     onScroll();
@@ -119,7 +127,7 @@ export function SurendraChat() {
     return () => window.removeEventListener("keydown", onKey);
   }, [open]);
 
-  const wa = whatsAppHref(site, "Hi Surendra, I'd like to know about care for my parents.");
+  const wa = whatsAppHref(site, "Hi KushAlaya, I'd like to know about care for my parents.");
 
   function openChat() {
     setOpen(true);
@@ -260,7 +268,7 @@ export function SurendraChat() {
       {!open && greet ? (
         <div className="ks-chat-greet" role="status">
           <button type="button" className="ks-chat-greet-text" onClick={openChat}>
-            Hi 👋 <strong>How can I help with your parents&apos; care?</strong>
+            Hi, I&apos;m {NAME} 👋 <strong>Let&apos;s make your home safe together.</strong>
           </button>
           <button type="button" className="ks-chat-greet-x" onClick={closeChat} aria-label="Hide">
             ✕

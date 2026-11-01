@@ -679,7 +679,8 @@ export function fetchFamilyCircle() {
 
 export function inviteFamilyCircleMember(payload: {
   email: string;
-  password: string;
+  password?: string;
+  phone?: string;
   first_name: string;
   last_name: string;
   portal_relationship: string;
