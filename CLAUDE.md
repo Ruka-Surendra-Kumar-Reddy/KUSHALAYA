@@ -115,4 +115,13 @@ Draft scripts, not yet used on the VM: `scripts/release.sh`,
   curl, send `-H "Sec-Fetch-Dest: document"`.
 - **A scrolling flex child needs `min-height: 0`.**
 - **Shared shell styles go in `components/ks-shell.css`**, not a page's own CSS.
+- **MQTT files must stay owned by `mosquitto`.** `/var/lib/safehomeops/mqtt/{passwd,acl,certs/*}`
+  were reset to `safehomeops` once; the broker kept running on in-memory copies, then
+  failed on the next reboot (2026-11-01) and the watch ingestor crash-looped: no SOS
+  could arrive. After any script that touches those files, run
+  `apply_native_permissions` from `scripts/deploy/install-livewell-mqtt.sh` (chown
+  mosquitto, passwd 640, acl 644) and check `systemctl is-active mosquitto`.
+- **Prod reboot checklist:** `systemctl is-active safehomeops-api safehomeops-web
+  safehomeops-iot-ingestor mosquitto nginx postgresql` must all say active, and
+  `ss -tln` must show 1883 and 8883. Green websites do not prove the broker is up.
 - **SSH "permission denied" means you forgot `-i`**, not that access is gone.

@@ -128,6 +128,11 @@ S3_SECRET_ACCESS_KEY=${S3_SECRET_ACCESS_KEY:-}
 S3_REGION=${S3_REGION:-auto}
 S3_PUBLIC_BASE_URL=${S3_PUBLIC_BASE_URL:-}
 EOF
+  # Extra lines for non-production boxes (test: ENVIRONMENT=test, log providers).
+  # Later keys win when python-dotenv loads the file.
+  if [[ -n "${EXTRA_BACKEND_ENV:-}" ]]; then
+    printf '%b\n' "$EXTRA_BACKEND_ENV" >>"$APP_ROOT/backend/.env"
+  fi
   chown safehomeops:safehomeops "$APP_ROOT/backend/.env"
   chmod 600 "$APP_ROOT/backend/.env"
   {
@@ -139,6 +144,9 @@ EOF
     fi
     if [[ -n "${NEXT_PUBLIC_BRAND_ACCENT:-}" ]]; then
       echo "NEXT_PUBLIC_BRAND_ACCENT=${NEXT_PUBLIC_BRAND_ACCENT}"
+    fi
+    if [[ -n "${EXTRA_FRONTEND_ENV:-}" ]]; then
+      printf '%b\n' "$EXTRA_FRONTEND_ENV"
     fi
   } >"$APP_ROOT/frontend/.env.local"
   chown safehomeops:safehomeops "$APP_ROOT/frontend/.env.local"

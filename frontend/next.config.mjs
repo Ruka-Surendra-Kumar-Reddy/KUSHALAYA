@@ -35,6 +35,10 @@ const nextConfig = {
           { key: "X-Content-Type-Options", value: "nosniff" },
           { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
           { key: "X-Frame-Options", value: "SAMEORIGIN" },
+          // The test box must never be indexed (NEXT_PUBLIC_ENVIRONMENT=test there).
+          ...(process.env.NEXT_PUBLIC_ENVIRONMENT === "test"
+            ? [{ key: "X-Robots-Tag", value: "noindex, nofollow" }]
+            : []),
         ],
       },
       // Files under public/ default to `max-age=0`, so the browser revalidates

@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Noto_Sans_Telugu } from "next/font/google";
 import { SiteFooter } from "@/components/SiteFooter";
+import { TestSystemBand, isTestEnvironment } from "@/components/TestSystemBand";
 import "./globals.css";
 import "../styles/themes.css";
 
@@ -12,6 +13,7 @@ const notoSansTelugu = Noto_Sans_Telugu({
 });
 
 export const metadata: Metadata = {
+  robots: isTestEnvironment() ? { index: false, follow: false } : undefined,
   title: "KushAlaya",
   description: "KushAlaya — home safety, assessments, and family care at home",
   icons: {
@@ -35,6 +37,7 @@ export default function RootLayout({
     // The marketing layout adds a "js" class to <html> before React loads (reveal animations).
     <html lang="en" className={notoSansTelugu.variable} suppressHydrationWarning>
       <body>
+        <TestSystemBand />
         <div className="site-frame">
           {children}
           <SiteFooter />

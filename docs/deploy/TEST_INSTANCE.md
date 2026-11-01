@@ -57,4 +57,8 @@ Leave it alone or terminate it to free quota; it is not used by anything we know
 
 - 2026-11-01 — instance created by the owner from the OCI console; SSH with the prod key
   confirmed; box is clean (only Python 3.9, firewalld allows ssh only, outbound HTTPS works).
-- Next: deploy key → owner adds to GitHub → DNS → `deploy-safehome.sh` → TLS → seed demo → smoke test.
+- 2026-11-01 — shape swapped: test is now 1 OCPU / 6 GB, prod 2 OCPU / 12 GB (free tier is
+  exactly used with Krishna's box). DNS for the three test names added at BigRock and resolving.
+  Code pushed to the new repo (`main` + `develop`). Installer: `scripts/deploy/install-test-box.sh`.
+- Next: owner adds the deploy key to both GitHub repos → run the one-line install (see
+  the top of `install-test-box.sh`) → smoke test → owner checks three widths.
