@@ -94,6 +94,22 @@ if [[ ! -d /opt/workforceos-core/.git ]]; then
 fi
 install -d -o safehomeops -g safehomeops /opt/safehomeops
 
+# --- 2c. Postgres: the app rules must come BEFORE the stock "host all all ... ident"
+#     lines (first match wins). Done after bootstrap creates the cluster.
+fix_pg_hba() {
+  local H=/var/lib/pgsql/data/pg_hba.conf
+  [[ -f "$H" ]] || return 0
+  if ! grep -q "^# kushalaya-test: app rules first" "$H"; then
+    { echo "# kushalaya-test: app rules first"
+      echo "host    safehomeops   safehomeops   127.0.0.1/32   scram-sha-256"
+      echo "host    safehomeops   safehomeops   ::1/128        scram-sha-256"
+      cat "$H"; } > "$H.new" && mv "$H.new" "$H"
+    chown postgres:postgres "$H"; chmod 600 "$H"
+    systemctl reload postgresql
+  fi
+}
+fix_pg_hba
+
 # --- 3. the standard install (packages, db, clone, build, nginx, tls, units, seed)
 DEPLOY_ENV_FILE="$ENV_FILE" bash "$SCRIPT_DIR/deploy-safehome.sh" --env "$ENV_FILE"
 
