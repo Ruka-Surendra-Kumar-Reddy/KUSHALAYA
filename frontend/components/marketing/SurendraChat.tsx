@@ -44,18 +44,20 @@ const EMERGENCY_WORDS = /\b(fall|fell|fallen|emergency|ambulance|hospital|uncons
 /** Closing the chat hides it for the rest of this tab only (owner: it should greet
  *  every visit). It used to stay closed for a week via localStorage, which is why the
  *  owner saw it "not opening" on a laptop after dismissing it once. */
+let closedThisPageView = false;
+
+/** Owner (1 Nov 2026, after testing): a close must not survive a refresh — the
+ *  chat greets on every page load. So "closed" lives only in this module instance. */
 function wasClosed(): boolean {
-  try {
-    return window.sessionStorage.getItem(CLOSED_KEY) === "1";
-  } catch {
-    return false;
-  }
+  return closedThisPageView;
 }
 
 function rememberClosed() {
+  closedThisPageView = true;
   try {
-    window.sessionStorage.setItem(CLOSED_KEY, "1");
-    window.localStorage.removeItem(CLOSED_KEY); // clear the old week-long memory
+    // Clear the flags older builds left behind, or returning visitors never see it.
+    window.sessionStorage.removeItem(CLOSED_KEY);
+    window.localStorage.removeItem(CLOSED_KEY);
   } catch {
     /* private mode — fine */
   }
@@ -83,6 +85,7 @@ export function SurendraChat() {
   useEffect(() => {
     try {
       window.localStorage.removeItem(CLOSED_KEY);
+      window.sessionStorage.removeItem(CLOSED_KEY);
     } catch {
       /* ignore */
     }

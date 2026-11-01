@@ -22,6 +22,37 @@ export default function PrivacyPage() {
         </ul>
       </div>
 
+      <h2>Data summary for our apps</h2>
+      <p>
+        This policy applies to the website <strong>www.kushalaya.com</strong>, the web portals{" "}
+        <strong>family.kushalaya.com</strong> and <strong>ops.kushalaya.com</strong>, and the Android apps{" "}
+        <strong>KushAlaya Family</strong> (for families) and <strong>KushAlaya Ops</strong> (for our care staff).
+        The same company, {LEGAL_ENTITY_NAME}, operates all of them. In every one of them:
+      </p>
+      <div className="lg-table-wrap">
+        <table className="lg-table">
+          <thead>
+            <tr><th>Data</th><th>Collected</th><th>Why</th><th>Shared with</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Name, email, phone</td><td>When you sign up, enquire or are added by a family member</td><td>Create and secure your account, contact you about care</td><td>Our care team; email/SMS/WhatsApp providers to deliver messages</td></tr>
+            <tr><td>Care recipient details (name, age, address, emergency contacts)</td><td>Entered by the family or our staff</td><td>Plan and deliver visits</td><td>Assigned care manager and caregivers; installation partners when fitting products</td></tr>
+            <tr><td>Health and wellbeing notes</td><td>Only with separate consent</td><td>Safe care at each visit</td><td>Assigned care team only</td></tr>
+            <tr><td>Photos, voice notes, documents</td><td>When you or our staff upload them</td><td>Visit evidence, assessment reports</td><td>Room photos only: Google Gemini / fal.ai for hazard checks and previews (no names)</td></tr>
+            <tr><td>Precise location</td><td>Staff app during a visit; family app only if you share it</td><td>Confirm the visit happened at the home; on-the-way map</td><td>Not shared outside the care team</td></tr>
+            <tr><td>Payments</td><td>Wallet top-ups and purchases</td><td>Billing, GST invoices</td><td>Razorpay processes the payment; we keep invoice records</td></tr>
+            <tr><td>Device token for push notifications</td><td>If you allow notifications in the Android apps</td><td>Visit updates, SOS alerts</td><td>Google Firebase Cloud Messaging delivers the notification</td></tr>
+            <tr><td>Usage and diagnostics</td><td>Sign-in events, errors</td><td>Security, support</td><td>Nobody</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        We do not sell personal data, do not show advertising, do not use Google Sign-In and do not access your
+        Google account. Data is encrypted in transit; access is limited to the staff assigned to you. You can
+        delete your account and data at any time (see <a href="#delete">How to delete your data</a>) or email{" "}
+        <Mail />.
+      </p>
+
       <h2>1. Who we are</h2>
       <p>
         {B} is run by {LEGAL_ENTITY_NAME} (&ldquo;{B}&rdquo;, &ldquo;we&rdquo;, &ldquo;us&rdquo;). We provide home
