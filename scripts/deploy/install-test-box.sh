@@ -86,6 +86,14 @@ else
 fi
 grep -v "^[[:space:]]*#" "$ENV_FILE" | grep -q "CHANGE_ME" && die "$ENV_FILE still has CHANGE_ME values"
 
+# --- 2b. pre-clone the shared package as opc (/opt is root-owned; the lib clones as opc)
+if [[ ! -d /opt/workforceos-core/.git ]]; then
+  rm -rf /opt/workforceos-core
+  install -d -o opc -g opc /opt/workforceos-core
+  sudo -u opc git clone -q -b develop git@github-core:krishnaposa/workforceos-core.git /opt/workforceos-core
+fi
+install -d -o safehomeops -g safehomeops /opt/safehomeops
+
 # --- 3. the standard install (packages, db, clone, build, nginx, tls, units, seed)
 DEPLOY_ENV_FILE="$ENV_FILE" bash "$SCRIPT_DIR/deploy-safehome.sh" --env "$ENV_FILE"
 
