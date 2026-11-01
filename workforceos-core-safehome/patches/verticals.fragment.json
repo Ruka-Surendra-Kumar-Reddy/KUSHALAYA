@@ -1,0 +1,22 @@
+{
+  "_comment": "Merge into workforceos-core/contracts/verticals.json",
+  "validVerticals_add": ["LIVEWELL360"],
+  "verticalLabels": {
+    "LIVEWELL360": "LiveWell360"
+  },
+  "packs": {
+    "LIVEWELL360": {
+      "features": [
+        "livewell",
+        "home_safety",
+        "customer_spine",
+        "elder_prospects",
+        "communications",
+        "documents",
+        "prospects",
+        "workflows",
+        "subscriptions"
+      ]
+    }
+  }
+}

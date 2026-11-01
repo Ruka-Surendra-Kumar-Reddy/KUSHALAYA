@@ -1,0 +1,19 @@
+{
+  "name": "kushalaya-mobile",
+  "private": true,
+  "version": "1.0.0",
+  "description": "KushAlaya Ops and KushAlaya Family Android apps (Capacitor shell + native SOS alarm)",
+  "scripts": {
+    "sync": "node scripts/sync.mjs",
+    "build:debug": "node scripts/sync.mjs && node scripts/build.mjs debug",
+    "build:release": "node scripts/sync.mjs && node scripts/build.mjs release",
+    "build:bundle": "node scripts/sync.mjs && node scripts/build.mjs bundle"
+  },
+  "dependencies": {
+    "@capacitor/android": "7.6.9",
+    "@capacitor/core": "7.6.9"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "7.6.9"
+  }
+}

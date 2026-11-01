@@ -1,0 +1,183 @@
+/* Assessments page board (AssessmentBoard.tsx): tabs · search · aligned rows. */
+.ab { padding: 1.1rem 1.2rem; }
+.ab-top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+.ab-tabs { display: inline-flex; gap: 0.35rem; padding: 0.3rem; border-radius: 999px; background: #eef2f7; }
+.ab-tabs button {
+  min-height: 44px;
+  padding: 0 1rem;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: #1e3a5f;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+.ab-tabs button span {
+  display: inline-block;
+  min-width: 1.6rem;
+  margin-left: 0.3rem;
+  padding: 0.05rem 0.45rem;
+  border-radius: 999px;
+  background: rgba(30, 58, 95, 0.1);
+  font-size: 0.82rem;
+}
+.ab-tabs button.is-on { background: #0f2a4a; color: #fff; }
+.ab-tabs button.is-on span { background: rgba(255, 255, 255, 0.2); }
+.ab-search {
+  flex: 1 1 260px;
+  max-width: 380px;
+  min-height: 44px;
+  padding: 0 0.9rem;
+  border: 1px solid #d4dbe5;
+  border-radius: 12px;
+  font: inherit;
+}
+.ab-empty { margin: 1rem 0 0.5rem; color: #5b6b80; }
+
+.ab-row {
+  display: grid;
+  grid-template-columns: 11rem minmax(0, 1.6fr) minmax(0, 1fr) 9rem 12rem;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 0.75rem 0.9rem;
+  border-bottom: 1px solid #edf1f6;
+}
+.ab-head {
+  padding-top: 0.4rem;
+  padding-bottom: 0.4rem;
+  border-radius: 10px;
+  background: #f4f7fb;
+  border-bottom: 0;
+  color: #5b6b80;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.ab-when { font-weight: 700; color: #1d4ed8; }
+.ab-client { display: grid; gap: 0.1rem; min-width: 0; }
+.ab-client strong { display: flex; align-items: center; gap: 0.4rem; overflow-wrap: anywhere; }
+.ab-client small { color: #5b6b80; overflow-wrap: anywhere; }
+.ab-tag {
+  padding: 0.05rem 0.45rem;
+  border-radius: 999px;
+  background: #fff4e5;
+  color: #8a5a00;
+  font-style: normal;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+.ab-cg { min-width: 0; overflow-wrap: anywhere; }
+.ab-cg select { width: 100%; min-height: 44px; padding: 0 0.6rem; border: 1px solid #d4dbe5; border-radius: 10px; font: inherit; background: #fff; }
+.ab-pill {
+  display: inline-block;
+  padding: 0.2rem 0.65rem;
+  border-radius: 999px;
+  background: #e8f0fe;
+  color: #1d4ed8;
+  font-size: 0.82rem;
+}
+.ab-pill.is-prog { background: #ecfdf3; color: #067647; }
+.ab-pill.is-late { background: #fff4e5; color: #8a5a00; }
+.ab-score { font-size: 1.15rem; color: #0f2a4a; }
+.ab-actions { display: flex; justify-content: flex-end; align-items: center; gap: 0.5rem; }
+.ab-act {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 1rem;
+  border-radius: 999px;
+  border: 1px solid #c7d4e6;
+  color: #1e3a5f;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.ab-act.is-primary { background: #1d4ed8; border-color: #1d4ed8; color: #fff; }
+.ko-main a.ab-act.is-primary { color: #fff; }
+.ab-cancel {
+  min-height: 44px;
+  padding: 0 0.8rem;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: #b42318;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* Phones / narrow: each row becomes a card. */
+@media (max-width: 900px) {
+  .ab-head { display: none; }
+  .ab-row {
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas:
+      "client state"
+      "when when"
+      "cg cg"
+      "actions actions";
+    gap: 0.5rem;
+    margin-bottom: 0.6rem;
+    border: 1px solid #edf1f6;
+    border-radius: 14px;
+  }
+  .ab-client { grid-area: client; }
+  .ab-state { grid-area: state; }
+  .ab-when { grid-area: when; font-size: 0.9rem; }
+  .ab-cg { grid-area: cg; }
+  .ab-actions { grid-area: actions; justify-content: stretch; }
+  .ab-actions .ab-act { flex: 1; justify-content: center; }
+  .ab-tabs { width: 100%; }
+  .ab-tabs button { flex: 1; padding: 0 0.5rem; }
+  .ab-search { max-width: none; }
+}
+
+/* .ko-main button (ops shell) paints every button blue with a shadow: keep these plain. */
+.ko-main .ab-tabs button,
+.ko-main .ab-cancel {
+  box-shadow: none;
+  background-image: none;
+}
+.ko-main .ab-tabs button { background: transparent; color: #1e3a5f; }
+.ko-main .ab-tabs button.is-on { background: #0f2a4a; color: #fff; }
+.ko-main .ab-cancel { background: transparent; color: #b42318; border: 1px solid #f1c4c0; }
+.ko-main .ab-cancel:hover { background: #fdecec; }
+
+/* Tabs: equal thirds, label over its count, same height — never a two-line "In progress"
+   next to one-line neighbours (phone + tablet). */
+@media (max-width: 900px) {
+  .ab-top { flex-direction: column; align-items: stretch; }
+  .ab-tabs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-radius: 16px; }
+  .ko-main .ab-tabs button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.2rem;
+    min-height: 58px;
+    padding: 0.35rem 0.25rem;
+    border-radius: 12px;
+    white-space: nowrap;
+    font-size: 0.92rem;
+    line-height: 1.15;
+  }
+  .ab-tabs button span { margin-left: 0; }
+}
+@media (max-width: 900px) {
+  .ab-search { flex: 0 0 auto; height: 46px; }
+}
+
+/* Name + "Lead" tag always on one line: the name shortens, the tag never wraps. */
+.ab-client strong { flex-wrap: nowrap; min-width: 0; }
+.ab-client strong > :not(.ab-tag) { min-width: 0; }
+.ab-tag { flex: 0 0 auto; white-space: nowrap; line-height: 1.5; }
+.ab-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }

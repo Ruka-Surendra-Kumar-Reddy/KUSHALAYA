@@ -1,0 +1,513 @@
+/* Operations board, customer plans table, plan dialogs (SalesBoard, CustomerPlansTable, PlanPaymentsCard). */
+
+.sp-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+.sp-bar input[type="search"] {
+  flex: 1 1 240px;
+  min-width: 0;
+}
+.sp-inline {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.sp-views {
+  display: inline-flex;
+  gap: 0.25rem;
+  margin: 0 0 0.75rem;
+}
+.sp-bar .sp-views {
+  margin: 0;
+}
+.sp-bar .sp-add,
+.sp-bar .sp-bar-end {
+  margin-left: auto;
+}
+/* Customers table: two lines per cell (main + detail) instead of 14 columns. */
+.sp-cell-main {
+  display: block;
+  font-weight: 600;
+  color: #0e2a4f;
+}
+a.sp-cell-main {
+  color: #1b4f9c;
+}
+.sp-cell-sub {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 0.15rem;
+  font-size: 0.8rem;
+  color: #64748b;
+}
+.sp-tag {
+  padding: 0 0.45rem;
+  border-radius: 999px;
+  background: #e8f0fb;
+  color: #1b4f9c;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+.sp-views button {
+  background: #fff;
+  color: #334155;
+  border: 1px solid #d7dfea;
+  box-shadow: none;
+  transform: none;
+  padding: 0.35rem 0.85rem;
+  min-height: 44px;
+}
+.sp-views button.is-on {
+  background: #1b4f9c;
+  border-color: #1b4f9c;
+  color: #fff;
+}
+
+/* Board: columns scroll sideways inside the page, never the page itself. */
+.sp-board {
+  display: grid;
+  grid-auto-flow: column;
+  /* Seven stages fit side by side on a laptop; narrower screens scroll sideways. */
+  grid-auto-columns: minmax(150px, 1fr);
+  gap: 0.75rem;
+  overflow-x: auto;
+  padding-bottom: 0.5rem;
+  margin-bottom: 1rem;
+  min-width: 0;
+}
+.sp-col {
+  background: #f4f7fb;
+  border: 1px solid #cfd8e3;
+  border-top: 4px solid var(--sp-stage, #94a3b8);
+  border-radius: 10px;
+  padding: 0.6rem;
+  min-height: 160px;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.sp-col.is-over {
+  border-color: #1b4f9c;
+  background: #e8f0fb;
+}
+.sp-col.is-won {
+  background: #eef8f1;
+}
+.sp-col.is-lost {
+  background: #f8f1f1;
+}
+.sp-col.is-new { --sp-stage: #2f6fd6; }
+.sp-col.is-assessment_scheduled,
+.sp-col.is-assessment_booked { --sp-stage: #6d5bd0; }
+.sp-col.is-assessment_done { --sp-stage: #0f8b8d; }
+.sp-col.is-follow_up_1,
+.sp-col.is-follow_up_2 { --sp-stage: #d9a441; }
+.sp-col.is-won { --sp-stage: #4f8a1d; }
+.sp-col.is-lost { --sp-stage: #c8402f; }
+.sp-col-head {
+  font-size: 0.88rem;
+  line-height: 1.2;
+  gap: 0.4rem;
+  min-height: 2.4em; /* two-line names ("Assessment booked") keep every header the same height */
+  margin: 0 0 0.6rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.sp-count {
+  background: #fff;
+  border: 1px solid #d7dfea;
+  border-radius: 999px;
+  padding: 0 0.5rem;
+  font-size: 0.8rem;
+}
+.sp-cards {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.5rem;
+  align-content: start;
+}
+.sp-card {
+  background: #fff;
+  border: 1px solid #d7dfea;
+  border-radius: 8px;
+  padding: 0.55rem 0.6rem;
+  display: grid;
+  gap: 0.2rem;
+  min-width: 0;
+}
+.sp-card[draggable="true"] {
+  cursor: grab;
+}
+.sp-card.is-dragging {
+  opacity: 0.5;
+}
+.sp-card-name {
+  all: unset;
+  font-weight: 600;
+  color: #1b4f9c;
+  cursor: pointer;
+  overflow-wrap: anywhere;
+}
+.sp-card-name:focus-visible {
+  outline: 2px solid #1b4f9c;
+  outline-offset: 2px;
+}
+.sp-card-meta {
+  font-size: 0.82rem;
+  color: #475569;
+  overflow-wrap: anywhere;
+}
+.sp-card-note {
+  font-size: 0.82rem;
+  color: #9b1c1c;
+}
+.sp-move {
+  margin-top: 0.25rem;
+  min-height: 36px;
+  font-size: 0.85rem;
+}
+.sp-empty {
+  font-size: 0.82rem;
+  color: #94a3b8;
+  padding: 0.75rem 0.5rem;
+  border: 1px dashed #cfd8e3;
+  border-radius: 8px;
+  text-align: center;
+}
+/* Ops buttons and selects are big pills by default; on cards keep them plain. */
+.sp-board button.sp-card-name {
+  background: none;
+  border: 0;
+  box-shadow: none;
+  padding: 0;
+  min-height: 0;
+  color: #0e2a4f;
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-align: left;
+  transform: none;
+}
+.sp-board button.sp-card-name:hover {
+  color: #1b4f9c;
+  text-decoration: underline;
+  background: none;
+}
+.sp-board select.sp-move {
+  min-height: 34px;
+  padding: 0.2rem 0.5rem;
+  font-size: 0.82rem;
+  border-radius: 8px;
+  width: 100%;
+}
+
+/* Tables */
+.sp-table td,
+.sp-table th {
+  white-space: nowrap;
+}
+.sp-row-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  align-items: center;
+}
+.sp-row-actions button {
+  min-height: 36px;
+  padding: 0.25rem 0.7rem;
+}
+.sp-pill {
+  display: inline-block;
+  border-radius: 999px;
+  padding: 0.05rem 0.55rem;
+  font-size: 0.8rem;
+  border: 1px solid #d7dfea;
+  background: #f8fafc;
+  color: #334155;
+}
+.sp-pill.is-active,
+.sp-pill.is-paid {
+  background: #e7f6ec;
+  border-color: #a7dcb7;
+  color: #14532d;
+}
+.sp-pill.is-pending_approval,
+.sp-pill.is-unpaid {
+  background: #fff6e0;
+  border-color: #f0d38a;
+  color: #7a4b00;
+}
+.sp-pill.is-expired,
+.sp-pill.is-cancelled {
+  background: #f8eded;
+  border-color: #e5bcbc;
+  color: #7f1d1d;
+}
+.sp-pending {
+  margin-bottom: 1rem;
+  border-left: 4px solid #f0b429;
+}
+.sp-pending h2 {
+  margin-top: 0;
+}
+
+/* Dialogs and plan picker */
+.sp-dialog label {
+  display: grid;
+  gap: 0.3rem;
+  margin-top: 0.6rem;
+}
+.sp-dialog textarea {
+  width: 100%;
+}
+.sp-dialog-lead {
+  margin: 0.25rem 0 0;
+}
+.sp-dialog-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: flex-end;
+  margin-top: 1rem;
+}
+.sp-plan-fields {
+  display: grid;
+  gap: 0.25rem;
+}
+.sp-cycle {
+  border: 0;
+  padding: 0;
+  margin: 0.6rem 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+.sp-cycle legend {
+  padding: 0;
+  margin-bottom: 0.3rem;
+}
+.sp-dialog .sp-cycle label,
+.sp-cycle label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin: 0;
+  min-height: 44px;
+}
+.sp-cycle label.is-off {
+  color: #94a3b8;
+}
+.sp-plan-sum {
+  margin: 0.5rem 0 0;
+  font-size: 0.9rem;
+  color: #14532d;
+}
+.sp-coupon {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.5rem;
+}
+.sp-coupon button {
+  min-height: 44px;
+}
+.cp-num small {
+  display: block;
+}
+.sp-dialog .sp-check {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+/* Lead drawer */
+.sp-lead-facts {
+  display: grid;
+  gap: 0.4rem;
+  margin: 0;
+}
+.sp-lead-facts div {
+  display: grid;
+  grid-template-columns: 6rem 1fr;
+  gap: 0.5rem;
+}
+.sp-lead-facts dt {
+  color: #64748b;
+}
+.sp-lead-facts dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+.sp-sub {
+  font-size: 1rem;
+  margin: 1rem 0 0.4rem;
+}
+.sp-history {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.6rem;
+}
+.sp-history li {
+  border-left: 3px solid #d7dfea;
+  padding-left: 0.6rem;
+  display: grid;
+  gap: 0.15rem;
+}
+.sp-history p {
+  margin: 0;
+  white-space: pre-wrap;
+}
+
+/* Client profile: Plan & payments */
+.sp-plan-head {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+}
+.sp-plan-head h2 {
+  margin: 0;
+}
+.sp-plan-now {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 0.6rem 1rem;
+  margin: 0.75rem 0;
+}
+.sp-plan-now dt {
+  color: #64748b;
+  font-size: 0.85rem;
+}
+.sp-plan-now dd {
+  margin: 0.15rem 0 0;
+}
+.sp-ok {
+  color: #14532d;
+  margin: 0.5rem 0 0;
+}
+.sp-totals {
+  margin: 0.6rem 0 0;
+}
+
+/* Client profile → Overview */
+.sp-overview {
+  display: grid;
+  gap: 1rem;
+  min-width: 0;
+}
+.sp-tiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 0.75rem;
+}
+.sp-tile {
+  all: unset;
+  box-sizing: border-box;
+  display: grid;
+  gap: 0.2rem;
+  background: #fff;
+  border: 1px solid #d7dfea;
+  border-radius: 10px;
+  padding: 0.75rem 0.9rem;
+  min-width: 0;
+}
+button.sp-tile {
+  cursor: pointer;
+}
+/* Ops buttons are blue pills by default; summary tiles stay white cards. */
+.sp-tiles button.sp-tile {
+  background: #fff;
+  color: #0e2a4f;
+  border: 1px solid #d7dfea;
+  box-shadow: none;
+  text-align: left;
+  font-weight: 400;
+  min-height: 0;
+}
+button.sp-tile:hover,
+button.sp-tile:focus-visible {
+  border-color: #1b4f9c;
+  outline: none;
+}
+.sp-tile-label {
+  font-size: 0.82rem;
+  color: #64748b;
+}
+.sp-tile strong {
+  font-size: 1.25rem;
+}
+.sp-tile strong.sp-tile-name {
+  font-size: 1.05rem;
+  overflow-wrap: anywhere;
+}
+.sp-cust {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.sp-cust h2 {
+  margin-top: 0;
+}
+.sp-cust-main {
+  flex: 1 1 300px;
+  min-width: 0;
+}
+.sp-cust-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex: 0 1 200px;
+}
+.sp-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  text-decoration: none;
+}
+@media (max-width: 640px) {
+  .sp-cust-actions {
+    flex-direction: row;
+    flex-wrap: wrap;
+    flex-basis: 100%;
+  }
+}
+.sp-meter {
+  height: 10px;
+  border-radius: 999px;
+  background: #e2e8f0;
+  overflow: hidden;
+  margin: 0.4rem 0;
+}
+.sp-meter span {
+  display: block;
+  height: 100%;
+  background: #1b4f9c;
+}
+.sp-inclusions {
+  columns: 2 220px;
+  margin: 0;
+  padding-left: 1.2rem;
+}
+.sp-table td.sp-wrap {
+  white-space: normal;
+  min-width: 140px;
+}
+.sp-table td {
+  vertical-align: middle;
+}
+
+.sp-assess {
+  margin-top: 0.75rem;
+}

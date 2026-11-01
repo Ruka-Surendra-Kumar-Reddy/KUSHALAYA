@@ -1,0 +1,17 @@
+[Unit]
+Description=Kushalaya health watch (curl /health/ready, email on failure)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+# Runs as the app user so it can read backend/.env (mode 600) for SMTP_*.
+User=safehomeops
+Group=safehomeops
+# Optional overrides — see scripts/deploy/health-watch.sh header:
+#Environment=HEALTH_WATCH_TO=owner@example.com,ops@example.com
+#Environment=HEALTH_WATCH_URLS=http://127.0.0.1:8010/health/ready https://ops.kushalaya.com/health/ready
+ExecStart=/usr/bin/bash /opt/safehomeops/app/scripts/deploy/health-watch.sh
+# A failing check exits non-zero on purpose (visible in `systemctl list-timers` / journal);
+# the timer keeps firing regardless.
+SuccessExitStatus=0 1

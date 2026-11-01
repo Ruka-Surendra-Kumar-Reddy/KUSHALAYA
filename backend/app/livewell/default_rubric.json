@@ -1,0 +1,758 @@
+{
+  "title": "LiveWell360 Assessment (KAA)",
+  "version": "2.1",
+  "source": "livewell360",
+  "categories": [
+    {
+      "id": "home_safety",
+      "title": "1. Home Safety",
+      "sectionNumber": 2,
+      "maxPoints": 12,
+      "items": [
+        {
+          "id": "home_safety_toilet_grab_bar_installed",
+          "label": "Toilet grab bar installed",
+          "maxPoints": 0.76,
+          "group": "Bath & wet areas",
+          "scoringScale": "critical",
+          "source": "aarp"
+        },
+        {
+          "id": "home_safety_shower_grab_bar_installed",
+          "label": "Shower grab bar installed",
+          "maxPoints": 0.68,
+          "group": "Bath & wet areas",
+          "scoringScale": "standard",
+          "source": "aarp"
+        },
+        {
+          "id": "home_safety_anti_slip_flooring",
+          "label": "Anti-slip flooring",
+          "maxPoints": 0.66,
+          "group": "Bath & wet areas",
+          "scoringScale": "critical",
+          "source": "aarp"
+        },
+        {
+          "id": "home_safety_shower_chair_available",
+          "label": "Shower chair available",
+          "maxPoints": 0.66,
+          "group": "Bath & wet areas",
+          "scoringScale": "standard",
+          "source": "aarp"
+        },
+        {
+          "id": "home_safety_toilet_height_appropriate",
+          "label": "Toilet height appropriate",
+          "maxPoints": 0.66,
+          "group": "Bath & wet areas",
+          "scoringScale": "standard",
+          "source": "aarp"
+        },
+        {
+          "id": "home_safety_hot_water_scald_risk_controlled",
+          "label": "Hot water scald risk controlled",
+          "maxPoints": 0.66,
+          "group": "Bath & wet areas",
+          "scoringScale": "standard",
+          "source": "aarp"
+        },
+        {
+          "id": "home_safety_bathroom_well_ventilated",
+          "label": "Bathroom well ventilated",
+          "maxPoints": 0.66,
+          "group": "Bath & wet areas",
+          "scoringScale": "standard",
+          "source": "livewell360"
+        },
+        {
+          "id": "home_safety_pathway_level_and_clear",
+          "label": "Pathway level and clear",
+          "maxPoints": 0.66,
+          "group": "Entry & circulation",
+          "scoringScale": "critical",
+          "source": "aarp"
+        },
+        {
+          "id": "home_safety_zero_step_or_ramped_main_entry",
+          "label": "Zero-step or ramped main entry",
+          "maxPoints": 0.66,
+          "group": "Entry & circulation",
+          "scoringScale": "standard",
+          "source": "aarp"
+        },
+        {
+          "id": "home_safety_entrance_railing_if_needed",
+          "label": "Entrance railing if needed",
+          "maxPoints": 0.66,
+          "group": "Entry & circulation",
+          "scoringScale": "standard",
+          "skipWhen": {
+            "when": "unless_has_stairs"
+          },
+          "source": "aarp"
+        },
+        {
+          "id": "home_safety_adequate_entry_lighting",
+          "label": "Adequate entry lighting",
+          "maxPoints": 0.66,
+          "group": "Entry & circulation",
+          "scoringScale": "standard",
+          "source": "aarp"
+        },
+        {
+          "id": "home_safety_hallways_free_of_trip_hazards",
+          "label": "Hallways free of trip hazards",
+          "maxPoints": 0.66,
+          "group": "Entry & circulation",
+          "scoringScale": "standard",
+          "source": "aarp"
+        },
+        {
+          "id": "home_safety_loose_rugs_secured_or_removed",
+          "label": "Loose rugs secured or removed",
+          "maxPoints": 0.66,
+          "group": "Entry & circulation",
+          "scoringScale": "critical",
+          "source": "aarp"
+        },
+        {
+          "id": "home_safety_bedroom_night_lighting",
+          "label": "Bedroom night lighting",
+          "maxPoints": 0.66,
+          "group": "Rooms",
+          "scoringScale": "standard",
+          "source": "aarp"
+        },
+        {
+          "id": "home_safety_bed_transfer_support",
+          "label": "Bed transfer support",
+          "maxPoints": 0.66,
+          "group": "Rooms",
+          "scoringScale": "standard",
+          "source": "aarp"
+        },
+        {
+          "id": "home_safety_smoke_and_co_detectors_on_each_level",
+          "label": "Smoke and CO detectors on each level",
+          "maxPoints": 0.66,
+          "group": "Rooms",
+          "scoringScale": "critical",
+          "source": "aarp"
+        },
+        {
+          "id": "home_safety_stove_gas_safety_controls",
+          "label": "Stove / gas safety controls",
+          "maxPoints": 0.66,
+          "group": "Rooms",
+          "scoringScale": "standard",
+          "source": "aarp"
+        },
+        {
+          "id": "home_safety_living_area_walkways_clear",
+          "label": "Living area walkways clear",
+          "maxPoints": 0.66,
+          "group": "Rooms",
+          "scoringScale": "standard",
+          "source": "aarp"
+        }
+      ]
+    },
+    {
+      "id": "mobility",
+      "title": "2. Mobility & Accessibility",
+      "sectionNumber": 3,
+      "maxPoints": 10,
+      "items": [
+        {
+          "id": "mobility_walks_independently_or_with_correct_devi",
+          "label": "Walks independently or with correct device",
+          "maxPoints": 1.48,
+          "scoringScale": "standard",
+          "source": "cdc"
+        },
+        {
+          "id": "mobility_balance_adequate_for_home",
+          "label": "Balance adequate for home",
+          "maxPoints": 1.42,
+          "scoringScale": "standard",
+          "source": "cdc"
+        },
+        {
+          "id": "mobility_stands_from_chair_without_arm_push",
+          "label": "Stands from chair without arm push",
+          "maxPoints": 1.42,
+          "scoringScale": "critical",
+          "source": "cdc"
+        },
+        {
+          "id": "mobility_transfers_bed_chair_safely",
+          "label": "Transfers bed/chair safely",
+          "maxPoints": 1.42,
+          "scoringScale": "critical",
+          "source": "cdc"
+        },
+        {
+          "id": "mobility_stairs_manageable_or_alternative_exists",
+          "label": "Stairs manageable or alternative exists",
+          "maxPoints": 1.42,
+          "scoringScale": "standard",
+          "skipWhen": {
+            "when": "unless_has_stairs"
+          },
+          "source": "cdc"
+        },
+        {
+          "id": "mobility_door_widths_thresholds_accessible",
+          "label": "Door widths / thresholds accessible",
+          "maxPoints": 1.42,
+          "scoringScale": "standard",
+          "skipWhen": {
+            "when": "unless_wheelchair_user"
+          },
+          "source": "aarp"
+        },
+        {
+          "id": "mobility_wheelchair_or_walker_path_clear",
+          "label": "Wheelchair or walker path clear",
+          "maxPoints": 1.42,
+          "scoringScale": "standard",
+          "source": "aarp"
+        }
+      ]
+    },
+    {
+      "id": "health_wellness",
+      "title": "3. Health & Wellness",
+      "sectionNumber": 4,
+      "maxPoints": 9,
+      "items": [
+        {
+          "id": "health_wellness_chronic_conditions_documented",
+          "label": "Chronic conditions documented",
+          "maxPoints": 0.75,
+          "group": "Clinical baseline",
+          "scoringScale": "standard",
+          "source": "livewell360"
+        },
+        {
+          "id": "health_wellness_medications_reconciled",
+          "label": "Medications reconciled",
+          "maxPoints": 0.75,
+          "group": "Clinical baseline",
+          "scoringScale": "critical",
+          "source": "cdc"
+        },
+        {
+          "id": "health_wellness_meds_checked_for_dizziness_sedation",
+          "label": "Meds checked for dizziness/sedation",
+          "maxPoints": 0.75,
+          "group": "Clinical baseline",
+          "scoringScale": "standard",
+          "source": "cdc"
+        },
+        {
+          "id": "health_wellness_pain_managed_acceptably",
+          "label": "Pain managed acceptably",
+          "maxPoints": 0.75,
+          "group": "Clinical baseline",
+          "scoringScale": "standard",
+          "source": "livewell360"
+        },
+        {
+          "id": "health_wellness_vision_hearing_supports_in_place",
+          "label": "Vision/hearing supports in place",
+          "maxPoints": 0.75,
+          "group": "Clinical baseline",
+          "scoringScale": "standard",
+          "source": "cdc"
+        },
+        {
+          "id": "health_wellness_nutrition_adequate",
+          "label": "Nutrition adequate",
+          "maxPoints": 0.75,
+          "group": "Clinical baseline",
+          "scoringScale": "standard",
+          "source": "livewell360"
+        },
+        {
+          "id": "health_wellness_bp_sugar_checked_regularly",
+          "label": "BP / sugar checked regularly",
+          "maxPoints": 0.75,
+          "group": "Clinical baseline",
+          "scoringScale": "standard",
+          "source": "livewell360"
+        },
+        {
+          "id": "health_wellness_no_falls_in_the_past_year",
+          "label": "No falls in the past year",
+          "maxPoints": 0.75,
+          "group": "Fall risk (STEADI)",
+          "scoringScale": "critical",
+          "source": "cdc"
+        },
+        {
+          "id": "health_wellness_steady_when_walking",
+          "label": "Steady when walking",
+          "maxPoints": 0.75,
+          "group": "Fall risk (STEADI)",
+          "scoringScale": "critical",
+          "source": "cdc"
+        },
+        {
+          "id": "health_wellness_not_worried_about_falling",
+          "label": "Not worried about falling",
+          "maxPoints": 0.75,
+          "group": "Fall risk (STEADI)",
+          "scoringScale": "standard",
+          "source": "cdc"
+        },
+        {
+          "id": "health_wellness_rush_to_toilet_urgency_managed",
+          "label": "Rush to toilet / urgency managed",
+          "maxPoints": 0.75,
+          "group": "Fall risk (STEADI)",
+          "scoringScale": "standard",
+          "source": "cdc"
+        },
+        {
+          "id": "health_wellness_foot_sensation_adequate_for_walking",
+          "label": "Foot sensation adequate for walking",
+          "maxPoints": 0.75,
+          "group": "Fall risk (STEADI)",
+          "scoringScale": "standard",
+          "source": "cdc"
+        }
+      ]
+    },
+    {
+      "id": "adl",
+      "title": "4. Activities of Daily Living (ADL)",
+      "sectionNumber": 5,
+      "maxPoints": 10,
+      "items": [
+        {
+          "id": "adl_bathing_independently_or_with_plan",
+          "label": "Bathing independently or with plan",
+          "maxPoints": 1.7,
+          "scoringScale": "standard",
+          "source": "livewell360"
+        },
+        {
+          "id": "adl_dressing_independently_or_with_plan",
+          "label": "Dressing independently or with plan",
+          "maxPoints": 1.66,
+          "scoringScale": "standard",
+          "source": "livewell360"
+        },
+        {
+          "id": "adl_toileting_independently_or_with_plan",
+          "label": "Toileting independently or with plan",
+          "maxPoints": 1.66,
+          "scoringScale": "critical",
+          "source": "livewell360"
+        },
+        {
+          "id": "adl_eating_feeding_independence",
+          "label": "Eating / feeding independence",
+          "maxPoints": 1.66,
+          "scoringScale": "standard",
+          "source": "livewell360"
+        },
+        {
+          "id": "adl_transfer_mobility_for_adls",
+          "label": "Transfer / mobility for ADLs",
+          "maxPoints": 1.66,
+          "scoringScale": "standard",
+          "source": "livewell360"
+        },
+        {
+          "id": "adl_personal_hygiene_maintained",
+          "label": "Personal hygiene maintained",
+          "maxPoints": 1.66,
+          "scoringScale": "standard",
+          "source": "livewell360"
+        }
+      ]
+    },
+    {
+      "id": "iadl",
+      "title": "5. Instrumental ADLs (IADL)",
+      "sectionNumber": 6,
+      "maxPoints": 9,
+      "items": [
+        {
+          "id": "iadl_manages_medications_schedule",
+          "label": "Manages medications schedule",
+          "maxPoints": 1.5,
+          "scoringScale": "standard",
+          "source": "livewell360"
+        },
+        {
+          "id": "iadl_prepares_or_receives_meals_safely",
+          "label": "Prepares or receives meals safely",
+          "maxPoints": 1.5,
+          "scoringScale": "standard",
+          "source": "livewell360"
+        },
+        {
+          "id": "iadl_handles_shopping_errands",
+          "label": "Handles shopping / errands",
+          "maxPoints": 1.5,
+          "scoringScale": "standard",
+          "source": "livewell360"
+        },
+        {
+          "id": "iadl_manages_finances_or_has_help",
+          "label": "Manages finances or has help",
+          "maxPoints": 1.5,
+          "scoringScale": "standard",
+          "source": "livewell360"
+        },
+        {
+          "id": "iadl_uses_transportation_safely",
+          "label": "Uses transportation safely",
+          "maxPoints": 1.5,
+          "scoringScale": "standard",
+          "source": "livewell360"
+        },
+        {
+          "id": "iadl_light_housework_manageable",
+          "label": "Light housework manageable",
+          "maxPoints": 1.5,
+          "scoringScale": "standard",
+          "source": "livewell360"
+        }
+      ]
+    },
+    {
+      "id": "cognitive_emotional",
+      "title": "6. Cognitive & Emotional Wellness",
+      "sectionNumber": 7,
+      "maxPoints": 7,
+      "items": [
+        {
+          "id": "cognitive_emotional_orientation_to_person_place_time",
+          "label": "Orientation to person/place/time",
+          "maxPoints": 1.2,
+          "scoringScale": "standard",
+          "source": "livewell360"
+        },
+        {
+          "id": "cognitive_emotional_mood_stable_no_untreated_depression",
+          "label": "Mood stable / no untreated depression",
+          "maxPoints": 1.16,
+          "scoringScale": "standard",
+          "source": "cdc"
+        },
+        {
+          "id": "cognitive_emotional_memory_adequate_for_daily_safety",
+          "label": "Memory adequate for daily safety",
+          "maxPoints": 1.16,
+          "scoringScale": "standard",
+          "source": "livewell360"
+        },
+        {
+          "id": "cognitive_emotional_judgment_safe_for_leaving_stove_doors",
+          "label": "Judgment safe for leaving stove/doors",
+          "maxPoints": 1.16,
+          "scoringScale": "critical",
+          "source": "livewell360"
+        },
+        {
+          "id": "cognitive_emotional_social_engagement_present",
+          "label": "Social engagement present",
+          "maxPoints": 1.16,
+          "scoringScale": "standard",
+          "source": "livewell360"
+        },
+        {
+          "id": "cognitive_emotional_safe_from_wandering_getting_lost",
+          "label": "Safe from wandering / getting lost",
+          "maxPoints": 1.16,
+          "scoringScale": "standard",
+          "source": "livewell360"
+        }
+      ]
+    },
+    {
+      "id": "emergency",
+      "title": "7. Emergency Preparedness",
+      "sectionNumber": 8,
+      "maxPoints": 8,
+      "items": [
+        {
+          "id": "emergency_emergency_contacts_posted",
+          "label": "Emergency contacts posted",
+          "maxPoints": 1.6,
+          "scoringScale": "critical",
+          "source": "livewell360"
+        },
+        {
+          "id": "emergency_sos_alert_method_available",
+          "label": "SOS / alert method available",
+          "maxPoints": 1.6,
+          "scoringScale": "standard",
+          "source": "livewell360"
+        },
+        {
+          "id": "emergency_evacuation_path_understood",
+          "label": "Evacuation path understood",
+          "maxPoints": 1.6,
+          "scoringScale": "standard",
+          "source": "livewell360"
+        },
+        {
+          "id": "emergency_first_aid_flashlight_accessible",
+          "label": "First aid / flashlight accessible",
+          "maxPoints": 1.6,
+          "scoringScale": "standard",
+          "source": "livewell360"
+        },
+        {
+          "id": "emergency_family_response_plan_documented",
+          "label": "Family response plan documented",
+          "maxPoints": 1.6,
+          "scoringScale": "standard",
+          "source": "livewell360"
+        }
+      ]
+    },
+    {
+      "id": "home_condition",
+      "title": "8. Home Condition & Maintenance",
+      "sectionNumber": 9,
+      "maxPoints": 8,
+      "items": [
+        {
+          "id": "home_condition_no_major_structural_hazards",
+          "label": "No major structural hazards",
+          "maxPoints": 1.6,
+          "scoringScale": "standard",
+          "source": "livewell360"
+        },
+        {
+          "id": "home_condition_electrical_outlets_wiring_safe",
+          "label": "Electrical outlets/wiring safe",
+          "maxPoints": 1.6,
+          "scoringScale": "critical",
+          "source": "livewell360"
+        },
+        {
+          "id": "home_condition_damp_mold_controlled",
+          "label": "Damp / mold controlled",
+          "maxPoints": 1.6,
+          "scoringScale": "standard",
+          "source": "livewell360"
+        },
+        {
+          "id": "home_condition_plumbing_reliable",
+          "label": "Plumbing reliable",
+          "maxPoints": 1.6,
+          "scoringScale": "standard",
+          "source": "livewell360"
+        },
+        {
+          "id": "home_condition_repairs_backlog_acceptable",
+          "label": "Repairs backlog acceptable",
+          "maxPoints": 1.6,
+          "scoringScale": "standard",
+          "source": "livewell360"
+        }
+      ]
+    },
+    {
+      "id": "technology",
+      "title": "9. Technology Readiness",
+      "sectionNumber": 10,
+      "maxPoints": 6,
+      "items": [
+        {
+          "id": "technology_can_use_phone_for_emergencies",
+          "label": "Can use phone for emergencies",
+          "maxPoints": 0.9,
+          "scoringScale": "standard",
+          "source": "livewell360"
+        },
+        {
+          "id": "technology_video_call_capable_self_or_family",
+          "label": "Video call capable (self or family)",
+          "maxPoints": 0.85,
+          "scoringScale": "standard",
+          "source": "livewell360"
+        },
+        {
+          "id": "technology_smart_safety_devices_appropriate",
+          "label": "Smart safety devices appropriate",
+          "maxPoints": 0.85,
+          "scoringScale": "standard",
+          "source": "livewell360"
+        },
+        {
+          "id": "technology_medication_reminder_tech_if_needed",
+          "label": "Medication reminder tech if needed",
+          "maxPoints": 0.85,
+          "scoringScale": "standard",
+          "source": "livewell360"
+        },
+        {
+          "id": "technology_wi_fi_power_backup_considered",
+          "label": "Wi‑Fi / power backup considered",
+          "maxPoints": 0.85,
+          "scoringScale": "standard",
+          "source": "livewell360"
+        },
+        {
+          "id": "technology_light_switches_easy_to_reach_and_operate",
+          "label": "Light switches easy to reach and operate",
+          "maxPoints": 0.85,
+          "scoringScale": "standard",
+          "source": "livewell360"
+        },
+        {
+          "id": "technology_home_secure_locks_visitor_check",
+          "label": "Home secure (locks, visitor check)",
+          "maxPoints": 0.85,
+          "scoringScale": "standard",
+          "source": "livewell360"
+        }
+      ]
+    },
+    {
+      "id": "family_support",
+      "title": "10. Family & Caregiver Support",
+      "sectionNumber": 11,
+      "maxPoints": 9,
+      "items": [
+        {
+          "id": "family_support_primary_caregiver_family_identified",
+          "label": "Primary caregiver / family identified",
+          "maxPoints": 1.5,
+          "scoringScale": "standard",
+          "source": "livewell360"
+        },
+        {
+          "id": "family_support_check_in_frequency_adequate",
+          "label": "Check-in frequency adequate",
+          "maxPoints": 1.5,
+          "scoringScale": "standard",
+          "source": "livewell360"
+        },
+        {
+          "id": "family_support_nri_remote_family_plan_if_applicable",
+          "label": "NRI / remote family plan if applicable",
+          "maxPoints": 1.5,
+          "scoringScale": "standard",
+          "source": "livewell360"
+        },
+        {
+          "id": "family_support_caregiver_stress_manageable",
+          "label": "Caregiver stress manageable",
+          "maxPoints": 1.5,
+          "scoringScale": "standard",
+          "source": "livewell360"
+        },
+        {
+          "id": "family_support_advance_directive_decision_maker_known",
+          "label": "Advance directive / decision-maker known",
+          "maxPoints": 1.5,
+          "scoringScale": "standard",
+          "source": "livewell360"
+        },
+        {
+          "id": "family_support_willing_to_engage_ecm_if_recommended",
+          "label": "Willing to engage ECM if recommended",
+          "maxPoints": 1.5,
+          "scoringScale": "standard",
+          "source": "livewell360"
+        }
+      ]
+    },
+    {
+      "id": "financial_benefits",
+      "title": "11. Financial & Government Benefits",
+      "sectionNumber": 12,
+      "maxPoints": 6,
+      "items": [
+        {
+          "id": "financial_benefits_income_pension_status_known",
+          "label": "Income / pension status known",
+          "maxPoints": 1.2,
+          "scoringScale": "standard",
+          "source": "livewell360"
+        },
+        {
+          "id": "financial_benefits_health_insurance_schemes_reviewed",
+          "label": "Health insurance / schemes reviewed",
+          "maxPoints": 1.2,
+          "scoringScale": "standard",
+          "source": "livewell360"
+        },
+        {
+          "id": "financial_benefits_eligible_government_benefits_identified",
+          "label": "Eligible government benefits identified",
+          "maxPoints": 1.2,
+          "scoringScale": "standard",
+          "source": "livewell360"
+        },
+        {
+          "id": "financial_benefits_documents_available_for_applications",
+          "label": "Documents available for applications",
+          "maxPoints": 1.2,
+          "scoringScale": "standard",
+          "source": "livewell360"
+        },
+        {
+          "id": "financial_benefits_budget_for_home_improvements_realistic",
+          "label": "Budget for home improvements realistic",
+          "maxPoints": 1.2,
+          "scoringScale": "standard",
+          "source": "livewell360"
+        }
+      ]
+    },
+    {
+      "id": "lifestyle",
+      "title": "12. Lifestyle & Social Engagement",
+      "sectionNumber": 13,
+      "maxPoints": 6,
+      "items": [
+        {
+          "id": "lifestyle_day_structure_routine_present",
+          "label": "Day structure / routine present",
+          "maxPoints": 1.2,
+          "scoringScale": "standard",
+          "source": "livewell360"
+        },
+        {
+          "id": "lifestyle_social_contacts_weekly",
+          "label": "Social contacts weekly",
+          "maxPoints": 1.2,
+          "scoringScale": "standard",
+          "source": "livewell360"
+        },
+        {
+          "id": "lifestyle_meaningful_activities_available",
+          "label": "Meaningful activities available",
+          "maxPoints": 1.2,
+          "scoringScale": "standard",
+          "source": "livewell360"
+        },
+        {
+          "id": "lifestyle_outdoor_community_access",
+          "label": "Outdoor / community access",
+          "maxPoints": 1.2,
+          "scoringScale": "standard",
+          "source": "livewell360"
+        },
+        {
+          "id": "lifestyle_sleep_environment_supportive",
+          "label": "Sleep environment supportive",
+          "maxPoints": 1.2,
+          "scoringScale": "standard",
+          "source": "livewell360"
+        }
+      ]
+    }
+  ]
+}

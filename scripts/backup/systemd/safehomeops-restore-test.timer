@@ -1,0 +1,10 @@
+[Unit]
+Description=Run safehomeops-restore-test every Sunday at 04:00 IST
+
+[Timer]
+OnCalendar=Sun *-*-* 04:00:00 Asia/Kolkata
+Persistent=true
+Unit=safehomeops-restore-test.service
+
+[Install]
+WantedBy=timers.target

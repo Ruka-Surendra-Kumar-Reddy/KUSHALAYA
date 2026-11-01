@@ -1,0 +1,1366 @@
+/* Family sign-in.
+
+   Two columns on wide screens: a navy brand panel with the pitch and a
+   looping "live flow" of a care morning, beside the sign-in card, which
+   carries the page's one logo (the square lockup). On phones the panel is a
+   compact header above the card.
+
+   The <main> keeps the home-safety-* classes from globals.css (frame height
+   and the sticky copyright footer key off them); everything visual is scoped
+   under .fh-login so nothing here leaks into the assessor PWA. All motion is
+   switched off under prefers-reduced-motion at the end of the file. */
+
+.fh-login {
+  --fh-navy: #0e2a4f;
+  --fh-blue: #1d5fb4;
+  --fh-blue-2: #2f79d6;
+  --fh-blue-deep: #17498c;
+  --fh-blue-soft: #e8f0fb;
+  --fh-green: #6a9a2a;
+  --fh-green-2: #8ab83e;
+  --fh-green-deep: #4f7a1d;
+  --fh-green-soft: #edf5e2;
+  --fh-gold: #d9a441;
+  --fh-gold-soft: #fbf3df;
+  --fh-ink: #10243a;
+  --fh-muted: #61748a;
+  --fh-line: #e3e9f1;
+  --fh-danger: #c8402f;
+  /* One loop of the senior deck: three cards, six seconds each. */
+  --fh-loop: 18s;
+  /* Testimonials run on their own loop: six quotes, six seconds each. */
+  --fh-qloop: 36s;
+
+  font-family: var(--fh-font, "Manrope"), "Segoe UI", system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  background:
+    radial-gradient(900px 480px at 100% -10%, rgba(29, 95, 180, 0.1), transparent 60%),
+    radial-gradient(700px 420px at -10% 110%, rgba(106, 154, 42, 0.12), transparent 60%),
+    #f3f6fa;
+  padding: 1rem;
+  /* globals.css centres the card with justify-content:center; when the card
+     is taller than a short viewport that pushes its top out of reach. Start
+     at the top and centre with auto margins instead — same look when it
+     fits, scrollable when it does not. */
+  justify-content: flex-start;
+}
+
+.fh-login-wrap {
+  width: 100%;
+  max-width: 1040px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  border-radius: 24px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 30px 60px -30px rgba(14, 42, 79, 0.45);
+  animation: fh-rise 0.55s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  /* The <main> is a column flex box sized to the viewport; without this the
+     wrapper shrinks to fit and the grid rows get squeezed, clipping the
+     brand header on phones. The page scrolls instead. */
+  flex-shrink: 0;
+}
+
+/* --- Brand panel -------------------------------------------------------- */
+
+.fh-login-brand {
+  position: relative;
+  overflow: hidden;
+  color: #fff;
+  background: linear-gradient(160deg, #0f2f5c 0%, #17498c 60%, #1d5fb4 100%);
+  isolation: isolate;
+}
+
+/* Two soft colour fields that drift slowly behind the content, over a faint
+   dot grid so the panel reads as a surface rather than a flat fill. */
+.fh-login-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(40px);
+  opacity: 0.75;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.fh-login-blob-a {
+  width: 420px;
+  height: 420px;
+  right: -140px;
+  top: -160px;
+  background: radial-gradient(circle, rgba(138, 184, 62, 0.75), rgba(138, 184, 62, 0) 65%);
+  animation: fh-drift-a 14s ease-in-out infinite alternate;
+}
+
+.fh-login-blob-b {
+  width: 380px;
+  height: 380px;
+  left: -160px;
+  bottom: -160px;
+  background: radial-gradient(circle, rgba(47, 121, 214, 0.9), rgba(47, 121, 214, 0) 65%);
+  animation: fh-drift-b 18s ease-in-out infinite alternate;
+}
+
+.fh-login-grid {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.16) 1px, transparent 1.5px);
+  background-size: 22px 22px;
+  mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.7), transparent 85%);
+  -webkit-mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.7), transparent 85%);
+}
+
+.fh-login-brand-inner {
+  position: relative;
+  z-index: 1;
+  padding: 1.1rem 1.15rem 1rem;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.fh-login-brand-head {
+  min-width: 0;
+}
+
+.fh-login-brand-eyebrow {
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.fh-login-brand h2 {
+  margin: 0.3rem 0 0;
+  font-size: 1.3rem;
+  line-height: 1.15;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.fh-login-brand-lead {
+  display: none;
+  margin: 0.55rem 0 0;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.82);
+  max-width: 42ch;
+}
+
+/* Pulsing "live" dot. */
+.fh-login-live {
+  position: relative;
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--fh-green-2);
+  flex-shrink: 0;
+}
+
+.fh-login-live::after {
+  content: "";
+  position: absolute;
+  inset: -3px;
+  border-radius: 999px;
+  border: 1.5px solid var(--fh-green-2);
+  opacity: 0;
+  animation: fh-pulse 2.4s ease-out infinite 0.8s;
+}
+
+/* The deck and the trust row only have room on wide screens. */
+.fh-deck,
+.fh-login-trust {
+  display: none;
+}
+
+/* --- Senior deck (desktop) ---------------------------------------------- */
+
+/* Three cards stacked in one slot; the first sets the height, the others sit
+   on top of it. Each flips in, holds for its turn, and flips out. */
+.fh-deck {
+  position: relative;
+  width: 100%;
+  margin: 1.6rem 0 0;
+  perspective: 1200px;
+}
+
+.fh-live {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 1rem 1.1rem 1.05rem;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.97);
+  color: var(--fh-ink);
+  box-shadow: 0 24px 48px -22px rgba(0, 0, 0, 0.6);
+  backface-visibility: hidden;
+  transform-origin: center;
+  opacity: 0;
+  animation: fh-flip var(--fh-loop) ease-in-out infinite;
+  animation-delay: calc(var(--i) * 6s);
+}
+
+.fh-live:not(:first-child) {
+  position: absolute;
+  inset: 0;
+}
+
+.fh-live-head {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding-bottom: 0.85rem;
+  border-bottom: 1px solid var(--fh-line);
+}
+
+.fh-live-avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--fh-green-2) 0%, var(--fh-green-deep) 100%);
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+
+.fh-live-avatar.is-warn {
+  background: linear-gradient(135deg, #e6b95a 0%, #b9832a 100%);
+}
+
+.fh-live-avatar.is-info {
+  background: linear-gradient(135deg, var(--fh-blue-2) 0%, var(--fh-blue-deep) 100%);
+}
+
+.fh-live-who {
+  display: flex;
+  flex-direction: column;
+  gap: 0.05rem;
+  min-width: 0;
+  flex: 1;
+}
+
+.fh-live-who strong {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: var(--fh-navy);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.fh-live-who span {
+  font-size: 0.74rem;
+  color: var(--fh-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.fh-live-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.3rem 0.65rem;
+  border-radius: 999px;
+  background: var(--fh-green-soft);
+  color: var(--fh-green-deep);
+  font-size: 0.72rem;
+  font-weight: 800;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.fh-live-chip .fh-login-live {
+  background: currentColor;
+}
+
+.fh-live-chip .fh-login-live::after {
+  display: none;
+}
+
+.fh-live-chip.is-warn {
+  background: var(--fh-gold-soft);
+  color: #8a5a0e;
+}
+
+.fh-live-chip.is-info {
+  background: var(--fh-blue-soft);
+  color: var(--fh-blue-deep);
+}
+
+/* The in-progress chip keeps a pulse: something is happening right now. */
+.fh-live-chip.is-info .fh-login-live::after {
+  display: block;
+  border-color: currentColor;
+}
+
+.fh-live-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
+  padding: 0.85rem 0;
+  border-bottom: 1px solid var(--fh-line);
+}
+
+.fh-live-metric {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.2rem;
+  min-width: 0;
+}
+
+.fh-live-metric small {
+  font-size: 0.6rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--fh-muted);
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.fh-live-metric strong {
+  font-size: 1.1rem;
+  line-height: 1.1;
+  font-weight: 800;
+  color: var(--fh-navy);
+  white-space: nowrap;
+}
+
+.fh-live-metric em {
+  font-style: normal;
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: var(--fh-green-deep);
+}
+
+.fh-live-metric em.down {
+  color: var(--fh-danger);
+}
+
+.fh-live-metric > span:last-child:not(.fh-live-bar):not(.fh-live-metric-row) {
+  font-size: 0.72rem;
+  color: var(--fh-muted);
+  white-space: nowrap;
+}
+
+.fh-live-metric-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+/* Independence ring redraws to the card's value each time it comes round. */
+.fh-live-ring {
+  position: relative;
+  width: 30px;
+  height: 30px;
+  flex-shrink: 0;
+}
+
+.fh-live-ring svg {
+  width: 30px;
+  height: 30px;
+  transform: rotate(-90deg);
+}
+
+.fh-live-ring circle {
+  fill: none;
+  stroke-width: 5;
+}
+
+.fh-live-ring-track {
+  stroke: var(--fh-line);
+}
+
+.fh-live-ring-bar {
+  stroke: var(--fh-green);
+  stroke-linecap: round;
+  stroke-dasharray: 113;
+  stroke-dashoffset: 113;
+  animation: fh-ring var(--fh-loop) cubic-bezier(0.2, 0.8, 0.2, 1) infinite;
+  animation-delay: calc(var(--i) * 6s);
+}
+
+/* Stability bar fills to its value each turn. */
+.fh-live-bar {
+  display: block;
+  width: 100%;
+  max-width: 88px;
+  height: 5px;
+  margin-top: 0.25rem;
+  border-radius: 999px;
+  background: var(--fh-line);
+  overflow: hidden;
+}
+
+.fh-live-bar span {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--fh-blue-2), var(--fh-blue-deep));
+  transform-origin: left;
+  animation: fh-grow var(--fh-loop) cubic-bezier(0.2, 0.8, 0.2, 1) infinite;
+  animation-delay: calc(var(--i) * 6s);
+}
+
+/* Latest update */
+.fh-live-updates {
+  padding-top: 0.8rem;
+}
+
+.fh-live-updates > small {
+  display: block;
+  margin-bottom: 0.45rem;
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--fh-muted);
+}
+
+/* Two messages per senior, one visible at a time during the card's turn. */
+.fh-live-ticker {
+  position: relative;
+  height: 40px;
+}
+
+.fh-live-item {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  opacity: 0;
+  animation: fh-msg var(--fh-loop) ease-in-out infinite;
+  /* Card turn + half a turn for the second message. */
+  animation-delay: calc(var(--i) * 6s + var(--j) * 3s);
+}
+
+.fh-live-item-ico {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  background: var(--fh-green-soft);
+  color: var(--fh-green-deep);
+  flex-shrink: 0;
+}
+
+.fh-live-item-ico.is-warn {
+  background: var(--fh-gold-soft);
+  color: #9a6b12;
+}
+
+.fh-live-item-ico.is-info {
+  background: var(--fh-blue-soft);
+  color: var(--fh-blue);
+}
+
+.fh-live-item-ico svg {
+  width: 17px;
+  height: 17px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.9;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.fh-live-item-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.05rem;
+  min-width: 0;
+  flex: 1;
+}
+
+.fh-live-item-text strong {
+  font-size: 0.86rem;
+  font-weight: 800;
+  color: var(--fh-navy);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.fh-live-item-text span {
+  font-size: 0.75rem;
+  color: var(--fh-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.fh-live-item-time {
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: var(--fh-muted);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* --- Example stories (desktop) ----------------------------------------- */
+
+.fh-login-stories-head {
+  display: none;
+  margin: 1.25rem 0 0;
+}
+
+.fh-login-stories-head h3 {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #fff;
+}
+
+.fh-login-stories-head p {
+  margin: 0.15rem 0 0;
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.fh-login-stories-head + .fh-login-quotes {
+  margin-top: 0.6rem;
+}
+
+/* Three quotes stacked in one slot, cross-fading in step with the deck. */
+.fh-login-quotes {
+  display: none;
+  position: relative;
+  margin: 1.25rem 0 0;
+}
+
+.fh-login-quote {
+  margin: 0;
+  padding: 0.95rem 1.05rem;
+  min-height: 156px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.09);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  opacity: 0;
+  animation: fh-quote var(--fh-qloop) ease-in-out infinite;
+  animation-delay: calc(var(--i) * 6s);
+}
+
+.fh-login-quote:not(:first-child) {
+  position: absolute;
+  inset: 0;
+}
+
+.fh-login-quote-text {
+  margin: 0 0 0.7rem;
+  font-size: 0.92rem;
+  line-height: 1.5;
+  font-weight: 600;
+  color: #fff;
+}
+
+.fh-login-quote figcaption {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.fh-login-quote figcaption > span:nth-child(2) {
+  display: flex;
+  flex-direction: column;
+  gap: 0.05rem;
+  min-width: 0;
+  flex: 1;
+}
+
+.fh-login-quote strong {
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+
+.fh-login-quote small {
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.fh-login-quote-avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  font-size: 0.72rem;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+
+/* --- Trust chips -------------------------------------------------------- */
+
+.fh-login-trust {
+  list-style: none;
+  padding: 1.1rem 0 0;
+  margin: auto 0 0;
+  display: none;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.5rem;
+}
+
+.fh-login-trust li {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.5rem 0.7rem 0.5rem 0.5rem;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.9);
+  white-space: nowrap;
+  min-width: 0;
+}
+
+.fh-login-trust-ico {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 9px;
+  background: rgba(138, 184, 62, 0.28);
+  color: #d7ec9f;
+  flex-shrink: 0;
+}
+
+.fh-login-trust svg,
+.fh-field-ico svg,
+.fh-login-btn-arrow svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.9;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  flex-shrink: 0;
+}
+
+.fh-login-trust svg {
+  width: 15px;
+  height: 15px;
+}
+
+/* --- Sign-in card ------------------------------------------------------- */
+
+.fh-login .fh-login-card {
+  width: 100%;
+  max-width: none;
+  border: none;
+  border-radius: 0;
+  padding: 1.5rem 1.25rem 1.4rem;
+  text-align: center;
+}
+
+.fh-login-logo-link {
+  display: inline-block;
+  margin: 0 auto 0.6rem;
+  border-radius: 20px;
+  line-height: 0;
+}
+
+.fh-login-logo-link:focus-visible {
+  outline: 2px solid var(--fh-blue);
+  outline-offset: 4px;
+}
+
+/* The page's one logo: the square lockup, large. Scoped to beat the global
+   .brand-logo caps. */
+.fh-login .fh-login-logo {
+  display: block;
+  width: 150px;
+  height: 150px;
+  max-width: 48vw;
+  max-height: none;
+  object-fit: contain;
+  margin: 0;
+}
+
+.fh-login-eyebrow {
+  margin: 0 0 0.25rem;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--fh-green-deep);
+}
+
+.fh-login .fh-login-card h1 {
+  font-size: 1.45rem;
+  line-height: 1.2;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin: 0 0 0.35rem;
+  color: var(--fh-navy);
+}
+
+.fh-login .fh-login-intro {
+  margin: 0 auto 1.25rem;
+  max-width: 36ch;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--fh-muted);
+}
+
+.fh-login .fh-login-card form {
+  text-align: left;
+}
+
+/* Fields */
+.fh-login .fh-field {
+  display: block;
+  margin-bottom: 0.9rem;
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  color: var(--fh-muted);
+}
+
+.fh-login .fh-field-label {
+  display: block;
+  margin-bottom: 0.35rem;
+  color: var(--fh-ink);
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+
+.fh-login .fh-field-input {
+  position: relative;
+  display: block;
+}
+
+.fh-login .fh-field-ico {
+  position: absolute;
+  left: 0.85rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--fh-muted);
+  line-height: 0;
+  pointer-events: none;
+  transition: color 0.15s ease;
+}
+
+.fh-login .fh-field-input:focus-within .fh-field-ico {
+  color: var(--fh-blue);
+}
+
+.fh-login input:not([type="checkbox"]):not([type="radio"]) {
+  margin: 0;
+  padding: 0.78rem 0.9rem;
+  border: 1.5px solid #d5dee9;
+  border-radius: 13px;
+  background: #fff;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--fh-ink);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+
+.fh-login .fh-field-input input:not([type="checkbox"]):not([type="radio"]) {
+  padding-left: 2.6rem;
+}
+
+/* The eye toggle sits inside the field; keep room for it (globals.css sets
+   this at lower specificity than the input rule above). */
+.fh-login .password-field input:not([type="checkbox"]):not([type="radio"]) {
+  padding-right: 2.9rem;
+}
+
+.fh-login .password-field {
+  display: block;
+}
+
+.fh-login .password-toggle {
+  right: 0.45rem;
+  border-radius: 9px;
+}
+
+.fh-login .password-toggle:hover,
+.fh-login .password-toggle:focus-visible {
+  background: var(--fh-blue-soft);
+  color: var(--fh-blue);
+}
+
+.fh-login input:not([type="checkbox"]):not([type="radio"]):hover {
+  border-color: #b9c8db;
+}
+
+.fh-login input:not([type="checkbox"]):not([type="radio"]):focus,
+.fh-login input:not([type="checkbox"]):not([type="radio"]):focus-visible {
+  /* Clearly visible focus ring (WCAG 2.4.7): solid outline + soft halo. */
+  outline: 2px solid var(--fh-blue);
+  outline-offset: 1px;
+  border-color: var(--fh-blue);
+  box-shadow: 0 0 0 5px rgba(29, 95, 180, 0.22);
+}
+
+.fh-login .has-error input:not([type="checkbox"]):not([type="radio"]),
+.fh-login input[aria-invalid="true"] {
+  border-color: var(--fh-danger);
+  background: #fffafa;
+}
+
+.fh-login .has-error input:not([type="checkbox"]):not([type="radio"]):focus,
+.fh-login .has-error input:not([type="checkbox"]):not([type="radio"]):focus-visible {
+  outline-color: var(--fh-danger);
+  box-shadow: 0 0 0 4px rgba(200, 64, 47, 0.16);
+}
+
+.fh-login .fh-field-error {
+  display: block;
+  margin-top: 0.35rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--fh-danger);
+  animation: fh-slide-down 0.2s ease both;
+}
+
+.fh-login .fh-login-error {
+  margin: 0 0 0.85rem;
+  padding: 0.65rem 0.85rem;
+  border-radius: 12px;
+  background: #fdeeeb;
+  color: #8f2a1d;
+  font-size: 0.88rem;
+  font-weight: 600;
+  text-align: left;
+  animation: fh-slide-down 0.25s ease both;
+}
+
+/* Button */
+.fh-login .fh-login-btn {
+  position: relative;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  margin-top: 0.35rem;
+  padding: 0.85rem 1rem;
+  border: none;
+  border-radius: 13px;
+  font-size: 1rem;
+  font-weight: 800;
+  color: #fff;
+  background: linear-gradient(135deg, var(--fh-blue-2) 0%, var(--fh-blue-deep) 100%);
+  box-shadow: 0 14px 24px -12px rgba(29, 95, 180, 0.75);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease;
+}
+
+.fh-login .fh-login-btn::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -60%;
+  width: 40%;
+  height: 100%;
+  background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.28), transparent);
+  transform: skewX(-18deg);
+  transition: left 0.6s ease;
+}
+
+.fh-login .fh-login-btn:hover {
+  background: linear-gradient(135deg, var(--fh-blue-2) 0%, var(--fh-blue-deep) 100%);
+  filter: brightness(1.06);
+  transform: translateY(-1px);
+  box-shadow: 0 18px 28px -12px rgba(29, 95, 180, 0.8);
+}
+
+.fh-login .fh-login-btn:hover::after {
+  left: 120%;
+}
+
+.fh-login .fh-login-btn:active {
+  transform: translateY(0);
+}
+
+.fh-login .fh-login-btn:focus-visible {
+  outline: 2px solid var(--fh-navy);
+  outline-offset: 3px;
+}
+
+.fh-login .fh-login-btn:disabled {
+  opacity: 0.85;
+  transform: none;
+  filter: none;
+}
+
+.fh-login .fh-login-btn-arrow {
+  display: inline-flex;
+  transition: transform 0.15s ease;
+}
+
+.fh-login .fh-login-btn:hover .fh-login-btn-arrow {
+  transform: translateX(3px);
+}
+
+.fh-spinner {
+  width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  border: 2.5px solid rgba(255, 255, 255, 0.35);
+  border-top-color: #fff;
+  animation: fh-spin 0.8s linear infinite;
+  flex-shrink: 0;
+}
+
+/* "Trouble signing in?" opens the support popup. */
+.fh-login-trouble-row {
+  margin: 1rem 0 0;
+  text-align: center;
+}
+
+.fh-login .fh-login-trouble {
+  border: none;
+  background: transparent;
+  padding: 0.3rem 0.5rem;
+  border-radius: 8px;
+  color: var(--fh-blue);
+  font-size: 0.88rem;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  box-shadow: none;
+}
+
+.fh-login .fh-login-trouble:hover,
+.fh-login .fh-login-trouble:focus-visible {
+  background: var(--fh-blue-soft);
+  color: var(--fh-blue-deep);
+  outline: none;
+}
+
+/* Support popup */
+.fh-modal-scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background: rgba(14, 42, 79, 0.55);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  animation: fh-fade 0.18s ease both;
+}
+
+.fh-modal {
+  width: min(100%, 380px);
+  padding: 1.6rem 1.5rem 1.4rem;
+  border-radius: 20px;
+  background: #fff;
+  color: var(--fh-ink);
+  text-align: center;
+  box-shadow: 0 30px 60px -20px rgba(14, 42, 79, 0.6);
+  animation: fh-pop-in 0.25s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+.fh-modal-ico {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 16px;
+  background: var(--fh-green-soft);
+  color: var(--fh-green-deep);
+  margin-bottom: 0.85rem;
+}
+
+.fh-modal-ico svg,
+.fh-modal-action svg {
+  width: 22px;
+  height: 22px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.9;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.fh-modal h2 {
+  margin: 0 0 0.4rem;
+  font-size: 1.15rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: var(--fh-navy);
+}
+
+.fh-modal p {
+  margin: 0 0 1.1rem;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--fh-muted);
+}
+
+.fh-modal-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  margin-bottom: 0.6rem;
+  padding: 0.7rem 1rem;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--fh-green-2) 0%, var(--fh-green-deep) 100%);
+  color: #fff;
+  font-weight: 800;
+  font-size: 0.92rem;
+  text-decoration: none;
+  box-shadow: 0 10px 18px -10px rgba(106, 154, 42, 0.7);
+}
+
+.fh-modal-action:hover {
+  filter: brightness(1.06);
+}
+
+.fh-modal-action svg {
+  width: 18px;
+  height: 18px;
+}
+
+.fh-login .fh-modal-close {
+  width: 100%;
+  padding: 0.7rem 1rem;
+  border: none;
+  border-radius: 12px;
+  background: var(--fh-blue-soft);
+  color: var(--fh-blue-deep);
+  font-weight: 800;
+  font-size: 0.92rem;
+  box-shadow: none;
+}
+
+.fh-login .fh-modal-close:hover,
+.fh-login .fh-modal-close:focus-visible {
+  background: #dbe7f8;
+  color: var(--fh-blue-deep);
+  outline: none;
+}
+
+/* Reciprocal of the "Family portal" link on the staff sign-in page. */
+.fh-login-alt {
+  margin: 1rem 0 0;
+  font-size: 0.82rem;
+  color: var(--fh-muted);
+  text-align: center;
+}
+
+.fh-login-alt a {
+  color: var(--fh-blue);
+  font-weight: 700;
+}
+
+/* --- Wide screens: both panels ------------------------------------------ */
+
+@media (min-width: 860px) {
+  .fh-login {
+    padding: 1.5rem;
+  }
+
+  .fh-login-wrap {
+    /* Sign-in column roughly a tenth narrower than the brand column. */
+    grid-template-columns: 1.22fr 1fr;
+    min-height: 640px;
+  }
+
+  .fh-login-brand-inner {
+    padding: 2.2rem 2.25rem 1.75rem;
+  }
+
+  .fh-login-brand h2 {
+    font-size: 1.95rem;
+  }
+
+  .fh-login-brand-lead {
+    display: block;
+  }
+
+  .fh-deck,
+  .fh-login-stories-head,
+  .fh-login-quotes {
+    display: block;
+  }
+
+  .fh-login-trust {
+    display: grid;
+  }
+
+  .fh-login .fh-login-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 2.25rem 2.1rem 2rem;
+  }
+
+  .fh-login .fh-login-logo {
+    width: 170px;
+    height: 170px;
+  }
+
+  .fh-login .fh-login-card h1 {
+    font-size: 1.6rem;
+  }
+}
+
+/* --- Motion ------------------------------------------------------------- */
+
+/* Entrance is movement only, never opacity: the sign-in card must be fully
+   visible from the first paint even if animations are slow to start. */
+@keyframes fh-rise {
+  from {
+    transform: translateY(14px);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+/* Each card: flip in from the right, hold for its six seconds, flip out to
+   the left. The next card's delay starts exactly as this one leaves. */
+@keyframes fh-flip {
+  0% {
+    opacity: 0;
+    transform: rotateY(-70deg) translateX(24px);
+  }
+  4% {
+    opacity: 1;
+    transform: rotateY(0) translateX(0);
+  }
+  30% {
+    opacity: 1;
+    transform: rotateY(0) translateX(0);
+  }
+  33.3%,
+  100% {
+    opacity: 0;
+    transform: rotateY(70deg) translateX(-24px);
+  }
+}
+
+/* Ring and bar draw to the card's value during its turn, then reset. */
+@keyframes fh-ring {
+  0% {
+    stroke-dashoffset: 113;
+  }
+  10%,
+  33% {
+    stroke-dashoffset: var(--off, 20);
+  }
+  33.4%,
+  100% {
+    stroke-dashoffset: 113;
+  }
+}
+
+/* A quote fades in with its senior's card and out just before the next. */
+/* Six quotes share the loop: each one owns a sixth of it. */
+@keyframes fh-quote {
+  0% {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  2%,
+  14.5% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  16.6%,
+  100% {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+}
+
+/* A message slides up, holds for its 3s, slides away; the second follows. */
+@keyframes fh-msg {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  3%,
+  13% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  16%,
+  100% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes fh-grow {
+  0% {
+    transform: scaleX(0);
+  }
+  10%,
+  33% {
+    transform: scaleX(1);
+  }
+  33.4%,
+  100% {
+    transform: scaleX(0);
+  }
+}
+
+@keyframes fh-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fh-pop-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes fh-pulse {
+  0% {
+    transform: scale(0.6);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(1.6);
+    opacity: 0;
+  }
+}
+
+@keyframes fh-drift-a {
+  from {
+    transform: translate(0, 0);
+  }
+  to {
+    transform: translate(-60px, 50px);
+  }
+}
+
+@keyframes fh-drift-b {
+  from {
+    transform: translate(0, 0);
+  }
+  to {
+    transform: translate(70px, -40px);
+  }
+}
+
+@keyframes fh-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes fh-slide-down {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fh-login-wrap,
+  .fh-login-blob,
+  .fh-live:first-child,
+  .fh-live-bar span,
+  .fh-login-live::after,
+  .fh-login .fh-field-error,
+  .fh-login .fh-login-error,
+  .fh-modal-scrim,
+  .fh-modal {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+
+  .fh-live-ring-bar {
+    animation: none;
+    stroke-dashoffset: var(--off, 20);
+  }
+
+  /* Show the first senior and first message only, static. */
+  .fh-live:not(:first-child),
+  .fh-live-item:not(:first-child) {
+    display: none;
+  }
+
+  .fh-live-item:first-child,
+  .fh-login-quote:first-child {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+
+  .fh-login-quote:not(:first-child) {
+    display: none;
+  }
+
+  .fh-login .fh-login-btn::after {
+    display: none;
+  }
+}
+
+/* Round 2: the sign-in page scrolls as one page, so the copyright footer sits
+   after the card instead of over "Staff member? Sign in…" on phones.
+   (globals.css's later `.site-frame:has(.home-safety-app)` rule re-fixed the
+   frame height; these selectors are heavier so they win.) */
+.site-frame:has(> .fh-login.home-safety-family-login) {
+  height: auto;
+  max-height: none;
+  overflow: visible;
+}
+.fh-login.home-safety-family-portal.home-safety-family-login {
+  flex: 1 0 auto;
+  overflow: visible;
+}
+.site-frame:has(> .fh-login.home-safety-family-login) > .site-footer {
+  position: static;
+}
+
+/* Round 4: 44px tap targets for Show password and the staff sign-in link. */
+.fh-login .password-toggle {
+  min-width: 44px;
+  min-height: 44px;
+}
+.fh-login .fh-login-alt a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}

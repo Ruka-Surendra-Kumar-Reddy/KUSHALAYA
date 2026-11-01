@@ -1,0 +1,4 @@
+# Create real credentials with:
+#   mosquitto_passwd -c passwd livewell_ingestor
+#   mosquitto_passwd passwd mg7_home1
+# Do not commit real password hashes to git.

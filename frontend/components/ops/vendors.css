@@ -1,0 +1,157 @@
+/* Vendors page (VendorsList.tsx): toolbar · header row · aligned rows; same look as customers-list.css. */
+.vn { padding: 1.1rem 1.2rem; }
+.vn-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem; margin-bottom: 1rem; }
+.vn-bar .vn-search {
+  flex: 1 1 260px;
+  max-width: 360px;
+  min-height: 44px;
+  padding: 0 0.9rem;
+  border: 1px solid #d4dbe5;
+  border-radius: 12px;
+  font: inherit;
+}
+.vn-bar select {
+  min-height: 44px;
+  max-width: 15rem;
+  padding: 0 0.6rem;
+  border: 1px solid #d4dbe5;
+  border-radius: 12px;
+  background: #fff;
+  font: inherit;
+}
+.vn-count { margin-left: auto; color: #5b6b80; font-size: 0.9rem; white-space: nowrap; }
+.vn-empty { display: flex; align-items: center; flex-wrap: wrap; gap: 0.75rem; margin: 1rem 0 0.5rem; color: #5b6b80; }
+
+.vn-row {
+  display: grid;
+  grid-template-columns:
+    minmax(0, 1.5fr) 8.5rem minmax(0, 1.6fr) 6.5rem 6.5rem 6.5rem 5rem auto;
+  align-items: center;
+  gap: 0.9rem;
+  min-height: 64px;
+  padding: 0.55rem 0.9rem;
+  border-bottom: 1px solid #edf1f6;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+.vn-row:not(.vn-head):hover { background: #f8fafd; }
+.vn-row:focus-visible { outline: 2px solid #1d4ed8; outline-offset: -2px; border-radius: 10px; }
+.vn-head {
+  min-height: 0;
+  padding-top: 0.45rem;
+  padding-bottom: 0.45rem;
+  border-radius: 10px;
+  border-bottom: 0;
+  background: #f4f7fb;
+  color: #5b6b80;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: default;
+}
+.vn-row > span { min-width: 0; }
+.vn-who { display: grid; gap: 0.1rem; }
+.vn-who small { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.vn-name { overflow-wrap: anywhere; line-height: 1.3; }
+.vn-name { color: #0f2a4a; }
+.vn-who small, .vn-fee small { color: #5b6b80; font-size: 0.82rem; }
+.vn-phones { display: grid; gap: 0.1rem; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.vn-phones span + span { color: #5b6b80; font-size: 0.88rem; }
+.vn-tags { display: flex; flex-wrap: wrap; gap: 0.3rem; }
+.vn-tag {
+  padding: 0.05rem 0.5rem;
+  border-radius: 999px;
+  background: #e8f0fe;
+  color: #1d4ed8;
+  font-style: normal;
+  font-size: 0.74rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.vn-fee { display: grid; gap: 0.05rem; font-variant-numeric: tabular-nums; }
+.vn-paid, .vn-added { white-space: nowrap; font-variant-numeric: tabular-nums; }
+.vn-dim { color: #8a97a8; }
+.vn-pill {
+  display: inline-block;
+  padding: 0.15rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.vn-pill.is-active { background: #ecfdf3; color: #067647; }
+.vn-pill.is-inactive { background: #f1f3f6; color: #5b6b80; }
+.vn-act { display: flex; justify-content: flex-end; gap: 0.35rem; }
+.ko-main .vn-act button,
+.vn-act button {
+  display: inline-flex;
+  align-items: center;
+  min-height: 36px;
+  padding: 0 0.9rem;
+  border: 1px solid #c7d4e6;
+  border-radius: 999px;
+  background: #fff;
+  background-image: none;
+  box-shadow: none;
+  color: #1e3a5f;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+.vn-row:hover .vn-act button { border-color: #1d4ed8; color: #1d4ed8; }
+
+/* Popup form */
+.vn-form fieldset { margin: 0; padding: 0; border: 0; min-width: 0; }
+.vn-form textarea { font: inherit; }
+.vn-checks { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 0.15rem 0.75rem; }
+.vn-check { display: flex; align-items: center; gap: 0.5rem; min-height: 40px; font-size: 0.9rem; line-height: 1.25; cursor: pointer; }
+.vn-check input { width: 18px; height: 18px; margin: 0; flex: none; }
+.vn-other { margin-top: 0.5rem; }
+.vn-actions { gap: 0.6rem; flex-wrap: wrap; }
+.vn-actions .vn-deact { margin-right: auto; }
+
+/* Tablet / phone: no header; each row is a compact stacked block. */
+@media (max-width: 900px) {
+  .vn { padding: 0.9rem; }
+  .vn-head { display: none; }
+  .vn-bar .vn-search { flex: 1 1 100%; max-width: none; }
+  .vn-bar select { flex: 1 1 0; min-width: 0; max-width: none; }
+  .vn-row {
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas:
+      "who state"
+      "phones fee"
+      "tags tags"
+      "paid act"
+      "added act";
+    gap: 0.35rem 0.75rem;
+    padding: 0.75rem 0.25rem;
+  }
+  .vn-who { grid-area: who; }
+  .vn-state { grid-area: state; justify-self: end; }
+  .vn-phones { grid-area: phones; display: flex; flex-wrap: wrap; gap: 0 0.75rem; }
+  .vn-fee { grid-area: fee; justify-self: end; text-align: right; }
+  .vn-tags { grid-area: tags; }
+  .vn-paid { grid-area: paid; font-size: 0.85rem; color: #5b6b80; }
+  .vn-added { grid-area: added; font-size: 0.85rem; color: #5b6b80; }
+  .vn-act { grid-area: act; align-self: center; }
+  .vn-paid[data-label]::before, .vn-added[data-label]::before { content: attr(data-label) " "; }
+}
+.ko-main .vn-clear,
+.vn-clear {
+  min-height: 40px;
+  padding: 0 0.9rem;
+  border: 1px solid #c7d4e6;
+  border-radius: 999px;
+  background: #fff;
+  background-image: none;
+  box-shadow: none;
+  color: #1e3a5f;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* Contracts inside the vendor modal. */
+.vn-contracts { margin-top: 1rem; padding-top: 0.75rem; border-top: 1px solid #e3e9f0; }

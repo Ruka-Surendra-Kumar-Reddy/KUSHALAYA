@@ -1,0 +1,297 @@
+/* Dashboard rows with inline actions (Acknowledge, Approve/Reject, Schedule, Rebook). */
+.ko-main .dash-list li.has-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.ko-main .dash-list li.has-actions > a:first-child {
+  flex: 1;
+  min-width: 0;
+}
+
+.ko-main .dash-list .dash-act,
+.ko-main .dash-error .dash-act {
+  display: inline-flex;
+  align-items: center;
+  flex: none;
+  min-height: 0;
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  border: 1px solid #2f6fd6;
+  background: #2f6fd6;
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: none;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.ko-main .dash-list .dash-act:hover,
+.ko-main .dash-error .dash-act:hover {
+  background: #1f4f9f;
+  border-color: #1f4f9f;
+}
+
+.ko-main .dash-list .dash-act.is-quiet {
+  background: #fff;
+  color: #4b5b70;
+  border-color: rgba(16, 36, 58, 0.18);
+}
+
+.ko-main .dash-list .dash-act:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.ko-main .dash-list small.dash-start {
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  background: #2f6fd6;
+  color: #fff;
+  font-weight: 700;
+}
+
+.ko-main .dash-error {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.7rem 0.9rem;
+  border-radius: 12px;
+  background: #fff6f6;
+  color: #9b2c2c;
+}
+
+@media (max-width: 640px) {
+  .ko-main .dash-list li.has-actions {
+    flex-wrap: wrap;
+  }
+
+  .ko-main .dash-list li.has-actions > a:first-child {
+    flex-basis: 100%;
+  }
+
+  /* Live visit: the Map button sits inside the visit card, bottom right. */
+  .ko-main .dash-list li.has-actions:has(> .dash-act.is-map) {
+    position: relative;
+  }
+
+  .ko-main .dash-list li.has-actions > .dash-act.is-map {
+    position: absolute;
+    right: 0.6rem;
+    bottom: 0.6rem;
+  }
+}
+
+.ko-main .dash-list .dash-act.is-map {
+  min-height: 40px;
+  padding: 0 1rem;
+  font-size: 0.9rem;
+}
+
+/* Tiles, notices and panels stack; on phones the number tiles come first. */
+.ko-main .dash-stack {
+  display: flex;
+  flex-direction: column;
+}
+
+.ko-main .dash-stack > * {
+  min-width: 0;
+}
+
+/* Six tiles: two rows of three instead of five plus an orphan. */
+@media (min-width: 1200px) {
+  .ko-main .dash-stack .dash-action-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .ko-main .dash-stack .dash-action-grid {
+    margin-bottom: 1rem;
+  }
+
+  /* 44 px tap targets (Mark contacted, Acknowledge, Approve…). */
+  .ko-main .dash-list .dash-act {
+    min-height: 44px;
+    padding: 0 1rem;
+  }
+
+  .ko-main .dash-stack .dash-error {
+    order: -2;
+  }
+
+  .ko-main .dash-action-card.is-zero .dash-action-hint {
+    display: none;
+  }
+}
+
+/* Row detail may use two lines instead of being cut off. */
+.ko-main .dash-panel .dash-list a > span:not(.dash-tag):not(.dash-time) {
+  white-space: normal;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.ko-main .dash-tag.is-brand {
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+/* KushLife weekly summaries: overdue note under "Needs attention". */
+.ko-main .dash-note {
+  margin: -0.25rem 0 0.5rem;
+  color: #b42318;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+/* Full handover note under its row. */
+.ko-main .dash-list li.has-actions {
+  flex-wrap: wrap;
+}
+
+.ko-main .dash-list .dash-note-full {
+  flex-basis: 100%;
+  margin: 0.2rem 0 0.3rem;
+  padding: 0.6rem 0.75rem;
+  border-radius: 10px;
+  background: #f6f9fe;
+  color: #26384f;
+  white-space: pre-wrap;
+}
+
+/* Monthly letter and feedback rows: the middle text gets room and up to two lines. */
+@media (min-width: 641px) {
+  .ko-main .dash-list li.dash-two-line > a:first-child {
+    grid-template-columns: auto minmax(6.5rem, 9rem) minmax(8rem, 1fr) minmax(0, 6.5rem);
+  }
+}
+
+.ko-main .dash-list li.dash-two-line > a:first-child > span:not(.dash-tag):not(.dash-time) {
+  white-space: normal;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+}
+
+.ko-main .dash-list li.dash-two-line small {
+  white-space: normal;
+  text-align: right;
+}
+
+/* Owner: the number sits on the same line as the icon, centred with it;
+   title and hint underneath. */
+.ko-main .dash-action-grid a.dash-action-card {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 0.7rem;
+  align-items: center;
+  padding: 0.85rem 1rem;
+}
+.ko-main .dash-action-grid a.dash-action-card .dash-action-ico {
+  grid-column: 1;
+  grid-row: 1;
+  margin-bottom: 0;
+}
+.ko-main .dash-action-grid a.dash-action-card .dash-action-count {
+  grid-column: 2;
+  grid-row: 1;
+  font-size: 1.6rem;
+  line-height: 1;
+}
+.ko-main .dash-action-grid a.dash-action-card .dash-action-title {
+  grid-column: 1 / -1;
+  grid-row: 2;
+  margin-top: 0.55rem;
+}
+.ko-main .dash-action-grid a.dash-action-card .dash-action-hint {
+  grid-column: 1 / -1;
+  grid-row: 3;
+  margin-bottom: 0;
+}
+
+/* Enquiry rows: the phone number is never cut off; only the area truncates. */
+.ko-main .dash-list a > span.dash-contact { display: flex; min-width: 0; }
+.ko-main .dash-contact .dash-phone { font-weight: 600; white-space: nowrap; flex-shrink: 0; }
+.ko-main .dash-contact i { font-style: normal; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+/* The name gets the free room first; contact and time shrink before it is cut. */
+.ko-main .dash-list a.dash-enq { grid-template-columns: auto minmax(6rem, 1fr) minmax(0, max-content) auto; }
+.ko-main .dash-list a.dash-enq > span.dash-contact { overflow: hidden; }
+.ko-main .dash-contact i { max-width: 8rem; }
+
+/* Today's run sheet. */
+.ko-main .dash-run { margin-bottom: 1rem; }
+.ko-main .dash-run-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+  gap: 0.75rem 1.25rem;
+}
+.ko-main .dash-run-grid > div { min-width: 0; }
+.ko-main .dash-run-grid h3 {
+  margin: 0 0 0.35rem;
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: #4b5b70;
+}
+.ko-main .dash-run-grid ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.25rem; }
+.ko-main .dash-run-grid li a,
+.ko-main .dash-run-grid > div > a {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  column-gap: 0.3em;
+  min-height: 44px;
+  color: #1f4f9f;
+  text-decoration: none;
+  overflow-wrap: anywhere;
+}
+.ko-main .dash-run-grid li a strong { color: #0e2a4f; }
+.ko-main .dash-run-grid small { color: #b42318; font-weight: 600; }
+.ko-main .dash-run-big { margin: 0; font-size: 1.15rem; font-weight: 800; color: #0e2a4f; }
+.ko-main .dash-run-ok { margin: 0; color: #047857; font-size: 0.9rem; }
+
+/* Round 4: enquiry names and phones get the room (the KA- reference is on hover only). */
+.ko-main .dash-list a.dash-enq { grid-template-columns: auto minmax(8rem, 1fr) max-content auto; }
+.ko-main .dash-list .dash-tag { justify-self: start; width: max-content; flex: 0 0 auto; }
+@media (max-width: 640px) {
+  /* Same tile shape everywhere: no subtitle on phones. */
+  .ko-main .dash-action-card .dash-action-hint { display: none; }
+  .ko-main .dash-list a.dash-enq { grid-template-columns: auto minmax(0, 1fr) auto; }
+  /* Time stays on the first row so it never widens the pill column. */
+  .ko-main .dash-list a > small { grid-row: 1; grid-column: 3; }
+  .ko-main .dash-list a > span.dash-contact { grid-column: 1 / -1; }
+}
+
+/* Key tiles (owner's list) + the "More" toggle that opens the rest of the Dashboard. */
+.ko-main .dash-more-toggle {
+  justify-self: start;
+  min-height: 44px;
+  background: #fff;
+  color: #1b4f9c;
+  border: 1px solid #d7dfea;
+  box-shadow: none;
+}
+
+/* Count tiles: equal size, 2 columns on phones, 3 on tablets, 4 on laptops. */
+.ko-main .dash-hero { min-height: 0; padding-block: 1.1rem; }
+.ko-main .dash-action-grid.dash-tiles {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-auto-rows: 1fr;
+  gap: 0.75rem;
+}
+.ko-main .dash-tiles a.dash-action-card { min-height: 96px; height: 100%; }
+.ko-main .dash-tiles .dash-action-title { overflow-wrap: anywhere; }
+@media (min-width: 720px) {
+  .ko-main .dash-action-grid.dash-tiles { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (min-width: 1100px) {
+  .ko-main .dash-action-grid.dash-tiles { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}

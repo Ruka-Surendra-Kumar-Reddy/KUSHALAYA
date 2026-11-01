@@ -1,0 +1,433 @@
+/* AI room hazard check (components/livewell/AiHazardCheck.tsx). */
+
+.hz-panel {
+  --hz-urgent: var(--ko-danger, #c8402f);
+  --hz-soon: var(--ko-warn, #b7791f);
+  --hz-watch: var(--ko-blue, #1d5fb4);
+  border: 1px solid var(--ko-line, #e3e9f1);
+  border-radius: var(--ko-radius-sm, 11px);
+  background: var(--ko-surface, #fff);
+  padding: 0.9rem;
+  margin-top: 0.75rem;
+  min-width: 0;
+}
+
+.hz-start {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem 1rem;
+}
+.hz-start p {
+  margin: 0;
+  flex: 1 1 16rem;
+}
+.hz-error {
+  color: var(--ko-danger, #c8402f);
+  background: var(--ko-danger-soft, #fdeeeb);
+  border-radius: 8px;
+  padding: 0.5rem 0.7rem;
+  margin: 0 0 0.6rem;
+}
+
+.hz-progress p {
+  margin: 0.5rem 0 0;
+  color: var(--ko-muted, #61748a);
+}
+.hz-progress-bar {
+  height: 8px;
+  border-radius: 99px;
+  background: var(--ko-blue-soft, #e8f0fb);
+  overflow: hidden;
+}
+.hz-progress-bar span {
+  display: block;
+  height: 100%;
+  background: var(--ko-blue, #1d5fb4);
+  border-radius: 99px;
+  transition: width 0.6s ease;
+}
+
+.hz-result {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  gap: 1rem;
+  align-items: start;
+}
+@media (min-width: 761px) {
+  /* Keep the photo in view while scrolling the hazard list. */
+  .hz-result .hz-photo {
+    position: sticky;
+    top: calc(var(--ko-topbar-h, 68px) + 12px);
+  }
+}
+@media (max-width: 760px) {
+  .hz-result {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* Photo + SVG overlay: the SVG scales with the image, no burnt-in boxes. */
+.hz-photo {
+  position: relative;
+  align-self: start;
+  margin: 0;
+  line-height: 0;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #0e2a4f;
+}
+.hz-photo img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.hz-photo-empty {
+  line-height: 1.4;
+  color: #fff;
+  padding: 3rem 1rem;
+  text-align: center;
+}
+.hz-photo-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+.hz-box {
+  fill: rgba(255, 255, 255, 0.06);
+  stroke-width: 2.5;
+}
+.hz-box-urgent { stroke: var(--hz-urgent); }
+.hz-box-soon { stroke: var(--hz-soon); }
+.hz-box-watch { stroke: var(--hz-watch); }
+.hz-box.is-active {
+  stroke-width: 4;
+  fill: rgba(255, 255, 255, 0.18);
+}
+.hz-box.is-rejected {
+  stroke-dasharray: 4 4;
+  opacity: 0.45;
+}
+.hz-photo button.hz-pin {
+  position: absolute;
+  transform: translate(-35%, -35%);
+  min-width: 28px;
+  height: 28px;
+  padding: 0 6px;
+  border-radius: 99px;
+  border: 2px solid #fff;
+  color: #fff;
+  font-weight: 800;
+  font-size: 0.85rem;
+  line-height: 24px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+  cursor: pointer;
+  transform: translate(-35%, -35%);
+}
+.hz-photo button.hz-pin-urgent { background: var(--hz-urgent); }
+.hz-photo button.hz-pin-soon { background: var(--hz-soon); }
+.hz-photo button.hz-pin-watch { background: var(--hz-watch); }
+.hz-photo button.hz-pin.is-active { outline: 3px solid rgba(255, 255, 255, 0.7); }
+.hz-photo button.hz-pin.is-rejected { opacity: 0.45; }
+
+.hz-list-head {
+  margin-bottom: 0.5rem;
+}
+.hz-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.55rem;
+}
+.hz-item {
+  border: 1px solid var(--ko-line, #e3e9f1);
+  border-radius: 10px;
+  padding: 0.6rem 0.7rem;
+  background: #fff;
+}
+.hz-item.is-active {
+  border-color: var(--ko-blue, #1d5fb4);
+  box-shadow: 0 0 0 2px var(--ko-blue-soft, #e8f0fb);
+}
+.hz-item-rejected {
+  opacity: 0.6;
+}
+.hz-item-confirmed {
+  border-color: #bfe3cc;
+  background: var(--ko-ok-soft, #e6f6ec);
+}
+.hz-item-head {
+  display: flex;
+  gap: 0.6rem;
+  align-items: flex-start;
+}
+.hz-num {
+  flex: 0 0 auto;
+  width: 26px;
+  height: 26px;
+  border-radius: 99px;
+  color: #fff;
+  font-weight: 800;
+  font-size: 0.85rem;
+  display: grid;
+  place-items: center;
+}
+.hz-num-urgent { background: var(--hz-urgent); }
+.hz-num-soon { background: var(--hz-soon); }
+.hz-num-watch { background: var(--hz-watch); }
+.hz-item-title {
+  display: grid;
+  gap: 0.2rem;
+  min-width: 0;
+}
+.hz-item-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  align-items: center;
+  font-size: 0.82rem;
+  color: var(--ko-muted, #61748a);
+}
+.hz-sev,
+.hz-conf,
+.hz-nobox {
+  border-radius: 99px;
+  padding: 0.05rem 0.5rem;
+  font-weight: 700;
+  font-size: 0.75rem;
+}
+.hz-sev-urgent { background: var(--ko-danger-soft, #fdeeeb); color: var(--hz-urgent); }
+.hz-sev-soon { background: var(--ko-warn-soft, #fff5e0); color: var(--hz-soon); }
+.hz-sev-watch { background: var(--ko-blue-soft, #e8f0fb); color: var(--hz-watch); }
+.hz-conf-high { background: var(--ko-ok-soft, #e6f6ec); color: var(--ko-ok, #1f8a4c); }
+.hz-conf-check { background: var(--ko-warn-soft, #fff5e0); color: var(--ko-warn, #b7791f); }
+.hz-conf-low { background: #eef1f5; color: var(--ko-muted, #61748a); }
+.hz-nobox { background: #eef1f5; color: var(--ko-muted, #61748a); font-weight: 600; }
+.hz-evidence,
+.hz-question,
+.hz-status {
+  margin: 0.35rem 0 0;
+  font-size: 0.85rem;
+}
+.hz-question { color: var(--ko-muted, #61748a); }
+.hz-status-ok { color: var(--ko-ok, #1f8a4c); font-weight: 700; }
+
+.hz-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+  margin-top: 0.5rem;
+}
+.hz-tick {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-weight: 700;
+  min-height: 36px;
+}
+.hz-tick input {
+  width: 20px;
+  height: 20px;
+}
+.hz-panel .hz-actions select {
+  width: auto;
+  min-height: 36px;
+  padding: 0.3rem 0.6rem;
+}
+.hz-reject {
+  min-height: 36px;
+}
+
+.hz-products {
+  list-style: none;
+  padding: 0;
+  margin: 0.4rem 0;
+  display: grid;
+  gap: 0.2rem;
+  font-size: 0.85rem;
+}
+.hz-products li {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+.hz-price {
+  font-weight: 700;
+  white-space: nowrap;
+}
+.hz-show-fixed {
+  display: inline-flex;
+  align-items: center;
+  min-height: 36px;
+  padding: 0 0.9rem;
+  border-radius: 99px;
+  background: var(--ko-navy, #0e2a4f);
+  color: #fff !important;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.hz-confirm-bar {
+  position: sticky;
+  bottom: 0;
+  padding: 0.6rem 0;
+  background: linear-gradient(transparent, #fff 30%);
+}
+.hz-confirm-bar button {
+  width: 100%;
+  min-height: 44px;
+}
+.hz-panel button.hz-link {
+  box-shadow: none !important;
+  background: none !important;
+  border: 0 !important;
+  color: var(--ko-blue, #1d5fb4) !important;
+  padding: 0.4rem 0 !important;
+  font-weight: 700;
+  cursor: pointer;
+  margin-right: 1rem;
+}
+
+.hz-chips {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+.hz-chip {
+  border-radius: 99px;
+  padding: 0.2rem 0.7rem;
+  font-size: 0.82rem;
+  font-weight: 700;
+  background: var(--ko-blue-soft, #e8f0fb);
+  color: var(--ko-blue-deep, #17498c);
+}
+.hz-chip.has-urgent {
+  background: var(--ko-danger-soft, #fdeeeb);
+  color: var(--ko-danger, #c8402f);
+}
+.hz-count {
+  display: inline-flex;
+  border-radius: 99px;
+  padding: 0.2rem 0.7rem;
+  font-size: 0.82rem;
+  font-weight: 700;
+  background: var(--ko-blue-soft, #e8f0fb);
+  color: var(--ko-blue-deep, #17498c);
+}
+.hz-count.has-urgent {
+  background: var(--ko-danger-soft, #fdeeeb);
+  color: var(--ko-danger, #c8402f);
+}
+.hz-summary {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0.25rem 0 0.75rem;
+}
+.hz-summary-title {
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ko-muted, #61748a);
+}
+.hz-pending {
+  font-size: 0.82rem;
+  color: var(--ko-warn, #b7791f);
+  font-weight: 700;
+}
+.hz-carry {
+  border: 1px dashed var(--ko-blue, #1d5fb4);
+  border-radius: 10px;
+  padding: 0.6rem 0.8rem;
+  margin: 0 0 0.75rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  align-items: center;
+}
+.hz-carry p {
+  margin: 0;
+  flex: 1 1 16rem;
+}
+
+/* Per-photo trigger inside the assessment photo list. */
+.hz-photo-trigger {
+  margin-top: 0.4rem;
+  width: 100%;
+}
+.hz-photo-trigger.is-open {
+  background: var(--ko-navy, #0e2a4f);
+  color: #fff;
+}
+
+/* Client page "Check a room" card. */
+.hz-client-tools {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+  margin: 0.5rem 0;
+}
+.hz-client-tools select {
+  width: auto;
+}
+.hz-file,
+.ko-main label.hz-file {
+  position: relative;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  margin: 0;
+  padding: 0 1.15rem;
+  border-radius: 99px;
+  background: var(--ko-navy, #0e2a4f);
+  color: #fff;
+  font-size: 0.92rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+.hz-file:hover { background: var(--ko-blue, #2e5fa3); }
+.hz-client-tools select { min-height: 44px; border-radius: 10px; }
+.hz-file input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+.hz-earlier {
+  list-style: none;
+  padding: 0;
+  margin: 0.5rem 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+.hz-earlier button {
+  min-height: 34px;
+}
+.hz-earlier button.is-open {
+  background: var(--ko-navy, #0e2a4f);
+  color: #fff;
+}
+.hz-photo button.hz-pin:hover,
+.hz-photo button.hz-pin:active {
+  transform: translate(-35%, -35%);
+  filter: brightness(1.08);
+}
+.hz-photo button.hz-pin {
+  min-height: 0;
+  min-width: 26px;
+  height: 26px;
+  line-height: 22px;
+  padding: 0 6px;
+}

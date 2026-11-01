@@ -1,0 +1,1690 @@
+{
+  "solutions": [
+    {
+      "id": "LW-HS-BTH-001",
+      "section": "Home Safety",
+      "subcategory": "Bathroom",
+      "name": "Improve toilet transfer safety",
+      "finding": "Unsafe toilet transfer",
+      "riskDescription": "Reduce fall risk while sitting and standing from the toilet.",
+      "priority": "critical",
+      "recommendedSolutions": [
+        "Install grab bar(s)",
+        "Raised toilet seat",
+        "Toilet support frame"
+      ],
+      "contractorType": "Bathroom installer",
+      "productCategories": [
+        "Grab bar",
+        "Raised toilet seat",
+        "Floor-mounted toilet rail"
+      ],
+      "estimatedCost": "₹3,000–₹25,000",
+      "installationTime": "0.5–1 day",
+      "scoreImprovement": 5,
+      "maintenanceRequirement": "",
+      "futureUpgrades": "",
+      "rubricItemIds": [
+        "home_safety_toilet_grab_bar_installed",
+        "home_safety_toilet_height_appropriate",
+        "adl_toileting_independently_or_with_plan"
+      ],
+      "sort_order": 1,
+      "legacyIds": [
+        "LW-HS-007",
+        "LW-HS-011"
+      ],
+      "evidenceLevel": "A",
+      "membershipImpact": "Independent / Assisted / Premium",
+      "aiVisualization": true,
+      "followUpDays": 30
+    },
+    {
+      "id": "LW-HS-BTH-002",
+      "section": "Home Safety",
+      "subcategory": "Bathroom",
+      "name": "Improve shower entry safety",
+      "finding": "Unsafe shower entry",
+      "riskDescription": "Reduce falls entering or exiting the shower or bathing area.",
+      "priority": "critical",
+      "recommendedSolutions": [
+        "Shower grab bar",
+        "Threshold reduction",
+        "Anti-slip entry mat"
+      ],
+      "contractorType": "Bathroom installer",
+      "productCategories": [
+        "Shower grab bar",
+        "Transfer bench",
+        "Anti-slip strip"
+      ],
+      "estimatedCost": "₹4,000–₹40,000",
+      "installationTime": "1 day",
+      "scoreImprovement": 5,
+      "maintenanceRequirement": "",
+      "futureUpgrades": "",
+      "rubricItemIds": [
+        "home_safety_shower_grab_bar_installed"
+      ],
+      "sort_order": 2,
+      "legacyIds": [
+        "LW-HS-008"
+      ],
+      "evidenceLevel": "A",
+      "membershipImpact": "Assisted / Premium",
+      "aiVisualization": true,
+      "followUpDays": 30
+    },
+    {
+      "id": "LW-HS-BTH-003",
+      "section": "Home Safety",
+      "subcategory": "Bathroom",
+      "name": "Improve bathing stability",
+      "finding": "Unstable bathing position",
+      "riskDescription": "Provide stable seated or supported bathing for reduced balance.",
+      "priority": "high",
+      "recommendedSolutions": [
+        "Portable shower chair",
+        "Wall-mounted fold-down seat"
+      ],
+      "contractorType": "Bathroom installer",
+      "productCategories": [
+        "Shower chair",
+        "Folding shower seat"
+      ],
+      "estimatedCost": "₹2,000–₹15,000",
+      "installationTime": "2–4 hours",
+      "scoreImprovement": 4,
+      "maintenanceRequirement": "",
+      "futureUpgrades": "",
+      "rubricItemIds": [
+        "home_safety_shower_chair_available"
+      ],
+      "sort_order": 3,
+      "legacyIds": [
+        "LW-HS-010"
+      ],
+      "evidenceLevel": "A",
+      "membershipImpact": "Assisted / Premium",
+      "aiVisualization": true,
+      "followUpDays": 30
+    },
+    {
+      "id": "LW-HS-BTH-004",
+      "section": "Home Safety",
+      "subcategory": "Bathroom",
+      "name": "Reduce bathroom slip hazards",
+      "finding": "Slippery bathroom floor",
+      "riskDescription": "Reduce wet-surface slips with flooring and mats.",
+      "priority": "high",
+      "recommendedSolutions": [
+        "Anti-slip flooring",
+        "Secure bath mats",
+        "Drain improvement"
+      ],
+      "contractorType": "Flooring / plumber",
+      "productCategories": [
+        "Anti-slip tiles",
+        "Bath mat with grip"
+      ],
+      "estimatedCost": "₹3,000–₹60,000",
+      "installationTime": "1–3 days",
+      "scoreImprovement": 4,
+      "maintenanceRequirement": "",
+      "futureUpgrades": "",
+      "rubricItemIds": [
+        "home_safety_anti_slip_flooring"
+      ],
+      "sort_order": 4,
+      "legacyIds": [
+        "LW-HS-009"
+      ],
+      "evidenceLevel": "A",
+      "membershipImpact": "Independent / Assisted / Premium",
+      "aiVisualization": true,
+      "followUpDays": 30
+    },
+    {
+      "id": "LW-HS-BTH-011",
+      "section": "Home Safety",
+      "subcategory": "Bathroom",
+      "name": "Control hot water scald risk",
+      "finding": "Hot water scald risk",
+      "riskDescription": "Keep bath/shower water at a safe temperature (thermostatic / ≤49°C).",
+      "priority": "high",
+      "recommendedSolutions": [
+        "Thermostatic mixer",
+        "Temperature limit valve",
+        "Set heater ≤49°C",
+        "Water heater temperature set"
+      ],
+      "contractorType": "Plumber",
+      "productCategories": [
+        "Thermostatic mixer",
+        "Temperature limit valve",
+        "Thermostatic valve"
+      ],
+      "estimatedCost": "₹2,000–₹25,000",
+      "installationTime": "2–6 hours",
+      "scoreImprovement": 3,
+      "maintenanceRequirement": "",
+      "futureUpgrades": "",
+      "rubricItemIds": [
+        "home_safety_hot_water_scald_risk_controlled"
+      ],
+      "sort_order": 5,
+      "legacyIds": [
+        "LW-HS-BTH-008"
+      ],
+      "evidenceLevel": "A",
+      "membershipImpact": "Independent / Assisted / Premium",
+      "aiVisualization": false,
+      "followUpDays": 30
+    },
+    {
+      "id": "LW-HS-BTH-007",
+      "section": "Home Safety",
+      "subcategory": "Bathroom",
+      "name": "Improve accessibility for mobility aids",
+      "finding": "Bathroom not accessible for walker/wheelchair",
+      "riskDescription": "Widen paths and clear space for walkers or wheelchairs.",
+      "priority": "high",
+      "recommendedSolutions": [
+        "Clear turning space",
+        "Doorway widening",
+        "Remove barriers"
+      ],
+      "contractorType": "Civil / carpenter",
+      "productCategories": [
+        "Offset hinges",
+        "Threshold ramp"
+      ],
+      "estimatedCost": "₹5,000–₹80,000",
+      "installationTime": "1–5 days",
+      "scoreImprovement": 4,
+      "maintenanceRequirement": "",
+      "futureUpgrades": "",
+      "rubricItemIds": [
+        "mobility_door_widths_thresholds_accessible"
+      ],
+      "sort_order": 8,
+      "legacyIds": [],
+      "evidenceLevel": "B",
+      "membershipImpact": "Assisted / Premium",
+      "aiVisualization": true,
+      "followUpDays": 30
+    },
+    {
+      "id": "LW-HS-BTH-010",
+      "section": "Home Safety",
+      "subcategory": "Bathroom",
+      "name": "Improve bathroom ventilation",
+      "finding": "Poor bathroom ventilation",
+      "riskDescription": "Reduce moisture, mold risk, and slippery condensation.",
+      "priority": "low",
+      "recommendedSolutions": [
+        "Exhaust fan",
+        "Window venting",
+        "Dehumidifier"
+      ],
+      "contractorType": "Electrician",
+      "productCategories": [
+        "Exhaust fan"
+      ],
+      "estimatedCost": "₹2,000–₹10,000",
+      "installationTime": "2–4 hours",
+      "scoreImprovement": 1,
+      "maintenanceRequirement": "",
+      "futureUpgrades": "",
+      "rubricItemIds": [
+        "home_safety_bathroom_well_ventilated"
+      ],
+      "sort_order": 11,
+      "legacyIds": [],
+      "evidenceLevel": "C",
+      "membershipImpact": "Independent / Assisted",
+      "aiVisualization": false,
+      "followUpDays": 30
+    },
+    {
+      "id": "LW-HS-BED-001",
+      "section": "Home Safety",
+      "subcategory": "Bedroom",
+      "name": "Improve bed transfer safety",
+      "finding": "Unsafe bed transfer",
+      "riskDescription": "Make getting in and out of bed safer and more independent.",
+      "priority": "high",
+      "recommendedSolutions": [
+        "Bed risers or height adjust",
+        "Bed rail",
+        "Transfer pole"
+      ],
+      "contractorType": "Carpenter / medical equipment",
+      "productCategories": [
+        "Bed rail",
+        "Bed risers",
+        "Transfer pole"
+      ],
+      "estimatedCost": "₹2,000–₹40,000",
+      "installationTime": "2–6 hours",
+      "scoreImprovement": 4,
+      "maintenanceRequirement": "",
+      "futureUpgrades": "",
+      "rubricItemIds": [
+        "home_safety_bed_transfer_support",
+        "mobility_transfers_bed_chair_safely"
+      ],
+      "sort_order": 12,
+      "legacyIds": [
+        "LW-HS-012",
+        "LW-HS-013"
+      ],
+      "evidenceLevel": "A",
+      "membershipImpact": "Assisted / Premium",
+      "aiVisualization": true,
+      "followUpDays": 30
+    },
+    {
+      "id": "LW-HS-BED-002",
+      "section": "Home Safety",
+      "subcategory": "Bedroom",
+      "name": "Improve nighttime navigation",
+      "finding": "Poor night navigation to bathroom",
+      "riskDescription": "Reduce night falls between bed and bathroom.",
+      "priority": "high",
+      "recommendedSolutions": [
+        "Motion night lights",
+        "Clear path",
+        "Bedside lamp",
+        "Brighter bulbs",
+        "Bedside task light",
+        "Brighter LED fixtures",
+        "Night light",
+        "Motion sensor light"
+      ],
+      "contractorType": "Electrician",
+      "productCategories": [
+        "Motion night light",
+        "LED strip",
+        "LED bulbs",
+        "Task lamp",
+        "LED fixture"
+      ],
+      "estimatedCost": "₹500–₹5,000",
+      "installationTime": "1–2 hours",
+      "scoreImprovement": 3,
+      "maintenanceRequirement": "",
+      "futureUpgrades": "",
+      "rubricItemIds": [
+        "home_safety_bedroom_night_lighting"
+      ],
+      "sort_order": 13,
+      "legacyIds": [
+        "LW-HS-014",
+        "LW-HS-BED-007",
+        "LW-HS-BTH-005"
+      ],
+      "evidenceLevel": "A",
+      "membershipImpact": "Independent / Assisted",
+      "aiVisualization": true,
+      "followUpDays": 30
+    },
+    {
+      "id": "LW-HS-ENT-001",
+      "section": "Home Safety",
+      "subcategory": "Entry",
+      "name": "Improve outdoor pathway level and traction",
+      "finding": "Uneven walkway",
+      "riskDescription": "Reduce trip hazard at entry paths.",
+      "priority": "high",
+      "recommendedSolutions": [
+        "Repair surface",
+        "Anti-slip finish",
+        "Improve drainage"
+      ],
+      "contractorType": "Civil contractor",
+      "productCategories": [
+        "Pavers",
+        "Anti-slip coating",
+        "Threshold ramp"
+      ],
+      "estimatedCost": "₹5,000–₹50,000",
+      "installationTime": "1–3 days",
+      "scoreImprovement": 3,
+      "maintenanceRequirement": "",
+      "futureUpgrades": "",
+      "rubricItemIds": [
+        "home_safety_pathway_level_and_clear"
+      ],
+      "sort_order": 17,
+      "legacyIds": [
+        "LW-HS-001"
+      ],
+      "evidenceLevel": "A",
+      "membershipImpact": "Independent / Assisted",
+      "aiVisualization": true,
+      "followUpDays": 30
+    },
+    {
+      "id": "LW-HS-ENT-004",
+      "section": "Home Safety",
+      "subcategory": "Entry",
+      "name": "Provide zero-step or ramped main entry",
+      "finding": "No accessible main entry",
+      "riskDescription": "Enable safe entry without high steps (ramp, threshold reduction, or zero-step path).",
+      "priority": "high",
+      "recommendedSolutions": [
+        "Threshold ramp",
+        "Portable or permanent ramp",
+        "Level landing"
+      ],
+      "contractorType": "Civil contractor / fabricator",
+      "productCategories": [
+        "Threshold ramp",
+        "Portable ramp"
+      ],
+      "estimatedCost": "₹3,000–₹80,000",
+      "installationTime": "0.5–3 days",
+      "scoreImprovement": 4,
+      "maintenanceRequirement": "",
+      "futureUpgrades": "",
+      "rubricItemIds": [
+        "home_safety_zero_step_or_ramped_main_entry"
+      ],
+      "sort_order": 18,
+      "legacyIds": [],
+      "evidenceLevel": "A",
+      "membershipImpact": "Assisted / Premium",
+      "aiVisualization": true,
+      "followUpDays": 30
+    },
+    {
+      "id": "LW-HS-ENT-002",
+      "section": "Home Safety",
+      "subcategory": "Entry",
+      "name": "Improve entrance handrail support",
+      "finding": "No entrance handrail",
+      "riskDescription": "Provide grip support when entering the home.",
+      "priority": "critical",
+      "recommendedSolutions": [
+        "Install entrance railing"
+      ],
+      "contractorType": "Fabricator",
+      "productCategories": [
+        "Stainless grab rail",
+        "Aluminum railing"
+      ],
+      "estimatedCost": "₹4,000–₹25,000",
+      "installationTime": "1–2 days",
+      "scoreImprovement": 5,
+      "maintenanceRequirement": "",
+      "futureUpgrades": "",
+      "rubricItemIds": [
+        "home_safety_entrance_railing_if_needed"
+      ],
+      "sort_order": 19,
+      "legacyIds": [
+        "LW-HS-002"
+      ],
+      "evidenceLevel": "A",
+      "membershipImpact": "Independent / Assisted / Premium",
+      "aiVisualization": true,
+      "followUpDays": 30
+    },
+    {
+      "id": "LW-HS-ENT-003",
+      "section": "Home Safety",
+      "subcategory": "Entry",
+      "name": "Improve entrance lighting",
+      "finding": "Poor entrance lighting",
+      "riskDescription": "Reduce night-time falls at the entry.",
+      "priority": "high",
+      "recommendedSolutions": [
+        "LED / motion / solar lighting"
+      ],
+      "contractorType": "Electrician",
+      "productCategories": [
+        "LED fixtures",
+        "Motion sensors"
+      ],
+      "estimatedCost": "₹2,000–₹8,000",
+      "installationTime": "2–4 hours",
+      "scoreImprovement": 3,
+      "maintenanceRequirement": "",
+      "futureUpgrades": "",
+      "rubricItemIds": [
+        "home_safety_adequate_entry_lighting"
+      ],
+      "sort_order": 20,
+      "legacyIds": [
+        "LW-HS-003"
+      ],
+      "evidenceLevel": "A",
+      "membershipImpact": "Independent / Assisted",
+      "aiVisualization": true,
+      "followUpDays": 30
+    },
+    {
+      "id": "LW-HS-STA-001",
+      "section": "Home Safety",
+      "subcategory": "Stairs",
+      "name": "Improve stair safety",
+      "finding": "Unsafe stairs",
+      "riskDescription": "Reduce falls on indoor or outdoor stairs.",
+      "priority": "critical",
+      "recommendedSolutions": [
+        "Handrails both sides",
+        "Nonslip treads",
+        "Contrast nosing"
+      ],
+      "contractorType": "Carpenter / fabricator",
+      "productCategories": [
+        "Handrail",
+        "Stair tread"
+      ],
+      "estimatedCost": "₹5,000–₹50,000",
+      "installationTime": "1–3 days",
+      "scoreImprovement": 5,
+      "maintenanceRequirement": "",
+      "futureUpgrades": "",
+      "rubricItemIds": [
+        "mobility_stairs_manageable_or_alternative_exists"
+      ],
+      "sort_order": 21,
+      "legacyIds": [
+        "LW-HS-015",
+        "LW-HS-016"
+      ],
+      "evidenceLevel": "A",
+      "membershipImpact": "Assisted / Premium",
+      "aiVisualization": true,
+      "followUpDays": 30
+    },
+    {
+      "id": "LW-HS-LIV-001",
+      "section": "Home Safety",
+      "subcategory": "Living Areas",
+      "name": "Reduce living-area trip hazards",
+      "finding": "Loose rugs / trip hazards in living areas",
+      "riskDescription": "Clear walkways and secure floor coverings.",
+      "priority": "high",
+      "recommendedSolutions": [
+        "Remove or secure rugs",
+        "Clear clutter",
+        "Reposition furniture",
+        "Widen primary path",
+        "Declutter floor",
+        "Secure cords",
+        "Nonslip rugs",
+        "Replace glass table",
+        "Corner guards",
+        "Relocate table"
+      ],
+      "contractorType": "",
+      "productCategories": [
+        "Anti-slip rug pads",
+        "Cable covers",
+        "Rug pads",
+        "Corner guards"
+      ],
+      "estimatedCost": "₹0–₹5,000",
+      "installationTime": "Same day",
+      "scoreImprovement": 3,
+      "maintenanceRequirement": "",
+      "futureUpgrades": "",
+      "rubricItemIds": [
+        "home_safety_living_area_walkways_clear",
+        "home_safety_loose_rugs_secured_or_removed",
+        "home_safety_hallways_free_of_trip_hazards"
+      ],
+      "sort_order": 22,
+      "legacyIds": [
+        "LW-HS-004",
+        "LW-HS-LIV-002",
+        "LW-HS-005",
+        "LW-HS-BED-003",
+        "LW-HS-LIV-003",
+        "LW-HS-006"
+      ],
+      "evidenceLevel": "A",
+      "membershipImpact": "Independent / Assisted",
+      "aiVisualization": false,
+      "followUpDays": 30
+    },
+    {
+      "id": "LW-HS-LIV-004",
+      "section": "Home Safety",
+      "subcategory": "Living Areas",
+      "name": "Improve electrical safety in living areas",
+      "finding": "Electrical hazards",
+      "riskDescription": "Address overloaded outlets, exposed wiring, and unsafe appliances.",
+      "priority": "high",
+      "recommendedSolutions": [
+        "Licensed electrical review",
+        "Replace damaged cords"
+      ],
+      "contractorType": "Electrician",
+      "productCategories": [
+        "Surge protector"
+      ],
+      "estimatedCost": "₹1,000–₹20,000",
+      "installationTime": "0.5–2 days",
+      "scoreImprovement": 4,
+      "maintenanceRequirement": "",
+      "futureUpgrades": "",
+      "rubricItemIds": [
+        "home_condition_electrical_outlets_wiring_safe"
+      ],
+      "sort_order": 25,
+      "legacyIds": [
+        "LW-HS-017"
+      ],
+      "evidenceLevel": "A",
+      "membershipImpact": "Independent / Assisted / Premium",
+      "aiVisualization": false,
+      "followUpDays": 30
+    },
+    {
+      "id": "LW-HS-KIT-001",
+      "section": "Home Safety",
+      "subcategory": "Kitchen",
+      "name": "Reduce kitchen burn and fire risk",
+      "finding": "Kitchen burn / fire hazard",
+      "riskDescription": "Improve stove safety and fire response readiness.",
+      "priority": "high",
+      "recommendedSolutions": [
+        "Stove shutoff habits",
+        "Fire extinguisher",
+        "Gas detector"
+      ],
+      "contractorType": "Electrician / gas technician",
+      "productCategories": [
+        "Fire extinguisher",
+        "Gas detector"
+      ],
+      "estimatedCost": "₹1,000–₹15,000",
+      "installationTime": "2–4 hours",
+      "scoreImprovement": 4,
+      "maintenanceRequirement": "",
+      "futureUpgrades": "",
+      "rubricItemIds": [
+        "home_safety_stove_gas_safety_controls",
+        "cognitive_emotional_judgment_safe_for_leaving_stove_doors"
+      ],
+      "sort_order": 26,
+      "legacyIds": [
+        "LW-HS-018",
+        "LW-HS-019"
+      ],
+      "evidenceLevel": "A",
+      "membershipImpact": "Independent / Assisted",
+      "aiVisualization": false,
+      "followUpDays": 30
+    },
+    {
+      "id": "LW-HS-KIT-002",
+      "section": "Home Safety",
+      "subcategory": "Kitchen",
+      "name": "Install smoke and CO detectors",
+      "finding": "Missing smoke or CO detectors",
+      "riskDescription": "Ensure working smoke and carbon monoxide alarms on each level near sleeping areas.",
+      "priority": "critical",
+      "recommendedSolutions": [
+        "Smoke detector each level",
+        "CO detector near bedrooms",
+        "Test monthly"
+      ],
+      "contractorType": "Electrician",
+      "productCategories": [
+        "Smoke detector",
+        "Carbon monoxide detector"
+      ],
+      "estimatedCost": "₹1,500–₹12,000",
+      "installationTime": "1–3 hours",
+      "scoreImprovement": 5,
+      "maintenanceRequirement": "",
+      "futureUpgrades": "",
+      "rubricItemIds": [
+        "home_safety_smoke_and_co_detectors_on_each_level"
+      ],
+      "sort_order": 27,
+      "legacyIds": [],
+      "evidenceLevel": "A",
+      "membershipImpact": "Independent / Assisted / Premium",
+      "aiVisualization": false,
+      "followUpDays": 30
+    },
+    {
+      "id": "LW-MOB-WAL-001",
+      "section": "Mobility",
+      "subcategory": "Walking",
+      "name": "Improve walking stability",
+      "finding": "Unsteady gait",
+      "riskDescription": "Support safer ambulation indoors and outdoors.",
+      "priority": "high",
+      "recommendedSolutions": [
+        "Gait assessment",
+        "Appropriate walking aid",
+        "Strength program"
+      ],
+      "contractorType": "Physiotherapist",
+      "productCategories": [
+        "Walker",
+        "Cane"
+      ],
+      "estimatedCost": "₹1,000–₹15,000",
+      "installationTime": "Ongoing",
+      "scoreImprovement": 4,
+      "maintenanceRequirement": "",
+      "futureUpgrades": "",
+      "rubricItemIds": [
+        "mobility_walks_independently_or_with_correct_devi",
+        "mobility_balance_adequate_for_home",
+        "mobility_stands_from_chair_without_arm_push",
+        "health_wellness_steady_when_walking",
+        "health_wellness_no_falls_in_the_past_year",
+        "health_wellness_not_worried_about_falling"
+      ],
+      "sort_order": 28,
+      "legacyIds": [
+        "LW-MOB-001"
+      ],
+      "evidenceLevel": "A",
+      "membershipImpact": "Assisted / Premium",
+      "aiVisualization": false,
+      "followUpDays": 30
+    },
+    {
+      "id": "LW-MOB-BAL-001",
+      "section": "Mobility",
+      "subcategory": "Balance",
+      "name": "Improve balance support",
+      "finding": "Balance impairment",
+      "riskDescription": "Reduce fall risk through balance training and supports.",
+      "priority": "high",
+      "recommendedSolutions": [
+        "PT balance program",
+        "Home exercise plan"
+      ],
+      "contractorType": "Physiotherapist",
+      "productCategories": [],
+      "estimatedCost": "₹3,000–₹20,000 / month",
+      "installationTime": "Ongoing",
+      "scoreImprovement": 4,
+      "maintenanceRequirement": "",
+      "futureUpgrades": "",
+      "rubricItemIds": [
+        "mobility_balance_adequate_for_home"
+      ],
+      "sort_order": 29,
+      "legacyIds": [
+        "LW-MOB-002"
+      ],
+      "evidenceLevel": "A",
+      "membershipImpact": "Assisted / Premium",
+      "aiVisualization": false,
+      "followUpDays": 30
+    },
+    {
+      "id": "LW-MOB-WCH-001",
+      "section": "Mobility",
+      "subcategory": "Wheelchair",
+      "name": "Improve wheelchair accessibility",
+      "finding": "Home not wheelchair accessible",
+      "riskDescription": "Enable safer wheelchair movement in key rooms.",
+      "priority": "high",
+      "recommendedSolutions": [
+        "Ramps",
+        "Doorway clearance",
+        "Transfer training"
+      ],
+      "contractorType": "Civil / OT",
+      "productCategories": [
+        "Portable ramp",
+        "Threshold ramp"
+      ],
+      "estimatedCost": "₹5,000–₹1,00,000",
+      "installationTime": "1–7 days",
+      "scoreImprovement": 5,
+      "maintenanceRequirement": "",
+      "futureUpgrades": "",
+      "rubricItemIds": [
+        "mobility_wheelchair_or_walker_path_clear"
+      ],
+      "sort_order": 30,
+      "legacyIds": [
+        "LW-MOB-003"
+      ],
+      "evidenceLevel": "B",
+      "membershipImpact": "Premium",
+      "aiVisualization": true,
+      "followUpDays": 30
+    },
+    {
+      "id": "LW-HL-MED-001",
+      "section": "Health & Wellness",
+      "subcategory": "Medication",
+      "name": "Improve medication adherence",
+      "finding": "Medication non-adherence",
+      "riskDescription": "Support timely, correct medication-taking habits.",
+      "priority": "high",
+      "recommendedSolutions": [
+        "Pill organizer",
+        "Reminder system",
+        "Caregiver check",
+        "Pharmacist review for sedating meds"
+      ],
+      "contractorType": "Nurse / ECM",
+      "productCategories": [
+        "Pill box",
+        "Reminder device"
+      ],
+      "estimatedCost": "₹500–₹8,000",
+      "installationTime": "Same day",
+      "scoreImprovement": 4,
+      "maintenanceRequirement": "",
+      "futureUpgrades": "",
+      "rubricItemIds": [
+        "health_wellness_medications_reconciled",
+        "health_wellness_meds_checked_for_dizziness_sedation",
+        "iadl_manages_medications_schedule"
+      ],
+      "sort_order": 31,
+      "legacyIds": [
+        "LW-HW-001"
+      ],
+      "evidenceLevel": "A",
+      "membershipImpact": "Assisted / Premium / NRI",
+      "aiVisualization": false,
+      "followUpDays": 30
+    },
+    {
+      "id": "LW-HL-MON-001",
+      "section": "Health & Wellness",
+      "subcategory": "Monitoring",
+      "name": "Establish vital signs monitoring routine",
+      "finding": "No regular health monitoring",
+      "riskDescription": "Track blood pressure, glucose, or other ordered parameters.",
+      "priority": "medium",
+      "recommendedSolutions": [
+        "Home BP / glucometer kit",
+        "Log with family/ECM"
+      ],
+      "contractorType": "Nurse",
+      "productCategories": [
+        "BP monitor",
+        "Glucometer"
+      ],
+      "estimatedCost": "₹1,500–₹10,000",
+      "installationTime": "Same day",
+      "scoreImprovement": 3,
+      "maintenanceRequirement": "",
+      "futureUpgrades": "",
+      "rubricItemIds": [
+        "health_wellness_bp_sugar_checked_regularly"
+      ],
+      "sort_order": 32,
+      "legacyIds": [
+        "LW-HW-002"
+      ],
+      "evidenceLevel": "B",
+      "membershipImpact": "Assisted / Premium",
+      "aiVisualization": false,
+      "followUpDays": 30
+    },
+    {
+      "id": "LW-HL-NUT-001",
+      "section": "Health & Wellness",
+      "subcategory": "Nutrition",
+      "name": "Improve nutrition and hydration",
+      "finding": "Poor nutrition or hydration",
+      "riskDescription": "Support meal planning and adequate fluid intake.",
+      "priority": "medium",
+      "recommendedSolutions": [
+        "Meal plan",
+        "Hydration schedule",
+        "Nutrition counseling"
+      ],
+      "contractorType": "Nutritionist / caregiver",
+      "productCategories": [],
+      "estimatedCost": "₹2,000–₹15,000 / month",
+      "installationTime": "Ongoing",
+      "scoreImprovement": 3,
+      "maintenanceRequirement": "",
+      "futureUpgrades": "",
+      "rubricItemIds": [
+        "health_wellness_nutrition_adequate"
+      ],
+      "sort_order": 33,
+      "legacyIds": [
+        "LW-HW-003"
+      ],
+      "evidenceLevel": "B",
+      "membershipImpact": "Assisted / Premium",
+      "aiVisualization": false,
+      "followUpDays": 30
+    },
+    {
+      "id": "LW-ADL-BAT-001",
+      "section": "Activities of Daily Living",
+      "subcategory": "Bathing",
+      "name": "Provide bathing assistance",
+      "finding": "Needs help bathing",
+      "riskDescription": "Safe assisted bathing with trained support.",
+      "priority": "high",
+      "recommendedSolutions": [
+        "Caregiver bath assist",
+        "Schedule hygiene visits"
+      ],
+      "contractorType": "Caregiver agency",
+      "productCategories": [],
+      "estimatedCost": "Per visit / monthly package",
+      "installationTime": "Ongoing",
+      "scoreImprovement": 4,
+      "maintenanceRequirement": "",
+      "futureUpgrades": "",
+      "rubricItemIds": [
+        "adl_bathing_independently_or_with_plan"
+      ],
+      "sort_order": 34,
+      "legacyIds": [
+        "LW-ADL-001"
+      ],
+      "evidenceLevel": "A",
+      "membershipImpact": "Assisted / Premium",
+      "aiVisualization": false,
+      "followUpDays": 30
+    },
+    {
+      "id": "LW-ADL-DRS-001",
+      "section": "Activities of Daily Living",
+      "subcategory": "Dressing",
+      "name": "Provide dressing assistance",
+      "finding": "Needs help dressing",
+      "riskDescription": "Support with clothing and footwear safely.",
+      "priority": "medium",
+      "recommendedSolutions": [
+        "Caregiver assist",
+        "Adaptive clothing"
+      ],
+      "contractorType": "Caregiver",
+      "productCategories": [
+        "Adaptive clothing"
+      ],
+      "estimatedCost": "Per visit",
+      "installationTime": "Ongoing",
+      "scoreImprovement": 3,
+      "maintenanceRequirement": "",
+      "futureUpgrades": "",
+      "rubricItemIds": [
+        "adl_dressing_independently_or_with_plan"
+      ],
+      "sort_order": 35,
+      "legacyIds": [
+        "LW-ADL-002"
+      ],
+      "evidenceLevel": "B",
+      "membershipImpact": "Assisted / Premium",
+      "aiVisualization": false,
+      "followUpDays": 30
+    },
+    {
+      "id": "LW-IADL-MEAL-001",
+      "section": "Instrumental ADLs",
+      "subcategory": "Meals",
+      "name": "Provide meal preparation support",
+      "finding": "Difficulty preparing meals",
+      "riskDescription": "Ensure regular nutritious meals.",
+      "priority": "medium",
+      "recommendedSolutions": [
+        "Meal prep help",
+        "Meal delivery"
+      ],
+      "contractorType": "Caregiver / meal service",
+      "productCategories": [],
+      "estimatedCost": "Monthly",
+      "installationTime": "Ongoing",
+      "scoreImprovement": 3,
+      "maintenanceRequirement": "",
+      "futureUpgrades": "",
+      "rubricItemIds": [
+        "iadl_prepares_or_receives_meals_safely"
+      ],
+      "sort_order": 36,
+      "legacyIds": [
+        "LW-IADL-001"
+      ],
+      "evidenceLevel": "B",
+      "membershipImpact": "Assisted / Premium",
+      "aiVisualization": false,
+      "followUpDays": 30
+    },
+    {
+      "id": "LW-IADL-SHOP-001",
+      "section": "Instrumental ADLs",
+      "subcategory": "Shopping",
+      "name": "Provide shopping assistance",
+      "finding": "Difficulty shopping",
+      "riskDescription": "Help with groceries and essential errands.",
+      "priority": "low",
+      "recommendedSolutions": [
+        "Accompanied shopping",
+        "Online grocery support"
+      ],
+      "contractorType": "Caregiver / family",
+      "productCategories": [],
+      "estimatedCost": "Per trip",
+      "installationTime": "Ongoing",
+      "scoreImprovement": 2,
+      "maintenanceRequirement": "",
+      "futureUpgrades": "",
+      "rubricItemIds": [
+        "iadl_handles_shopping_errands"
+      ],
+      "sort_order": 37,
+      "legacyIds": [
+        "LW-IADL-002"
+      ],
+      "evidenceLevel": "C",
+      "membershipImpact": "Assisted / NRI",
+      "aiVisualization": false,
+      "followUpDays": 30
+    },
+    {
+      "id": "LW-COG-MEM-001",
+      "section": "Cognitive Support",
+      "subcategory": "Memory",
+      "name": "Improve memory support",
+      "finding": "Memory concerns",
+      "riskDescription": "Use cues, routines, and tools to support daily memory.",
+      "priority": "high",
+      "recommendedSolutions": [
+        "Pill/calendar reminders",
+        "Labeled spaces",
+        "Routine board"
+      ],
+      "contractorType": "OT / ECM",
+      "productCategories": [
+        "Reminder clock",
+        "Whiteboard"
+      ],
+      "estimatedCost": "₹500–₹8,000",
+      "installationTime": "Same day",
+      "scoreImprovement": 4,
+      "maintenanceRequirement": "",
+      "futureUpgrades": "",
+      "rubricItemIds": [
+        "cognitive_emotional_memory_adequate_for_daily_safety",
+        "cognitive_emotional_orientation_to_person_place_time"
+      ],
+      "sort_order": 38,
+      "legacyIds": [
+        "LW-COG-001"
+      ],
+      "evidenceLevel": "B",
+      "membershipImpact": "Assisted / Premium / NRI",
+      "aiVisualization": false,
+      "followUpDays": 30
+    },
+    {
+      "id": "LW-COG-WAN-001",
+      "section": "Cognitive Support",
+      "subcategory": "Wandering",
+      "name": "Reduce wandering risk",
+      "finding": "Wandering risk",
+      "riskDescription": "Improve exit safety and monitoring for wandering.",
+      "priority": "critical",
+      "recommendedSolutions": [
+        "Door alerts",
+        "ID bracelet",
+        "Supervision plan"
+      ],
+      "contractorType": "Smart home / ECM",
+      "productCategories": [
+        "Door sensor",
+        "GPS wearable"
+      ],
+      "estimatedCost": "₹3,000–₹25,000",
+      "installationTime": "1 day",
+      "scoreImprovement": 5,
+      "maintenanceRequirement": "",
+      "futureUpgrades": "",
+      "rubricItemIds": [
+        "cognitive_emotional_safe_from_wandering_getting_lost",
+        "cognitive_emotional_judgment_safe_for_leaving_stove_doors"
+      ],
+      "sort_order": 39,
+      "legacyIds": [
+        "LW-COG-002"
+      ],
+      "evidenceLevel": "A",
+      "membershipImpact": "Premium / NRI",
+      "aiVisualization": false,
+      "followUpDays": 30
+    },
+    {
+      "id": "LW-SOC-LON-001",
+      "section": "Emotional & Social Wellbeing",
+      "subcategory": "Loneliness",
+      "name": "Reduce loneliness",
+      "finding": "Social isolation",
+      "riskDescription": "Increase meaningful social contact and engagement.",
+      "priority": "medium",
+      "recommendedSolutions": [
+        "Companion visits",
+        "Video calls with family",
+        "Community group"
+      ],
+      "contractorType": "Companion / ECM",
+      "productCategories": [],
+      "estimatedCost": "Monthly",
+      "installationTime": "Ongoing",
+      "scoreImprovement": 3,
+      "maintenanceRequirement": "",
+      "futureUpgrades": "",
+      "rubricItemIds": [
+        "cognitive_emotional_social_engagement_present",
+        "lifestyle_social_contacts_weekly"
+      ],
+      "sort_order": 40,
+      "legacyIds": [],
+      "evidenceLevel": "B",
+      "membershipImpact": "Assisted / Premium / NRI",
+      "aiVisualization": false,
+      "followUpDays": 30
+    },
+    {
+      "id": "LW-EMG-COM-001",
+      "section": "Emergency Preparedness",
+      "subcategory": "Communication",
+      "name": "Improve emergency communication",
+      "finding": "No reliable emergency call method",
+      "riskDescription": "Ensure the elder can reach help quickly.",
+      "priority": "critical",
+      "recommendedSolutions": [
+        "SOS pendant",
+        "Phone within reach",
+        "ICE contacts",
+        "Pull cord",
+        "Wearable SOS",
+        "Bathroom call button"
+      ],
+      "contractorType": "Smart home",
+      "productCategories": [
+        "SOS pendant",
+        "Emergency phone",
+        "Pull cord"
+      ],
+      "estimatedCost": "₹2,000–₹15,000",
+      "installationTime": "Same day",
+      "scoreImprovement": 5,
+      "maintenanceRequirement": "",
+      "futureUpgrades": "",
+      "rubricItemIds": [
+        "emergency_sos_alert_method_available",
+        "technology_can_use_phone_for_emergencies"
+      ],
+      "sort_order": 41,
+      "legacyIds": [
+        "LW-EMG-001",
+        "LW-HS-BTH-006"
+      ],
+      "evidenceLevel": "A",
+      "membershipImpact": "Independent / Assisted / Premium / NRI",
+      "aiVisualization": false,
+      "followUpDays": 30
+    },
+    {
+      "id": "LW-EMG-PLN-001",
+      "section": "Emergency Preparedness",
+      "subcategory": "Planning",
+      "name": "Create emergency response plan",
+      "finding": "No emergency response plan",
+      "riskDescription": "Document contacts, medical info, and exit plan.",
+      "priority": "high",
+      "recommendedSolutions": [
+        "Written plan",
+        "Family briefing",
+        "Medical info card"
+      ],
+      "contractorType": "ECM",
+      "productCategories": [],
+      "estimatedCost": "Included in membership / visit",
+      "installationTime": "1–2 hours",
+      "scoreImprovement": 4,
+      "maintenanceRequirement": "",
+      "futureUpgrades": "",
+      "rubricItemIds": [
+        "emergency_emergency_contacts_posted",
+        "emergency_family_response_plan_documented",
+        "emergency_evacuation_path_understood"
+      ],
+      "sort_order": 42,
+      "legacyIds": [
+        "LW-EMG-002"
+      ],
+      "evidenceLevel": "A",
+      "membershipImpact": "Assisted / Premium / NRI",
+      "aiVisualization": false,
+      "followUpDays": 30
+    },
+    {
+      "id": "LW-HM-ELE-001",
+      "section": "Home Maintenance",
+      "subcategory": "Electrical",
+      "name": "Electrical safety improvements",
+      "finding": "Home electrical concerns",
+      "riskDescription": "Address unsafe wiring and overloaded circuits.",
+      "priority": "high",
+      "recommendedSolutions": [
+        "Licensed inspection",
+        "Repairs"
+      ],
+      "contractorType": "Electrician",
+      "productCategories": [],
+      "estimatedCost": "₹2,000–₹50,000",
+      "installationTime": "1–5 days",
+      "scoreImprovement": 4,
+      "maintenanceRequirement": "",
+      "futureUpgrades": "",
+      "rubricItemIds": [
+        "home_condition_electrical_outlets_wiring_safe"
+      ],
+      "sort_order": 43,
+      "legacyIds": [
+        "LW-HC-001"
+      ],
+      "evidenceLevel": "A",
+      "membershipImpact": "Independent / Assisted",
+      "aiVisualization": false,
+      "followUpDays": 30
+    },
+    {
+      "id": "LW-HM-PLB-001",
+      "section": "Home Maintenance",
+      "subcategory": "Plumbing",
+      "name": "Water leak prevention and plumbing fixes",
+      "finding": "Water leaks or plumbing risk",
+      "riskDescription": "Stop leaks that create slips and mold.",
+      "priority": "medium",
+      "recommendedSolutions": [
+        "Plumber repair",
+        "Leak sensor"
+      ],
+      "contractorType": "Plumber",
+      "productCategories": [
+        "Leak sensor"
+      ],
+      "estimatedCost": "₹1,000–₹30,000",
+      "installationTime": "0.5–2 days",
+      "scoreImprovement": 3,
+      "maintenanceRequirement": "",
+      "futureUpgrades": "",
+      "rubricItemIds": [
+        "home_condition_plumbing_reliable",
+        "home_condition_damp_mold_controlled"
+      ],
+      "sort_order": 44,
+      "legacyIds": [
+        "LW-HC-002"
+      ],
+      "evidenceLevel": "B",
+      "membershipImpact": "Independent / Assisted",
+      "aiVisualization": false,
+      "followUpDays": 30
+    },
+    {
+      "id": "LW-HM-CLN-001",
+      "section": "Home Maintenance",
+      "subcategory": "Cleaning",
+      "name": "Deep cleaning and preventive maintenance",
+      "finding": "Home condition neglected",
+      "riskDescription": "Restore hygienic and safe living conditions.",
+      "priority": "medium",
+      "recommendedSolutions": [
+        "Deep clean",
+        "Maintenance schedule"
+      ],
+      "contractorType": "Housekeeping",
+      "productCategories": [],
+      "estimatedCost": "Per visit",
+      "installationTime": "1 day",
+      "scoreImprovement": 2,
+      "maintenanceRequirement": "",
+      "futureUpgrades": "",
+      "rubricItemIds": [
+        "home_condition_repairs_backlog_acceptable",
+        "iadl_light_housework_manageable"
+      ],
+      "sort_order": 45,
+      "legacyIds": [
+        "LW-HC-003"
+      ],
+      "evidenceLevel": "C",
+      "membershipImpact": "Assisted / Premium / NRI",
+      "aiVisualization": false,
+      "followUpDays": 30
+    },
+    {
+      "id": "LW-TECH-LIT-001",
+      "section": "Smart Home & Technology",
+      "subcategory": "Lighting",
+      "name": "Install smart lighting",
+      "finding": "Hard to operate lights",
+      "riskDescription": "Voice or app control for safer lighting.",
+      "priority": "medium",
+      "recommendedSolutions": [
+        "Smart bulbs / switches",
+        "Voice assistant"
+      ],
+      "contractorType": "Smart home installer",
+      "productCategories": [
+        "Smart bulb",
+        "Smart switch"
+      ],
+      "estimatedCost": "₹2,000–₹20,000",
+      "installationTime": "2–6 hours",
+      "scoreImprovement": 2,
+      "maintenanceRequirement": "",
+      "futureUpgrades": "",
+      "rubricItemIds": [
+        "technology_light_switches_easy_to_reach_and_operate"
+      ],
+      "sort_order": 46,
+      "legacyIds": [
+        "LW-TECH-001"
+      ],
+      "evidenceLevel": "C",
+      "membershipImpact": "Independent / Assisted / Premium",
+      "aiVisualization": false,
+      "followUpDays": 30
+    },
+    {
+      "id": "LW-TECH-FAL-001",
+      "section": "Smart Home & Technology",
+      "subcategory": "Fall detection",
+      "name": "Deploy fall detection devices",
+      "finding": "High fall risk without monitoring",
+      "riskDescription": "Alert family/ECM after a fall event.",
+      "priority": "high",
+      "recommendedSolutions": [
+        "Wearable fall detect",
+        "Room sensor"
+      ],
+      "contractorType": "Smart home",
+      "productCategories": [
+        "Fall detection wearable"
+      ],
+      "estimatedCost": "₹5,000–₹30,000",
+      "installationTime": "Same day",
+      "scoreImprovement": 5,
+      "maintenanceRequirement": "",
+      "futureUpgrades": "",
+      "rubricItemIds": [
+        "technology_smart_safety_devices_appropriate"
+      ],
+      "sort_order": 47,
+      "legacyIds": [
+        "LW-TECH-002"
+      ],
+      "evidenceLevel": "B",
+      "membershipImpact": "Premium / NRI",
+      "aiVisualization": false,
+      "followUpDays": 30
+    },
+    {
+      "id": "LW-TECH-SEC-001",
+      "section": "Smart Home & Technology",
+      "subcategory": "Security",
+      "name": "Improve home security monitoring",
+      "finding": "Security concerns",
+      "riskDescription": "Video doorbell, locks, and basic camera coverage.",
+      "priority": "medium",
+      "recommendedSolutions": [
+        "Video doorbell",
+        "Smart lock",
+        "Select cameras"
+      ],
+      "contractorType": "Security installer",
+      "productCategories": [
+        "Video doorbell",
+        "Smart lock"
+      ],
+      "estimatedCost": "₹5,000–₹40,000",
+      "installationTime": "1 day",
+      "scoreImprovement": 3,
+      "maintenanceRequirement": "",
+      "futureUpgrades": "",
+      "rubricItemIds": [
+        "technology_home_secure_locks_visitor_check"
+      ],
+      "sort_order": 48,
+      "legacyIds": [
+        "LW-TECH-003"
+      ],
+      "evidenceLevel": "B",
+      "membershipImpact": "Assisted / Premium / NRI",
+      "aiVisualization": false,
+      "followUpDays": 30
+    },
+    {
+      "id": "LW-FAM-ECM-001",
+      "section": "Family Support",
+      "subcategory": "ECM",
+      "name": "Assign dedicated Elder Care Manager",
+      "finding": "Needs care coordination",
+      "riskDescription": "Single point of contact for visits, vendors, and family updates.",
+      "priority": "high",
+      "recommendedSolutions": [
+        "ECM assignment",
+        "Care plan",
+        "Monthly updates"
+      ],
+      "contractorType": "ECM",
+      "productCategories": [],
+      "estimatedCost": "Membership included / monthly",
+      "installationTime": "Ongoing",
+      "scoreImprovement": 5,
+      "maintenanceRequirement": "",
+      "futureUpgrades": "",
+      "rubricItemIds": [
+        "family_support_willing_to_engage_ecm_if_recommended",
+        "family_support_primary_caregiver_family_identified",
+        "family_support_nri_remote_family_plan_if_applicable"
+      ],
+      "sort_order": 49,
+      "legacyIds": [
+        "LW-FAM-001"
+      ],
+      "evidenceLevel": "B",
+      "membershipImpact": "Premium / NRI",
+      "aiVisualization": false,
+      "followUpDays": 30
+    },
+    {
+      "id": "LW-FAM-COM-001",
+      "section": "Family Support",
+      "subcategory": "Communication",
+      "name": "Establish family communication plan",
+      "finding": "Family poorly coordinated",
+      "riskDescription": "Regular updates and escalation paths for remote family.",
+      "priority": "medium",
+      "recommendedSolutions": [
+        "WhatsApp update cadence",
+        "Portal access",
+        "Escalation tree"
+      ],
+      "contractorType": "ECM",
+      "productCategories": [],
+      "estimatedCost": "Included",
+      "installationTime": "1 session",
+      "scoreImprovement": 3,
+      "maintenanceRequirement": "",
+      "futureUpgrades": "",
+      "rubricItemIds": [
+        "family_support_check_in_frequency_adequate"
+      ],
+      "sort_order": 50,
+      "legacyIds": [
+        "LW-FAM-002"
+      ],
+      "evidenceLevel": "C",
+      "membershipImpact": "Assisted / Premium / NRI",
+      "aiVisualization": false,
+      "followUpDays": 30
+    },
+    {
+      "id": "LW-FAM-LEG-001",
+      "section": "Family Support",
+      "subcategory": "Legal readiness",
+      "name": "Document advance directive and decision-maker",
+      "finding": "No advance directive or decision-maker",
+      "riskDescription": "Clarify who can decide and record wishes for medical emergencies.",
+      "priority": "high",
+      "recommendedSolutions": [
+        "Identify healthcare proxy",
+        "Advance directive discussion",
+        "Share plan with family/ECM"
+      ],
+      "contractorType": "ECM / legal counselor",
+      "productCategories": [],
+      "estimatedCost": "Counseling session / included",
+      "installationTime": "1–2 sessions",
+      "scoreImprovement": 3,
+      "maintenanceRequirement": "",
+      "futureUpgrades": "",
+      "rubricItemIds": [
+        "family_support_advance_directive_decision_maker_known"
+      ],
+      "sort_order": 51,
+      "legacyIds": [],
+      "evidenceLevel": "B",
+      "membershipImpact": "Assisted / Premium / NRI",
+      "aiVisualization": false,
+      "followUpDays": 30
+    },
+    {
+      "id": "LW-HC-PCP-001",
+      "section": "Healthcare Coordination",
+      "subcategory": "Primary care",
+      "name": "Coordinate primary care follow-up",
+      "finding": "Missed or fragmented primary care",
+      "riskDescription": "Help schedule and prepare for physician visits.",
+      "priority": "medium",
+      "recommendedSolutions": [
+        "Appointment booking",
+        "Records folder",
+        "Transport arrange"
+      ],
+      "contractorType": "ECM / nurse",
+      "productCategories": [],
+      "estimatedCost": "Per coordination",
+      "installationTime": "Ongoing",
+      "scoreImprovement": 3,
+      "maintenanceRequirement": "",
+      "futureUpgrades": "",
+      "rubricItemIds": [
+        "health_wellness_chronic_conditions_documented",
+        "health_wellness_pain_managed_acceptably",
+        "health_wellness_vision_hearing_supports_in_place",
+        "health_wellness_foot_sensation_adequate_for_walking"
+      ],
+      "sort_order": 52,
+      "legacyIds": [],
+      "evidenceLevel": "B",
+      "membershipImpact": "Assisted / Premium / NRI",
+      "aiVisualization": false,
+      "followUpDays": 30
+    },
+    {
+      "id": "LW-HC-PT-001",
+      "section": "Healthcare Coordination",
+      "subcategory": "Physiotherapy",
+      "name": "Coordinate physiotherapy",
+      "finding": "Needs physiotherapy",
+      "riskDescription": "Arrange assessed PT for mobility and fall prevention.",
+      "priority": "high",
+      "recommendedSolutions": [
+        "PT referral",
+        "Home PT sessions"
+      ],
+      "contractorType": "Physiotherapist",
+      "productCategories": [],
+      "estimatedCost": "Per session",
+      "installationTime": "Ongoing",
+      "scoreImprovement": 4,
+      "maintenanceRequirement": "",
+      "futureUpgrades": "",
+      "rubricItemIds": [
+        "mobility_transfers_bed_chair_safely",
+        "mobility_stands_from_chair_without_arm_push",
+        "adl_transfer_mobility_for_adls"
+      ],
+      "sort_order": 53,
+      "legacyIds": [],
+      "evidenceLevel": "A",
+      "membershipImpact": "Assisted / Premium",
+      "aiVisualization": false,
+      "followUpDays": 30
+    },
+    {
+      "id": "LW-FIN-GOV-001",
+      "section": "Financial & Government Benefits",
+      "subcategory": "Benefits",
+      "name": "Government scheme eligibility review",
+      "finding": "Possible unused benefits",
+      "riskDescription": "Guidance on schemes and documentation (non-advisory coordination).",
+      "priority": "low",
+      "recommendedSolutions": [
+        "Eligibility checklist",
+        "Document folder",
+        "Application support"
+      ],
+      "contractorType": "ECM / counselor",
+      "productCategories": [],
+      "estimatedCost": "Per review",
+      "installationTime": "1–2 sessions",
+      "scoreImprovement": 1,
+      "maintenanceRequirement": "",
+      "futureUpgrades": "",
+      "rubricItemIds": [
+        "financial_benefits_eligible_government_benefits_identified",
+        "financial_benefits_income_pension_status_known"
+      ],
+      "sort_order": 54,
+      "legacyIds": [
+        "LW-FIN-001"
+      ],
+      "evidenceLevel": "C",
+      "membershipImpact": "Independent / Assisted / NRI",
+      "aiVisualization": false,
+      "followUpDays": 30
+    },
+    {
+      "id": "LW-FIN-DOC-001",
+      "section": "Financial & Government Benefits",
+      "subcategory": "Documentation",
+      "name": "Documentation and insurance claim coordination",
+      "finding": "Paperwork barriers",
+      "riskDescription": "Organize documents for claims and subsidies (coordination only).",
+      "priority": "low",
+      "recommendedSolutions": [
+        "Document kit",
+        "Claim checklist"
+      ],
+      "contractorType": "ECM",
+      "productCategories": [],
+      "estimatedCost": "Per engagement",
+      "installationTime": "1–3 sessions",
+      "scoreImprovement": 1,
+      "maintenanceRequirement": "",
+      "futureUpgrades": "",
+      "rubricItemIds": [
+        "financial_benefits_documents_available_for_applications",
+        "financial_benefits_health_insurance_schemes_reviewed"
+      ],
+      "sort_order": 55,
+      "legacyIds": [
+        "LW-FIN-002"
+      ],
+      "evidenceLevel": "C",
+      "membershipImpact": "Assisted / NRI",
+      "aiVisualization": false,
+      "followUpDays": 30
+    },
+    {
+      "id": "LW-WELL-AGE-001",
+      "section": "Wellness & Lifestyle",
+      "subcategory": "Healthy aging",
+      "name": "Healthy aging coaching",
+      "finding": "Lifestyle risk factors",
+      "riskDescription": "Coaching on sleep, activity, and prevention habits.",
+      "priority": "low",
+      "recommendedSolutions": [
+        "Coaching sessions",
+        "Walking program"
+      ],
+      "contractorType": "Wellness coach",
+      "productCategories": [],
+      "estimatedCost": "Monthly",
+      "installationTime": "Ongoing",
+      "scoreImprovement": 2,
+      "maintenanceRequirement": "",
+      "futureUpgrades": "",
+      "rubricItemIds": [
+        "lifestyle_day_structure_routine_present",
+        "lifestyle_sleep_environment_supportive"
+      ],
+      "sort_order": 56,
+      "legacyIds": [
+        "LW-LIFE-001"
+      ],
+      "evidenceLevel": "C",
+      "membershipImpact": "Independent / Assisted",
+      "aiVisualization": false,
+      "followUpDays": 30
+    },
+    {
+      "id": "LW-WELL-SOC-001",
+      "section": "Wellness & Lifestyle",
+      "subcategory": "Social activity",
+      "name": "Social activity and hobby planning",
+      "finding": "Low engagement",
+      "riskDescription": "Plan hobbies and community participation.",
+      "priority": "low",
+      "recommendedSolutions": [
+        "Activity calendar",
+        "Hobby kit",
+        "Group intro"
+      ],
+      "contractorType": "Companion / coach",
+      "productCategories": [],
+      "estimatedCost": "Monthly",
+      "installationTime": "Ongoing",
+      "scoreImprovement": 2,
+      "maintenanceRequirement": "",
+      "futureUpgrades": "",
+      "rubricItemIds": [
+        "lifestyle_meaningful_activities_available",
+        "lifestyle_outdoor_community_access"
+      ],
+      "sort_order": 57,
+      "legacyIds": [
+        "LW-LIFE-002"
+      ],
+      "evidenceLevel": "C",
+      "membershipImpact": "Independent / Assisted / Premium",
+      "aiVisualization": false,
+      "followUpDays": 30
+    },
+    {
+      "id": "LW-PM-INSP-001",
+      "section": "Property Management",
+      "subcategory": "Inspections",
+      "name": "Monthly property inspections",
+      "finding": "Unsupervised property risk",
+      "riskDescription": "Periodic walkthrough for remote families.",
+      "priority": "medium",
+      "recommendedSolutions": [
+        "Monthly inspection",
+        "Photo report to family"
+      ],
+      "contractorType": "ECM / property aide",
+      "productCategories": [],
+      "estimatedCost": "Monthly",
+      "installationTime": "Ongoing",
+      "scoreImprovement": 2,
+      "maintenanceRequirement": "",
+      "futureUpgrades": "",
+      "rubricItemIds": [
+        "home_condition_no_major_structural_hazards"
+      ],
+      "sort_order": 58,
+      "legacyIds": [],
+      "evidenceLevel": "C",
+      "membershipImpact": "NRI / Premium",
+      "aiVisualization": false,
+      "followUpDays": 30
+    }
+  ]
+}

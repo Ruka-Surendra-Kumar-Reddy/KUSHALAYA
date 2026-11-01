@@ -1,0 +1,16 @@
+[Unit]
+Description=SafeHomeOps STAGING Web (Next.js, :3020)
+After=network.target safehomeops-staging-api.service
+
+[Service]
+User=safehomeops
+Group=safehomeops
+WorkingDirectory=/opt/safehomeops-staging/app/frontend
+Environment=NODE_ENV=production
+Environment=PORT=3020
+ExecStart=/usr/bin/npm run start -- -p 3020 -H 127.0.0.1
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,1562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Kushalaya — Manual Test Cases</title>
+  <style>
+    :root {
+      --ink: #1a2332;
+      --muted: #5a6577;
+      --line: #d8dee8;
+      --bg: #f4f6fa;
+      --card: #fff;
+      --accent: #1e4d8c;
+      --accent-soft: #e8f0fa;
+      --pass: #0b6e4f;
+      --fail: #b42318;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: "Segoe UI", system-ui, sans-serif; color: var(--ink); background: var(--bg); line-height: 1.5; font-size: 14px; }
+    .wrap { max-width: 960px; margin: 0 auto; padding: 1.5rem 1rem 3rem; }
+    header.hero {
+      background: linear-gradient(135deg, #1a3a6b, #2d6a9f);
+      color: #fff; border-radius: 14px; padding: 1.75rem; margin-bottom: 1rem;
+    }
+    header.hero h1 { margin: 0 0 0.35rem; font-size: 1.65rem; }
+    header.hero p { margin: 0.35rem 0; opacity: 0.92; }
+    .stats { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 1rem; font-size: 0.85rem; }
+    .toolbar { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 1rem 0; align-items: center; }
+    .toolbar button { padding: 0.4rem 0.8rem; border-radius: 8px; border: 1px solid var(--line); background: var(--card); cursor: pointer; }
+    nav.toc { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 1rem; margin-bottom: 1.5rem; }
+    nav.toc h2 { margin: 0 0 0.5rem; font-size: 1rem; }
+    nav.toc ul { columns: 2; margin: 0; padding-left: 1.2rem; }
+    @media (max-width: 640px) { nav.toc ul { columns: 1; } }
+    section { margin-bottom: 2rem; }
+    section > h2 { color: var(--accent); border-bottom: 2px solid var(--accent-soft); padding-bottom: 0.35rem; margin-bottom: 1rem; }
+    .setup { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 1rem 1.15rem; margin-bottom: 1.5rem; }
+    .setup table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+    .setup th, .setup td { border: 1px solid var(--line); padding: 0.35rem 0.5rem; text-align: left; }
+    .setup th { background: var(--accent-soft); }
+    code { background: #eef1f6; padding: 0.1em 0.3em; border-radius: 3px; font-size: 0.88em; }
+    article.tc { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 0.85rem 1rem; margin-bottom: 0.75rem; }
+    .tc-head { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; margin-bottom: 0.35rem; }
+    .tc-id { font-family: monospace; font-weight: 700; color: var(--accent); }
+    .pill { font-size: 0.68rem; font-weight: 700; text-transform: uppercase; padding: 0.12rem 0.4rem; border-radius: 999px; background: #eee; }
+    .pri-p0 { background: #fde8e8; color: #9b1c1c; }
+    .pri-p1 { background: #fff6e5; color: #8a5a00; }
+    .pri-p2 { background: #eef1f6; color: #555; }
+    .role { background: var(--accent-soft); color: var(--accent); }
+    .pass { font-size: 0.8rem; margin-left: auto; }
+    article.tc h3 { margin: 0 0 0.4rem; font-size: 1rem; }
+    .pre { font-size: 0.88rem; color: var(--muted); margin: 0 0 0.5rem; }
+    .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; font-size: 0.88rem; }
+    @media (max-width: 700px) { .cols { grid-template-columns: 1fr; } }
+    .cols ol, .cols ul { margin: 0.25rem 0; padding-left: 1.2rem; }
+    .exp li { margin: 0.2rem 0; }
+    .tc-note { font-size: 0.82rem; color: var(--muted); margin: 0.5rem 0 0; padding-top: 0.5rem; border-top: 1px dashed var(--line); }
+    .log { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 1rem; margin-top: 2rem; }
+    .log table { width: 100%; border-collapse: collapse; }
+    .log th, .log td { border: 1px solid var(--line); padding: 0.4rem; }
+    footer { text-align: center; color: var(--muted); font-size: 0.8rem; margin-top: 2rem; }
+    @media print {
+      .toolbar { display: none; }
+      body { background: #fff; }
+      article.tc { break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <header class="hero">
+    <h1>Kushalaya — Manual Test Cases</h1>
+    <p>Step-by-step QA checklist for ops, assessor, family, and IoT pilot flows.</p>
+    <div class="stats">
+      <span><strong>83</strong> test cases</span>
+      <span><strong>23</strong> P0 (must pass before release)</span>
+      <span>Host: ops.kushalaya.com</span>
+      <span>Version: 2026-08-28</span>
+    </div>
+  </header>
+
+  <div class="toolbar">
+    <button type="button" onclick="window.print()">Print / Save as PDF</button>
+    <button type="button" onclick="document.querySelectorAll('.tc input[type=checkbox]').forEach(c=>c.checked=false)">Clear all checks</button>
+  </div>
+
+  <div class="setup" id="setup">
+    <h2 style="margin-top:0;color:var(--accent)">Test environment &amp; accounts</h2>
+    <p><strong>Before testing:</strong> API healthy (<code>/health</code>), frontend built (no 400 on <code>_next/static</code> chunks), demo seed optional.</p>
+    <p>Seed demo data (from <code>backend/</code>): <code>python -m app.seed_safehome_demo</code> — password <code>demo1234</code> for all demo users.</p>
+    <table>
+      <thead><tr><th>Role</th><th>Email (demo)</th><th>Entry URL</th></tr></thead>
+      <tbody>
+        <tr><td>TENANT_ADMIN</td><td>admin@sunrise-care.example</td><td>/login → /dashboard</td></tr>
+        <tr><td>CARE_MANAGER</td><td>manager@sunrise-care.example</td><td>/login → /dashboard</td></tr>
+        <tr><td>CAREGIVER (assessor)</td><td>anita.caregiver@sunrise-care.example</td><td>/livewell</td></tr>
+        <tr><td>ELDER_PORTAL (family)</td><td>lakshmi.family@sunrise-care.example</td><td>/livewell/family/login</td></tr>
+        <tr><td>ELDER_PORTAL (multi-elder)</td><td>arjun.family@sunrise-care.example</td><td>/livewell/family/login</td></tr>
+        <tr><td>ELDER_PORTAL</td><td>clairview.family@sunrise-care.example</td><td>/livewell/family/login</td></tr>
+      </tbody>
+    </table>
+    <p style="margin-top:0.75rem"><strong>Priority:</strong> P0 = release blocker · P1 = important · P2 = nice to verify</p>
+    <p><strong>How to execute:</strong> Check Pass or Fail on each case. Log defects with Test ID (e.g. TC-FAM-003). For IoT hardware tests see also <code>IOT_B7_MG7_FIELD_SETUP.md</code>.</p>
+  </div>
+
+  <nav class="toc">
+    <h2>Contents</h2>
+    <ul>
+      <li><a href="#area-auth">1. Authentication & sessions</a></li><li><a href="#area-nav">2. Ops navigation & RBAC</a></li><li><a href="#area-cli">3. Clients (Care delivery)</a></li><li><a href="#area-asm">4. Assessments (Assessor PWA)</a></li><li><a href="#area-vis">5. Visits & care stability</a></li><li><a href="#area-act">6. Session activity</a></li><li><a href="#area-cat">7. Catalog, rubric, solutions, pricing</a></li><li><a href="#area-md">8. Master data</a></li><li><a href="#area-par">9. Partners & vendors</a></li><li><a href="#area-ai">10. AI visualizations</a></li><li><a href="#area-iot">11. Wearables / IoT (pilot)</a></li><li><a href="#area-fam">12. Family portal</a></li><li><a href="#area-adm">13. Admin, settings, documents</a></li><li><a href="#area-sec">14. Security & negative tests</a></li><li><a href="#area-smoke">15. Smoke & regression</a></li>
+      <li><a href="#execution-log">Execution log</a></li>
+    </ul>
+  </nav>
+
+  <section id="area-auth"><h2>1. Authentication & sessions</h2>
+
+<article class="tc" id="tc-auth-001">
+  <div class="tc-head">
+    <span class="tc-id">TC-AUTH-001</span>
+    <span class="pill pri-p0">P0</span>
+    <span class="pill role">CARE_MANAGER</span>
+    <label class="pass"><input type="checkbox" /> Pass</label>
+    <label class="pass fail-lbl"><input type="checkbox" /> Fail</label>
+  </div>
+  <h3>Staff login — care manager</h3>
+  <p class="pre"><strong>Preconditions:</strong> Demo seed or valid staff account on ops host.</p>
+  <div class="cols">
+    <div><strong>Steps</strong><ol><li>Open /login on livewellops host.</li><li>Enter manager@sunrise-care.example / demo1234 (or env credentials).</li><li>Submit.</li></ol></div>
+    <div><strong>Expected results</strong><ul class="exp"><li>Login succeeds; redirected to /dashboard.</li><li>Sidebar shows Care delivery items.</li><li>No console errors blocking render.</li></ul></div>
+  </div>
+  
+</article>
+
+<article class="tc" id="tc-auth-002">
+  <div class="tc-head">
+    <span class="tc-id">TC-AUTH-002</span>
+    <span class="pill pri-p1">P1</span>
+    <span class="pill role">Any</span>
+    <label class="pass"><input type="checkbox" /> Pass</label>
+    <label class="pass fail-lbl"><input type="checkbox" /> Fail</label>
+  </div>
+  <h3>Staff login — invalid password</h3>
+  <p class="pre"><strong>Preconditions:</strong> Known staff email.</p>
+  <div class="cols">
+    <div><strong>Steps</strong><ol><li>Open /login.</li><li>Enter valid email + wrong password.</li><li>Submit.</li></ol></div>
+    <div><strong>Expected results</strong><ul class="exp"><li>Login rejected with clear error.</li><li>User remains on login page; no token issued.</li></ul></div>
+  </div>
+  
+</article>
+
+<article class="tc" id="tc-auth-003">
+  <div class="tc-head">
+    <span class="tc-id">TC-AUTH-003</span>
+    <span class="pill pri-p0">P0</span>
+    <span class="pill role">ELDER_PORTAL</span>
+    <label class="pass"><input type="checkbox" /> Pass</label>
+    <label class="pass fail-lbl"><input type="checkbox" /> Fail</label>
+  </div>
+  <h3>Family login</h3>
+  <p class="pre"><strong>Preconditions:</strong> Family user seeded (e.g. lakshmi.family@sunrise-care.example / demo1234).</p>
+  <div class="cols">
+    <div><strong>Steps</strong><ol><li>Open /livewell/family/login.</li><li>Sign in with family credentials.</li></ol></div>
+    <div><strong>Expected results</strong><ul class="exp"><li>Lands on family dashboard (/livewell/family/dashboard).</li><li>Bottom nav: Home, Schedule, Updates, Chat, More.</li></ul></div>
+  </div>
+  
+</article>
+
+<article class="tc" id="tc-auth-004">
+  <div class="tc-head">
+    <span class="tc-id">TC-AUTH-004</span>
+    <span class="pill pri-p0">P0</span>
+    <span class="pill role">CAREGIVER</span>
+    <label class="pass"><input type="checkbox" /> Pass</label>
+    <label class="pass fail-lbl"><input type="checkbox" /> Fail</label>
+  </div>
+  <h3>Assessor login</h3>
+  <p class="pre"><strong>Preconditions:</strong> Assessor seeded (anita.caregiver@sunrise-care.example / demo1234).</p>
+  <div class="cols">
+    <div><strong>Steps</strong><ol><li>Sign in via /login or assessor entry.</li><li>Navigate to /livewell.</li></ol></div>
+    <div><strong>Expected results</strong><ul class="exp"><li>Assessor shell loads assessment list.</li><li>No ops admin sidebar (HomeSafetyShell).</li></ul></div>
+  </div>
+  
+</article>
+
+<article class="tc" id="tc-auth-005">
+  <div class="tc-head">
+    <span class="tc-id">TC-AUTH-005</span>
+    <span class="pill pri-p0">P0</span>
+    <span class="pill role">ELDER_PORTAL</span>
+    <label class="pass"><input type="checkbox" /> Pass</label>
+    <label class="pass fail-lbl"><input type="checkbox" /> Fail</label>
+  </div>
+  <h3>Family blocked from staff APIs</h3>
+  <p class="pre"><strong>Preconditions:</strong> Logged in as family; browser devtools available.</p>
+  <div class="cols">
+    <div><strong>Steps</strong><ol><li>While on family app, attempt direct URL /livewell/customers or /dashboard.</li></ol></div>
+    <div><strong>Expected results</strong><ul class="exp"><li>Redirect to unauthorized or login; no client PII from staff APIs.</li></ul></div>
+  </div>
+  <p class="tc-note"><strong>Note:</strong> Automated: backend/tests/test_portal_access.py</p>
+</article>
+
+<article class="tc" id="tc-auth-006">
+  <div class="tc-head">
+    <span class="tc-id">TC-AUTH-006</span>
+    <span class="pill pri-p1">P1</span>
+    <span class="pill role">CARE_MANAGER</span>
+    <label class="pass"><input type="checkbox" /> Pass</label>
+    <label class="pass fail-lbl"><input type="checkbox" /> Fail</label>
+  </div>
+  <h3>Logout — staff</h3>
+  <p class="pre"><strong>Preconditions:</strong> Logged in as staff.</p>
+  <div class="cols">
+    <div><strong>Steps</strong><ol><li>Use Sign out from shell.</li><li>Try /dashboard without re-login.</li></ol></div>
+    <div><strong>Expected results</strong><ul class="exp"><li>Session cleared; redirected to login.</li></ul></div>
+  </div>
+  
+</article>
+
+<article class="tc" id="tc-auth-007">
+  <div class="tc-head">
+    <span class="tc-id">TC-AUTH-007</span>
+    <span class="pill pri-p1">P1</span>
+    <span class="pill role">ELDER_PORTAL</span>
+    <label class="pass"><input type="checkbox" /> Pass</label>
+    <label class="pass fail-lbl"><input type="checkbox" /> Fail</label>
+  </div>
+  <h3>Logout — family</h3>
+  <p class="pre"><strong>Preconditions:</strong> Logged in as family.</p>
+  <div class="cols">
+    <div><strong>Steps</strong><ol><li>Sign out from family shell.</li><li>Navigate to /livewell/family/dashboard.</li></ol></div>
+    <div><strong>Expected results</strong><ul class="exp"><li>Requires login again.</li></ul></div>
+  </div>
+  
+</article></section>
+<section id="area-nav"><h2>2. Ops navigation & RBAC</h2>
+
+<article class="tc" id="tc-nav-001">
+  <div class="tc-head">
+    <span class="tc-id">TC-NAV-001</span>
+    <span class="pill pri-p1">P1</span>
+    <span class="pill role">VIEWER</span>
+    <label class="pass"><input type="checkbox" /> Pass</label>
+    <label class="pass fail-lbl"><input type="checkbox" /> Fail</label>
+  </div>
+  <h3>VIEWER sidebar scope</h3>
+  <p class="pre"><strong>Preconditions:</strong> Account with VIEWER role only.</p>
+  <div class="cols">
+    <div><strong>Steps</strong><ol><li>Log in as VIEWER.</li><li>Inspect sidebar groups.</li></ol></div>
+    <div><strong>Expected results</strong><ul class="exp"><li>Sees Overview + Care delivery only.</li><li>No Catalog, Platform, or Partner network.</li></ul></div>
+  </div>
+  
+</article>
+
+<article class="tc" id="tc-nav-002">
+  <div class="tc-head">
+    <span class="tc-id">TC-NAV-002</span>
+    <span class="pill pri-p1">P1</span>
+    <span class="pill role">CARE_MANAGER</span>
+    <label class="pass"><input type="checkbox" /> Pass</label>
+    <label class="pass fail-lbl"><input type="checkbox" /> Fail</label>
+  </div>
+  <h3>CARE_MANAGER sidebar scope</h3>
+  <p class="pre"><strong>Preconditions:</strong> Care manager account.</p>
+  <div class="cols">
+    <div><strong>Steps</strong><ol><li>Log in as CARE_MANAGER.</li><li>Inspect sidebar.</li></ol></div>
+    <div><strong>Expected results</strong><ul class="exp"><li>Sees Care delivery, Partner network, People, Admin (Team/Settings).</li><li>Does NOT see Catalog & quotes or Platform tools (Wearables, Master data, AI).</li></ul></div>
+  </div>
+  
+</article>
+
+<article class="tc" id="tc-nav-003">
+  <div class="tc-head">
+    <span class="tc-id">TC-NAV-003</span>
+    <span class="pill pri-p1">P1</span>
+    <span class="pill role">TENANT_ADMIN</span>
+    <label class="pass"><input type="checkbox" /> Pass</label>
+    <label class="pass fail-lbl"><input type="checkbox" /> Fail</label>
+  </div>
+  <h3>TENANT_ADMIN full LiveWell nav</h3>
+  <p class="pre"><strong>Preconditions:</strong> Tenant admin account.</p>
+  <div class="cols">
+    <div><strong>Steps</strong><ol><li>Log in as TENANT_ADMIN.</li><li>Verify Catalog, Platform, Users visible.</li></ol></div>
+    <div><strong>Expected results</strong><ul class="exp"><li>All LiveWell admin routes present except Tenants (system admin only).</li></ul></div>
+  </div>
+  
+</article>
+
+<article class="tc" id="tc-nav-004">
+  <div class="tc-head">
+    <span class="tc-id">TC-NAV-004</span>
+    <span class="pill pri-p2">P2</span>
+    <span class="pill role">VIEWER / CARE_MANAGER</span>
+    <label class="pass"><input type="checkbox" /> Pass</label>
+    <label class="pass fail-lbl"><input type="checkbox" /> Fail</label>
+  </div>
+  <h3>Session activity nav vs page access</h3>
+  <p class="pre"><strong>Preconditions:</strong> VIEWER and CARE_MANAGER accounts.</p>
+  <div class="cols">
+    <div><strong>Steps</strong><ol><li>As VIEWER: open /livewell/activity if linked in nav.</li><li>As CARE_MANAGER: open /livewell/activity.</li></ol></div>
+    <div><strong>Expected results</strong><ul class="exp"><li>CARE_MANAGER can view session list and expand sessions.</li><li>VIEWER either blocked or sees limited data per page guard.</li></ul></div>
+  </div>
+  <p class="tc-note"><strong>Note:</strong> Known: nav may show Activity to all; API requires WRITE_ROLES.</p>
+</article></section>
+<section id="area-cli"><h2>3. Clients (Care delivery)</h2>
+
+<article class="tc" id="tc-cli-001">
+  <div class="tc-head">
+    <span class="tc-id">TC-CLI-001</span>
+    <span class="pill pri-p0">P0</span>
+    <span class="pill role">CARE_MANAGER+</span>
+    <label class="pass"><input type="checkbox" /> Pass</label>
+    <label class="pass fail-lbl"><input type="checkbox" /> Fail</label>
+  </div>
+  <h3>Clients list loads</h3>
+  <p class="pre"><strong>Preconditions:</strong> Staff logged in.</p>
+  <div class="cols">
+    <div><strong>Steps</strong><ol><li>Open /livewell/customers.</li></ol></div>
+    <div><strong>Expected results</strong><ul class="exp"><li>Client/lead list renders; no infinite loading.</li></ul></div>
+  </div>
+  
+</article>
+
+<article class="tc" id="tc-cli-002">
+  <div class="tc-head">
+    <span class="tc-id">TC-CLI-002</span>
+    <span class="pill pri-p1">P1</span>
+    <span class="pill role">CARE_MANAGER+</span>
+    <label class="pass"><input type="checkbox" /> Pass</label>
+    <label class="pass fail-lbl"><input type="checkbox" /> Fail</label>
+  </div>
+  <h3>Create new lead</h3>
+  <p class="pre"><strong>Preconditions:</strong> Staff on Clients page.</p>
+  <div class="cols">
+    <div><strong>Steps</strong><ol><li>Create new lead/prospect with name + contact.</li><li>Save.</li></ol></div>
+    <div><strong>Expected results</strong><ul class="exp"><li>Lead appears in list.</li><li>Can open detail.</li></ul></div>
+  </div>
+  
+</article>
+
+<article class="tc" id="tc-cli-003">
+  <div class="tc-head">
+    <span class="tc-id">TC-CLI-003</span>
+    <span class="pill pri-p0">P0</span>
+    <span class="pill role">CARE_MANAGER+</span>
+    <label class="pass"><input type="checkbox" /> Pass</label>
+    <label class="pass fail-lbl"><input type="checkbox" /> Fail</label>
+  </div>
+  <h3>Convert lead to client</h3>
+  <p class="pre"><strong>Preconditions:</strong> Open lead exists.</p>
+  <div class="cols">
+    <div><strong>Steps</strong><ol><li>Open lead → Convert to client.</li><li>Complete required fields.</li></ol></div>
+    <div><strong>Expected results</strong><ul class="exp"><li>Client record created; lead absorbed.</li><li>Client usable for assessment link and visits.</li></ul></div>
+  </div>
+  
+</article>
+
+<article class="tc" id="tc-cli-004">
+  <div class="tc-head">
+    <span class="tc-id">TC-CLI-004</span>
+    <span class="pill pri-p0">P0</span>
+    <span class="pill role">CARE_MANAGER+</span>
+    <label class="pass"><input type="checkbox" /> Pass</label>
+    <label class="pass fail-lbl"><input type="checkbox" /> Fail</label>
+  </div>
+  <h3>Start assessment from client</h3>
+  <p class="pre"><strong>Preconditions:</strong> Client exists.</p>
+  <div class="cols">
+    <div><strong>Steps</strong><ol><li>From client row/detail, start or open assessment.</li></ol></div>
+    <div><strong>Expected results</strong><ul class="exp"><li>Navigates to assessor flow with client linked.</li></ul></div>
+  </div>
+  
+</article>
+
+<article class="tc" id="tc-cli-005">
+  <div class="tc-head">
+    <span class="tc-id">TC-CLI-005</span>
+    <span class="pill pri-p0">P0</span>
+    <span class="pill role">CARE_MANAGER+</span>
+    <label class="pass"><input type="checkbox" /> Pass</label>
+    <label class="pass fail-lbl"><input type="checkbox" /> Fail</label>
+  </div>
+  <h3>Republish assessment to family</h3>
+  <p class="pre"><strong>Preconditions:</strong> Client has completed assessment; family user linked.</p>
+  <div class="cols">
+    <div><strong>Steps</strong><ol><li>Open client → Republish to family (or equivalent action).</li><li>Log in as linked family user.</li><li>Open family dashboard.</li></ol></div>
+    <div><strong>Expected results</strong><ul class="exp"><li>Family Home shows Independence Score™ and plan data.</li><li>Living plan priorities visible under More → Living plan.</li></ul></div>
+  </div>
+  
+</article>
+
+<article class="tc" id="tc-cli-006">
+  <div class="tc-head">
+    <span class="tc-id">TC-CLI-006</span>
+    <span class="pill pri-p2">P2</span>
+    <span class="pill role">TENANT_ADMIN</span>
+    <label class="pass"><input type="checkbox" /> Pass</label>
+    <label class="pass fail-lbl"><input type="checkbox" /> Fail</label>
+  </div>
+  <h3>Permanent delete client (admin only)</h3>
+  <p class="pre"><strong>Preconditions:</strong> Test client with no production data.</p>
+  <div class="cols">
+    <div><strong>Steps</strong><ol><li>As admin, use danger-zone permanent delete on test client.</li></ol></div>
+    <div><strong>Expected results</strong><ul class="exp"><li>Client removed; confirm dialog required.</li><li>Non-admin cannot see or use permanent delete.</li></ul></div>
+  </div>
+  
+</article></section>
+<section id="area-asm"><h2>4. Assessments (Assessor PWA)</h2>
+
+<article class="tc" id="tc-asm-001">
+  <div class="tc-head">
+    <span class="tc-id">TC-ASM-001</span>
+    <span class="pill pri-p0">P0</span>
+    <span class="pill role">CAREGIVER</span>
+    <label class="pass"><input type="checkbox" /> Pass</label>
+    <label class="pass fail-lbl"><input type="checkbox" /> Fail</label>
+  </div>
+  <h3>Create new assessment</h3>
+  <p class="pre"><strong>Preconditions:</strong> Assessor logged in at /livewell.</p>
+  <div class="cols">
+    <div><strong>Steps</strong><ol><li>Tap + New assessment.</li><li>Enter resident first name on profile step.</li></ol></div>
+    <div><strong>Expected results</strong><ul class="exp"><li>Wizard opens at profile step.</li><li>Progress indicator visible.</li></ul></div>
+  </div>
+  
+</article>
+
+<article class="tc" id="tc-asm-002">
+  <div class="tc-head">
+    <span class="tc-id">TC-ASM-002</span>
+    <span class="pill pri-p1">P1</span>
+    <span class="pill role">CAREGIVER</span>
+    <label class="pass"><input type="checkbox" /> Pass</label>
+    <label class="pass fail-lbl"><input type="checkbox" /> Fail</label>
+  </div>
+  <h3>Conditional logic hides items</h3>
+  <p class="pre"><strong>Preconditions:</strong> New assessment.</p>
+  <div class="cols">
+    <div><strong>Steps</strong><ol><li>On profile, select options that hide sections (e.g. no stairs).</li><li>Navigate scored sections.</li></ol></div>
+    <div><strong>Expected results</strong><ul class="exp"><li>Irrelevant sections/items hidden per profile.</li><li>Profile shows count of hidden questions.</li></ul></div>
+  </div>
+  
+</article>
+
+<article class="tc" id="tc-asm-003">
+  <div class="tc-head">
+    <span class="tc-id">TC-ASM-003</span>
+    <span class="pill pri-p0">P0</span>
+    <span class="pill role">CAREGIVER</span>
+    <label class="pass"><input type="checkbox" /> Pass</label>
+    <label class="pass fail-lbl"><input type="checkbox" /> Fail</label>
+  </div>
+  <h3>Rate checklist items</h3>
+  <p class="pre"><strong>Preconditions:</strong> Assessment in progress.</p>
+  <div class="cols">
+    <div><strong>Steps</strong><ol><li>Rate items Excellent / Acceptable / Unsafe / N/A across sections.</li><li>Use dot nav to jump sections.</li></ol></div>
+    <div><strong>Expected results</strong><ul class="exp"><li>Ratings persist when navigating away.</li><li>Completion % updates.</li></ul></div>
+  </div>
+  
+</article>
+
+<article class="tc" id="tc-asm-004">
+  <div class="tc-head">
+    <span class="tc-id">TC-ASM-004</span>
+    <span class="pill pri-p1">P1</span>
+    <span class="pill role">CAREGIVER</span>
+    <label class="pass"><input type="checkbox" /> Pass</label>
+    <label class="pass fail-lbl"><input type="checkbox" /> Fail</label>
+  </div>
+  <h3>Save blocked until 100% applicable</h3>
+  <p class="pre"><strong>Preconditions:</strong> Assessment with unrated applicable items.</p>
+  <div class="cols">
+    <div><strong>Steps</strong><ol><li>Go to Review & save without completing all applicable items.</li><li>Attempt Save.</li></ol></div>
+    <div><strong>Expected results</strong><ul class="exp"><li>Save blocked with clear message.</li><li>After completing all applicable items, Save enabled.</li></ul></div>
+  </div>
+  
+</article>
+
+<article class="tc" id="tc-asm-005">
+  <div class="tc-head">
+    <span class="tc-id">TC-ASM-005</span>
+    <span class="pill pri-p0">P0</span>
+    <span class="pill role">CAREGIVER</span>
+    <label class="pass"><input type="checkbox" /> Pass</label>
+    <label class="pass fail-lbl"><input type="checkbox" /> Fail</label>
+  </div>
+  <h3>Complete assessment — score and plan</h3>
+  <p class="pre"><strong>Preconditions:</strong> 100% applicable items rated; assessor signed in.</p>
+  <div class="cols">
+    <div><strong>Steps</strong><ol><li>Complete review step; Save/finalize.</li><li>Note SafeHome Score™ and improvement plan.</li></ol></div>
+    <div><strong>Expected results</strong><ul class="exp"><li>Score 0–100 and grade shown.</li><li>Improvement plan lists solutions for Unsafe/Acceptable items.</li><li>Customer quote section populated when catalog linked.</li></ul></div>
+  </div>
+  
+</article>
+
+<article class="tc" id="tc-asm-006">
+  <div class="tc-head">
+    <span class="tc-id">TC-ASM-006</span>
+    <span class="pill pri-p1">P1</span>
+    <span class="pill role">CAREGIVER</span>
+    <label class="pass"><input type="checkbox" /> Pass</label>
+    <label class="pass fail-lbl"><input type="checkbox" /> Fail</label>
+  </div>
+  <h3>Upload assessment photo</h3>
+  <p class="pre"><strong>Preconditions:</strong> Assessment with photo step.</p>
+  <div class="cols">
+    <div><strong>Steps</strong><ol><li>Upload before photo for a room/finding.</li></ol></div>
+    <div><strong>Expected results</strong><ul class="exp"><li>Photo appears in assessment.</li><li>After publish, family can see under Photos & visuals.</li></ul></div>
+  </div>
+  
+</article>
+
+<article class="tc" id="tc-asm-007">
+  <div class="tc-head">
+    <span class="tc-id">TC-ASM-007</span>
+    <span class="pill pri-p2">P2</span>
+    <span class="pill role">CAREGIVER</span>
+    <label class="pass"><input type="checkbox" /> Pass</label>
+    <label class="pass fail-lbl"><input type="checkbox" /> Fail</label>
+  </div>
+  <h3>Draft auto-save (localStorage)</h3>
+  <p class="pre"><strong>Preconditions:</strong> Assessment in progress.</p>
+  <div class="cols">
+    <div><strong>Steps</strong><ol><li>Rate several items.</li><li>Refresh browser (same device).</li></ol></div>
+    <div><strong>Expected results</strong><ul class="exp"><li>Draft restored from local storage.</li></ul></div>
+  </div>
+  
+</article>
+
+<article class="tc" id="tc-asm-008">
+  <div class="tc-head">
+    <span class="tc-id">TC-ASM-008</span>
+    <span class="pill pri-p2">P2</span>
+    <span class="pill role">CAREGIVER / CARE_MANAGER</span>
+    <label class="pass"><input type="checkbox" /> Pass</label>
+    <label class="pass fail-lbl"><input type="checkbox" /> Fail</label>
+  </div>
+  <h3>Signed document upload</h3>
+  <p class="pre"><strong>Preconditions:</strong> Assessment linked to client.</p>
+  <div class="cols">
+    <div><strong>Steps</strong><ol><li>Upload signed customer document from assessment flow.</li><li>Check family Documents page.</li></ol></div>
+    <div><strong>Expected results</strong><ul class="exp"><li>Document listed for family under More → Documents.</li></ul></div>
+  </div>
+  
+</article></section>
+<section id="area-vis"><h2>5. Visits & care stability</h2>
+
+<article class="tc" id="tc-vis-001">
+  <div class="tc-head">
+    <span class="tc-id">TC-VIS-001</span>
+    <span class="pill pri-p0">P0</span>
+    <span class="pill role">CARE_MANAGER+</span>
+    <label class="pass"><input type="checkbox" /> Pass</label>
+    <label class="pass fail-lbl"><input type="checkbox" /> Fail</label>
+  </div>
+  <h3>Visits page loads</h3>
+  <p class="pre"><strong>Preconditions:</strong> Enrolled client exists.</p>
+  <div class="cols">
+    <div><strong>Steps</strong><ol><li>Open /livewell/visits.</li><li>Select client.</li></ol></div>
+    <div><strong>Expected results</strong><ul class="exp"><li>Visit form and history visible.</li></ul></div>
+  </div>
+  
+</article>
+
+<article class="tc" id="tc-vis-002">
+  <div class="tc-head">
+    <span class="tc-id">TC-VIS-002</span>
+    <span class="pill pri-p0">P0</span>
+    <span class="pill role">CARE_MANAGER+</span>
+    <label class="pass"><input type="checkbox" /> Pass</label>
+    <label class="pass fail-lbl"><input type="checkbox" /> Fail</label>
+  </div>
+  <h3>Baseline visit — score 50</h3>
+  <p class="pre"><strong>Preconditions:</strong> Client with no prior completed visit.</p>
+  <div class="cols">
+    <div><strong>Steps</strong><ol><li>Create visit; complete baseline protocol fields.</li><li>Set visit type Baseline profile.</li><li>Add optional family message.</li><li>Save visit.</li></ol></div>
+    <div><strong>Expected results</strong><ul class="exp"><li>Stability score = 50.</li><li>Baseline stored; family dashboard shows care status message.</li></ul></div>
+  </div>
+  
+</article>
+
+<article class="tc" id="tc-vis-003">
+  <div class="tc-head">
+    <span class="tc-id">TC-VIS-003</span>
+    <span class="pill pri-p0">P0</span>
+    <span class="pill role">CARE_MANAGER+</span>
+    <label class="pass"><input type="checkbox" /> Pass</label>
+    <label class="pass fail-lbl"><input type="checkbox" /> Fail</label>
+  </div>
+  <h3>Check-in visit — stability delta</h3>
+  <p class="pre"><strong>Preconditions:</strong> Client with baseline completed.</p>
+  <div class="cols">
+    <div><strong>Steps</strong><ol><li>Log check-in visit with mood/mobility/eating vs normal.</li><li>Save.</li></ol></div>
+    <div><strong>Expected results</strong><ul class="exp"><li>Score changes from 50 based on answers.</li><li>Mom-is-OK status GREEN/YELLOW/RED shown appropriately.</li><li>Family trend chart updates.</li></ul></div>
+  </div>
+  
+</article>
+
+<article class="tc" id="tc-vis-004">
+  <div class="tc-head">
+    <span class="tc-id">TC-VIS-004</span>
+    <span class="pill pri-p1">P1</span>
+    <span class="pill role">CARE_MANAGER+</span>
+    <label class="pass"><input type="checkbox" /> Pass</label>
+    <label class="pass fail-lbl"><input type="checkbox" /> Fail</label>
+  </div>
+  <h3>Living plan item status</h3>
+  <p class="pre"><strong>Preconditions:</strong> Client with published plan.</p>
+  <div class="cols">
+    <div><strong>Steps</strong><ol><li>On Visits, set plan item to Scheduled / Done.</li><li>Check family Living plan.</li></ol></div>
+    <div><strong>Expected results</strong><ul class="exp"><li>Status reflected on family plan.</li><li>Done items drop from Home top priorities.</li></ul></div>
+  </div>
+  
+</article>
+
+<article class="tc" id="tc-vis-005">
+  <div class="tc-head">
+    <span class="tc-id">TC-VIS-005</span>
+    <span class="pill pri-p0">P0</span>
+    <span class="pill role">CARE_MANAGER+</span>
+    <label class="pass"><input type="checkbox" /> Pass</label>
+    <label class="pass fail-lbl"><input type="checkbox" /> Fail</label>
+  </div>
+  <h3>Family service request — confirm</h3>
+  <p class="pre"><strong>Preconditions:</strong> Family user logged in.</p>
+  <div class="cols">
+    <div><strong>Steps</strong><ol><li>Family: Schedule → Request a service.</li><li>Staff: Visits → confirm request (optionally create visit).</li><li>Family: check Updates / Schedule.</li></ol></div>
+    <div><strong>Expected results</strong><ul class="exp"><li>Request moves from pending to confirmed.</li><li>Family sees confirmation in timeline.</li></ul></div>
+  </div>
+  
+</article>
+
+<article class="tc" id="tc-vis-006">
+  <div class="tc-head">
+    <span class="tc-id">TC-VIS-006</span>
+    <span class="pill pri-p2">P2</span>
+    <span class="pill role">CARE_MANAGER+</span>
+    <label class="pass"><input type="checkbox" /> Pass</label>
+    <label class="pass fail-lbl"><input type="checkbox" /> Fail</label>
+  </div>
+  <h3>Family service request — decline</h3>
+  <p class="pre"><strong>Preconditions:</strong> Pending family request exists.</p>
+  <div class="cols">
+    <div><strong>Steps</strong><ol><li>Staff declines request with reason if prompted.</li></ol></div>
+    <div><strong>Expected results</strong><ul class="exp"><li>Family sees declined status; no visit created.</li></ul></div>
+  </div>
+  
+</article></section>
+<section id="area-act"><h2>6. Session activity</h2>
+
+<article class="tc" id="tc-act-001">
+  <div class="tc-head">
+    <span class="tc-id">TC-ACT-001</span>
+    <span class="pill pri-p1">P1</span>
+    <span class="pill role">CARE_MANAGER+</span>
+    <label class="pass"><input type="checkbox" /> Pass</label>
+    <label class="pass fail-lbl"><input type="checkbox" /> Fail</label>
+  </div>
+  <h3>Session activity list</h3>
+  <p class="pre"><strong>Preconditions:</strong> Staff has performed actions while logged in.</p>
+  <div class="cols">
+    <div><strong>Steps</strong><ol><li>Open /livewell/activity.</li><li>Filter by actor type (Staff / Family / Assessor).</li></ol></div>
+    <div><strong>Expected results</strong><ul class="exp"><li>Sessions listed with email, time, event count.</li><li>Accordion expands to show actions and API calls.</li></ul></div>
+  </div>
+  
+</article>
+
+<article class="tc" id="tc-act-002">
+  <div class="tc-head">
+    <span class="tc-id">TC-ACT-002</span>
+    <span class="pill pri-p2">P2</span>
+    <span class="pill role">TENANT_ADMIN</span>
+    <label class="pass"><input type="checkbox" /> Pass</label>
+    <label class="pass fail-lbl"><input type="checkbox" /> Fail</label>
+  </div>
+  <h3>System session — IoT event</h3>
+  <p class="pre"><strong>Preconditions:</strong> IoT SOS lab test or mosquitto_pub performed.</p>
+  <div class="cols">
+    <div><strong>Steps</strong><ol><li>Filter Actor → System.</li><li>Expand System session after SOS ingest.</li></ol></div>
+    <div><strong>Expected results</strong><ul class="exp"><li>IoT Sos Button (or similar) event present.</li><li>Details (JSON) shows meta when verbose mode on.</li></ul></div>
+  </div>
+  <p class="tc-note"><strong>Note:</strong> Requires ACTIVITY_LOG_MODE=verbose for full raw_payload.</p>
+</article>
+
+<article class="tc" id="tc-act-003">
+  <div class="tc-head">
+    <span class="tc-id">TC-ACT-003</span>
+    <span class="pill pri-p2">P2</span>
+    <span class="pill role">TENANT_ADMIN</span>
+    <label class="pass"><input type="checkbox" /> Pass</label>
+    <label class="pass fail-lbl"><input type="checkbox" /> Fail</label>
+  </div>
+  <h3>Wearables staff action logged</h3>
+  <p class="pre"><strong>Preconditions:</strong> Logged in with session header active.</p>
+  <div class="cols">
+    <div><strong>Steps</strong><ol><li>Register kit on /livewell/iot-devices.</li><li>Open Session activity → own staff session.</li></ol></div>
+    <div><strong>Expected results</strong><ul class="exp"><li>User action: Registered IoT kit (or similar) recorded.</li></ul></div>
+  </div>
+  
+</article></section>
+<section id="area-cat"><h2>7. Catalog, rubric, solutions, pricing</h2>
+
+<article class="tc" id="tc-cat-001">
+  <div class="tc-head">
+    <span class="tc-id">TC-CAT-001</span>
+    <span class="pill pri-p1">P1</span>
+    <span class="pill role">TENANT_ADMIN</span>
+    <label class="pass"><input type="checkbox" /> Pass</label>
+    <label class="pass fail-lbl"><input type="checkbox" /> Fail</label>
+  </div>
+  <h3>Product catalog list</h3>
+  <p class="pre"><strong>Preconditions:</strong> Tenant admin logged in.</p>
+  <div class="cols">
+    <div><strong>Steps</strong><ol><li>Open /livewell/catalog.</li></ol></div>
+    <div><strong>Expected results</strong><ul class="exp"><li>SKU list loads; can open product detail.</li></ul></div>
+  </div>
+  
+</article>
+
+<article class="tc" id="tc-cat-002">
+  <div class="tc-head">
+    <span class="tc-id">TC-CAT-002</span>
+    <span class="pill pri-p2">P2</span>
+    <span class="pill role">TENANT_ADMIN</span>
+    <label class="pass"><input type="checkbox" /> Pass</label>
+    <label class="pass fail-lbl"><input type="checkbox" /> Fail</label>
+  </div>
+  <h3>Edit catalog SKU</h3>
+  <p class="pre"><strong>Preconditions:</strong> Catalog has products.</p>
+  <div class="cols">
+    <div><strong>Steps</strong><ol><li>Edit product name/price/link to solution.</li><li>Save.</li></ol></div>
+    <div><strong>Expected results</strong><ul class="exp"><li>Changes persist after refresh.</li><li>Assessor quote reflects updated SKU if linked.</li></ul></div>
+  </div>
+  
+</article>
+
+<article class="tc" id="tc-cat-003">
+  <div class="tc-head">
+    <span class="tc-id">TC-CAT-003</span>
+    <span class="pill pri-p2">P2</span>
+    <span class="pill role">TENANT_ADMIN</span>
+    <label class="pass"><input type="checkbox" /> Pass</label>
+    <label class="pass fail-lbl"><input type="checkbox" /> Fail</label>
+  </div>
+  <h3>Solution library edit</h3>
+  <p class="pre"><strong>Preconditions:</strong> Solutions exist.</p>
+  <div class="cols">
+    <div><strong>Steps</strong><ol><li>Open /livewell/solutions.</li><li>Edit one solution rubricItemIds link.</li></ol></div>
+    <div><strong>Expected results</strong><ul class="exp"><li>Save succeeds; matching plan uses solution on next assessment.</li></ul></div>
+  </div>
+  
+</article>
+
+<article class="tc" id="tc-cat-004">
+  <div class="tc-head">
+    <span class="tc-id">TC-CAT-004</span>
+    <span class="pill pri-p2">P2</span>
+    <span class="pill role">TENANT_ADMIN</span>
+    <label class="pass"><input type="checkbox" /> Pass</label>
+    <label class="pass fail-lbl"><input type="checkbox" /> Fail</label>
+  </div>
+  <h3>Pricing config</h3>
+  <p class="pre"><strong>Preconditions:</strong> Pricing page accessible.</p>
+  <div class="cols">
+    <div><strong>Steps</strong><ol><li>Adjust margin or GST setting.</li><li>Save.</li><li>Run assessment quote on review step.</li></ol></div>
+    <div><strong>Expected results</strong><ul class="exp"><li>Grand total changes per pricing rules.</li></ul></div>
+  </div>
+  
+</article>
+
+<article class="tc" id="tc-cat-005">
+  <div class="tc-head">
+    <span class="tc-id">TC-CAT-005</span>
+    <span class="pill pri-p2">P2</span>
+    <span class="pill role">TENANT_ADMIN</span>
+    <label class="pass"><input type="checkbox" /> Pass</label>
+    <label class="pass fail-lbl"><input type="checkbox" /> Fail</label>
+  </div>
+  <h3>Rubric checklist editor</h3>
+  <p class="pre"><strong>Preconditions:</strong> Rubric page accessible.</p>
+  <div class="cols">
+    <div><strong>Steps</strong><ol><li>Open /livewell/rubric.</li><li>View section weights.</li></ol></div>
+    <div><strong>Expected results</strong><ul class="exp"><li>Checklist items load; edits save if permitted.</li></ul></div>
+  </div>
+  
+</article></section>
+<section id="area-md"><h2>8. Master data</h2>
+
+<article class="tc" id="tc-md-001">
+  <div class="tc-head">
+    <span class="tc-id">TC-MD-001</span>
+    <span class="pill pri-p1">P1</span>
+    <span class="pill role">TENANT_ADMIN</span>
+    <label class="pass"><input type="checkbox" /> Pass</label>
+    <label class="pass fail-lbl"><input type="checkbox" /> Fail</label>
+  </div>
+  <h3>Master data export</h3>
+  <p class="pre"><strong>Preconditions:</strong> Master data page accessible.</p>
+  <div class="cols">
+    <div><strong>Steps</strong><ol><li>Open /livewell/master-data.</li><li>Export/download workbook.</li></ol></div>
+    <div><strong>Expected results</strong><ul class="exp"><li>Excel file downloads with expected sheets.</li></ul></div>
+  </div>
+  
+</article>
+
+<article class="tc" id="tc-md-002">
+  <div class="tc-head">
+    <span class="tc-id">TC-MD-002</span>
+    <span class="pill pri-p1">P1</span>
+    <span class="pill role">TENANT_ADMIN</span>
+    <label class="pass"><input type="checkbox" /> Pass</label>
+    <label class="pass fail-lbl"><input type="checkbox" /> Fail</label>
+  </div>
+  <h3>Master data import — stage and approve</h3>
+  <p class="pre"><strong>Preconditions:</strong> Valid configuration xlsx available.</p>
+  <div class="cols">
+    <div><strong>Steps</strong><ol><li>Upload workbook → Stage.</li><li>Review staged diff.</li><li>Approve.</li></ol></div>
+    <div><strong>Expected results</strong><ul class="exp"><li>Tenant config updated.</li><li>Catalog/rubric/solutions reflect approved version.</li></ul></div>
+  </div>
+  
+</article>
+
+<article class="tc" id="tc-md-003">
+  <div class="tc-head">
+    <span class="tc-id">TC-MD-003</span>
+    <span class="pill pri-p2">P2</span>
+    <span class="pill role">TENANT_ADMIN</span>
+    <label class="pass"><input type="checkbox" /> Pass</label>
+    <label class="pass fail-lbl"><input type="checkbox" /> Fail</label>
+  </div>
+  <h3>Master data rollback</h3>
+  <p class="pre"><strong>Preconditions:</strong> Multiple approved versions exist.</p>
+  <div class="cols">
+    <div><strong>Steps</strong><ol><li>Rollback to prior approved version.</li></ol></div>
+    <div><strong>Expected results</strong><ul class="exp"><li>Previous config restored.</li></ul></div>
+  </div>
+  
+</article></section>
+<section id="area-par"><h2>9. Partners & vendors</h2>
+
+<article class="tc" id="tc-par-001">
+  <div class="tc-head">
+    <span class="tc-id">TC-PAR-001</span>
+    <span class="pill pri-p2">P2</span>
+    <span class="pill role">CARE_MANAGER+</span>
+    <label class="pass"><input type="checkbox" /> Pass</label>
+    <label class="pass fail-lbl"><input type="checkbox" /> Fail</label>
+  </div>
+  <h3>Partners list</h3>
+  <p class="pre"><strong>Preconditions:</strong> Partner network nav visible.</p>
+  <div class="cols">
+    <div><strong>Steps</strong><ol><li>Open /livewell/partners.</li></ol></div>
+    <div><strong>Expected results</strong><ul class="exp"><li>Partner orgs listed with roles/tiers.</li></ul></div>
+  </div>
+  
+</article>
+
+<article class="tc" id="tc-par-002">
+  <div class="tc-head">
+    <span class="tc-id">TC-PAR-002</span>
+    <span class="pill pri-p2">P2</span>
+    <span class="pill role">CARE_MANAGER+</span>
+    <label class="pass"><input type="checkbox" /> Pass</label>
+    <label class="pass fail-lbl"><input type="checkbox" /> Fail</label>
+  </div>
+  <h3>Vendors / supplier offers</h3>
+  <p class="pre"><strong>Preconditions:</strong> Suppliers page accessible.</p>
+  <div class="cols">
+    <div><strong>Steps</strong><ol><li>Open /livewell/suppliers.</li><li>View SKU vendor offer.</li></ol></div>
+    <div><strong>Expected results</strong><ul class="exp"><li>Vendor costs and MOQ display.</li></ul></div>
+  </div>
+  
+</article>
+
+<article class="tc" id="tc-par-003">
+  <div class="tc-head">
+    <span class="tc-id">TC-PAR-003</span>
+    <span class="pill pri-p2">P2</span>
+    <span class="pill role">CARE_MANAGER+</span>
+    <label class="pass"><input type="checkbox" /> Pass</label>
+    <label class="pass fail-lbl"><input type="checkbox" /> Fail</label>
+  </div>
+  <h3>Pick installer on visit</h3>
+  <p class="pre"><strong>Preconditions:</strong> Partners include installer role.</p>
+  <div class="cols">
+    <div><strong>Steps</strong><ol><li>On visit or service request, select installer partner.</li></ol></div>
+    <div><strong>Expected results</strong><ul class="exp"><li>Selection saved on visit/request record.</li></ul></div>
+  </div>
+  
+</article></section>
+<section id="area-ai"><h2>10. AI visualizations</h2>
+
+<article class="tc" id="tc-ai-001">
+  <div class="tc-head">
+    <span class="tc-id">TC-AI-001</span>
+    <span class="pill pri-p2">P2</span>
+    <span class="pill role">TENANT_ADMIN</span>
+    <label class="pass"><input type="checkbox" /> Pass</label>
+    <label class="pass fail-lbl"><input type="checkbox" /> Fail</label>
+  </div>
+  <h3>AI jobs list</h3>
+  <p class="pre"><strong>Preconditions:</strong> AI jobs page accessible.</p>
+  <div class="cols">
+    <div><strong>Steps</strong><ol><li>Open /livewell/ai-jobs.</li></ol></div>
+    <div><strong>Expected results</strong><ul class="exp"><li>Job board loads; statuses visible.</li></ul></div>
+  </div>
+  
+</article>
+
+<article class="tc" id="tc-ai-002">
+  <div class="tc-head">
+    <span class="tc-id">TC-AI-002</span>
+    <span class="pill pri-p2">P2</span>
+    <span class="pill role">CAREGIVER</span>
+    <label class="pass"><input type="checkbox" /> Pass</label>
+    <label class="pass fail-lbl"><input type="checkbox" /> Fail</label>
+  </div>
+  <h3>Create visualization job from assessment</h3>
+  <p class="pre"><strong>Preconditions:</strong> Assessment with photo; AI enabled.</p>
+  <div class="cols">
+    <div><strong>Steps</strong><ol><li>From assessment, request AI visualization for a photo.</li><li>Open AI jobs as admin.</li></ol></div>
+    <div><strong>Expected results</strong><ul class="exp"><li>Job appears in queue.</li><li>Progresses through phases or stub completes.</li></ul></div>
+  </div>
+  
+</article>
+
+<article class="tc" id="tc-ai-003">
+  <div class="tc-head">
+    <span class="tc-id">TC-AI-003</span>
+    <span class="pill pri-p1">P1</span>
+    <span class="pill role">CAREGIVER / TENANT_ADMIN</span>
+    <label class="pass"><input type="checkbox" /> Pass</label>
+    <label class="pass fail-lbl"><input type="checkbox" /> Fail</label>
+  </div>
+  <h3>Approve AI concept for family</h3>
+  <p class="pre"><strong>Preconditions:</strong> Completed AI job with output.</p>
+  <div class="cols">
+    <div><strong>Steps</strong><ol><li>Approve visualization for family.</li><li>Family: More → Photos & visuals.</li></ol></div>
+    <div><strong>Expected results</strong><ul class="exp"><li>Approved before/after visible to family.</li><li>Unapproved concepts NOT visible to family.</li></ul></div>
+  </div>
+  
+</article></section>
+<section id="area-iot"><h2>11. Wearables / IoT (pilot)</h2>
+
+<article class="tc" id="tc-iot-001">
+  <div class="tc-head">
+    <span class="tc-id">TC-IOT-001</span>
+    <span class="pill pri-p1">P1</span>
+    <span class="pill role">TENANT_ADMIN</span>
+    <label class="pass"><input type="checkbox" /> Pass</label>
+    <label class="pass fail-lbl"><input type="checkbox" /> Fail</label>
+  </div>
+  <h3>Wearables page — admin only</h3>
+  <p class="pre"><strong>Preconditions:</strong> Tenant admin logged in.</p>
+  <div class="cols">
+    <div><strong>Steps</strong><ol><li>Open /livewell/iot-devices.</li></ol></div>
+    <div><strong>Expected results</strong><ul class="exp"><li>Register kit form and hub/device lists visible.</li></ul></div>
+  </div>
+  <p class="tc-note"><strong>Note:</strong> CARE_MANAGER does not see this in nav.</p>
+</article>
+
+<article class="tc" id="tc-iot-002">
+  <div class="tc-head">
+    <span class="tc-id">TC-IOT-002</span>
+    <span class="pill pri-p0">P0</span>
+    <span class="pill role">TENANT_ADMIN</span>
+    <label class="pass"><input type="checkbox" /> Pass</label>
+    <label class="pass fail-lbl"><input type="checkbox" /> Fail</label>
+  </div>
+  <h3>Register MG7 + B7 kit</h3>
+  <p class="pre"><strong>Preconditions:</strong> Client (elder) exists; MAC addresses known.</p>
+  <div class="cols">
+    <div><strong>Steps</strong><ol><li>Select elder.</li><li>Enter band MAC.</li><li>Register MG7 + B7 kit.</li></ol></div>
+    <div><strong>Expected results</strong><ul class="exp"><li>Hub + device rows created.</li><li>MQTT credentials and topic shown (copy for MinewLink).</li></ul></div>
+  </div>
+  
+</article>
+
+<article class="tc" id="tc-iot-003">
+  <div class="tc-head">
+    <span class="tc-id">TC-IOT-003</span>
+    <span class="pill pri-p1">P1</span>
+    <span class="pill role">TENANT_ADMIN</span>
+    <label class="pass"><input type="checkbox" /> Pass</label>
+    <label class="pass fail-lbl"><input type="checkbox" /> Fail</label>
+  </div>
+  <h3>Update MAC for elder</h3>
+  <p class="pre"><strong>Preconditions:</strong> Existing device for elder.</p>
+  <div class="cols">
+    <div><strong>Steps</strong><ol><li>Use Update MAC for client.</li><li>Enter new MAC.</li><li>Save.</li></ol></div>
+    <div><strong>Expected results</strong><ul class="exp"><li>Device map updates within ~30s (ingestor poll).</li><li>Old MAC no longer resolves to elder.</li></ul></div>
+  </div>
+  
+</article>
+
+<article class="tc" id="tc-iot-004">
+  <div class="tc-head">
+    <span class="tc-id">TC-IOT-004</span>
+    <span class="pill pri-p0">P0</span>
+    <span class="pill role">Ops + TENANT_ADMIN</span>
+    <label class="pass"><input type="checkbox" /> Pass</label>
+    <label class="pass fail-lbl"><input type="checkbox" /> Fail</label>
+  </div>
+  <h3>Lab SOS — mosquitto_pub</h3>
+  <p class="pre"><strong>Preconditions:</strong> MAC registered; ingestor + API running.</p>
+  <div class="cols">
+    <div><strong>Steps</strong><ol><li>SSH to server; run mosquitto_pub with registered MAC and sos:true (see field setup doc).</li><li>Check family Alerts for bound elder.</li></ol></div>
+    <div><strong>Expected results</strong><ul class="exp"><li>Critical wearable SOS alert within ~10s.</li><li>Ingestor log: Ingested SOS_BUTTON.</li></ul></div>
+  </div>
+  
+</article>
+
+<article class="tc" id="tc-iot-005">
+  <div class="tc-head">
+    <span class="tc-id">TC-IOT-005</span>
+    <span class="pill pri-p1">P1</span>
+    <span class="pill role">Ops</span>
+    <label class="pass"><input type="checkbox" /> Pass</label>
+    <label class="pass fail-lbl"><input type="checkbox" /> Fail</label>
+  </div>
+  <h3>SOS dedupe ~10 seconds</h3>
+  <p class="pre"><strong>Preconditions:</strong> Lab or hardware SOS path working.</p>
+  <div class="cols">
+    <div><strong>Steps</strong><ol><li>Trigger SOS twice within 10 seconds.</li></ol></div>
+    <div><strong>Expected results</strong><ul class="exp"><li>Only one incident/alert created.</li><li>Ingestor may log Dedupe skip SOS.</li></ul></div>
+  </div>
+  
+</article>
+
+<article class="tc" id="tc-iot-006">
+  <div class="tc-head">
+    <span class="tc-id">TC-IOT-006</span>
+    <span class="pill pri-p0">P0</span>
+    <span class="pill role">Ops</span>
+    <label class="pass"><input type="checkbox" /> Pass</label>
+    <label class="pass fail-lbl"><input type="checkbox" /> Fail</label>
+  </div>
+  <h3>Hardware SOS end-to-end</h3>
+  <p class="pre"><strong>Preconditions:</strong> MG7 configured with kit MQTT settings; band in range.</p>
+  <div class="cols">
+    <div><strong>Steps</strong><ol><li>Press band SOS button.</li><li>Watch family Alerts and Session activity (System).</li></ol></div>
+    <div><strong>Expected results</strong><ul class="exp"><li>Family critical alert.</li><li>System session shows IoT event with MAC/elder in summary.</li></ul></div>
+  </div>
+  
+</article>
+
+<article class="tc" id="tc-iot-007">
+  <div class="tc-head">
+    <span class="tc-id">TC-IOT-007</span>
+    <span class="pill pri-p2">P2</span>
+    <span class="pill role">Ops</span>
+    <label class="pass"><input type="checkbox" /> Pass</label>
+    <label class="pass fail-lbl"><input type="checkbox" /> Fail</label>
+  </div>
+  <h3>IoT ingest ignored event type</h3>
+  <p class="pre"><strong>Preconditions:</strong> MAC registered.</p>
+  <div class="cols">
+    <div><strong>Steps</strong><ol><li>Publish non-SOS event type via API or MQTT if supported.</li></ol></div>
+    <div><strong>Expected results</strong><ul class="exp"><li>No family SOS alert.</li><li>Session activity may show IoT event ignored when MAC resolves.</li></ul></div>
+  </div>
+  
+</article></section>
+<section id="area-fam"><h2>12. Family portal</h2>
+
+<article class="tc" id="tc-fam-001">
+  <div class="tc-head">
+    <span class="tc-id">TC-FAM-001</span>
+    <span class="pill pri-p0">P0</span>
+    <span class="pill role">ELDER_PORTAL</span>
+    <label class="pass"><input type="checkbox" /> Pass</label>
+    <label class="pass fail-lbl"><input type="checkbox" /> Fail</label>
+  </div>
+  <h3>Family dashboard — published client</h3>
+  <p class="pre"><strong>Preconditions:</strong> Assessment published to linked elder.</p>
+  <div class="cols">
+    <div><strong>Steps</strong><ol><li>Log in as family.</li><li>View Home dashboard.</li></ol></div>
+    <div><strong>Expected results</strong><ul class="exp"><li>Independence Score™ displayed.</li><li>Care status / stability visible after baseline visit.</li><li>No perpetual Loading state.</li></ul></div>
+  </div>
+  
+</article>
+
+<article class="tc" id="tc-fam-002">
+  <div class="tc-head">
+    <span class="tc-id">TC-FAM-002</span>
+    <span class="pill pri-p1">P1</span>
+    <span class="pill role">ELDER_PORTAL</span>
+    <label class="pass"><input type="checkbox" /> Pass</label>
+    <label class="pass fail-lbl"><input type="checkbox" /> Fail</label>
+  </div>
+  <h3>Multi-elder Viewing switcher</h3>
+  <p class="pre"><strong>Preconditions:</strong> User linked to 2+ elders (e.g. arjun.family@).</p>
+  <div class="cols">
+    <div><strong>Steps</strong><ol><li>Log in as multi-elder family user.</li><li>Use Viewing dropdown to switch elder.</li></ol></div>
+    <div><strong>Expected results</strong><ul class="exp"><li>Score, plan, visits reload for selected elder.</li><li>Context clearly shows active senior name.</li></ul></div>
+  </div>
+  
+</article>
+
+<article class="tc" id="tc-fam-003">
+  <div class="tc-head">
+    <span class="tc-id">TC-FAM-003</span>
+    <span class="pill pri-p0">P0</span>
+    <span class="pill role">ELDER_PORTAL</span>
+    <label class="pass"><input type="checkbox" /> Pass</label>
+    <label class="pass fail-lbl"><input type="checkbox" /> Fail</label>
+  </div>
+  <h3>Family SOS button</h3>
+  <p class="pre"><strong>Preconditions:</strong> Family logged in.</p>
+  <div class="cols">
+    <div><strong>Steps</strong><ol><li>More → Alerts & SOS → raise SOS.</li><li>Staff check client alerts / visits.</li></ol></div>
+    <div><strong>Expected results</strong><ul class="exp"><li>Critical alert created.</li><li>Appears in family Alerts list.</li></ul></div>
+  </div>
+  
+</article>
+
+<article class="tc" id="tc-fam-004">
+  <div class="tc-head">
+    <span class="tc-id">TC-FAM-004</span>
+    <span class="pill pri-p2">P2</span>
+    <span class="pill role">ELDER_PORTAL</span>
+    <label class="pass"><input type="checkbox" /> Pass</label>
+    <label class="pass fail-lbl"><input type="checkbox" /> Fail</label>
+  </div>
+  <h3>Mark alert read</h3>
+  <p class="pre"><strong>Preconditions:</strong> Unread alerts exist.</p>
+  <div class="cols">
+    <div><strong>Steps</strong><ol><li>Open Alerts.</li><li>Mark alert as read.</li></ol></div>
+    <div><strong>Expected results</strong><ul class="exp"><li>Unread badge on More decreases.</li></ul></div>
+  </div>
+  
+</article>
+
+<article class="tc" id="tc-fam-005">
+  <div class="tc-head">
+    <span class="tc-id">TC-FAM-005</span>
+    <span class="pill pri-p1">P1</span>
+    <span class="pill role">ELDER_PORTAL</span>
+    <label class="pass"><input type="checkbox" /> Pass</label>
+    <label class="pass fail-lbl"><input type="checkbox" /> Fail</label>
+  </div>
+  <h3>Family chat message</h3>
+  <p class="pre"><strong>Preconditions:</strong> Family logged in.</p>
+  <div class="cols">
+    <div><strong>Steps</strong><ol><li>Chat tab → send message.</li><li>Staff views message context (visits/updates).</li></ol></div>
+    <div><strong>Expected results</strong><ul class="exp"><li>Message appears in family Chat and Updates.</li><li>Staff can reply (if workflow enabled).</li></ul></div>
+  </div>
+  
+</article>
+
+<article class="tc" id="tc-fam-006">
+  <div class="tc-head">
+    <span class="tc-id">TC-FAM-006</span>
+    <span class="pill pri-p1">P1</span>
+    <span class="pill role">ELDER_PORTAL</span>
+    <label class="pass"><input type="checkbox" /> Pass</label>
+    <label class="pass fail-lbl"><input type="checkbox" /> Fail</label>
+  </div>
+  <h3>Schedule — request service</h3>
+  <p class="pre"><strong>Preconditions:</strong> Family logged in.</p>
+  <div class="cols">
+    <div><strong>Steps</strong><ol><li>Schedule → Request a service.</li><li>Submit wellness or repair request.</li></ol></div>
+    <div><strong>Expected results</strong><ul class="exp"><li>Request shows as pending on family Schedule.</li><li>Staff sees request on Visits for triage.</li></ul></div>
+  </div>
+  
+</article>
+
+<article class="tc" id="tc-fam-007">
+  <div class="tc-head">
+    <span class="tc-id">TC-FAM-007</span>
+    <span class="pill pri-p2">P2</span>
+    <span class="pill role">ELDER_PORTAL</span>
+    <label class="pass"><input type="checkbox" /> Pass</label>
+    <label class="pass fail-lbl"><input type="checkbox" /> Fail</label>
+  </div>
+  <h3>Cancel pending service request</h3>
+  <p class="pre"><strong>Preconditions:</strong> Pending request exists.</p>
+  <div class="cols">
+    <div><strong>Steps</strong><ol><li>Family cancels pending request.</li></ol></div>
+    <div><strong>Expected results</strong><ul class="exp"><li>Request removed or marked cancelled.</li></ul></div>
+  </div>
+  
+</article>
+
+<article class="tc" id="tc-fam-008">
+  <div class="tc-head">
+    <span class="tc-id">TC-FAM-008</span>
+    <span class="pill pri-p2">P2</span>
+    <span class="pill role">ELDER_PORTAL</span>
+    <label class="pass"><input type="checkbox" /> Pass</label>
+    <label class="pass fail-lbl"><input type="checkbox" /> Fail</label>
+  </div>
+  <h3>Visit experience rating</h3>
+  <p class="pre"><strong>Preconditions:</strong> Completed visit exists.</p>
+  <div class="cols">
+    <div><strong>Steps</strong><ol><li>Family → Visit history → open visit.</li><li>Submit experience rating.</li></ol></div>
+    <div><strong>Expected results</strong><ul class="exp"><li>Rating saved; cannot rate incomplete visit.</li></ul></div>
+  </div>
+  
+</article>
+
+<article class="tc" id="tc-fam-009">
+  <div class="tc-head">
+    <span class="tc-id">TC-FAM-009</span>
+    <span class="pill pri-p2">P2</span>
+    <span class="pill role">ELDER_PORTAL</span>
+    <label class="pass"><input type="checkbox" /> Pass</label>
+    <label class="pass fail-lbl"><input type="checkbox" /> Fail</label>
+  </div>
+  <h3>Family circle invite</h3>
+  <p class="pre"><strong>Preconditions:</strong> Family logged in.</p>
+  <div class="cols">
+    <div><strong>Steps</strong><ol><li>More → Family circle → Invite by email.</li></ol></div>
+    <div><strong>Expected results</strong><ul class="exp"><li>Invite succeeds or shows clear error if email invalid.</li><li>Invitee gets access to same household elders when accepted.</li></ul></div>
+  </div>
+  
+</article>
+
+<article class="tc" id="tc-fam-010">
+  <div class="tc-head">
+    <span class="tc-id">TC-FAM-010</span>
+    <span class="pill pri-p2">P2</span>
+    <span class="pill role">ELDER_PORTAL</span>
+    <label class="pass"><input type="checkbox" /> Pass</label>
+    <label class="pass fail-lbl"><input type="checkbox" /> Fail</label>
+  </div>
+  <h3>Digest preferences</h3>
+  <p class="pre"><strong>Preconditions:</strong> Family logged in.</p>
+  <div class="cols">
+    <div><strong>Steps</strong><ol><li>More → Update digests.</li><li>Set channel, cadence, timezone.</li><li>Open preview.</li></ol></div>
+    <div><strong>Expected results</strong><ul class="exp"><li>Preferences save.</li><li>Preview renders shareable content.</li></ul></div>
+  </div>
+  
+</article>
+
+<article class="tc" id="tc-fam-011">
+  <div class="tc-head">
+    <span class="tc-id">TC-FAM-011</span>
+    <span class="pill pri-p2">P2</span>
+    <span class="pill role">ELDER_PORTAL</span>
+    <label class="pass"><input type="checkbox" /> Pass</label>
+    <label class="pass fail-lbl"><input type="checkbox" /> Fail</label>
+  </div>
+  <h3>Emergency contacts tap-to-call</h3>
+  <p class="pre"><strong>Preconditions:</strong> Elder has emergency contact on profile.</p>
+  <div class="cols">
+    <div><strong>Steps</strong><ol><li>More → Emergency contacts.</li><li>Tap phone link.</li></ol></div>
+    <div><strong>Expected results</strong><ul class="exp"><li>Contact name and phone displayed.</li><li>tel: link works on mobile.</li></ul></div>
+  </div>
+  
+</article>
+
+<article class="tc" id="tc-fam-012">
+  <div class="tc-head">
+    <span class="tc-id">TC-FAM-012</span>
+    <span class="pill pri-p2">P2</span>
+    <span class="pill role">ELDER_PORTAL</span>
+    <label class="pass"><input type="checkbox" /> Pass</label>
+    <label class="pass fail-lbl"><input type="checkbox" /> Fail</label>
+  </div>
+  <h3>Share update (NRI)</h3>
+  <p class="pre"><strong>Preconditions:</strong> Published score on dashboard.</p>
+  <div class="cols">
+    <div><strong>Steps</strong><ol><li>Home → Share update.</li><li>Use copy or device share sheet.</li></ol></div>
+    <div><strong>Expected results</strong><ul class="exp"><li>Share text includes score/pathway summary.</li></ul></div>
+  </div>
+  
+</article>
+
+<article class="tc" id="tc-fam-013">
+  <div class="tc-head">
+    <span class="tc-id">TC-FAM-013</span>
+    <span class="pill pri-p2">P2</span>
+    <span class="pill role">ELDER_PORTAL</span>
+    <label class="pass"><input type="checkbox" /> Pass</label>
+    <label class="pass fail-lbl"><input type="checkbox" /> Fail</label>
+  </div>
+  <h3>Unpublished client — family empty state</h3>
+  <p class="pre"><strong>Preconditions:</strong> Family linked to elder without published assessment.</p>
+  <div class="cols">
+    <div><strong>Steps</strong><ol><li>Log in as that family user.</li><li>View Home.</li></ol></div>
+    <div><strong>Expected results</strong><ul class="exp"><li>Clear not-published or empty state (not broken UI).</li><li>Republish from staff fixes display.</li></ul></div>
+  </div>
+  
+</article></section>
+<section id="area-adm"><h2>13. Admin, settings, documents</h2>
+
+<article class="tc" id="tc-adm-001">
+  <div class="tc-head">
+    <span class="tc-id">TC-ADM-001</span>
+    <span class="pill pri-p1">P1</span>
+    <span class="pill role">TENANT_ADMIN</span>
+    <label class="pass"><input type="checkbox" /> Pass</label>
+    <label class="pass fail-lbl"><input type="checkbox" /> Fail</label>
+  </div>
+  <h3>Users — invite staff</h3>
+  <p class="pre"><strong>Preconditions:</strong> Admin on /users.</p>
+  <div class="cols">
+    <div><strong>Steps</strong><ol><li>Invite new user with CARE_MANAGER role.</li><li>New user sets password and logs in.</li></ol></div>
+    <div><strong>Expected results</strong><ul class="exp"><li>User appears in team list.</li><li>Login works with assigned role nav.</li></ul></div>
+  </div>
+  
+</article>
+
+<article class="tc" id="tc-adm-002">
+  <div class="tc-head">
+    <span class="tc-id">TC-ADM-002</span>
+    <span class="pill pri-p2">P2</span>
+    <span class="pill role">TENANT_ADMIN</span>
+    <label class="pass"><input type="checkbox" /> Pass</label>
+    <label class="pass fail-lbl"><input type="checkbox" /> Fail</label>
+  </div>
+  <h3>Settings — branding</h3>
+  <p class="pre"><strong>Preconditions:</strong> Settings accessible.</p>
+  <div class="cols">
+    <div><strong>Steps</strong><ol><li>Change display branding field.</li><li>Save.</li><li>Refresh app.</li></ol></div>
+    <div><strong>Expected results</strong><ul class="exp"><li>Brand name reflects in shell where configured.</li></ul></div>
+  </div>
+  
+</article>
+
+<article class="tc" id="tc-adm-003">
+  <div class="tc-head">
+    <span class="tc-id">TC-ADM-003</span>
+    <span class="pill pri-p2">P2</span>
+    <span class="pill role">TENANT_ADMIN</span>
+    <label class="pass"><input type="checkbox" /> Pass</label>
+    <label class="pass fail-lbl"><input type="checkbox" /> Fail</label>
+  </div>
+  <h3>Workflows — list and enable</h3>
+  <p class="pre"><strong>Preconditions:</strong> Workflows page accessible.</p>
+  <div class="cols">
+    <div><strong>Steps</strong><ol><li>Open /settings/workflows.</li><li>Toggle workflow definition.</li></ol></div>
+    <div><strong>Expected results</strong><ul class="exp"><li>State persists.</li><li>Tasks/events visible when triggered.</li></ul></div>
+  </div>
+  
+</article>
+
+<article class="tc" id="tc-adm-004">
+  <div class="tc-head">
+    <span class="tc-id">TC-ADM-004</span>
+    <span class="pill pri-p2">P2</span>
+    <span class="pill role">CARE_MANAGER+</span>
+    <label class="pass"><input type="checkbox" /> Pass</label>
+    <label class="pass fail-lbl"><input type="checkbox" /> Fail</label>
+  </div>
+  <h3>Documents verification</h3>
+  <p class="pre"><strong>Preconditions:</strong> Document uploaded.</p>
+  <div class="cols">
+    <div><strong>Steps</strong><ol><li>Open /documents.</li><li>Verify or reject document.</li></ol></div>
+    <div><strong>Expected results</strong><ul class="exp"><li>Status updates.</li></ul></div>
+  </div>
+  
+</article>
+
+<article class="tc" id="tc-adm-005">
+  <div class="tc-head">
+    <span class="tc-id">TC-ADM-005</span>
+    <span class="pill pri-p2">P2</span>
+    <span class="pill role">CARE_MANAGER+</span>
+    <label class="pass"><input type="checkbox" /> Pass</label>
+    <label class="pass fail-lbl"><input type="checkbox" /> Fail</label>
+  </div>
+  <h3>Assessor recruits pipeline</h3>
+  <p class="pre"><strong>Preconditions:</strong> Prospects page accessible.</p>
+  <div class="cols">
+    <div><strong>Steps</strong><ol><li>Open /prospects.</li><li>View assessor recruit entry.</li></ol></div>
+    <div><strong>Expected results</strong><ul class="exp"><li>Pipeline list loads.</li></ul></div>
+  </div>
+  
+</article>
+
+<article class="tc" id="tc-adm-006">
+  <div class="tc-head">
+    <span class="tc-id">TC-ADM-006</span>
+    <span class="pill pri-p2">P2</span>
+    <span class="pill role">SYSTEM_ADMIN</span>
+    <label class="pass"><input type="checkbox" /> Pass</label>
+    <label class="pass fail-lbl"><input type="checkbox" /> Fail</label>
+  </div>
+  <h3>Tenants — system admin</h3>
+  <p class="pre"><strong>Preconditions:</strong> System admin account.</p>
+  <div class="cols">
+    <div><strong>Steps</strong><ol><li>Open /tenants.</li><li>View tenant list.</li></ol></div>
+    <div><strong>Expected results</strong><ul class="exp"><li>Tenants visible; not available to tenant admin.</li></ul></div>
+  </div>
+  
+</article></section>
+<section id="area-sec"><h2>14. Security & negative tests</h2>
+
+<article class="tc" id="tc-sec-001">
+  <div class="tc-head">
+    <span class="tc-id">TC-SEC-001</span>
+    <span class="pill pri-p1">P1</span>
+    <span class="pill role">Any</span>
+    <label class="pass"><input type="checkbox" /> Pass</label>
+    <label class="pass fail-lbl"><input type="checkbox" /> Fail</label>
+  </div>
+  <h3>Unauthenticated API returns 401</h3>
+  <p class="pre"><strong>Preconditions:</strong> No auth header.</p>
+  <div class="cols">
+    <div><strong>Steps</strong><ol><li>curl or browser: GET /api/v1/elders without token.</li></ol></div>
+    <div><strong>Expected results</strong><ul class="exp"><li>401 or 403; no data returned.</li></ul></div>
+  </div>
+  
+</article>
+
+<article class="tc" id="tc-sec-002">
+  <div class="tc-head">
+    <span class="tc-id">TC-SEC-002</span>
+    <span class="pill pri-p0">P0</span>
+    <span class="pill role">TENANT_ADMIN</span>
+    <label class="pass"><input type="checkbox" /> Pass</label>
+    <label class="pass fail-lbl"><input type="checkbox" /> Fail</label>
+  </div>
+  <h3>Cross-tenant isolation</h3>
+  <p class="pre"><strong>Preconditions:</strong> Two tenants with data (if available).</p>
+  <div class="cols">
+    <div><strong>Steps</strong><ol><li>Log in as tenant A admin.</li><li>Attempt to access tenant B elder ID via API URL manipulation.</li></ol></div>
+    <div><strong>Expected results</strong><ul class="exp"><li>404 or 403; no leak of other tenant data.</li></ul></div>
+  </div>
+  
+</article>
+
+<article class="tc" id="tc-sec-003">
+  <div class="tc-head">
+    <span class="tc-id">TC-SEC-003</span>
+    <span class="pill pri-p1">P1</span>
+    <span class="pill role">Any</span>
+    <label class="pass"><input type="checkbox" /> Pass</label>
+    <label class="pass fail-lbl"><input type="checkbox" /> Fail</label>
+  </div>
+  <h3>IoT events without ingest key</h3>
+  <p class="pre"><strong>Preconditions:</strong> API running.</p>
+  <div class="cols">
+    <div><strong>Steps</strong><ol><li>POST /api/v1/iot/events without X-IoT-Ingest-Key.</li></ol></div>
+    <div><strong>Expected results</strong><ul class="exp"><li>403 Forbidden.</li></ul></div>
+  </div>
+  
+</article>
+
+<article class="tc" id="tc-sec-004">
+  <div class="tc-head">
+    <span class="tc-id">TC-SEC-004</span>
+    <span class="pill pri-p1">P1</span>
+    <span class="pill role">VIEWER</span>
+    <label class="pass"><input type="checkbox" /> Pass</label>
+    <label class="pass fail-lbl"><input type="checkbox" /> Fail</label>
+  </div>
+  <h3>Direct URL — unauthorized role</h3>
+  <p class="pre"><strong>Preconditions:</strong> Viewer logged in.</p>
+  <div class="cols">
+    <div><strong>Steps</strong><ol><li>Navigate directly to /livewell/catalog or /livewell/iot-devices.</li></ol></div>
+    <div><strong>Expected results</strong><ul class="exp"><li>Blocked, redirected, or empty — no edit capability.</li></ul></div>
+  </div>
+  
+</article></section>
+<section id="area-smoke"><h2>15. Smoke & regression</h2>
+
+<article class="tc" id="tc-smoke-001">
+  <div class="tc-head">
+    <span class="tc-id">TC-SMOKE-001</span>
+    <span class="pill pri-p0">P0</span>
+    <span class="pill role">Any</span>
+    <label class="pass"><input type="checkbox" /> Pass</label>
+    <label class="pass fail-lbl"><input type="checkbox" /> Fail</label>
+  </div>
+  <h3>Smoke — ops host health</h3>
+  <p class="pre"><strong>Preconditions:</strong> Production or staging URL.</p>
+  <div class="cols">
+    <div><strong>Steps</strong><ol><li>GET /health on API.</li><li>Load /login and /livewell/family/login.</li></ol></div>
+    <div><strong>Expected results</strong><ul class="exp"><li>API health OK.</li><li>Both login pages render without chunk 400 errors.</li></ul></div>
+  </div>
+  <p class="tc-note"><strong>Note:</strong> Rebuild frontend if _next/static chunks return 400.</p>
+</article>
+
+<article class="tc" id="tc-smoke-002">
+  <div class="tc-head">
+    <span class="tc-id">TC-SMOKE-002</span>
+    <span class="pill pri-p0">P0</span>
+    <span class="pill role">CARE_MANAGER + ELDER_PORTAL</span>
+    <label class="pass"><input type="checkbox" /> Pass</label>
+    <label class="pass fail-lbl"><input type="checkbox" /> Fail</label>
+  </div>
+  <h3>Smoke — core care path</h3>
+  <p class="pre"><strong>Preconditions:</strong> Demo seed data.</p>
+  <div class="cols">
+    <div><strong>Steps</strong><ol><li>Staff: open Clients, Visits, one catalog page (admin).</li><li>Family: dashboard, Schedule, Alerts.</li><li>Assessor: /livewell list.</li></ol></div>
+    <div><strong>Expected results</strong><ul class="exp"><li>All pages load within 10s.</li><li>No uncaught JS errors on critical paths.</li></ul></div>
+  </div>
+  
+</article>
+
+<article class="tc" id="tc-smoke-003">
+  <div class="tc-head">
+    <span class="tc-id">TC-SMOKE-003</span>
+    <span class="pill pri-p2">P2</span>
+    <span class="pill role">Any</span>
+    <label class="pass"><input type="checkbox" /> Pass</label>
+    <label class="pass fail-lbl"><input type="checkbox" /> Fail</label>
+  </div>
+  <h3>Smoke — API docs</h3>
+  <p class="pre"><strong>Preconditions:</strong> API exposed.</p>
+  <div class="cols">
+    <div><strong>Steps</strong><ol><li>Open /docs on ops host.</li></ol></div>
+    <div><strong>Expected results</strong><ul class="exp"><li>OpenAPI UI loads; iot and home-safety routes listed.</li></ul></div>
+  </div>
+  
+</article>
+
+<article class="tc" id="tc-smoke-004">
+  <div class="tc-head">
+    <span class="tc-id">TC-SMOKE-004</span>
+    <span class="pill pri-p2">P2</span>
+    <span class="pill role">ELDER_PORTAL</span>
+    <label class="pass"><input type="checkbox" /> Pass</label>
+    <label class="pass fail-lbl"><input type="checkbox" /> Fail</label>
+  </div>
+  <h3>Mobile PWA — family bottom nav</h3>
+  <p class="pre"><strong>Preconditions:</strong> Mobile viewport or device.</p>
+  <div class="cols">
+    <div><strong>Steps</strong><ol><li>Open family app on phone width.</li><li>Tap each bottom nav tab.</li></ol></div>
+    <div><strong>Expected results</strong><ul class="exp"><li>All five tabs navigate correctly.</li><li>No horizontal overflow breaking layout.</li></ul></div>
+  </div>
+  
+</article>
+
+<article class="tc" id="tc-smoke-005">
+  <div class="tc-head">
+    <span class="tc-id">TC-SMOKE-005</span>
+    <span class="pill pri-p2">P2</span>
+    <span class="pill role">CAREGIVER</span>
+    <label class="pass"><input type="checkbox" /> Pass</label>
+    <label class="pass fail-lbl"><input type="checkbox" /> Fail</label>
+  </div>
+  <h3>Assessor mobile wizard</h3>
+  <p class="pre"><strong>Preconditions:</strong> Mobile viewport.</p>
+  <div class="cols">
+    <div><strong>Steps</strong><ol><li>Open assessment wizard on phone.</li><li>Complete one section using Back/Next.</li></ol></div>
+    <div><strong>Expected results</strong><ul class="exp"><li>Wizard usable on small screen.</li><li>Dot nav accessible.</li></ul></div>
+  </div>
+  
+</article></section>
+
+
+  <div class="log" id="execution-log">
+    <h2 style="margin-top:0;color:var(--accent)">Test execution log</h2>
+    <table>
+      <thead>
+        <tr><th>Date</th><th>Tester</th><th>Build / env</th><th>P0 passed</th><th>P0 failed</th><th>Notes</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <footer>
+    Kushalaya / SafeHomeOps · Manual Test Cases · Open in browser → Print → Save as PDF<br/>
+    Related: ADMIN_FUNCTIONAL_OVERVIEW.html · IOT_B7_MG7_FIELD_SETUP.md
+  </footer>
+</div>
+</body>
+</html>

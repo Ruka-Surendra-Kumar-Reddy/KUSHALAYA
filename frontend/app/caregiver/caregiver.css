@@ -1,0 +1,782 @@
+/* Caregiver field app (app/caregiver/page.tsx). Phone-first; same navy / blue /
+   green and Manrope as the family and ops portals. */
+
+.cg-app {
+  --cg-navy: #0e2a4f;
+  --cg-blue: #2f6fd6;
+  --cg-blue-soft: #e8f0fc;
+  --cg-green: #8ab83e;
+  --cg-green-deep: #5a8a1f;
+  --cg-green-soft: #eef6e2;
+  --cg-ink: #26384f;
+  --cg-muted: #64748b;
+  min-height: 100vh;
+  background: #f4f7fb;
+  color: var(--cg-ink);
+  font-family: var(--fh-font), system-ui, sans-serif;
+}
+
+.cg-bar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 1rem;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(16, 36, 58, 0.06);
+}
+
+.cg-bar .cg-logo {
+  width: 44px;
+  height: 44px;
+  object-fit: contain;
+}
+
+.cg-bar-title {
+  flex: 1;
+  text-align: center;
+  font-weight: 800;
+  font-size: 1.15rem;
+  color: var(--cg-navy);
+}
+
+.cg-signout {
+  min-height: 40px;
+  padding: 0 0.9rem;
+  border-radius: 999px;
+  border: 1px solid rgba(16, 36, 58, 0.14);
+  background: #fff;
+  color: var(--cg-navy);
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.cg-main {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 1rem 1rem 3rem;
+  display: grid;
+  gap: 1.25rem;
+}
+
+.cg-hero {
+  padding: 1.25rem 1.25rem 1.35rem;
+  border-radius: 20px;
+  color: #fff;
+  background:
+    radial-gradient(420px 200px at 100% 0%, rgba(138, 184, 62, 0.28), transparent 60%),
+    linear-gradient(160deg, #0b2244 0%, #0f2f5c 55%, #133b72 100%);
+}
+
+.cg-eyebrow {
+  margin: 0;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #cfe6a6;
+}
+
+.cg-hero h1 {
+  margin: 0.35rem 0 0.25rem;
+  font-size: 1.6rem;
+  line-height: 1.2;
+}
+
+.cg-hero-sub {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 0.92rem;
+}
+
+.cg-h2 {
+  margin: 0 0 0.6rem;
+  font-size: 1.05rem;
+  color: var(--cg-navy);
+}
+
+.cg-note {
+  margin: 0;
+  padding: 0.75rem 0.9rem;
+  border-radius: 14px;
+  font-size: 0.92rem;
+  font-weight: 600;
+}
+
+.cg-note.is-ok {
+  background: var(--cg-green-soft);
+  color: var(--cg-green-deep);
+}
+
+.cg-note.is-warn {
+  background: #fff4e5;
+  color: #9a5b00;
+}
+
+.cg-empty {
+  margin: 0;
+  padding: 1rem;
+  border-radius: 14px;
+  background: #fff;
+  color: var(--cg-muted);
+  font-size: 0.92rem;
+}
+
+.cg-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.cg-visit {
+  padding: 1rem;
+  border-radius: 18px;
+  background: #fff;
+  border: 1px solid rgba(16, 36, 58, 0.07);
+  border-left: 5px solid var(--cg-blue);
+  box-shadow: 0 8px 22px -16px rgba(16, 36, 58, 0.35);
+}
+
+.cg-visit.is-in {
+  border-left-color: var(--cg-green);
+}
+
+.cg-visit.is-done {
+  border-left-color: #cbd5e1;
+  opacity: 0.8;
+}
+
+.cg-visit-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.cg-time {
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: var(--cg-blue);
+}
+
+.cg-status {
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  background: var(--cg-blue-soft);
+  color: var(--cg-blue);
+  font-size: 0.72rem;
+  font-weight: 800;
+}
+
+.cg-visit.is-in .cg-status {
+  background: var(--cg-green-soft);
+  color: var(--cg-green-deep);
+}
+
+.cg-visit.is-done .cg-status {
+  background: #f1f5f9;
+  color: var(--cg-muted);
+}
+
+.cg-visit h3 {
+  margin: 0.4rem 0 0.15rem;
+  font-size: 1.15rem;
+  color: var(--cg-navy);
+}
+
+.cg-addr {
+  margin: 0;
+  color: var(--cg-muted);
+  font-size: 0.88rem;
+}
+
+.cg-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.85rem;
+}
+
+.cg-btn {
+  flex: 1;
+  min-width: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  border-radius: 14px;
+  border: 0;
+  background: linear-gradient(135deg, var(--cg-blue), #1f4f9f);
+  color: #fff;
+  font: inherit;
+  font-weight: 800;
+  font-size: 0.98rem;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.cg-btn.is-out {
+  background: linear-gradient(135deg, var(--cg-green), var(--cg-green-deep));
+}
+
+.cg-btn.is-ghost {
+  flex: 0 0 auto;
+  padding: 0 1.1rem;
+  background: #fff;
+  color: var(--cg-navy);
+  border: 1px solid rgba(16, 36, 58, 0.14);
+}
+
+.cg-btn:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.cg-hint {
+  margin: 0.6rem 0 0;
+  font-size: 0.8rem;
+  color: #9a5b00;
+}
+
+.cg-pay {
+  padding: 1rem;
+  border-radius: 18px;
+  background: #fff;
+  border: 1px solid rgba(16, 36, 58, 0.07);
+}
+
+.cg-pay-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.5rem;
+}
+
+.cg-pay-grid > div {
+  padding: 0.7rem;
+  border-radius: 14px;
+  background: var(--cg-blue-soft);
+}
+
+.cg-pay-grid small {
+  display: block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--cg-muted);
+}
+
+.cg-pay-grid strong {
+  font-size: 1.05rem;
+  color: var(--cg-navy);
+}
+
+.cg-slips {
+  list-style: none;
+  margin: 0.75rem 0 0;
+  padding: 0;
+}
+
+.cg-slips li {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 0.75rem;
+  padding: 0.6rem 0;
+  border-top: 1px solid rgba(16, 36, 58, 0.07);
+  font-size: 0.9rem;
+}
+
+.cg-slips strong {
+  color: var(--cg-navy);
+}
+
+.cg-pay .cg-empty {
+  margin-top: 0.75rem;
+  padding: 0;
+}
+
+@media (min-width: 640px) {
+  .cg-main {
+    padding-top: 1.5rem;
+  }
+
+  .cg-hero h1 {
+    font-size: 2rem;
+  }
+}
+
+/* Jobs (visits, assessments, installs) */
+.cg-kind {
+  margin: 0.35rem 0 0;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #5a8a1f;
+}
+
+.cg-visit h3 {
+  margin-top: 0.15rem;
+}
+
+.cg-tasks {
+  margin: 0.5rem 0 0;
+  padding: 0.55rem 0.7rem;
+  border-radius: 10px;
+  background: #f6f8fb;
+  font-size: 0.9rem;
+}
+
+.cg-btn.is-soft {
+  background: #e8f0fc;
+  color: #1f4f9f;
+}
+
+.cg-visit.is-on_the_way {
+  border-left-color: #c98a12;
+}
+
+.cg-visit.is-checked_in {
+  border-left-color: var(--cg-green);
+}
+
+/* The global button:hover (globals.css) would turn every button blue; keep ours. */
+.cg-app .cg-btn:hover {
+  background: linear-gradient(135deg, var(--cg-blue), #1f4f9f);
+  filter: brightness(1.06);
+}
+
+.cg-app .cg-btn.is-out:hover {
+  background: linear-gradient(135deg, var(--cg-green), var(--cg-green-deep));
+}
+
+.cg-app .cg-btn.is-soft:hover {
+  background: #dbe7fb;
+}
+
+.cg-app .cg-btn.is-ghost:hover,
+.cg-app .cg-signout:hover {
+  background: #f6f8fb;
+}
+
+
+/* "Before you knock" card and the visit report sheet. */
+.cg-know {
+  margin-top: 0.6rem;
+  padding: 0.55rem 0.75rem;
+  border-radius: 12px;
+  background: #eef6e2;
+  font-size: 0.9rem;
+}
+
+.cg-know summary {
+  cursor: pointer;
+  font-weight: 800;
+  color: #3f6a12;
+}
+
+.cg-know p {
+  margin: 0.35rem 0 0;
+}
+
+.cg-sheet {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  background: rgba(11, 34, 68, 0.45);
+}
+
+.cg-sheet-card {
+  width: min(560px, 100%);
+  max-height: 92vh;
+  overflow-y: auto;
+  padding: 1rem 1rem 1.25rem;
+  border-radius: 22px 22px 0 0;
+  background: #fff;
+}
+
+.cg-sheet-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1.1rem;
+  color: var(--cg-navy);
+}
+
+.cg-app .cg-sheet-x {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  border: 0;
+  background: #f1f5f9;
+  color: var(--cg-navy);
+  font-size: 1.3rem;
+}
+
+.cg-checks {
+  display: grid;
+  gap: 0.5rem;
+  margin: 0.4rem 0 0.9rem;
+}
+
+.cg-check {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.55rem 0.7rem;
+  border-radius: 12px;
+  border: 1px solid rgba(16, 36, 58, 0.08);
+}
+
+.cg-check span {
+  display: grid;
+}
+
+.cg-check small {
+  color: var(--cg-muted);
+  font-size: 0.78rem;
+}
+
+.cg-check div {
+  display: flex;
+  gap: 0.3rem;
+}
+
+.cg-app .cg-check button {
+  min-height: 40px;
+  padding: 0 0.8rem;
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+  background: #fff;
+  color: var(--cg-ink);
+  font: inherit;
+  font-weight: 700;
+}
+
+.cg-app .cg-check button:hover {
+  background: #f6f8fb;
+}
+
+.cg-app .cg-check button.is-ok.is-on {
+  background: var(--cg-green);
+  border-color: var(--cg-green);
+  color: #fff;
+}
+
+.cg-app .cg-check button.is-concern.is-on {
+  background: #c98a12;
+  border-color: #c98a12;
+  color: #fff;
+}
+
+.cg-field {
+  display: grid;
+  gap: 0.3rem;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.cg-field textarea,
+.cg-hazard input,
+.cg-hazard select {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.6rem 0.7rem;
+  border-radius: 12px;
+  border: 1px solid #cbd5e1;
+  font: inherit;
+}
+
+.cg-row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 0.75rem 0;
+}
+
+.cg-ok {
+  color: var(--cg-green-deep);
+  font-weight: 700;
+}
+
+.cg-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 700;
+}
+
+.cg-hazard {
+  display: grid;
+  gap: 0.5rem;
+  margin-top: 0.6rem;
+}
+
+.cg-sheet-submit {
+  width: 100%;
+  margin-top: 1rem;
+}
+
+/* Staff-raised emergency (Phase 3D) */
+.cg-btn.cg-emg-on {
+  background: linear-gradient(135deg, #d93025, #a5221a);
+  color: #fff;
+}
+
+.cg-btn.is-emg {
+  /* Own full-width row so it is never clipped at 390px. */
+  flex: 1 0 100%;
+  padding: 0 1rem;
+  background: #fff;
+  color: #b3261e;
+  border: 1px solid rgba(179, 38, 30, 0.35);
+}
+
+.cg-emg-types {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.cg-emg-types .cg-btn {
+  flex: 1 1 40%;
+  padding: 0 0.75rem;
+}
+
+.cg-emg-banner {
+  margin: 0 0 1rem;
+  padding: 0.85rem 1rem;
+  border-radius: 14px;
+  background: #fdecea;
+  color: #7a1c15;
+  border: 1px solid rgba(179, 38, 30, 0.25);
+}
+
+/* Directions: pick a map app (Google Maps / Apple Maps / Waze). */
+.cg-directions[open] {
+  flex-basis: 100%;
+  display: grid;
+  gap: 0.5rem;
+}
+.cg-directions > summary {
+  list-style: none;
+  cursor: pointer;
+  gap: 0.4rem;
+}
+.cg-directions > summary::-webkit-details-marker {
+  display: none;
+}
+
+/* Per-client visit checklist (#99) */
+.cg-checklist {
+  border: 1px solid var(--cg-line, #e5e1d8);
+  border-radius: 12px;
+  padding: 10px 12px;
+  margin: 12px 0;
+  display: grid;
+  gap: 10px;
+}
+.cg-checklist legend {
+  font-weight: 600;
+  padding: 0 4px;
+}
+.cg-check-row {
+  display: grid;
+  gap: 6px;
+}
+.cg-check-btns {
+  display: flex;
+  gap: 8px;
+}
+.cg-check-btns .cg-btn {
+  flex: 1;
+  min-height: 44px;
+}
+.cg-check-row input {
+  min-height: 44px;
+  padding: 0 10px;
+  border-radius: 10px;
+  border: 1px solid var(--cg-line, #e5e1d8);
+}
+
+/* My leave (LeaveCard.tsx) */
+.cg-leave-form {
+  display: grid;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.cg-leave-form label {
+  display: grid;
+  gap: 4px;
+  font-weight: 600;
+}
+
+.cg-leave-form input,
+.cg-leave-form select {
+  min-height: 44px;
+  padding: 0 10px;
+  border-radius: 10px;
+  border: 1px solid var(--cg-line, #e5e1d8);
+  font: inherit;
+}
+
+/* Sheet header stays in view while scrolling a long form, with a 44px close. */
+.cg-sheet-card {
+  padding-top: 0;
+}
+
+.cg-sheet-head {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  margin: 0 -1rem 0.5rem;
+  padding: 0.75rem 1rem 0.5rem;
+  background: #fff;
+  border-bottom: 1px solid rgba(16, 36, 58, 0.08);
+}
+
+.cg-app .cg-sheet-x {
+  flex: 0 0 44px;
+  width: 44px;
+  height: 44px;
+}
+
+/* Tap targets: 44px for inputs, checkbox rows, Directions apps and the client sheet summary. */
+.cg-field input,
+.cg-field select {
+  width: 100%;
+  min-height: 44px;
+  box-sizing: border-box;
+  padding: 0 0.7rem;
+  border-radius: 12px;
+  border: 1px solid #cbd5e1;
+  font: inherit;
+}
+
+.cg-hazard input,
+.cg-hazard select {
+  min-height: 44px;
+}
+
+.cg-toggle {
+  min-height: 44px;
+  cursor: pointer;
+}
+
+.cg-toggle input[type="checkbox"] {
+  width: 22px;
+  height: 22px;
+  flex: 0 0 22px;
+}
+
+.cg-know summary {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+}
+
+.cg-directions .lv-apps {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.cg-directions .lv-app {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0 1rem;
+  border-radius: 12px;
+  border: 1px solid #cbd5e1;
+  background: #fff;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+/* Checklist "Not done": solid amber when pressed, so it is clearly chosen. */
+.cg-app .cg-btn.is-notdone {
+  background: #c98a12;
+  border: 1px solid #c98a12;
+  color: #fff;
+}
+
+/* In-sheet confirm (instead of the browser's confirm box). */
+.cg-confirm {
+  margin-top: 1rem;
+  padding: 0.85rem 1rem;
+  border-radius: 14px;
+  background: #fff8e8;
+  border: 1px solid #f0d49a;
+}
+
+.cg-confirm p {
+  margin: 0 0 0.6rem;
+}
+
+.cg-confirm-btns {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.cg-confirm-btns .cg-btn {
+  flex: 1;
+}
+
+.cg-confirm.is-sticky {
+  position: sticky;
+  top: 62px;
+  z-index: 2;
+  margin-top: 0;
+  box-shadow: 0 6px 16px -8px rgba(16, 36, 58, 0.35);
+}
+
+/* My leave: refusal reason and the cancel confirm take a full row. */
+.cg-slips li > .cg-leave-why {
+  grid-column: 1 / -1;
+  flex-basis: 100%;
+}
+
+small.cg-leave-why {
+  color: #8f2f2f;
+}
+
+/* Round 4: next-7-days list, stale label, tap targets */
+.cg-app .cg-signout { min-height: 44px; min-width: 44px; }
+.cg-app .cg-status.is-stale { background: #fde8e6; color: #b42318; }
+.cg-app .cg-week { list-style: none; margin: 0 0 1.25rem; padding: 0; display: grid; gap: 0.5rem; }
+.cg-app .cg-week li {
+  display: grid;
+  grid-template-columns: 5.5rem minmax(0, 1fr);
+  grid-template-areas: "when who" "act act";
+  gap: 0.35rem 0.75rem;
+  padding: 0.75rem;
+  border: 1px solid rgba(14, 42, 79, 0.1);
+  border-radius: 14px;
+  background: #fff;
+}
+.cg-app .cg-week-when { grid-area: when; display: grid; }
+.cg-app .cg-week-who { grid-area: who; display: grid; min-width: 0; }
+.cg-app .cg-week-who strong { overflow-wrap: anywhere; }
+.cg-app .cg-week small { color: #5b6b7a; }
+.cg-app .cg-week-act { grid-area: act; display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.cg-app .cg-week-act .cg-btn { min-height: 44px; }
+
+/* "Turn on location" steps (LocationNeeded.tsx). */
+.cg-loc-steps {
+  margin: 0.4rem 0 0.6rem;
+  padding-left: 1.2rem;
+  font-weight: 500;
+}

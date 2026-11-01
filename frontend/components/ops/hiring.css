@@ -1,0 +1,485 @@
+/* Hiring board (app/(app)/kushalaya/hiring/page.tsx). */
+
+.hr-top {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.hr-top h1 {
+  margin: 0 0 0.2rem;
+}
+
+.hr-top p {
+  margin: 0;
+}
+
+.hr-top-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-weight: 700;
+}
+
+.hr-form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.hr-form label {
+  display: grid;
+  gap: 0.3rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.hr-wide,
+.hr-form-actions {
+  grid-column: 1 / -1;
+}
+
+.hr-form-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.hr-board {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(148px, 1fr);
+  gap: 0.6rem;
+  overflow-x: auto;
+  padding-bottom: 0.5rem;
+}
+
+.hr-col {
+  display: flex;
+  flex-direction: column;
+  min-height: 12rem;
+  padding: 0.6rem;
+  border-radius: 14px;
+  background: #eef2f7;
+}
+
+.hr-col.is-hired {
+  background: #eef6e2;
+}
+
+.hr-col header {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.1rem 0.4rem;
+  margin-bottom: 0.5rem;
+}
+
+.hr-col header strong {
+  color: #0e2a4f;
+}
+
+.hr-col header small {
+  grid-column: 1 / -1;
+  color: #64748b;
+  font-size: 0.75rem;
+  line-height: 1.3;
+}
+
+.hr-count {
+  padding: 0 0.5rem;
+  border-radius: 999px;
+  background: #fff;
+  color: #4b5b70;
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+.hr-col ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.4rem;
+}
+
+.ko-main .hr-card,
+.ko-main .hr-card:hover {
+  display: grid;
+  gap: 0.15rem;
+  width: 100%;
+  min-height: 0;
+  padding: 0.55rem 0.65rem;
+  border-radius: 10px;
+  border: 1px solid rgba(16, 36, 58, 0.08);
+  background: #fff;
+  color: #0e2a4f;
+  box-shadow: 0 1px 2px rgba(16, 36, 58, 0.06);
+  text-align: left;
+  font-weight: 400;
+}
+
+.ko-main .hr-card:hover,
+.ko-main .hr-card.is-open {
+  border-color: #2f6fd6;
+}
+
+.hr-card small {
+  color: #64748b;
+  font-size: 0.78rem;
+}
+
+.ko-main .hr-link,
+.ko-main .hr-link:hover {
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  box-shadow: none;
+  color: #2f6fd6;
+  font-weight: 700;
+}
+
+.hr-rejected-toggle {
+  margin: 0.75rem 0 0.25rem;
+}
+
+.hr-rejected {
+  list-style: none;
+  margin: 0 0 1rem;
+  padding: 0;
+  display: grid;
+  gap: 0.3rem;
+}
+
+.hr-rejected li {
+  display: flex;
+  gap: 0.75rem;
+  align-items: baseline;
+}
+
+.hr-rejected small {
+  color: #64748b;
+}
+
+.hr-detail {
+  margin-top: 1rem;
+  border-left: 4px solid #2f6fd6;
+}
+
+.hr-detail-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.hr-detail-head h2 {
+  margin: 0;
+}
+
+.hr-detail-head p {
+  margin: 0.2rem 0 0;
+}
+
+.hr-about {
+  margin: 0.75rem 0 0;
+  padding: 0.5rem 0.75rem;
+  border-radius: 10px;
+  background: #f3f6fa;
+}
+
+.hr-hired {
+  margin: 0.9rem 0 0;
+  color: #3f6a12;
+  font-weight: 700;
+}
+
+.hr-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0.9rem 0;
+}
+
+.ko-main .hr-go,
+.ko-main .hr-go:hover {
+  background: #5a8a1f;
+  border-color: #5a8a1f;
+  color: #fff;
+}
+
+.ko-main .hr-ghost,
+.ko-main .hr-ghost:hover {
+  border: 1px solid rgba(47, 111, 214, 0.35);
+  background: #fff;
+  color: #1f4f9f;
+  box-shadow: none;
+}
+
+.ko-main .hr-ghost.is-danger {
+  border-color: rgba(180, 35, 24, 0.3);
+  color: #b42318;
+}
+
+.hr-note {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.hr-note > button {
+  justify-self: end;
+}
+
+.hr-score {
+  display: grid;
+  gap: 0.35rem;
+  margin: 0;
+  padding: 0.7rem 0.9rem;
+  border: 1px solid rgba(16, 36, 58, 0.1);
+  border-radius: 12px;
+}
+
+.hr-score legend {
+  padding: 0 0.3rem;
+  font-weight: 800;
+}
+
+.hr-score-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  font-size: 0.9rem;
+}
+
+.hr-dots {
+  display: inline-flex;
+  gap: 0.25rem;
+}
+
+.ko-main .hr-dots button {
+  width: 2rem;
+  height: 2rem;
+  min-height: 0;
+  padding: 0;
+  border-radius: 999px;
+  border: 1px solid rgba(16, 36, 58, 0.15);
+  background: #fff;
+  color: #4b5b70;
+  box-shadow: none;
+  font-weight: 700;
+}
+
+.ko-main .hr-dots button.is-on {
+  background: #2f6fd6;
+  border-color: #2f6fd6;
+  color: #fff;
+}
+
+.hr-history {
+  list-style: none;
+  margin: 1rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.hr-history li {
+  padding: 0.5rem 0.75rem;
+  border-radius: 10px;
+  background: #f8fafc;
+}
+
+.hr-history small {
+  color: #64748b;
+}
+
+.hr-history p {
+  margin: 0.15rem 0 0;
+  white-space: pre-wrap;
+}
+
+/* --- Phase 3B polish: empty states, age tag, "not selected" reasons ------ */
+
+.hr-empty p {
+  margin: 0;
+}
+
+.hr-none {
+  padding: 0.4rem 0.2rem;
+  color: #94a3b8;
+  font-size: 0.8rem;
+}
+
+.hr-age {
+  justify-self: start;
+  margin-top: 0.15rem;
+  padding: 0.05rem 0.45rem;
+  border-radius: 999px;
+  background: #eef4fd;
+  color: #1f4f9f;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.hr-age.is-old {
+  background: #fff4e5;
+  color: #9a4d00;
+}
+
+.hr-help {
+  margin: 0 0 0.6rem;
+  font-size: 0.85rem;
+}
+
+.hr-reject {
+  display: grid;
+  gap: 0.5rem;
+  margin: 0 0 0.9rem;
+  padding: 0.75rem;
+  border-radius: 12px;
+  border: 1px solid rgba(180, 35, 24, 0.2);
+  background: #fff8f7;
+}
+
+.hr-reject p {
+  margin: 0;
+  font-weight: 600;
+}
+
+.hr-reject .hr-actions {
+  margin: 0;
+  justify-content: flex-end;
+}
+
+.hr-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.ko-main .hr-chip,
+.ko-main .hr-chip:hover {
+  min-height: 0;
+  padding: 0.3rem 0.7rem;
+  border-radius: 999px;
+  border: 1px solid rgba(16, 36, 58, 0.15);
+  background: #fff;
+  color: #0e2a4f;
+  box-shadow: none;
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.ko-main .hr-chip.is-on {
+  border-color: #b42318;
+  background: #fde8e6;
+  color: #b42318;
+}
+
+.ko-main .hr-reject button.is-danger,
+.ko-main .hr-reject button.is-danger:hover {
+  background: #b42318;
+  border-color: #b42318;
+  color: #fff;
+}
+
+/* Board fits its container at 1366px and scrolls sideways when it can't. */
+.hr-board {
+  grid-auto-columns: minmax(132px, 1fr);
+  min-width: 0;
+  max-width: 100%;
+}
+
+.hr-count {
+  align-self: start;
+  justify-self: end;
+  height: auto;
+  line-height: 1.5;
+}
+
+.hr-age {
+  white-space: nowrap;
+}
+
+/* FIX 110: stage picker on phones (one stage at a time), "more stages" hint on laptops. */
+.hr-stage-pick {
+  display: none;
+}
+.hr-more-hint {
+  margin: 0;
+  color: #1d5fb4;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-align: right;
+}
+.ko-main .hr-card {
+  min-height: 44px;
+}
+@media (max-width: 640px) {
+  .hr-stage-pick {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    font-weight: 700;
+  }
+  .ko-main .hr-stage-pick select {
+    min-height: 44px;
+  }
+  .hr-more-hint {
+    display: none;
+  }
+  .hr-board {
+    grid-auto-flow: row;
+    grid-auto-columns: auto;
+    grid-template-columns: minmax(0, 1fr);
+    overflow-x: visible;
+  }
+  .hr-board .hr-col:not(.is-picked) {
+    display: none;
+  }
+  .hr-col {
+    min-height: 0;
+  }
+}
+
+/* Header row (2026-10-30): "+ Add applicant" and "Team →" top right, like Assessments. */
+.ko-main .ks-head-actions a.hr-team-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  min-height: 44px;
+  padding: 0 1rem;
+  border-radius: 999px;
+  border: 1px solid #d5e0ee;
+  background: #fff;
+  color: #17498c;
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.ko-main .ks-head-actions a.hr-team-link:hover {
+  background: #e8f0fb;
+  border-color: #b9cde8;
+}
+@media (max-width: 640px) {
+  .ko-main .ks-head-actions a.hr-team-link {
+    width: 44px;
+    min-width: 44px;
+    padding: 0;
+  }
+  .ko-main .ks-head-actions a.hr-team-link .ks-ha-icon {
+    display: inline-flex;
+  }
+}
+/* Tablets and small laptops: seven columns keep a readable width and the board
+   scrolls sideways inside itself instead of squashing. */
+@media (max-width: 1180px) {
+  .hr-board {
+    grid-auto-columns: minmax(170px, 1fr);
+  }
+}

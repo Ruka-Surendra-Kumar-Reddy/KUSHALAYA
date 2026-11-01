@@ -1,0 +1,1 @@
+export { LWA_CATEGORIES as DEFAULT_SAFETY_CATEGORIES, LWA_TITLE, LWA_VERSION } from "./lwa-rubric";

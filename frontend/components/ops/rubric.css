@@ -1,0 +1,305 @@
+/* Assessment questions (RubricAdminEditor): an opened section is a compact list —
+   one row per question with its answer options as coloured chips and an Edit button.
+   Edit opens the shared right-hand drawer (.ks-side-drawer, portalled to <body>,
+   so drawer rules are scoped to .rq-drawer, not the page). */
+.home-safety-rubric-admin .rq-list {
+  margin: 0 0 0.85rem;
+  padding: 0;
+  list-style: none;
+  border: 1px solid #e3e9f1;
+  border-radius: 12px;
+  overflow: hidden;
+}
+.home-safety-rubric-admin .rq-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.7rem;
+  padding: 0.7rem 0.85rem;
+  background: #fff;
+}
+.home-safety-rubric-admin .rq-row + .rq-row {
+  border-top: 1px solid #edf1f6;
+}
+.home-safety-rubric-admin .rq-row.is-hidden {
+  background: #f6f8fb;
+}
+.home-safety-rubric-admin .rq-row.is-hidden .rq-ask,
+.home-safety-rubric-admin .rq-row.is-hidden .rq-options {
+  opacity: 0.55;
+}
+.home-safety-rubric-admin .rq-num {
+  flex: 0 0 auto;
+  display: inline-grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  margin-top: 1px;
+  border-radius: 50%;
+  background: #e8f0fb;
+  color: #1d5fb4;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+.home-safety-rubric-admin .rq-main {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: grid;
+  gap: 0.3rem;
+}
+.home-safety-rubric-admin .rq-ask {
+  margin: 0;
+  font-weight: 600;
+  color: #0e2a4f;
+  overflow-wrap: anywhere;
+}
+.home-safety-rubric-admin .rq-sub {
+  margin: 0;
+  font-size: 0.8rem;
+  color: #5b6b80;
+}
+.home-safety-rubric-admin .rq-hidden-tag {
+  margin-left: 0.4rem;
+}
+.home-safety-rubric-admin .rq-row-btns {
+  flex: 0 0 auto;
+  display: inline-flex;
+  gap: 0.3rem;
+}
+.ko-main .home-safety-rubric-admin button.rq-icon-btn,
+.ko-main .rq-drawer button.rq-icon-btn {
+  width: 36px;
+  min-width: 36px;
+  min-height: 36px;
+  padding: 0;
+  justify-content: center;
+}
+.home-safety-rubric-admin button.rq-icon-btn,
+.rq-drawer button.rq-icon-btn {
+  width: 36px;
+  min-width: 36px;
+  min-height: 36px;
+  padding: 0;
+  justify-content: center;
+}
+
+/* Answer chips, coloured by what they mean. */
+.home-safety-rubric-admin .rq-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  min-width: 0;
+}
+.home-safety-rubric-admin .rq-opt {
+  display: inline-block;
+  max-width: 100%;
+  padding: 0.12rem 0.55rem;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  font-size: 0.76rem;
+  font-weight: 600;
+  line-height: 1.4;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.home-safety-rubric-admin .rq-opt-good { background: #e7f6ec; border-color: #bfe5cb; color: #17703a; }
+.home-safety-rubric-admin .rq-opt-warn { background: #fff4e0; border-color: #f4d9a6; color: #8a5a00; }
+.home-safety-rubric-admin .rq-opt-bad { background: #fdecea; border-color: #f5c6c0; color: #b42318; }
+.home-safety-rubric-admin .rq-opt-na { background: #f1f4f8; border-color: #dfe5ee; color: #5b6b80; }
+.home-safety-rubric-admin .rq-opt-text {
+  background: #fff;
+  border: 1px dashed #c9d4e2;
+  color: #5b6b80;
+  font-weight: 500;
+}
+
+/* Add a section */
+.home-safety-rubric-admin .rq-new-section {
+  display: flex;
+  gap: 0.5rem;
+  margin: 0 0 1rem;
+}
+.home-safety-rubric-admin .rq-new-section input {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+/* Unsaved-changes bar: only shown when there is something to save. */
+.home-safety-rubric-admin .rq-savebar {
+  position: sticky;
+  bottom: 0;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  margin: 0 -0.75rem;
+  padding: 0.75rem 0.75rem calc(0.75rem + env(safe-area-inset-bottom, 0px));
+  border-top: 1px solid #dde3ea;
+  background: #fff;
+}
+.home-safety-rubric-admin .rq-savebar-note {
+  color: #5b6b80;
+  font-size: 0.88rem;
+}
+
+/* ---- Edit drawer ---- */
+.ks-side-drawer.rq-drawer {
+  width: min(32rem, 100vw);
+  color: #0e2a4f;
+}
+.rq-drawer textarea,
+.rq-drawer input:not([type="checkbox"]),
+.rq-drawer select {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  font-weight: 400;
+}
+.rq-drawer button.rq-drawer-x {
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0;
+  justify-content: center;
+  font-size: 1.1rem;
+}
+.rq-drawer .rq-field-block {
+  display: grid;
+  gap: 0.4rem;
+}
+/* One label style for every field in the drawer. */
+.ks-side-drawer.rq-drawer label,
+.rq-drawer .rq-field-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #45566b;
+}
+.rq-drawer .rq-note {
+  margin: 0;
+  font-size: 0.86rem;
+}
+/* Answer type: a small segmented switch. */
+.rq-drawer .rq-types {
+  display: flex;
+  padding: 3px;
+  border: 1px solid #dfe7f1;
+  border-radius: 999px;
+  background: #fff;
+}
+.rq-drawer button.rq-type {
+  flex: 1 1 0;
+  min-height: 36px;
+  padding: 0 0.6rem;
+  border: 0;
+  border-radius: 999px;
+  background: none;
+  box-shadow: none;
+  color: #45566b;
+  font-size: 0.86rem;
+  font-weight: 600;
+  justify-content: center;
+}
+.rq-drawer button.rq-type.is-on {
+  background: #0e2a4f;
+  color: #fff;
+}
+/* Options: text · Means · ✕, a coloured edge shows the meaning. */
+.rq-drawer .rq-opt-edit {
+  display: grid;
+  gap: 0.4rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.rq-drawer .rq-opt-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 11rem auto;
+  align-items: center;
+  gap: 0.35rem;
+  padding-left: 0.45rem;
+  border-left: 4px solid #dfe5ee;
+}
+.rq-drawer .rq-opt-row-good { border-left-color: #2f9e5b; }
+.rq-drawer .rq-opt-row-warn { border-left-color: #e0a12b; }
+.rq-drawer .rq-opt-row-bad { border-left-color: #d64532; }
+.rq-drawer .rq-opt-row-na { border-left-color: #a8b4c4; }
+.rq-drawer .rq-opt-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+.rq-drawer .rq-guide summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: #1d5fb4;
+}
+.rq-drawer .rq-guide textarea {
+  margin-top: 0.4rem;
+  font-size: 0.85rem;
+}
+.rq-drawer .rq-drawer-grid {
+  display: grid;
+  grid-template-columns: 7rem minmax(0, 1fr);
+  gap: 0.6rem;
+}
+.ks-side-drawer.rq-drawer label.rq-check {
+  flex-direction: row;
+  align-items: center;
+  gap: 0.45rem;
+}
+.rq-drawer .rq-check input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  margin: 0;
+}
+.rq-drawer .rq-drawer-danger {
+  display: flex;
+  gap: 0.5rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid #edf1f6;
+}
+.rq-drawer button.rq-remove {
+  color: #b42318;
+  border-color: #f5c6c0;
+}
+.rq-drawer .rq-drawer-foot {
+  position: sticky;
+  bottom: -1.25rem;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin: auto -1.25rem -1.25rem;
+  padding: 0.75rem 1.25rem;
+  border-top: 1px solid #dde3ea;
+  background: #fff;
+}
+
+@media (max-width: 640px) {
+  /* Number and buttons on top; question and chips get the full width under them. */
+  .home-safety-rubric-admin .rq-row {
+    flex-wrap: wrap;
+    padding: 0.7rem;
+  }
+  .home-safety-rubric-admin .rq-main {
+    order: 3;
+    flex-basis: 100%;
+  }
+  .home-safety-rubric-admin .rq-row-btns {
+    margin-left: auto;
+  }
+  .ko-main .home-safety-rubric-admin button.rq-edit-btn {
+    min-height: 36px;
+  }
+  .rq-drawer .rq-opt-row {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+  .rq-drawer .rq-opt-row select {
+    grid-column: 1;
+  }
+  .rq-drawer .rq-opt-row .rq-opt-x {
+    grid-row: 1 / span 2;
+    grid-column: 2;
+  }
+  .home-safety-rubric-admin .rq-savebar {
+    justify-content: space-between;
+  }
+}

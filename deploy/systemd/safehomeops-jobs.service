@@ -1,0 +1,12 @@
+[Unit]
+Description=Kushalaya background jobs: enqueue scans, then run them (SOS escalation, missed visits, digests)
+After=network.target
+
+[Service]
+Type=oneshot
+User=safehomeops
+WorkingDirectory=/opt/safehomeops/app/backend
+EnvironmentFile=/opt/safehomeops/app/backend/.env
+Environment=WORKFORCEOS_CORE=/opt/workforceos-core
+ExecStart=/bin/sh -c '/opt/safehomeops/app/backend/.venv/bin/python -m app.schedule_jobs && /opt/safehomeops/app/backend/.venv/bin/python -m app.worker --drain'
+TimeoutStartSec=300

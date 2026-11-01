@@ -1,0 +1,23 @@
+# Mosquitto for LiveWell IoT — run on the same host as the API (Phase 1).
+# Prerequisites: copy TLS certs into ./certs/ (fullchain.pem + privkey.pem)
+# and create ./passwd via mosquitto_passwd (see README.md).
+
+services:
+  mosquitto:
+    image: eclipse-mosquitto:2
+    restart: unless-stopped
+    ports:
+      - "8883:8883"
+      # 1883 stays inside the container network; map only if you need host localhost:
+      - "127.0.0.1:1883:1883"
+    volumes:
+      - ./mosquitto.conf:/mosquitto/config/mosquitto.conf:ro
+      - ./acl:/mosquitto/config/acl:ro
+      - ./passwd:/mosquitto/config/passwd:ro
+      - ./certs:/mosquitto/certs:ro
+      - mosquitto_data:/mosquitto/data
+    # Uncomment if using host networking for simpler local TLS paths:
+    # network_mode: host
+
+volumes:
+  mosquitto_data:

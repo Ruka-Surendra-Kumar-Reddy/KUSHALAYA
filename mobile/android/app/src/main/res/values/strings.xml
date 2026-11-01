@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <!-- app_name, title_activity_main, package_name and custom_url_scheme come from
+         the product flavor (app/build.gradle: ops / family). -->
+    <string name="sos_channel_name">SOS alarm</string>
+    <string name="sos_channel_desc">Rings like an alarm when someone you look after presses SOS.</string>
+    <string name="sos_ack">Acknowledge</string>
+    <string name="sos_open">Open</string>
+    <string name="setup_title">Let SOS ring like an alarm</string>
+    <string name="setup_intro">When someone presses SOS, this phone must ring loudly — even if the app is closed, the screen is locked, or the phone is on silent or Do Not Disturb. Android needs your OK for each of these.</string>
+    <string name="setup_notify">1. Allow notifications</string>
+    <string name="setup_notify_why">So the SOS can appear and ring.</string>
+    <string name="setup_fullscreen">2. Allow full-screen alerts</string>
+    <string name="setup_fullscreen_why">So the SOS fills the screen like an incoming call, even when locked.</string>
+    <string name="setup_dnd">3. Allow it through Do Not Disturb</string>
+    <string name="setup_dnd_why">So an SOS still rings when Do Not Disturb is on.</string>
+    <string name="update_title">Update available</string>
+    <string name="update_body">A new version of the app (%1$s) is ready. You stay signed in.</string>
+    <string name="update_now">Update</string>
+    <string name="update_later">Later</string>
+    <string name="update_downloading">Downloading the update…</string>
+    <string name="update_failed">The update could not be downloaded. Please try again later.</string>
+    <string name="setup_battery">4. Don\'t let battery saver stop it</string>
+    <string name="setup_battery_why">Tap Allow in the popup, so alarms arrive at once.</string>
+    <string name="setup_test">Test the alarm</string>
+    <string name="setup_done">Continue</string>
+    <string name="setup_allowed">Allowed ✓</string>
+    <string name="setup_allow">Allow</string>
+</resources>

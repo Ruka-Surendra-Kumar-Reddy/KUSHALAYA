@@ -1,0 +1,19 @@
+{
+  "default_margin_percent": 25,
+  "min_margin_percent": 15,
+  "max_margin_percent": 50,
+  "margin_type": "percent",
+  "fixed_margin_inr": 0,
+  "travel_rate_per_km_inr": 15,
+  "minimum_service_charge_inr": 500,
+  "labor_rate_per_hour_inr": 700,
+  "default_labor_hours_per_solution": 2,
+  "default_consumables_inr": 500,
+  "default_miscellaneous_inr": 0,
+  "emergency_surcharge_percent": 25,
+  "weekend_surcharge_percent": 15,
+  "gst_percent": 18,
+  "round_off_rule": "nearest_100",
+  "default_travel_km": 0,
+  "use_vendor_cost_for_margin": false
+}

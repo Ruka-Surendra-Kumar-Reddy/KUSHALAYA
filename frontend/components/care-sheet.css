@@ -1,0 +1,288 @@
+/* One-page client sheet (#94), care plan (#95), risk register + handovers (#98). */
+
+.csv h3 {
+  margin: 1rem 0 0.4rem;
+  font-size: 0.95rem;
+}
+
+.csv-allergy {
+  margin: 0 0 0.5rem;
+  padding: 0.6rem 0.8rem;
+  border-radius: 10px;
+  border: 2px solid #c0392b;
+  background: #fdecea;
+  color: #8e1b10;
+  font-size: 1.05rem;
+}
+
+.csv-allergy.is-none {
+  border-color: var(--border, #d9dee5);
+  background: transparent;
+  color: inherit;
+  font-size: 0.9rem;
+}
+
+.csv-meds {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.92rem;
+}
+
+.csv-meds th,
+.csv-meds td {
+  text-align: left;
+  padding: 0.35rem 0.5rem;
+  border-bottom: 1px solid var(--border, #d9dee5);
+  vertical-align: top;
+}
+
+.csv-meds th {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.csv-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0.6rem 1rem;
+  margin: 1rem 0 0;
+}
+
+.csv-grid dt {
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  opacity: 0.75;
+}
+
+.csv-grid dd {
+  margin: 0.15rem 0 0;
+  white-space: pre-wrap;
+}
+
+.csv-muted {
+  opacity: 0.7;
+  margin: 0;
+}
+
+.csv-risks {
+  margin: 0;
+  padding-left: 1.1rem;
+}
+
+.csv-risks li.is-high strong {
+  color: #b42318;
+}
+
+/* Staff editor and care plan */
+.cc-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.cc-head h2 {
+  margin: 0;
+}
+
+.cc-head .cc-actions {
+  margin-left: auto;
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.cc-form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 0.75rem;
+  margin-top: 0.75rem;
+}
+
+.cc-form label {
+  display: grid;
+  gap: 0.3rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.cc-form .cc-wide {
+  grid-column: 1 / -1;
+}
+
+.cc-med {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1.4fr auto;
+  gap: 0.4rem;
+  margin-bottom: 0.4rem;
+}
+
+.cc-med {
+  align-items: end;
+}
+
+.cc-med label {
+  display: grid;
+  gap: 0.15rem;
+  min-width: 0;
+}
+
+.cc-med input {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+/* Labels only on the phone, where placeholders vanish once typed in. */
+.cc-med-l {
+  display: none;
+  font-size: 0.75rem;
+  color: #64748b;
+}
+
+.ko-main .cc-med .cc-med-remove,
+.ko-main .cc-med .cc-med-remove:hover,
+.cc-med .cc-med-remove {
+  min-height: 44px;
+  padding: 0 0.6rem;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  color: #b42318;
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+@media (max-width: 640px) {
+  .cc-med {
+    grid-template-columns: 1fr;
+    gap: 0.35rem;
+    padding: 0.6rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    margin-bottom: 0.6rem;
+  }
+
+  .cc-med-l {
+    display: block;
+  }
+
+  .ko-main .cc-med .cc-med-remove,
+  .cc-med .cc-med-remove {
+    justify-self: start;
+    padding: 0;
+  }
+}
+
+.cc-list {
+  list-style: none;
+  margin: 0.75rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 0.6rem;
+}
+
+.cc-list > li {
+  border: 1px solid var(--border, #d9dee5);
+  border-radius: 10px;
+  padding: 0.6rem 0.75rem;
+}
+
+.cc-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: baseline;
+}
+
+.cc-row .cc-actions {
+  margin-left: auto;
+  display: flex;
+  gap: 0.4rem;
+}
+
+.cc-tag {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 0.1rem 0.5rem;
+  border-radius: 999px;
+  background: rgba(127, 127, 127, 0.15);
+}
+
+.cc-tag.is-high,
+.cc-tag.is-overdue {
+  background: #fdecea;
+  color: #b42318;
+}
+
+.cc-tag.is-medium,
+.cc-tag.is-due {
+  background: #fff4e0;
+  color: #8a5a00;
+}
+
+.cc-tag.is-good {
+  background: #e9f6e5;
+  color: #2f6b1d;
+}
+
+.cc-small {
+  font-size: 0.85rem;
+  opacity: 0.8;
+}
+
+.cc-err {
+  color: #b42318;
+  font-weight: 700;
+}
+
+/* Print: only the sheet, on one page. */
+.csv-print-head {
+  display: none;
+}
+
+@media print {
+  body.csv-printing * {
+    visibility: hidden !important;
+  }
+
+  body.csv-printing .csv-print,
+  body.csv-printing .csv-print * {
+    visibility: visible !important;
+  }
+
+  body.csv-printing .csv-print {
+    position: absolute;
+    inset: 0 auto auto 0;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    box-shadow: none;
+    font-size: 10.5pt;
+    color: #000;
+    background: #fff;
+  }
+
+  body.csv-printing .csv-print .no-print {
+    display: none !important;
+  }
+
+  body.csv-printing .csv-print-head {
+    display: block;
+  }
+
+  body.csv-printing .csv-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 4pt 12pt;
+  }
+
+  @page {
+    size: A4;
+    margin: 12mm;
+  }
+}

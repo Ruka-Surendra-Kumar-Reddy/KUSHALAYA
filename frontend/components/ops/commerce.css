@@ -1,0 +1,1053 @@
+/* Products, coupons and orders (catalog/coupons pages, ClientOrders.tsx). */
+
+.cm-table input[type="number"] {
+  width: 7rem;
+  min-height: 0;
+  padding: 0.4rem 0.55rem;
+}
+
+.cm-table tr.is-off td {
+  opacity: 0.55;
+}
+
+.cm-cat {
+  display: block;
+  color: #64748b;
+  font-size: 0.78rem;
+}
+
+.cm-margin {
+  color: #5a8a1f;
+  font-weight: 700;
+}
+
+.cm-code {
+  font-family: ui-monospace, Menlo, Consolas, monospace;
+  letter-spacing: 0.05em;
+}
+
+.cm-form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 0.75rem;
+}
+
+.cm-form label,
+.cm-discounts label {
+  display: grid;
+  gap: 0.3rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.cm-form .cm-wide {
+  grid-column: 1 / -1;
+}
+
+.cm-actions {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.cm-order {
+  margin-bottom: 1rem;
+}
+
+.cm-products {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.cm-pick {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.6rem 0.75rem;
+  border-radius: 12px;
+  border: 1px solid rgba(16, 36, 58, 0.1);
+}
+
+.cm-pick.is-on {
+  border-color: #2f6fd6;
+  background: #eef4fd;
+}
+
+.cm-pick span {
+  display: grid;
+}
+
+.cm-pick small {
+  color: #64748b;
+}
+
+.cm-pick input {
+  width: 4.2rem;
+  min-height: 0;
+  padding: 0.35rem 0.45rem;
+}
+
+.cm-discounts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.cm-quote {
+  display: grid;
+  gap: 0.3rem;
+  max-width: 22rem;
+  margin: 0 0 1rem auto;
+  padding: 0.8rem 1rem;
+  border-radius: 12px;
+  background: #f6f8fb;
+}
+
+.cm-quote div {
+  display: flex;
+  justify-content: space-between;
+}
+
+.cm-quote dt,
+.cm-quote dd {
+  margin: 0;
+}
+
+.cm-quote .is-total {
+  padding-top: 0.35rem;
+  border-top: 1px solid #e2e8f0;
+  font-weight: 800;
+  color: #0e2a4f;
+  font-size: 1.05rem;
+}
+
+.cm-quote .is-margin {
+  color: #5a8a1f;
+  font-size: 0.85rem;
+}
+
+.cm-error {
+  padding: 0.6rem 0.8rem;
+  border-radius: 10px;
+  background: #fff4e5;
+  color: #9a5b00;
+}
+
+.cm-ok {
+  color: #5a8a1f;
+  font-weight: 700;
+}
+
+.cm-orders {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.cm-orders li {
+  padding: 0.75rem 0.9rem;
+  border-radius: 12px;
+  border: 1px solid rgba(16, 36, 58, 0.08);
+}
+
+.cm-orders li.is-pending_approval {
+  border-color: #f5d9a0;
+  background: #fffaf0;
+}
+
+.cm-orders li > div:first-child {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.cm-orders p {
+  margin: 0.3rem 0;
+}
+
+.cm-orders small {
+  color: #64748b;
+}
+
+.cm-status {
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: #1f4f9f;
+}
+
+.cm-row-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+/* The portal's blanket input width would stretch these. */
+.ko-main .cm-pick input {
+  flex: none;
+  width: 4.2rem;
+}
+
+.ko-main .cm-table input[type="number"] {
+  width: 7rem;
+}
+
+
+/* Suggestions on the client's Orders tab. */
+.cm-sugg {
+  margin-bottom: 1rem;
+}
+
+.cm-sugg h2 small {
+  font-size: 0.85rem;
+  color: #64748b;
+  font-weight: 600;
+}
+
+.cm-sugg ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.4rem;
+}
+
+.cm-sugg li {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.6rem 0.8rem;
+  border-radius: 12px;
+  border: 1px solid #f5d9a0;
+  background: #fffaf0;
+}
+
+.cm-sugg li.is-high {
+  border-color: #f4b8b8;
+  background: #fff6f6;
+}
+
+.cm-sugg li > span:first-child {
+  display: grid;
+  min-width: 0;
+}
+
+.cm-sugg li small {
+  color: #64748b;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cm-ba {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem;
+  margin-top: 0.9rem;
+  padding-top: 0.9rem;
+  border-top: 1px solid #e2e8f0;
+}
+
+.cm-ba span {
+  color: #64748b;
+  font-size: 0.9rem;
+}
+
+
+/* "Fixes" editor on the Products page. */
+.cm-fix-btn {
+  min-height: 0;
+  padding: 0.3rem 0.6rem;
+  font-size: 0.82rem;
+  white-space: nowrap;
+}
+
+.cm-fix-row td {
+  background: #f6f8fb;
+}
+
+.ko-main .cm-fix-filter {
+  max-width: 20rem;
+  margin: 0.25rem 0 0.6rem;
+}
+
+.cm-fix-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 0.3rem 1rem;
+  max-height: 22rem;
+  overflow: auto;
+  margin-bottom: 0.75rem;
+}
+
+.cm-fix-list label {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.88rem;
+}
+
+.ko-main .cm-fix-list input {
+  width: auto;
+  min-height: 0;
+}
+
+
+/* Hazards spotted on visits (ClientOrders.tsx). */
+.cm-hazards {
+  margin-bottom: 1rem;
+}
+
+.cm-hazards ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.4rem;
+}
+
+.cm-hazards li {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.6rem 0.8rem;
+  border-radius: 12px;
+  border: 1px solid #f4b8b8;
+  background: #fff6f6;
+}
+
+.cm-hazards li.is-ordered {
+  border-color: #f5d9a0;
+  background: #fffaf0;
+}
+
+.cm-hazards li.is-fixed {
+  border-color: #cfe6a6;
+  background: #f4f9ec;
+}
+
+.cm-hazards li > span:first-child {
+  display: grid;
+}
+
+.cm-hazards small {
+  color: #64748b;
+}
+
+.cm-hz-status {
+  font-weight: 800;
+  font-size: 0.85rem;
+  color: #26384f;
+}
+
+/* Know-them card (KnowThemCard.tsx). */
+.kt {
+  margin-bottom: 1rem;
+}
+
+.kt-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.kt-head h2 {
+  margin: 0;
+}
+
+.kt-head button {
+  margin-left: auto;
+}
+
+.kt-form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 0.75rem;
+  margin-top: 0.75rem;
+}
+
+.kt-form label {
+  display: grid;
+  gap: 0.3rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.kt-view {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0.75rem;
+  margin: 0.75rem 0 0;
+}
+
+.kt-view dt {
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #5a8a1f;
+}
+
+.kt-view dd {
+  margin: 0.2rem 0 0;
+}
+
+.kt-saved {
+  color: #5a8a1f;
+  font-weight: 700;
+}
+
+/* Product photos (catalog page). */
+.cm-prod {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.cm-prod > span {
+  display: grid;
+  min-width: 0;
+}
+
+.cm-photo {
+  display: grid;
+  justify-items: center;
+  gap: 0.2rem;
+  flex: none;
+}
+
+.cm-photo img,
+.cm-photo-empty {
+  width: 64px;
+  height: 64px;
+  border-radius: 12px;
+  object-fit: cover;
+  background: #f1f5f9;
+  border: 1px solid rgba(16, 36, 58, 0.08);
+}
+
+.cm-photo-empty {
+  display: grid;
+  place-items: center;
+  font-size: 1.5rem;
+}
+
+.cm-photo-actions {
+  display: flex;
+  gap: 0.4rem;
+  font-size: 0.75rem;
+}
+
+.ko-main .cm-photo-btn {
+  color: #2f6fd6;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.cm-photo-btn input {
+  display: none;
+}
+
+.ko-main .cm-photo-btn.is-busy {
+  color: #64748b;
+}
+
+.ko-main .cm-photo-reset,
+.ko-main .cm-photo-reset:hover {
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  box-shadow: none;
+  color: #64748b;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+/* "Suggested when…" panel: chosen questions + search to add (catalog page). */
+.cm-fix {
+  display: grid;
+  gap: 0.6rem;
+  max-width: 760px;
+  padding: 0.4rem 0;
+}
+
+.cm-fix-lead,
+.cm-fix-auto {
+  margin: 0;
+}
+
+.cm-fix-auto {
+  font-size: 0.85rem;
+}
+
+.cm-fix-chosen,
+.cm-fix-results {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.35rem;
+}
+
+.cm-fix-chosen li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.45rem 0.75rem;
+  border-radius: 10px;
+  background: #eef4fd;
+  font-weight: 600;
+}
+
+.ko-main .cm-fix-x,
+.ko-main .cm-fix-x:hover {
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  box-shadow: none;
+  color: #b42318;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.ko-main .cm-fix-results button,
+.ko-main .cm-fix-results button:hover {
+  width: 100%;
+  min-height: 0;
+  padding: 0.4rem 0.7rem;
+  border-radius: 8px;
+  border: 1px dashed rgba(47, 111, 214, 0.4);
+  background: #fff;
+  box-shadow: none;
+  color: #1f4f9f;
+  text-align: left;
+  font-weight: 600;
+}
+
+.cm-fix-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+.cm-auto {
+  margin-left: 0.35rem;
+  padding: 0 0.4rem;
+  border-radius: 999px;
+  background: #fdf1d8;
+  color: #8a5a00;
+  font-size: 0.7rem;
+  font-weight: 800;
+}
+
+/* --- Phase 3B: install booking, product drawer, phone cards --------------- */
+
+.cm-actions {
+  gap: 0.5rem;
+}
+
+.cm-book {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 0.6rem;
+  margin-top: 0.6rem;
+  padding: 0.75rem;
+  border-radius: 12px;
+  background: #f5f8fc;
+  border: 1px solid rgba(16, 36, 58, 0.1);
+}
+
+.cm-book label,
+.cm-drawer label {
+  display: grid;
+  gap: 0.3rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.cm-book-wide {
+  grid-column: 1 / -1;
+}
+
+.cm-book-actions,
+.cm-drawer-actions {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+.cm-row-btns {
+  white-space: nowrap;
+}
+
+.cm-row-btns button + button {
+  margin-left: 0.4rem;
+}
+
+.cm-drawer-wrap {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: flex;
+  justify-content: flex-end;
+  background: rgba(16, 36, 58, 0.35);
+}
+
+.cm-drawer {
+  width: min(440px, 100%);
+  height: 100%;
+  overflow-y: auto;
+  display: grid;
+  align-content: start;
+  gap: 0.8rem;
+  padding: 1.25rem;
+  background: #fff;
+  box-shadow: -8px 0 30px rgba(16, 36, 58, 0.18);
+}
+
+/* The product form now sits in the centred Ops popup. */
+.ks-modal-body > .cm-drawer {
+  width: auto;
+  height: auto;
+  overflow: visible;
+}
+
+.cm-drawer-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.cm-drawer-head h2 {
+  margin: 0;
+}
+
+.cm-drawer-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.6rem;
+}
+
+.cm-drawer-price {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.cm-drawer .cm-drawer-check {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+}
+
+.cm-drawer-image {
+  display: grid;
+  gap: 0.3rem;
+}
+
+.cm-drawer-label {
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.cm-drawer-image-body {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  min-width: 0;
+}
+
+.cm-drawer-image-body img,
+.cm-drawer-image-empty {
+  flex: none;
+  width: 96px;
+  height: 96px;
+  border-radius: 12px;
+  object-fit: cover;
+  background: #f1f5f9;
+  border: 1px solid rgba(16, 36, 58, 0.08);
+}
+
+.cm-drawer-image-empty {
+  display: grid;
+  place-items: center;
+  font-size: 2rem;
+}
+
+.cm-drawer-image-side {
+  display: grid;
+  gap: 0.4rem;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.cm-drawer-image-btns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.cm-drawer-image-btns button {
+  min-height: 44px;
+}
+
+.ko-main .cm-drawer label.cm-drawer-file,
+.cm-drawer label.cm-drawer-file {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 0.9rem;
+  border-radius: 10px;
+  background: #2f6fd6;
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.cm-drawer label.cm-drawer-file.is-busy {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.cm-drawer-file input {
+  display: none;
+}
+
+/* Products table becomes one card per product on phones. */
+@media (max-width: 720px) {
+  .cm-ptable thead {
+    display: none;
+  }
+
+  .cm-ptable,
+  .cm-ptable tbody,
+  .cm-ptable tr,
+  .cm-ptable td {
+    display: block;
+    width: 100%;
+  }
+
+  .cm-ptable tr {
+    margin-bottom: 0.75rem;
+    padding: 0.6rem 0.75rem;
+    border: 1px solid rgba(16, 36, 58, 0.12);
+    border-radius: 12px;
+  }
+
+  .cm-ptable td {
+    border: 0;
+    padding: 0.3rem 0;
+  }
+
+  .cm-ptable td[data-label] {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+  }
+
+  .cm-ptable td[data-label]::before {
+    content: attr(data-label);
+    color: #64748b;
+    font-size: 0.82rem;
+    font-weight: 700;
+  }
+
+  .cm-ptable .cm-row-btns {
+    display: flex;
+    gap: 0.5rem;
+    padding-top: 0.5rem;
+  }
+
+  .cm-ptable .cm-row-btns button {
+    flex: 1;
+  }
+
+  .cm-ptable tr.cm-fix-row {
+    border-style: dashed;
+  }
+}
+
+/* Products table: scroll inside its card instead of spilling past it (1366px). */
+.cm-table-scroll {
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.cm-nowrap {
+  white-space: nowrap;
+}
+
+/* Products list (catalog page): read-only rows, one Edit per product. */
+.cm-pl-tools {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 0.75rem;
+}
+.cm-pl-tools .cm-pl-search {
+  flex: 1 1 220px;
+  max-width: 340px;
+}
+.cm-pl-tools select {
+  width: auto;
+  min-width: 170px;
+}
+.cm-pl-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  min-height: 44px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.cm-pl {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.cm-pl-head,
+.cm-pl-main {
+  display: grid;
+  grid-template-columns: minmax(200px, 2fr) minmax(130px, 1.1fr) minmax(110px, 1fr) 84px minmax(190px, 1.2fr) 72px;
+  align-items: center;
+  gap: 0.75rem;
+}
+.cm-pl-head {
+  padding: 0 0.25rem 0.5rem;
+  border-bottom: 1px solid #e2e8f0;
+  color: #64748b;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.cm-pl-row {
+  padding: 0.6rem 0.25rem;
+  border-bottom: 1px solid #edf1f6;
+}
+.cm-pl-row.is-off .cm-pl-prod,
+.cm-pl-row.is-off .cm-pl-price {
+  opacity: 0.6;
+}
+.cm-pl-prod {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-width: 0;
+}
+.cm-pl-prod > span,
+.cm-pl-price,
+.cm-pl-margin {
+  display: grid;
+  min-width: 0;
+}
+.cm-pl-prod .cm-photo img,
+.cm-pl-prod .cm-photo-empty {
+  width: 52px;
+  height: 52px;
+}
+.cm-pl-unpriced {
+  justify-self: start;
+  padding: 0.15rem 0.55rem;
+  border-radius: 999px;
+  background: #fdf1d8;
+  color: #8a5a00;
+  font-size: 0.8rem;
+  font-weight: 800;
+  white-space: nowrap;
+}
+.cm-pl-pill {
+  display: inline-block;
+  padding: 0.15rem 0.55rem;
+  border-radius: 999px;
+  background: #eef2f6;
+  color: #4b5b70;
+  font-size: 0.78rem;
+  font-weight: 800;
+  white-space: nowrap;
+}
+.cm-pl-pill.is-on {
+  background: #e7f4dc;
+  color: #3f6d12;
+}
+.cm-pl-act {
+  text-align: right;
+}
+.cm-pl-row > .cm-fix {
+  margin: 0.6rem 0 0.2rem;
+  padding: 0.75rem;
+  border-radius: 10px;
+  background: #f6f8fb;
+  max-width: none;
+}
+
+@media (max-width: 720px) {
+  .ko-main .cm-pl-card {
+    padding: 0;
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+  .cm-pl-tools .cm-pl-search,
+  .cm-pl-tools select {
+    flex: 1 1 100%;
+    max-width: none;
+    min-height: 44px;
+  }
+  .cm-pl-head {
+    display: none;
+  }
+  .cm-pl-row {
+    margin-bottom: 0.65rem;
+    padding: 0.75rem;
+    border: 1px solid rgba(16, 36, 58, 0.1);
+    border-radius: 14px;
+    background: #fff;
+  }
+  .cm-pl-main {
+    grid-template-columns: 1fr auto;
+    grid-template-areas: "prod status" "price margin" "fixes act";
+    gap: 0.5rem 0.75rem;
+  }
+  .cm-pl-prod { grid-area: prod; }
+  .cm-pl-status { grid-area: status; align-self: start; }
+  .cm-pl-price { grid-area: price; }
+  .cm-pl-margin { grid-area: margin; }
+  .cm-pl-fixes { grid-area: fixes; }
+  .cm-pl-act { grid-area: act; }
+  .cm-pl-margin {
+    text-align: right;
+  }
+  .cm-pl-fixes .cm-fix-btn,
+  .cm-pl-act button {
+    min-height: 44px;
+  }
+  .cm-pl-act button {
+    min-width: 88px;
+  }
+}
+
+/* Client → Money. Desktop keeps its order; on a phone, Orders and Wallet come
+   first; the product picker opens in a popup from "+ New order". */
+.cm-unpriced { margin: 0 0 0.5rem; font-size: 0.85rem; }
+@media (max-width: 720px) {
+  .cm-money { display: flex; flex-direction: column; }
+  .cm-money > .cm-orders-card { order: -2; }
+  .cm-money > .cm-wallet { order: -1; }
+}
+
+/* Round 4: product status column, needs-price chip, category groups */
+.cm-pl-head,
+.cm-pl-main {
+  grid-template-columns: minmax(200px, 2fr) minmax(130px, 1.1fr) minmax(110px, 1fr) minmax(118px, 0.8fr) minmax(170px, 1.1fr) 72px;
+}
+.cm-pl-main > * { min-width: 0; }
+.cm-pl-status { min-width: 0; overflow: hidden; }
+.cm-pl-needs { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 0.15rem 0.4rem; }
+.cm-pl-pill.is-warn { background: #fdf1d8; color: #8a5a00; }
+.cm-linkbtn { background: none; border: 0; padding: 0.25rem 0; min-height: 32px; color: #0d6e6e; font-weight: 700; text-decoration: underline; cursor: pointer; }
+.cm-pl-chip { min-height: 44px; padding: 0 0.85rem; border-radius: 999px; border: 1px solid #d6dee8; background: #fff; color: #4b5b70; font-weight: 700; cursor: pointer; }
+.cm-pl-chip.is-on { background: #fdf1d8; border-color: #e9c77a; color: #8a5a00; }
+.cm-pl-group { padding: 0.9rem 0.25rem 0.35rem; font-weight: 800; color: #10243a; border-bottom: 1px solid #e2e8f0; }
+.cm-pl-group small { margin-left: 0.35rem; color: #64748b; font-weight: 600; }
+.cm-pl-more { padding: 0.5rem 0.25rem 0.75rem; }
+.cm-pl-more button { min-height: 44px; }
+.cm-drawer-x { min-width: 44px; min-height: 44px; border: 0; background: transparent; font-size: 1.5rem; line-height: 1; color: #4b5b70; cursor: pointer; border-radius: 10px; }
+.cm-drawer-x:hover { background: #eef2f6; }
+@media (max-width: 720px) {
+  .cm-pl-head, .cm-pl-main { grid-template-columns: 1fr auto; }
+  .cm-pl-group { border-bottom: 0; padding-left: 0; }
+}
+
+/* Round 4: New order = search + cart */
+.cm-addprod { position: relative; margin: 0.5rem 0 0.75rem; }
+.cm-addprod-input { width: 100%; min-height: 44px; box-sizing: border-box; }
+.cm-addprod-results { list-style: none; margin: 0.35rem 0 0; padding: 0.25rem; border: 1px solid #d6dee8; border-radius: 12px; background: #fff; box-shadow: 0 8px 24px rgba(16, 36, 58, 0.08); }
+.cm-addprod-results button { display: flex; width: 100%; justify-content: space-between; gap: 0.75rem; min-height: 44px; padding: 0.4rem 0.6rem; border: 0; border-radius: 8px; background: transparent; color: inherit; text-align: left; cursor: pointer; }
+.cm-addprod-results button:hover, .cm-addprod-results button:focus-visible { background: #f1f6fd; }
+.cm-addprod-results small { color: #64748b; white-space: nowrap; }
+.cm-addprod-none { padding: 0.5rem 0.6rem; }
+.cm-cart { list-style: none; margin: 0 0 0.75rem; padding: 0; display: grid; gap: 0.4rem; }
+.cm-cart li { display: grid; grid-template-columns: minmax(0, 1fr) 4.5rem 44px; align-items: center; gap: 0.5rem; padding: 0.45rem 0.6rem; border: 1px solid #e2e8f0; border-radius: 10px; }
+.cm-cart li > span { display: grid; min-width: 0; }
+.cm-cart li strong { overflow-wrap: anywhere; }
+.cm-cart li small { color: #64748b; }
+.cm-cart input { min-height: 40px; width: 100%; box-sizing: border-box; }
+.cm-cart-x { min-width: 44px; min-height: 44px; border: 0; background: transparent; font-size: 1.3rem; color: #b42318; cursor: pointer; border-radius: 8px; }
+.cm-cart-empty { margin: 0 0 0.75rem; }
+
+/* Ops clean-up (Oct 2026): products list — Edit column not squashed, off-sale
+   checkbox beside its words, coupons as cards on phones. */
+.cm-pl-head,
+.cm-pl-main {
+  grid-template-columns: minmax(200px, 2fr) minmax(130px, 1.1fr) minmax(110px, 0.9fr) minmax(104px, 0.7fr) minmax(200px, 1.2fr) 72px;
+  column-gap: 1rem;
+}
+.cm-pl-fixes .cm-fix-btn { white-space: nowrap; }
+.ko-main .cm-pl-card .cm-pl-tools label.cm-pl-toggle { display: inline-flex; place-items: normal; min-width: 0; min-height: 44px; flex-direction: row; align-items: center; gap: 0.45rem; margin: 0; }
+.ko-main .cm-pl-toggle input { width: 20px; height: 20px; min-height: 0; margin: 0; flex: none; }
+.cm-cp-status { display: inline-block; padding: 0.15rem 0.55rem; border-radius: 999px; background: #eef2f6; color: #4b5b70; font-size: 0.78rem; font-weight: 800; white-space: nowrap; }
+.cm-cp-status.is-on { background: #e7f4dc; color: #3f6d12; }
+.cm-cp-table td { vertical-align: middle; white-space: nowrap; }
+.cm-cp-table td.cm-cp-note { white-space: normal; }
+.cm-cp-act { text-align: right; white-space: nowrap; }
+.cm-cp-act button + button { margin-left: 0.4rem; }
+.cm-table tr.is-off td.cm-cp-act { opacity: 1; }
+.ko-main .cm-cp-act button { min-height: 40px; }
+@media (max-width: 720px) {
+  .cm-pl-head, .cm-pl-main { grid-template-columns: 1fr auto; }
+  .ko-main .cm-cp-card { padding: 0; border: 0; background: transparent; box-shadow: none; }
+  .cm-cp-table thead { display: none; }
+  .cm-cp-table, .cm-cp-table tbody, .cm-cp-table tr, .cm-cp-table td { display: block; width: 100%; }
+  .cm-cp-table tr {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem 0.75rem; margin-bottom: 0.65rem;
+    padding: 0.75rem; border: 1px solid rgba(16, 36, 58, 0.1); border-radius: 14px; background: #fff;
+  }
+  .cm-cp-table td, .ko-main .table.cm-cp-table td { padding: 0; border: 0; text-align: left; background: none; }
+  .cm-cp-table td[data-label]::before {
+    content: attr(data-label); display: block; font-size: 0.72rem; color: #64748b; font-weight: 600;
+  }
+  .cm-cp-table td.cm-cp-code::before { display: none; }
+  .cm-cp-table td.cm-cp-statuscell { text-align: right; }
+  .cm-cp-table td.cm-cp-statuscell::before { display: none; }
+  .cm-cp-table td.cm-cp-note, .cm-cp-table td.cm-cp-act { grid-column: 1 / -1; }
+  .cm-cp-table td.cm-cp-act { display: flex; gap: 0.5rem; }
+  .cm-cp-act button { flex: 1 1 0; min-height: 44px; }
+  .cm-cp-act button + button { margin-left: 0; }
+}
+/* Tablets: the six-column products grid does not fit, so use the phone cards. */
+@media (max-width: 960px) {
+  .cm-pl-head { display: none; }
+  .cm-pl-row { margin-bottom: 0.65rem; padding: 0.75rem; border: 1px solid rgba(16, 36, 58, 0.1); border-radius: 14px; background: #fff; }
+  .cm-pl-head, .cm-pl-main {
+    grid-template-columns: 1fr auto;
+    grid-template-areas: "prod status" "price margin" "fixes act";
+    gap: 0.5rem 0.75rem;
+  }
+  .cm-pl-prod { grid-area: prod; }
+  .cm-pl-status { grid-area: status; align-self: start; }
+  .cm-pl-price { grid-area: price; }
+  .cm-pl-margin { grid-area: margin; text-align: right; }
+  .cm-pl-fixes { grid-area: fixes; }
+  .cm-pl-act { grid-area: act; }
+  .cm-pl-fixes .cm-fix-btn, .cm-pl-act button { min-height: 44px; }
+  .cm-pl-act button { min-width: 88px; }
+  .cm-pl-group { border-bottom: 0; }
+}

@@ -1,0 +1,16 @@
+[Unit]
+Description=SafeHomeOps LiveWell IoT MQTT ingestor (MG7 / B7 → API)
+After=network.target docker.service safehomeops-api.service
+Wants=safehomeops-api.service
+
+[Service]
+User=safehomeops
+Group=safehomeops
+WorkingDirectory=/opt/safehomeops/app/backend
+EnvironmentFile=/opt/safehomeops/app/backend/iot_ingestor.env
+ExecStart=/opt/safehomeops/app/backend/.venv/bin/python -m iot_ingestor
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

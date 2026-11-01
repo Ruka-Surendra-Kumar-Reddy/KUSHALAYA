@@ -1,0 +1,435 @@
+{
+  "tiers": [
+    {
+      "id": "essential",
+      "name": "Essential Package",
+      "description": "Basic safety — grab bars, anti-slip, motion lighting, emergency contact.",
+      "sort_order": 1,
+      "active": true
+    },
+    {
+      "id": "comfort",
+      "name": "Comfort Package",
+      "description": "Daily ease — adds shower seat, raised toilet support, handheld shower, better lighting.",
+      "sort_order": 2,
+      "active": true
+    },
+    {
+      "id": "premium",
+      "name": "Premium Independence Package",
+      "description": "Long-term aging in place — smart SOS, sensors, premium fixtures, full enhancement.",
+      "sort_order": 3,
+      "active": true
+    }
+  ],
+  "package_solutions": [
+    {
+      "tier_id": "essential",
+      "room_type": "bathroom",
+      "solution_id": "LW-HS-BTH-001",
+      "priority": 1,
+      "active": true
+    },
+    {
+      "tier_id": "essential",
+      "room_type": "bathroom",
+      "solution_id": "LW-HS-BTH-002",
+      "priority": 2,
+      "active": true
+    },
+    {
+      "tier_id": "essential",
+      "room_type": "bathroom",
+      "solution_id": "LW-HS-BTH-004",
+      "priority": 3,
+      "active": true
+    },
+    {
+      "tier_id": "essential",
+      "room_type": "entry",
+      "solution_id": "LW-HS-ENT-002",
+      "priority": 1,
+      "active": true
+    },
+    {
+      "tier_id": "essential",
+      "room_type": "hallway",
+      "solution_id": "LW-HS-KIT-001",
+      "priority": 1,
+      "active": true
+    },
+    {
+      "tier_id": "essential",
+      "room_type": "bedroom",
+      "solution_id": "LW-HS-BED-002",
+      "priority": 1,
+      "active": true
+    },
+    {
+      "tier_id": "comfort",
+      "room_type": "bathroom",
+      "solution_id": "LW-HS-BTH-001",
+      "priority": 1,
+      "active": true
+    },
+    {
+      "tier_id": "comfort",
+      "room_type": "bathroom",
+      "solution_id": "LW-HS-BTH-002",
+      "priority": 2,
+      "active": true
+    },
+    {
+      "tier_id": "comfort",
+      "room_type": "bathroom",
+      "solution_id": "LW-HS-BTH-004",
+      "priority": 3,
+      "active": true
+    },
+    {
+      "tier_id": "comfort",
+      "room_type": "bathroom",
+      "solution_id": "LW-HS-BTH-003",
+      "priority": 4,
+      "active": true
+    },
+    {
+      "tier_id": "comfort",
+      "room_type": "bathroom",
+      "solution_id": "LW-HS-BTH-001",
+      "priority": 5,
+      "active": true
+    },
+    {
+      "tier_id": "comfort",
+      "room_type": "entry",
+      "solution_id": "LW-HS-ENT-002",
+      "priority": 1,
+      "active": true
+    },
+    {
+      "tier_id": "comfort",
+      "room_type": "entry",
+      "solution_id": "LW-HS-ENT-003",
+      "priority": 2,
+      "active": true
+    },
+    {
+      "tier_id": "comfort",
+      "room_type": "hallway",
+      "solution_id": "LW-HS-KIT-001",
+      "priority": 1,
+      "active": true
+    },
+    {
+      "tier_id": "comfort",
+      "room_type": "bedroom",
+      "solution_id": "LW-HS-BED-002",
+      "priority": 1,
+      "active": true
+    },
+    {
+      "tier_id": "premium",
+      "room_type": "bathroom",
+      "solution_id": "LW-HS-BTH-001",
+      "priority": 1,
+      "active": true
+    },
+    {
+      "tier_id": "premium",
+      "room_type": "bathroom",
+      "solution_id": "LW-HS-BTH-002",
+      "priority": 2,
+      "active": true
+    },
+    {
+      "tier_id": "premium",
+      "room_type": "bathroom",
+      "solution_id": "LW-HS-BTH-004",
+      "priority": 3,
+      "active": true
+    },
+    {
+      "tier_id": "premium",
+      "room_type": "bathroom",
+      "solution_id": "LW-HS-BTH-003",
+      "priority": 4,
+      "active": true
+    },
+    {
+      "tier_id": "premium",
+      "room_type": "bathroom",
+      "solution_id": "LW-HS-BTH-001",
+      "priority": 5,
+      "active": true
+    },
+    {
+      "tier_id": "premium",
+      "room_type": "bathroom",
+      "solution_id": "LW-TECH-LIT-001",
+      "priority": 6,
+      "active": true
+    },
+    {
+      "tier_id": "premium",
+      "room_type": "entry",
+      "solution_id": "LW-HS-ENT-002",
+      "priority": 1,
+      "active": true
+    },
+    {
+      "tier_id": "premium",
+      "room_type": "entry",
+      "solution_id": "LW-HS-ENT-003",
+      "priority": 2,
+      "active": true
+    },
+    {
+      "tier_id": "premium",
+      "room_type": "hallway",
+      "solution_id": "LW-HS-KIT-001",
+      "priority": 1,
+      "active": true
+    },
+    {
+      "tier_id": "premium",
+      "room_type": "bedroom",
+      "solution_id": "LW-HS-BED-001",
+      "priority": 1,
+      "active": true
+    },
+    {
+      "tier_id": "premium",
+      "room_type": "bedroom",
+      "solution_id": "LW-HS-BED-002",
+      "priority": 2,
+      "active": true
+    },
+    {
+      "tier_id": "premium",
+      "room_type": "kitchen",
+      "solution_id": "LW-HS-STA-001",
+      "priority": 1,
+      "active": true
+    },
+    {
+      "tier_id": "premium",
+      "room_type": "kitchen",
+      "solution_id": "LW-HS-LIV-004",
+      "priority": 2,
+      "active": true
+    }
+  ],
+  "vision_finding_map": [
+    {
+      "finding_code": "no_toilet_grab_bar",
+      "room_type": "bathroom",
+      "solution_id": "LW-HS-BTH-001",
+      "min_confidence": 60,
+      "auto_apply_above": 85,
+      "active": true
+    },
+    {
+      "finding_code": "no_shower_grab_bar",
+      "room_type": "bathroom",
+      "solution_id": "LW-HS-BTH-002",
+      "min_confidence": 60,
+      "auto_apply_above": 85,
+      "active": true
+    },
+    {
+      "finding_code": "slippery_bathroom_floor",
+      "room_type": "bathroom",
+      "solution_id": "LW-HS-BTH-004",
+      "min_confidence": 60,
+      "auto_apply_above": 85,
+      "active": true
+    },
+    {
+      "finding_code": "no_shower_chair",
+      "room_type": "bathroom",
+      "solution_id": "LW-HS-BTH-003",
+      "min_confidence": 60,
+      "auto_apply_above": 85,
+      "active": true
+    },
+    {
+      "finding_code": "toilet_too_low",
+      "room_type": "bathroom",
+      "solution_id": "LW-HS-BTH-001",
+      "min_confidence": 60,
+      "auto_apply_above": 85,
+      "active": true
+    },
+    {
+      "finding_code": "no_entrance_handrail",
+      "room_type": "entry",
+      "solution_id": "LW-HS-ENT-002",
+      "min_confidence": 60,
+      "auto_apply_above": 85,
+      "active": true
+    },
+    {
+      "finding_code": "poor_entrance_lighting",
+      "room_type": "entry",
+      "solution_id": "LW-HS-ENT-003",
+      "min_confidence": 60,
+      "auto_apply_above": 85,
+      "active": true
+    },
+    {
+      "finding_code": "dark_hallway",
+      "room_type": "hallway",
+      "solution_id": "LW-HS-BED-002",
+      "min_confidence": 60,
+      "auto_apply_above": 85,
+      "active": true
+    },
+    {
+      "finding_code": "no_bed_rail",
+      "room_type": "bedroom",
+      "solution_id": "LW-HS-BED-001",
+      "min_confidence": 60,
+      "auto_apply_above": 85,
+      "active": true
+    },
+    {
+      "finding_code": "poor_night_lighting",
+      "room_type": "bedroom",
+      "solution_id": "LW-HS-BED-002",
+      "min_confidence": 60,
+      "auto_apply_above": 85,
+      "active": true
+    }
+  ],
+  "prompt_templates": [
+    {
+      "id": "bathroom_essential_v1",
+      "room_type": "bathroom",
+      "package_level": "essential",
+      "prompt_text": "Transform this bathroom into a senior-friendly aging-in-place bathroom while preserving the same room layout, camera angle, walls, doors, sink, toilet, and shower locations.\nAdd only the following approved safety improvements:\n{approved_modifications}\nMake it realistic, modern, and suitable for an elderly person living independently in India.\nDo not move plumbing fixtures. Do not change room size. Do not change major layout.",
+      "negative_prompt": "Do not move toilet, sink, shower, walls, doors, window, plumbing fixtures, or change room size. No unrealistic space. No medical devices.",
+      "version": 1,
+      "active": true
+    },
+    {
+      "id": "bathroom_comfort_v1",
+      "room_type": "bathroom",
+      "package_level": "comfort",
+      "prompt_text": "Transform this bathroom into a senior-friendly aging-in-place bathroom while preserving the same room layout, camera angle, walls, doors, sink, toilet, and shower locations.\nAdd only the following approved safety improvements:\n{approved_modifications}\nInclude comfort upgrades such as a fold-down shower seat and handheld shower where listed.\nMake it realistic, modern, premium, and suitable for an elderly person living independently in India.\nDo not move plumbing fixtures. Do not change room size.",
+      "negative_prompt": "Do not move toilet, sink, shower, walls, doors, window, plumbing fixtures, or change room size.",
+      "version": 1,
+      "active": true
+    },
+    {
+      "id": "bathroom_premium_v1",
+      "room_type": "bathroom",
+      "package_level": "premium",
+      "prompt_text": "Transform this bathroom into a premium senior-friendly aging-in-place bathroom while preserving the same room layout, camera angle, walls, doors, sink, toilet, and shower locations.\nAdd only the following approved safety improvements:\n{approved_modifications}\nInclude smart safety elements where listed (SOS pull cord, motion lighting).\nMake it realistic, modern, premium, and suitable for an elderly person living independently in India.\nDo not move plumbing fixtures. Do not change room size.",
+      "negative_prompt": "Do not move toilet, sink, shower, walls, doors, window, plumbing fixtures, or change room size.",
+      "version": 1,
+      "active": true
+    }
+  ],
+  "prompt_fragments": [
+    {
+      "solution_id": "LW-HS-007",
+      "prompt_fragment": "Install a stainless toilet/near-toilet grab bar"
+    },
+    {
+      "solution_id": "LW-HS-008",
+      "prompt_fragment": "Install shower grab bars (vertical/horizontal or L-shaped)"
+    },
+    {
+      "solution_id": "LW-HS-009",
+      "prompt_fragment": "Add anti-slip floor treatment on wet bathroom surfaces"
+    },
+    {
+      "solution_id": "LW-HS-010",
+      "prompt_fragment": "Add a fold-down or portable shower seat"
+    },
+    {
+      "solution_id": "LW-HS-011",
+      "prompt_fragment": "Add a raised toilet seat or toilet support frame"
+    },
+    {
+      "solution_id": "LW-TECH-001",
+      "prompt_fragment": "Add a discreet SOS pull cord or wall SOS button near wet areas"
+    },
+    {
+      "solution_id": "LW-HS-002",
+      "prompt_fragment": "Add a sturdy entrance handrail"
+    },
+    {
+      "solution_id": "LW-HS-003",
+      "prompt_fragment": "Add bright entrance motion lighting"
+    },
+    {
+      "solution_id": "LW-HS-018",
+      "prompt_fragment": "Add motion-activated hallway lighting"
+    },
+    {
+      "solution_id": "LW-HS-013",
+      "prompt_fragment": "Add a bed rail for safe transfers"
+    },
+    {
+      "solution_id": "LW-HS-014",
+      "prompt_fragment": "Add soft motion night lighting near the bed"
+    },
+    {
+      "solution_id": "LW-HS-016",
+      "prompt_fragment": "Add a visible gas leak detector"
+    },
+    {
+      "solution_id": "LW-HS-017",
+      "prompt_fragment": "Add a smoke detector"
+    }
+  ],
+  "workflow_map": [
+    {
+      "room_type": "bathroom",
+      "package_level": "essential",
+      "workflow_name": "bathroom_essential_v1",
+      "model_name": "flux-kontext",
+      "draft_width": 1024,
+      "draft_height": 1024,
+      "active": true
+    },
+    {
+      "room_type": "bathroom",
+      "package_level": "comfort",
+      "workflow_name": "bathroom_comfort_v1",
+      "model_name": "flux-kontext",
+      "draft_width": 1024,
+      "draft_height": 1024,
+      "active": true
+    },
+    {
+      "room_type": "bathroom",
+      "package_level": "premium",
+      "workflow_name": "bathroom_premium_v1",
+      "model_name": "flux-kontext",
+      "draft_width": 1024,
+      "draft_height": 1024,
+      "active": true
+    }
+  ],
+  "settings": {
+    "max_images_per_assessment": 3,
+    "max_regenerations_per_tier": 2,
+    "daily_render_cap": 30,
+    "estimated_cost_paise_per_image": 350,
+    "room_similarity_min": 0.55,
+    "vision_auto_apply_confidence_min": 85,
+    "vision_assessor_confirm_min": 60,
+    "vision_provider": "gemini",
+    "vision_model": "gemini-3.5-flash",
+    "render_provider": "local_stub",
+    "job_max_runtime_seconds": 600,
+    "retry_count": 2,
+    "retry_delay_seconds": 60,
+    "pod_idle_shutdown_minutes": 15,
+    "default_provider": "local_stub",
+    "customer_disclaimer_text": "AI-generated visuals are conceptual design aids. Final installation recommendations must be reviewed by Kushalaya staff and qualified service professionals."
+  }
+}

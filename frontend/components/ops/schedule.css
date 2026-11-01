@@ -1,0 +1,1167 @@
+/* Schedule page (app/(app)/kushalaya/visits/page.tsx). */
+
+.sc-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.sc-links {
+  display: flex;
+  gap: 1rem;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.sc-form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.sc-form label {
+  display: grid;
+  gap: 0.3rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.sc-form .sc-wide {
+  grid-column: 1 / -1;
+}
+
+.sc-form-actions {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+.sc-from {
+  grid-column: 1 / -1;
+  margin: 0;
+  padding: 0.55rem 0.8rem;
+  border-radius: 10px;
+  background: #fdf1d8;
+  color: #8a5a00;
+  font-weight: 700;
+}
+
+.sc-waiting {
+  margin-bottom: 1rem;
+  border-left: 4px solid #c98a12;
+}
+
+.sc-waiting h2 {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0 0 0.6rem;
+  font-size: 1.05rem;
+}
+
+.sc-count {
+  padding: 0.1rem 0.55rem;
+  border-radius: 999px;
+  background: #fdf1d8;
+  color: #8a5a00;
+  font-size: 0.8rem;
+}
+
+.sc-waiting ul,
+.sc-day ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.4rem;
+}
+
+.sc-waiting li {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.55rem 0.7rem;
+  border-radius: 12px;
+  background: #fffaf0;
+}
+
+.sc-waiting small {
+  display: block;
+  color: #64748b;
+}
+
+.sc-pref {
+  color: #4b5b70;
+  font-size: 0.85rem;
+}
+
+.ko-main .sc-waiting li button {
+  min-height: 0;
+  padding: 0.4rem 0.9rem;
+}
+
+.sc-filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 0.5rem 0 1rem;
+}
+
+.sc-tabs {
+  display: inline-flex;
+  padding: 0.25rem;
+  border-radius: 12px;
+  background: #e8edf4;
+}
+
+.ko-main .sc-tabs button {
+  min-height: 0;
+  padding: 0.4rem 0.85rem;
+  border-radius: 9px;
+  border: 0;
+  background: transparent;
+  color: #4b5b70;
+  box-shadow: none;
+  font-weight: 700;
+}
+
+.ko-main .sc-tabs button:hover {
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.ko-main .sc-tabs button.is-on {
+  background: #fff;
+  color: #0e2a4f;
+  box-shadow: 0 2px 6px -2px rgba(16, 36, 58, 0.25);
+}
+
+.ko-main .sc-filters select {
+  width: auto;
+  min-height: 0;
+  padding: 0.45rem 0.7rem;
+}
+
+.sc-empty {
+  color: #64748b;
+}
+
+.sc-day {
+  margin-bottom: 1.25rem;
+}
+
+.sc-day h3 {
+  margin: 0 0 0.5rem;
+  font-size: 0.95rem;
+  color: #0e2a4f;
+}
+
+.sc-job {
+  display: grid;
+  grid-template-columns: 5.5rem minmax(0, 1fr) 12rem 7.5rem 11rem;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 0.7rem 0.9rem;
+  border-radius: 14px;
+  background: #fff;
+  border: 1px solid rgba(16, 36, 58, 0.07);
+  border-left: 4px solid #2f6fd6;
+}
+
+.sc-job.is-completed {
+  border-left-color: #5a8a1f;
+}
+
+.sc-job.is-cancelled {
+  border-left-color: #cbd5e1;
+  opacity: 0.75;
+}
+
+/* Missed: red, with a Rebook button — it needs action, not hiding. */
+.sc-job.is-missed {
+  border-left-color: #b42318;
+  background: #fef3f2;
+}
+
+.sc-job.is-on_the_way,
+.sc-job.is-checked_in {
+  border-left-color: #c98a12;
+}
+
+.sc-time {
+  font-weight: 800;
+  color: #2f6fd6;
+}
+
+.sc-what {
+  display: grid;
+  gap: 0.15rem;
+  min-width: 0;
+}
+
+.ko-main .sc-what a {
+  font-weight: 800;
+  color: #0e2a4f;
+  text-decoration: none;
+}
+
+.sc-what > span {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 0;
+}
+
+.sc-what small {
+  color: #64748b;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sc-kind {
+  flex: none;
+  padding: 0.1rem 0.5rem;
+  border-radius: 999px;
+  background: #e8f0fc;
+  color: #1f4f9f;
+  font-size: 0.72rem;
+  font-weight: 800;
+}
+
+.sc-kind.is-assessment {
+  background: #eef6e2;
+  color: #3f6a12;
+}
+
+.sc-kind.is-install {
+  background: #fdf1d8;
+  color: #8a5a00;
+}
+
+.ko-main .sc-job select {
+  min-height: 0;
+  padding: 0.4rem 0.55rem;
+  font-size: 0.88rem;
+}
+
+.sc-cg-name {
+  color: #4b5b70;
+}
+
+.sc-status {
+  justify-self: start;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  background: #e8f0fc;
+  color: #1f4f9f;
+  font-size: 0.75rem;
+  font-weight: 800;
+}
+
+.sc-status.is-on_the_way,
+.sc-status.is-checked_in {
+  background: #fdf1d8;
+  color: #8a5a00;
+}
+
+.sc-status.is-completed {
+  background: #eef6e2;
+  color: #5a8a1f;
+}
+
+.sc-status.is-cancelled {
+  background: #f1f5f9;
+  color: #64748b;
+}
+
+.sc-status.is-missed {
+  background: #fee4e2;
+  color: #b42318;
+}
+
+.sc-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  min-width: 0;
+}
+
+.sc-actions small {
+  color: #64748b;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ko-main .sc-text,
+.ko-main .sc-text:hover {
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  box-shadow: none;
+  color: #2f6fd6;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.ko-main .sc-text.is-danger {
+  color: #b42318;
+}
+
+@media (max-width: 1000px) {
+  .sc-job {
+    grid-template-columns: 4.5rem minmax(0, 1fr);
+  }
+
+  .sc-job > select,
+  .sc-job > .sc-cg-name,
+  .sc-job > .sc-status,
+  .sc-job > .sc-actions {
+    grid-column: 2;
+    justify-self: start;
+  }
+
+  .sc-waiting li {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Care manager runs the visit: On the way → Arrived → Complete / Do assessment. */
+.ko-main .sc-step,
+.ko-main .sc-step:hover {
+  min-height: 0;
+  padding: 0.35rem 0.75rem;
+  border-radius: 9px;
+  border: 1px solid rgba(47, 111, 214, 0.35);
+  background: #fff;
+  color: #1f4f9f;
+  box-shadow: none;
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.ko-main .sc-step:hover {
+  background: #eef4fd;
+}
+
+.ko-main .sc-step.is-go,
+.ko-main .sc-step.is-go:hover {
+  background: #5a8a1f;
+  border-color: #5a8a1f;
+  color: #fff;
+}
+
+@media (min-width: 1001px) {
+  .sc-job {
+    grid-template-columns: 5.5rem minmax(0, 1fr) 11rem 7rem minmax(15rem, auto);
+  }
+}
+
+.sc-actions {
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+/* Needs finishing: visits started more than 4 hours ago and never closed. */
+.sc-unfinished {
+  margin-bottom: 1rem;
+  border-left: 4px solid #b42318;
+}
+
+.sc-unfinished h2 {
+  margin: 0 0 0.5rem;
+  font-size: 1rem;
+}
+
+.sc-unfinished ul {
+  display: grid;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.sc-unfinished li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.sc-unfinished small {
+  color: #64748b;
+}
+
+/* Inline reschedule (date + time, India time) under a job row. */
+.sc-resched {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.sc-resched input {
+  width: auto;
+}
+
+/* Double-booking warning on the booking form. */
+.sc-clash {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0.55rem 0.8rem;
+  border-radius: 10px;
+  background: #fee4e2;
+  color: #b42318;
+  font-weight: 700;
+}
+
+/* Log a past visit (app/(app)/kushalaya/visits/log/page.tsx). */
+.ko-main .lv-back {
+  font-size: 0.88rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.sc-top h1 {
+  margin: 0.25rem 0 0.2rem;
+}
+
+.sc-top p {
+  margin: 0;
+}
+
+.lv-form {
+  max-width: 860px;
+}
+
+.lv-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 0.75rem;
+}
+
+.lv-grid label,
+.lv-field {
+  display: grid;
+  gap: 0.3rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.lv-field {
+  margin-top: 1rem;
+}
+
+.lv-h {
+  margin: 1.4rem 0 0.1rem;
+  font-size: 1.05rem;
+}
+
+.lv-sub {
+  margin: 0 0 0.6rem;
+  font-size: 0.85rem;
+}
+
+.lv-checks {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 0.5rem;
+}
+
+.lv-checks li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.6rem 0.8rem;
+  border-radius: 12px;
+  border: 1px solid rgba(16, 36, 58, 0.08);
+  background: #fbfcfe;
+}
+
+.lv-checks li.is-concern {
+  border-color: rgba(201, 138, 18, 0.5);
+  background: #fffaf0;
+}
+
+.lv-checks small {
+  display: block;
+  color: #64748b;
+  font-size: 0.8rem;
+}
+
+.lv-toggle {
+  display: inline-flex;
+  flex: none;
+  padding: 0.2rem;
+  border-radius: 10px;
+  background: #e8edf4;
+}
+
+.ko-main .lv-toggle button {
+  min-height: 0;
+  padding: 0.35rem 0.75rem;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: #4b5b70;
+  box-shadow: none;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.ko-main .lv-toggle button.is-on.is-ok {
+  background: #5a8a1f;
+  color: #fff;
+}
+
+.ko-main .lv-toggle button.is-on.is-concern {
+  background: #c98a12;
+  color: #fff;
+}
+
+.lv-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 1.2rem;
+}
+
+.lv-done {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  max-width: 860px;
+  border-left: 4px solid #5a8a1f;
+}
+
+.lv-done span {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  font-weight: 700;
+}
+
+.lv-kl {
+  margin-top: 1.2rem;
+}
+
+/* --- Phase 1 UI audit: phone sizes ------------------------------------------- */
+.sc-unfinished small {
+  display: block;
+}
+
+.ko-main .sc-top a,
+.ko-main .sc-links a {
+  display: inline-block;
+  padding: 0.6rem 0;
+}
+
+@media (max-width: 1000px) {
+  .ko-main .sc-step,
+  .ko-main .sc-tabs button,
+  .ko-main .sc-job select,
+  .ko-main .sc-waiting li button {
+    min-height: 44px;
+  }
+
+  .ko-main .sc-job > .sc-actions {
+    width: 100%;
+  }
+
+  .sc-tabs {
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  .ko-main .sc-filters select {
+    flex: 1 1 9rem;
+  }
+}
+
+/* Opened from a roster chip (?job=…). */
+.sc-job.is-focus {
+  outline: 2px solid #2f6db5;
+  outline-offset: 2px;
+  border-radius: 10px;
+}
+
+/* ---- Visits page (2026-10-07): tabs in the URL, More menu, filter sheet, mobile + Schedule ---- */
+.vs-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 0 0 1rem;
+}
+
+.vs-more {
+  position: relative;
+}
+
+.vs-menu {
+  position: absolute;
+  top: calc(100% + 0.35rem);
+  left: 0;
+  z-index: 30;
+  display: grid;
+  min-width: 13rem;
+  padding: 0.35rem;
+  border-radius: 12px;
+  background: #fff;
+  border: 1px solid rgba(16, 36, 58, 0.1);
+  box-shadow: 0 12px 28px -12px rgba(16, 36, 58, 0.35);
+}
+
+.ko-main .vs-menu a {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 0.8rem;
+  border-radius: 8px;
+  color: #0e2a4f;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.ko-main .vs-menu a:hover,
+.ko-main .vs-menu a:focus-visible {
+  background: #eef4fd;
+}
+
+.vs-head {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 0.25rem 0 0.75rem;
+}
+
+.vs-tabs {
+  max-width: 100%;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.ko-main .vs-tabs button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  white-space: nowrap;
+}
+
+.vs-badge {
+  min-width: 1.3rem;
+  padding: 0 0.35rem;
+  border-radius: 999px;
+  background: #2f6fd6;
+  color: #fff;
+  font-size: 0.72rem;
+  line-height: 1.3rem;
+  text-align: center;
+}
+
+.vs-badge.is-red {
+  background: #b42318;
+}
+
+.vs-filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 0.6rem;
+  margin: 0 0 1rem;
+}
+
+.vs-filters label {
+  display: grid;
+  gap: 0.2rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #4b5b70;
+}
+
+.ko-main .vs-filters select,
+.ko-main .vs-filters input {
+  width: auto;
+  min-height: 0;
+  padding: 0.45rem 0.7rem;
+}
+
+.vs-sheet-title,
+.ko-main .vs-sheet-done,
+.ko-main .vs-filter-btn,
+.vs-scrim,
+.ko-main .vs-fab {
+  display: none;
+}
+
+.ko-main .vs-clear {
+  align-self: center;
+}
+
+.vs-stat {
+  display: grid;
+  justify-items: start;
+  gap: 0.25rem;
+  min-width: 0;
+}
+
+.vs-empty {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.vs-empty p {
+  margin: 0;
+}
+
+.vs-req {
+  list-style: none;
+  margin: 0 0 1rem;
+  padding: 0;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.vs-req li {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.9rem;
+  margin: 0;
+  padding: 0.8rem 1rem;
+  border-left: 4px solid #c98a12;
+}
+
+.vs-req-main {
+  display: grid;
+  gap: 0.15rem;
+  min-width: 0;
+}
+
+.ko-main .vs-req-main a {
+  font-weight: 800;
+  color: #0e2a4f;
+  text-decoration: none;
+}
+
+.vs-req-main small {
+  color: #64748b;
+  overflow-wrap: anywhere;
+}
+
+.vs-req-meta {
+  display: grid;
+  gap: 0.2rem;
+  margin: 0;
+  font-size: 0.85rem;
+  min-width: 0;
+}
+
+.vs-req-meta div {
+  display: flex;
+  gap: 0.4rem;
+  min-width: 0;
+}
+
+.vs-req-meta dt {
+  flex: none;
+  width: 4rem;
+  color: #64748b;
+}
+
+.vs-req-meta dd {
+  margin: 0;
+  color: #24364d;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 1000px) {
+  .vs-req li {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.5rem;
+  }
+
+  .vs-req-actions {
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 600px) {
+  .vs-page {
+    padding-bottom: 5.5rem;
+  }
+
+  .vs-bar .vs-primary,
+  .vs-empty .vs-incard {
+    display: none;
+  }
+
+  .vs-head {
+    align-items: stretch;
+  }
+
+  .vs-head .vs-tabs {
+    flex: 1 1 auto;
+    min-width: 0;
+    width: auto;
+  }
+
+  .ko-main .vs-filter-btn {
+    display: inline-flex;
+    align-items: center;
+    flex: none;
+    min-height: 44px;
+  }
+
+  .vs-filters {
+    display: none;
+  }
+
+  .vs-filters.is-sheet {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 90;
+    display: grid;
+    gap: 0.75rem;
+    margin: 0;
+    max-height: 85vh;
+    overflow-y: auto;
+    padding: 1rem 1rem calc(1rem + env(safe-area-inset-bottom, 0px));
+    border-radius: 18px 18px 0 0;
+    background: #fff;
+    box-shadow: 0 -12px 32px -12px rgba(16, 36, 58, 0.35);
+  }
+
+  .vs-filters.is-sheet .vs-sheet-title {
+    display: block;
+    margin: 0;
+    font-weight: 800;
+    color: #0e2a4f;
+  }
+
+  .ko-main .vs-filters.is-sheet select,
+  .ko-main .vs-filters.is-sheet input {
+    width: 100%;
+    min-height: 44px;
+  }
+
+  .ko-main .vs-filters.is-sheet .vs-clear {
+    min-height: 44px;
+    justify-self: start;
+  }
+
+  .ko-main .vs-filters.is-sheet .vs-sheet-done {
+    display: block;
+    width: 100%;
+    min-height: 48px;
+  }
+
+  .vs-scrim {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 89;
+    background: rgba(14, 42, 79, 0.35);
+  }
+
+  .ko-main .vs-fab {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    right: 16px;
+    bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+    z-index: 40;
+    min-height: 52px;
+    padding: 0 1.3rem;
+    border-radius: 999px;
+    box-shadow: 0 10px 24px -8px rgba(16, 36, 58, 0.5);
+  }
+
+  .ko-main .vs-card .sc-text,
+  .ko-main .vs-req .sc-text,
+  .ko-main .vs-bar .secondary {
+    min-height: 44px;
+    padding: 0 0.4rem;
+  }
+
+  .ko-main .vs-card .ks-dir-btn {
+    min-height: 44px;
+  }
+
+  .vs-empty {
+    display: grid;
+  }
+}
+
+/* Visit cards: one tidy row of facts, actions underneath (same on every tab). */
+@media (min-width: 1001px) {
+  .sc-job.vs-card {
+    grid-template-columns: 5.5rem minmax(0, 1fr) 12rem 10rem;
+    row-gap: 0.55rem;
+  }
+
+  .sc-job.vs-card > .sc-actions {
+    grid-column: 2 / -1;
+    justify-content: flex-start;
+  }
+
+  .vs-filters label.vs-sel > span {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+}
+
+.sc-job.vs-card > .sc-actions:empty {
+  display: none;
+}
+
+@media (min-width: 601px) {
+  .vs-filters label.vs-date {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .vs-filters {
+    align-items: center;
+  }
+}
+
+@media (max-width: 1000px) {
+  .sc-job.vs-card > .vs-stat {
+    grid-column: 2;
+  }
+
+  .vs-stat {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .sc-job.vs-card {
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 0.6rem 0.75rem;
+  }
+
+  .sc-job.vs-card > .sc-time {
+    white-space: nowrap;
+  }
+
+  .sc-job.vs-card > select,
+  .sc-job.vs-card > .sc-cg-name,
+  .sc-job.vs-card > .vs-stat,
+  .sc-job.vs-card > .sc-actions,
+  .sc-job.vs-card > .sc-resched {
+    grid-column: 1 / -1;
+    justify-self: stretch;
+  }
+
+  .sc-job.vs-card > .sc-actions {
+    justify-content: flex-start;
+    gap: 0.5rem 0.75rem;
+  }
+
+  /* Phone: the two step buttons share the first line evenly; links follow. */
+  .ko-main .sc-job.vs-card > .sc-actions .sc-step {
+    flex: 1 1 7.5rem;
+    justify-content: center;
+  }
+
+  /* Sits above the copyright line under the content column. */
+  .ko-main .vs-fab {
+    bottom: calc(56px + env(safe-area-inset-bottom, 0px));
+  }
+}
+
+.vs-req li {
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr) 11rem;
+}
+
+.vs-req-actions {
+  justify-content: flex-end;
+}
+
+@media (max-width: 1000px) {
+  .vs-req li {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .vs-req-actions {
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 600px) {
+  .ko-main .vs-filter-btn {
+    margin-left: auto;
+  }
+
+  .vs-head .vs-tabs {
+    width: 100%;
+  }
+
+  .ko-main .vs-tabs button {
+    padding: 0 0.32rem;
+    gap: 0.2rem;
+    font-size: 0.8rem;
+    letter-spacing: -0.01em;
+  }
+
+  .vs-badge {
+    min-width: 1.15rem;
+    line-height: 1.15rem;
+  }
+}
+
+/* FIX 110 (builder C): Log a past visit — "Wed 7 Oct" beside the date input. */
+.lv-date {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.lv-date input {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.lv-date small {
+  flex: 0 0 auto;
+  white-space: nowrap;
+  font-weight: 700;
+}
+
+/* Header actions sit top right like Assessments (ks-head-row); the More menu opens
+   leftwards from there. The bar below only carries the phone Filter button. */
+.ks-head-actions .vs-menu {
+  left: auto;
+  right: 0;
+}
+@media (min-width: 601px) {
+  .vs-bar {
+    display: none;
+  }
+}
+@media (max-width: 640px) {
+  .ko-main .ks-head-actions .vs-more > button {
+    width: 44px;
+    min-width: 44px;
+    min-height: 44px;
+    padding: 0;
+    justify-content: center;
+  }
+}
+
+/* Live location: "Sharing your live location" bar, the Live map button and popup. */
+.vs-sharing {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem 0.75rem;
+  margin: 0 0 1rem;
+  padding: 0.7rem 1rem;
+  border-radius: 14px;
+  background: #e7f6ec;
+  border: 1px solid #b7e2c4;
+  color: #14532d;
+}
+
+.vs-sharing-text {
+  flex: 1 1 16rem;
+  min-width: 0;
+}
+
+.vs-sharing-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.vs-sharing-dot {
+  display: inline-block;
+  flex: none;
+  width: 0.6rem;
+  height: 0.6rem;
+  border-radius: 50%;
+  background: #2fa35a;
+  box-shadow: 0 0 0 0 rgba(47, 163, 90, 0.6);
+  animation: vs-live-pulse 1.8s ease-out infinite;
+}
+
+.ko-main .sc-step.vs-live-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  border-color: #2fa35a;
+  color: #14532d;
+}
+
+.vs-livemap {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.vs-livemap-eta {
+  margin: 0;
+}
+
+.vs-livemap .lv-map {
+  height: min(60vh, 420px);
+}
+
+.vs-livemap-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+@keyframes vs-live-pulse {
+  70% {
+    box-shadow: 0 0 0 8px rgba(47, 163, 90, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(47, 163, 90, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vs-sharing-dot {
+    animation: none;
+  }
+}

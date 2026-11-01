@@ -1,0 +1,4306 @@
+/* Kushalaya Family Care Hub — portal chrome and component skin.
+
+   Family-only. The staff portal keeps components/ks-shell.css; nothing here is
+   shared with it, which is why every rule is scoped under .fh-app (chrome) or
+   .fh-main (page content). Imported by FamilyShell.tsx — the one component that
+   renders this chrome — so a page cannot end up with the shell unstyled.
+
+   Palette comes straight from the Kushalaya mark: the house/hands blue, the
+   heart/leaf green, on a warm off-white. Navy sidebar so the portal reads as
+   its own app rather than a re-skin of the ops console. */
+
+.fh-app {
+  --fh-navy: #0e2a4f;
+  --fh-navy-2: #143c74;
+  --fh-blue: #1d5fb4;
+  --fh-blue-2: #2f79d6;
+  --fh-blue-soft: #e8f0fb;
+  --fh-blue-deep: #17498c;
+  --fh-green: #6a9a2a;
+  --fh-green-2: #8ab83e;
+  --fh-green-soft: #edf5e2;
+  --fh-green-deep: #4f7a1d;
+  --fh-gold: #d9a441;
+  --fh-gold-soft: #fbf3df;
+  --fh-ink: #10243a;
+  --fh-muted: #61748a;
+  --fh-line: #e3e9f1;
+  --fh-surface: #ffffff;
+  --fh-bg: #f3f6fa;
+  --fh-danger: #c8402f;
+  --fh-danger-soft: #fdeeeb;
+  --fh-ok: #1f8a4c;
+  --fh-ok-soft: #e6f6ec;
+  --fh-warn: #b7791f;
+  --fh-warn-soft: #fff5e0;
+  --fh-radius: 18px;
+  --fh-radius-sm: 12px;
+  --fh-shadow: 0 1px 2px rgba(16, 36, 58, 0.04), 0 10px 28px -14px rgba(16, 36, 58, 0.16);
+  --fh-shadow-lift: 0 2px 4px rgba(16, 36, 58, 0.05), 0 18px 40px -16px rgba(16, 36, 58, 0.24);
+  --fh-topbar-h: 68px;
+  --fh-side-w: 276px;
+  --fh-tabbar-h: 62px;
+
+  min-height: 100vh;
+  background:
+    radial-gradient(900px 420px at 100% -10%, rgba(29, 95, 180, 0.07), transparent 60%),
+    radial-gradient(700px 360px at -10% 100%, rgba(106, 154, 42, 0.08), transparent 60%),
+    var(--fh-bg);
+  color: var(--fh-ink);
+  font-family: var(--fh-font, "Manrope"), "Segoe UI", system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+html.locale-te .fh-app {
+  font-family: var(--font-telugu), "Noto Sans Telugu", var(--fh-font, "Manrope"), system-ui, sans-serif;
+}
+
+/* --- Staff impersonation banner ---------------------------------------- */
+
+.fh-app .fh-staff-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.45rem 1rem;
+  background: var(--fh-gold-soft);
+  color: #7a5200;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.fh-app .fh-staff-banner button {
+  border: 1px solid #d8a800;
+  background: transparent;
+  color: #7a5200;
+  border-radius: 999px;
+  padding: 0.2rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.fh-app .fh-staff-banner button:hover {
+  background: #f3e2b3;
+  color: #5c3d00;
+}
+
+/* --- Top bar ------------------------------------------------------------ */
+
+/* Three tracks: the title sits at the true centre regardless of how wide the
+   mark or the controls are. Below 900px the outer tracks shrink to content so
+   the 40px emblem and the controls never fight the title for room. */
+.fh-app .fh-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 0.75rem;
+  height: var(--fh-topbar-h);
+  padding: 0 1rem;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--fh-line);
+}
+
+.fh-app .fh-topbar-left {
+  grid-column: 1;
+  justify-self: start;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-width: 0;
+}
+
+.fh-app .fh-burger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--fh-line);
+  border-radius: 12px;
+  background: var(--fh-surface);
+  color: var(--fh-ink);
+  padding: 0;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.fh-app .fh-burger:hover {
+  background: var(--fh-blue-soft);
+  color: var(--fh-blue);
+}
+
+.fh-app .fh-burger svg {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+.fh-app .fh-logo-link {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  text-decoration: none;
+  border-radius: 10px;
+}
+
+.fh-app .fh-logo-link:focus-visible {
+  outline: 2px solid var(--fh-blue);
+  outline-offset: 3px;
+}
+
+/* The square KushAlaya mark, the same file at every width (the old wide
+   wordmark and its <picture> swap below 900px are gone). Keep it >= 44px or
+   the arched name becomes unreadable. */
+.fh-app .fh-logo {
+  display: block;
+  height: 56px;
+  width: 56px;
+  max-height: none;
+  max-width: none;
+  flex-shrink: 0;
+}
+
+.fh-app .fh-portal-title {
+  grid-column: 2;
+  justify-self: center;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.05rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: var(--fh-navy);
+  white-space: nowrap;
+  text-align: center;
+}
+
+.fh-app .fh-portal-title .is-short {
+  display: none;
+}
+
+.fh-app .fh-portal-title::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--fh-green);
+  box-shadow: 0 0 0 4px var(--fh-green-soft);
+  flex-shrink: 0;
+}
+
+.fh-app .fh-topbar-right {
+  grid-column: 3;
+  justify-self: end;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  flex-shrink: 0;
+}
+
+.fh-app .fh-wallet-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.42rem 0.8rem;
+  border-radius: 999px;
+  background: var(--fh-green-soft);
+  color: var(--fh-green-deep);
+  font-size: 0.85rem;
+  font-weight: 800;
+  text-decoration: none;
+  white-space: nowrap;
+  border: 1px solid transparent;
+}
+
+.fh-app .fh-wallet-chip:hover {
+  border-color: var(--fh-green-2);
+}
+
+.fh-app .fh-wallet-chip svg,
+.fh-app .fh-bell svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.9;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  flex-shrink: 0;
+}
+
+.fh-app .fh-bell {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  border: 1px solid var(--fh-line);
+  background: var(--fh-surface);
+  color: var(--fh-ink);
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.fh-app .fh-bell:hover {
+  background: var(--fh-blue-soft);
+  color: var(--fh-blue);
+}
+
+.fh-app .fh-bell-count {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: 999px;
+  background: var(--fh-danger);
+  color: #fff;
+  font-size: 0.66rem;
+  font-weight: 800;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #fff;
+}
+
+/* Account menu (component keeps its ks-* classes; the look is re-skinned
+   here so the staff portal is untouched). */
+.fh-app .ks-avatar-btn:hover {
+  background: var(--fh-blue-soft);
+}
+
+.fh-app .ks-avatar {
+  background: linear-gradient(135deg, var(--fh-blue) 0%, var(--fh-navy-2) 100%);
+  box-shadow: 0 0 0 2px #fff, 0 0 0 3px var(--fh-line);
+}
+
+.fh-app .ks-avatar-name {
+  color: var(--fh-ink);
+  font-weight: 700;
+}
+
+.fh-app .ks-menu {
+  border-radius: 16px;
+  border-color: var(--fh-line);
+  box-shadow: var(--fh-shadow-lift);
+}
+
+.fh-app .ks-menu-item:hover,
+.fh-app .ks-menu-item:focus-visible {
+  background: var(--fh-blue-soft);
+  color: var(--fh-blue);
+}
+
+.fh-app .ks-menu-danger:hover {
+  background: var(--fh-danger-soft);
+  color: var(--fh-danger);
+}
+
+.fh-app .ks-chip-sm {
+  background: var(--fh-green-soft);
+  color: var(--fh-green-deep) !important;
+}
+
+.fh-app .ks-pwd-actions button {
+  border-radius: 10px;
+  font-weight: 700;
+}
+
+.fh-app .ks-pwd-actions button.secondary {
+  background: var(--fh-blue-soft);
+  color: var(--fh-blue);
+}
+
+/* --- Layout ------------------------------------------------------------- */
+
+.fh-app .fh-body {
+  display: flex;
+  align-items: flex-start;
+}
+
+.fh-app .fh-sidebar {
+  display: none;
+  width: var(--fh-side-w);
+  flex-shrink: 0;
+  position: sticky;
+  top: var(--fh-topbar-h);
+  height: calc(100vh - var(--fh-topbar-h));
+  min-height: 0;
+  /* Only the nav scrolls: the "Caring for" card stays at the top and the
+     help card stays pinned at the bottom (see .fh-sidebar .fh-nav). */
+  overflow: hidden;
+  padding: 0.85rem 0.8rem 0.85rem;
+  flex-direction: column;
+  gap: 0.7rem;
+  background:
+    radial-gradient(420px 260px at 110% 0%, rgba(138, 184, 62, 0.28), transparent 60%),
+    linear-gradient(180deg, #0f2f5c 0%, #123a70 55%, #143f7a 100%);
+  color: #fff;
+}
+
+.fh-app .fh-content {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Nav takes the space between the two pinned cards and scrolls on its own.
+   min-height: 0 is what lets a flex child actually scroll instead of clip. */
+.fh-app .fh-sidebar .fh-nav {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  margin: 0 -0.35rem;
+  padding: 0 0.35rem;
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+}
+
+.fh-app .fh-sidebar .fh-nav:hover {
+  scrollbar-color: rgba(255, 255, 255, 0.28) transparent;
+}
+
+.fh-app .fh-sidebar .fh-side-help {
+  margin-top: 0;
+  flex-shrink: 0;
+}
+
+.fh-app .fh-sidebar .fh-side-elder {
+  flex-shrink: 0;
+}
+
+/* --- Sidebar / drawer contents (shared) --------------------------------- */
+
+.fh-app .fh-side-elder {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.65rem 0.8rem;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.09);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.fh-app .fh-side-elder-avatar,
+.fh-app .fh-elder-avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--fh-green-2) 0%, var(--fh-green-deep) 100%);
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: 800;
+  flex-shrink: 0;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.18);
+}
+
+.fh-app .fh-side-elder-text {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.fh-app .fh-side-elder-text small {
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.62);
+}
+
+.fh-app .fh-side-elder-text strong {
+  font-size: 0.98rem;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.fh-app .fh-side-elder-text span {
+  font-size: 0.74rem;
+  color: rgba(255, 255, 255, 0.7);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.fh-app .fh-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.fh-app .fh-nav-title {
+  margin: 0 0 0.3rem;
+  padding: 0 0.75rem;
+  font-size: 0.64rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.fh-app .fh-nav-link {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.48rem 0.7rem;
+  border-radius: 12px;
+  color: rgba(255, 255, 255, 0.86);
+  text-decoration: none;
+  font-size: 0.93rem;
+  font-weight: 600;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.fh-app .fh-nav-link:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+.fh-app .fh-nav-link.is-active {
+  background: #fff;
+  color: var(--fh-navy);
+  font-weight: 800;
+  box-shadow: 0 8px 20px -10px rgba(0, 0, 0, 0.45);
+}
+
+.fh-app .fh-nav-link.is-active::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 22%;
+  bottom: 22%;
+  width: 4px;
+  border-radius: 0 4px 4px 0;
+  background: var(--fh-green);
+}
+
+.fh-app .fh-nav-ico {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  flex-shrink: 0;
+}
+
+.fh-app .fh-nav-link.is-active .fh-nav-ico {
+  background: var(--fh-blue-soft);
+  color: var(--fh-blue);
+}
+
+.fh-app .fh-nav-link.is-urgent .fh-nav-ico {
+  background: rgba(200, 64, 47, 0.28);
+  color: #ffb8ad;
+}
+
+.fh-app .fh-nav-link.is-urgent.is-active .fh-nav-ico {
+  background: var(--fh-danger-soft);
+  color: var(--fh-danger);
+}
+
+.fh-app .fh-nav-ico svg,
+.fh-app .fh-tab-ico svg {
+  width: 19px;
+  height: 19px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  flex-shrink: 0;
+}
+
+.fh-app .fh-nav-label {
+  flex: 1;
+  min-width: 0;
+}
+
+.fh-app .fh-nav-count,
+.fh-app .fh-tab-count {
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: var(--fh-danger);
+  color: #fff;
+  font-size: 0.68rem;
+  font-weight: 800;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fh-app .fh-side-help {
+  margin-top: auto;
+  padding: 0.85rem;
+  border-radius: 16px;
+  background: linear-gradient(135deg, rgba(138, 184, 62, 0.35) 0%, rgba(29, 95, 180, 0.3) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+}
+
+.fh-app .fh-side-help strong {
+  display: block;
+  font-size: 0.9rem;
+  margin-bottom: 0.15rem;
+}
+
+.fh-app .fh-side-help-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.35rem;
+}
+
+.fh-app .fh-side-help-head strong {
+  margin-bottom: 0;
+}
+
+.fh-app .fh-side-help-ask {
+  flex-shrink: 0;
+  min-height: 32px;
+  padding: 0.25rem 0.7rem;
+  border: 0;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #2f6fd6, #1f4f9f);
+  color: #fff;
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.fh-app .fh-side-help-ask:hover {
+  filter: brightness(1.08);
+}
+
+.fh-app .fh-side-help p {
+  margin: 0 0 0.6rem;
+  font-size: 0.74rem;
+  color: rgba(255, 255, 255, 0.78);
+  line-height: 1.4;
+}
+
+.fh-app .fh-side-help-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.fh-app .fh-side-help-actions a {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  padding: 0.5rem 0.6rem;
+  border-radius: 10px;
+  font-size: 0.8rem;
+  font-weight: 800;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.fh-app .fh-side-help-actions svg {
+  width: 15px;
+  height: 15px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  flex-shrink: 0;
+}
+
+.fh-app .fh-side-help-actions .is-call {
+  background: #fff;
+  color: var(--fh-navy);
+}
+
+.fh-app .fh-side-help-actions .is-call:hover {
+  background: var(--fh-green-soft);
+}
+
+.fh-app .fh-side-help-actions .is-sos {
+  background: var(--fh-danger);
+  color: #fff;
+}
+
+.fh-app .fh-side-help-actions .is-sos:hover {
+  background: #a9301f;
+}
+
+/* --- Mobile drawer ------------------------------------------------------ */
+
+.fh-app .fh-scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  background: rgba(14, 42, 79, 0.5);
+  backdrop-filter: blur(2px);
+  animation: fh-fade 0.18s ease;
+}
+
+.fh-app .fh-drawer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 80;
+  width: min(320px, 86vw);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 0.75rem 0.85rem calc(1.25rem + env(safe-area-inset-bottom, 0px));
+  min-height: 0;
+  overflow-y: auto;
+  color: #fff;
+  background:
+    radial-gradient(420px 260px at 110% 0%, rgba(138, 184, 62, 0.28), transparent 60%),
+    linear-gradient(180deg, #0f2f5c 0%, #123a70 55%, #143f7a 100%);
+  box-shadow: 8px 0 32px rgba(14, 42, 79, 0.35);
+  animation: fh-slide 0.2s ease;
+}
+
+.fh-app .fh-drawer-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.25rem 0.25rem 0.25rem 0.5rem;
+}
+
+.fh-app .fh-drawer-head span {
+  font-weight: 800;
+  font-size: 1rem;
+  letter-spacing: -0.01em;
+}
+
+.fh-app .fh-drawer-head button {
+  width: 44px;
+  height: 44px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.fh-app .fh-drawer-head button:hover {
+  background: rgba(255, 255, 255, 0.18);
+  color: #fff;
+}
+
+.fh-app .fh-drawer-head button svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  flex-shrink: 0;
+}
+
+@keyframes fh-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fh-slide {
+  from { transform: translateX(-24px); opacity: 0.4; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fh-app .fh-scrim,
+  .fh-app .fh-drawer {
+    animation: none;
+  }
+}
+
+/* --- Page heading ------------------------------------------------------- */
+
+.fh-app .fh-pagehead {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 0.75rem 1rem;
+  flex-wrap: wrap;
+  padding: 1.35rem 1rem 0.25rem;
+}
+
+.fh-app .fh-pagehead-text {
+  min-width: 0;
+}
+
+.fh-app .fh-pagehead-text h1 {
+  margin: 0;
+  font-size: 1.55rem;
+  line-height: 1.15;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--fh-navy);
+}
+
+.fh-app .fh-pagehead-text p {
+  margin: 0.3rem 0 0;
+  font-size: 0.9rem;
+  color: var(--fh-muted);
+}
+
+.fh-app .fh-elder-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.3rem 0.35rem 0.3rem 0.75rem;
+  border-radius: 999px;
+  background: var(--fh-surface);
+  border: 1px solid var(--fh-line);
+  box-shadow: var(--fh-shadow);
+  flex-shrink: 0;
+  max-width: 100%;
+}
+
+.fh-app .fh-elder-switch > span {
+  font-size: 0.66rem;
+  color: var(--fh-muted);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+}
+
+.fh-app .fh-elder-switch select {
+  border: none;
+  border-radius: 999px;
+  padding: 0.35rem 1.8rem 0.35rem 0.6rem;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--fh-navy);
+  background: var(--fh-blue-soft);
+  max-width: 48vw;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, var(--fh-blue) 50%),
+    linear-gradient(135deg, var(--fh-blue) 50%, transparent 50%);
+  background-position: calc(100% - 13px) 50%, calc(100% - 8px) 50%;
+  background-size: 5px 5px, 5px 5px;
+  background-repeat: no-repeat;
+  width: auto;
+}
+
+/* Hero variant (Home): the switcher lives inside the hero on the right. */
+.fh-app .fh-hero .fh-elder-switch {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.22);
+  box-shadow: none;
+}
+
+.fh-app .fh-hero .fh-elder-switch > span {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.fh-app .fh-hero .fh-elder-switch select {
+  background-color: rgba(255, 255, 255, 0.92);
+  color: var(--fh-navy);
+}
+
+.fh-app .fh-main {
+  padding: 0.85rem 1rem 2rem;
+}
+
+/* --- Mobile tab bar ----------------------------------------------------- */
+
+/* Fixed to the bottom on phones. The global copyright footer is sticky at
+   bottom:0, so it is lifted by the bar's height (rule at the end of this
+   file) and the frame gets matching bottom padding — the footer stays on
+   screen above the tabs and nothing hides underneath either of them. */
+.fh-app .fh-tabbar {
+  display: none;
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 45;
+  height: calc(var(--fh-tabbar-h) + env(safe-area-inset-bottom, 0px));
+  padding: 0.35rem 0.25rem calc(0.25rem + env(safe-area-inset-bottom, 0px));
+  grid-template-columns: repeat(5, 1fr);
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-top: 1px solid var(--fh-line);
+  box-shadow: 0 -10px 30px -18px rgba(16, 36, 58, 0.35);
+}
+
+.fh-app .fh-tab {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.18rem;
+  text-decoration: none;
+  color: var(--fh-muted);
+  font-size: 0.66rem;
+  font-weight: 700;
+  min-width: 0;
+  border-radius: 12px;
+}
+
+.fh-app .fh-tab:hover {
+  color: var(--fh-blue);
+}
+
+.fh-app .fh-tab-ico {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 28px;
+  border-radius: 999px;
+  transition: background 0.15s ease;
+}
+
+.fh-app .fh-tab.is-active {
+  color: var(--fh-blue);
+}
+
+.fh-app .fh-tab.is-active .fh-tab-ico {
+  background: var(--fh-blue-soft);
+}
+
+.fh-app .fh-tab.is-urgent.is-active {
+  color: var(--fh-danger);
+}
+
+.fh-app .fh-tab.is-urgent.is-active .fh-tab-ico {
+  background: var(--fh-danger-soft);
+}
+
+.fh-app .fh-tab-count {
+  position: absolute;
+  top: -5px;
+  right: 2px;
+  min-width: 17px;
+  height: 17px;
+  font-size: 0.62rem;
+  border: 2px solid #fff;
+}
+
+.fh-app .fh-tab-label {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* --- Home hero ---------------------------------------------------------- */
+
+.fh-app .fh-hero {
+  position: relative;
+  overflow: hidden;
+  margin: 1rem 1rem 0;
+  padding: 1.35rem 1.25rem 1.3rem;
+  border-radius: 22px;
+  color: #fff;
+  background:
+    radial-gradient(520px 260px at 100% 0%, rgba(138, 184, 62, 0.45), transparent 60%),
+    radial-gradient(400px 260px at 0% 100%, rgba(47, 121, 214, 0.55), transparent 60%),
+    linear-gradient(135deg, #0f2f5c 0%, #17498c 60%, #1d5fb4 100%);
+  box-shadow: 0 22px 44px -22px rgba(14, 42, 79, 0.55);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1rem;
+}
+
+.fh-app .fh-hero::after {
+  content: "";
+  position: absolute;
+  right: -60px;
+  top: -70px;
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  border: 28px solid rgba(255, 255, 255, 0.06);
+  pointer-events: none;
+}
+
+.fh-app .fh-hero-kicker {
+  margin: 0 0 0.2rem;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.fh-app .fh-hero h1 {
+  margin: 0;
+  font-size: 1.7rem;
+  line-height: 1.15;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.fh-app .fh-hero-sub {
+  margin: 0.35rem 0 0;
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.fh-app .fh-hero-sub strong {
+  color: #fff;
+}
+
+.fh-app .fh-hero-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-top: 0.9rem;
+}
+
+.fh-app .fh-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.36rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-decoration: none;
+  background: rgba(255, 255, 255, 0.14);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  white-space: nowrap;
+}
+
+.fh-app a.fh-chip:hover {
+  background: rgba(255, 255, 255, 0.24);
+}
+
+.fh-app .fh-chip svg {
+  width: 15px;
+  height: 15px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  flex-shrink: 0;
+}
+
+.fh-app .fh-chip.is-ok {
+  background: rgba(138, 184, 62, 0.35);
+  border-color: rgba(138, 184, 62, 0.6);
+}
+
+.fh-app .fh-chip.is-warn {
+  background: rgba(217, 164, 65, 0.35);
+  border-color: rgba(217, 164, 65, 0.65);
+}
+
+.fh-app .fh-chip.is-urgent {
+  background: rgba(200, 64, 47, 0.45);
+  border-color: rgba(255, 170, 160, 0.6);
+}
+
+.fh-app .fh-hero-side {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  align-items: flex-start;
+}
+
+.fh-app .fh-hero-elder {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.7rem 0.85rem;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  min-width: 0;
+  max-width: 100%;
+}
+
+.fh-app .fh-hero-elder .fh-side-elder-text small {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.fh-app .fh-hero-elder .fh-side-elder-text span {
+  color: rgba(255, 255, 255, 0.78);
+}
+
+/* --- Home: stat tiles --------------------------------------------------- */
+
+.fh-app .fh-stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.7rem;
+  margin: 0 0 1rem;
+}
+
+.fh-app .fh-stat {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.85rem 0.9rem;
+  border-radius: var(--fh-radius);
+  background: var(--fh-surface);
+  border: 1px solid var(--fh-line);
+  box-shadow: var(--fh-shadow);
+  text-decoration: none;
+  color: var(--fh-ink);
+  min-width: 0;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.fh-app a.fh-stat:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--fh-shadow-lift);
+}
+
+.fh-app .fh-stat-ring {
+  position: relative;
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  background: conic-gradient(var(--fh-ring, var(--fh-blue)) calc(var(--fh-pct, 0) * 1%), var(--fh-line) 0);
+}
+
+.fh-app .fh-stat-ring::before {
+  content: "";
+  position: absolute;
+  inset: 5px;
+  border-radius: 50%;
+  background: var(--fh-surface);
+}
+
+.fh-app .fh-stat-ring span {
+  position: relative;
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: var(--fh-navy);
+}
+
+.fh-app .fh-stat-ico {
+  width: 46px;
+  height: 46px;
+  border-radius: 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background: var(--fh-blue-soft);
+  color: var(--fh-blue);
+}
+
+.fh-app .fh-stat-ico.is-green {
+  background: var(--fh-green-soft);
+  color: var(--fh-green-deep);
+}
+
+.fh-app .fh-stat-ico.is-gold {
+  background: var(--fh-gold-soft);
+  color: #9a6b12;
+}
+
+.fh-app .fh-stat-ico.is-red {
+  background: var(--fh-danger-soft);
+  color: var(--fh-danger);
+}
+
+.fh-app .fh-stat-ico svg,
+.fh-app .fh-quick-ico svg,
+.fh-app .fh-tile-ico svg {
+  width: 22px;
+  height: 22px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  flex-shrink: 0;
+}
+
+.fh-app .fh-stat-text {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.05rem;
+}
+
+.fh-app .fh-stat-text small {
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--fh-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.fh-app .fh-stat-text strong {
+  font-size: 1.12rem;
+  font-weight: 800;
+  line-height: 1.2;
+  color: var(--fh-navy);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.fh-app .fh-stat-text span {
+  font-size: 0.76rem;
+  color: var(--fh-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.fh-app .fh-stat-text span.is-wrap {
+  white-space: normal;
+  overflow: visible;
+  text-overflow: clip;
+  overflow-wrap: anywhere;
+  line-height: 1.3;
+}
+
+.fh-app .fh-stat-text span.is-up {
+  color: var(--fh-ok);
+  font-weight: 700;
+}
+
+.fh-app .fh-stat-text span.is-down {
+  color: var(--fh-danger);
+  font-weight: 700;
+}
+
+/* --- Home: quick actions ------------------------------------------------ */
+
+.fh-app .fh-section-title {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin: 0.25rem 0 0.6rem;
+}
+
+.fh-app .fh-section-title h2 {
+  margin: 0;
+  font-size: 1.02rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: var(--fh-navy);
+}
+
+.fh-app .fh-section-title a {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--fh-blue);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.fh-app .fh-section-title a:hover {
+  text-decoration: underline;
+}
+
+.fh-app .fh-quick {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.7rem;
+  margin-bottom: 1.1rem;
+}
+
+.fh-app .fh-quick-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 0.95rem;
+  border-radius: var(--fh-radius);
+  background: var(--fh-surface);
+  border: 1px solid var(--fh-line);
+  box-shadow: var(--fh-shadow);
+  text-decoration: none;
+  color: var(--fh-ink);
+  min-width: 0;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+.fh-app .fh-quick-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--fh-shadow-lift);
+  border-color: #cfdcf0;
+}
+
+.fh-app .fh-quick-card.is-urgent {
+  border-color: #f2c2ba;
+  background: linear-gradient(160deg, #fff7f5 0%, #fdeeeb 100%);
+}
+
+.fh-app .fh-quick-ico {
+  display: inline-flex;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  background: linear-gradient(135deg, var(--fh-blue-2) 0%, var(--fh-blue-deep) 100%);
+  margin-bottom: 0.35rem;
+  box-shadow: 0 8px 16px -8px rgba(29, 95, 180, 0.6);
+}
+
+.fh-app .fh-quick-ico.is-green {
+  background: linear-gradient(135deg, var(--fh-green-2) 0%, var(--fh-green-deep) 100%);
+  box-shadow: 0 8px 16px -8px rgba(106, 154, 42, 0.6);
+}
+
+.fh-app .fh-quick-ico.is-gold {
+  background: linear-gradient(135deg, #e6b95a 0%, #b9832a 100%);
+  box-shadow: 0 8px 16px -8px rgba(217, 164, 65, 0.6);
+}
+
+.fh-app .fh-quick-card.is-urgent .fh-quick-ico {
+  background: linear-gradient(135deg, #e2604e 0%, #a9301f 100%);
+  box-shadow: 0 8px 16px -8px rgba(200, 64, 47, 0.6);
+}
+
+.fh-app .fh-quick-card strong {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: var(--fh-navy);
+}
+
+.fh-app .fh-quick-card span {
+  font-size: 0.78rem;
+  color: var(--fh-muted);
+}
+
+.fh-app .fh-quick-card.is-urgent span {
+  color: #96392e;
+  font-weight: 600;
+}
+
+/* --- "More" page tiles -------------------------------------------------- */
+
+.fh-app .fh-tiles {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.7rem;
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1rem;
+}
+
+.fh-app .fh-tile {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  height: 100%;
+  padding: 0.95rem;
+  border-radius: var(--fh-radius);
+  background: var(--fh-surface);
+  border: 1px solid var(--fh-line);
+  box-shadow: var(--fh-shadow);
+  text-decoration: none;
+  color: var(--fh-ink);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.fh-app .fh-tile:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--fh-shadow-lift);
+}
+
+.fh-app .fh-tile.is-urgent {
+  border-color: #f2c2ba;
+  background: linear-gradient(160deg, #fff7f5 0%, #fdeeeb 100%);
+}
+
+.fh-app .fh-tile-ico {
+  display: inline-flex;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.4rem;
+  background: var(--fh-blue-soft);
+  color: var(--fh-blue);
+}
+
+.fh-app .fh-tile-ico.is-green {
+  background: var(--fh-green-soft);
+  color: var(--fh-green-deep);
+}
+
+.fh-app .fh-tile-ico.is-gold {
+  background: var(--fh-gold-soft);
+  color: #9a6b12;
+}
+
+.fh-app .fh-tile.is-urgent .fh-tile-ico {
+  background: #fadbd6;
+  color: var(--fh-danger);
+}
+
+.fh-app .fh-tile strong {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: var(--fh-navy);
+}
+
+.fh-app .fh-tile span {
+  font-size: 0.78rem;
+  color: var(--fh-muted);
+  line-height: 1.35;
+}
+
+/* ======================================================================== */
+/* Page content skin — the existing family pages keep their markup and the  */
+/* .card / .home-safety-* classes; these rules give them the new look.       */
+/* ======================================================================== */
+
+.fh-main .card {
+  background: var(--fh-surface);
+  border: 1px solid var(--fh-line);
+  border-radius: var(--fh-radius);
+  padding: 1.15rem 1.2rem;
+  box-shadow: var(--fh-shadow);
+}
+
+.fh-main .card .card {
+  box-shadow: none;
+  border-radius: var(--fh-radius-sm);
+  background: #fafcfe;
+}
+
+.fh-main .home-safety-section {
+  margin-bottom: 0.9rem;
+}
+
+.fh-main .home-safety-section h2,
+.fh-main .home-safety-family-p0-heading {
+  margin: 0 0 0.7rem;
+  font-size: 1.02rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: var(--fh-navy);
+}
+
+.fh-main .home-safety-section h3,
+.fh-main .home-safety-visit-section h3 {
+  margin: 0 0 0.35rem;
+  font-size: 0.9rem;
+  font-weight: 800;
+  color: var(--fh-navy);
+}
+
+.fh-main .home-safety-family-p0-section {
+  margin: 0.25rem 0 1.2rem;
+}
+
+.fh-main .home-safety-family-section-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.6rem;
+}
+
+.fh-main .home-safety-family-section-head h2 {
+  margin: 0;
+}
+
+.fh-main .muted {
+  color: var(--fh-muted);
+}
+
+.fh-main p {
+  line-height: 1.5;
+}
+
+.fh-main a {
+  color: var(--fh-blue);
+}
+
+.fh-main .home-safety-family-inline-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin-top: 0.5rem;
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: var(--fh-blue);
+  text-decoration: none;
+}
+
+.fh-main .home-safety-family-inline-link:hover {
+  text-decoration: underline;
+}
+
+.fh-main .error-text {
+  margin: 0 0 0.75rem;
+  padding: 0.65rem 0.85rem;
+  border-radius: var(--fh-radius-sm);
+  background: var(--fh-danger-soft);
+  color: #8f2a1d;
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+
+.fh-main .home-safety-family-success {
+  margin: 0 0 0.75rem;
+  padding: 0.65rem 0.85rem;
+  border-radius: var(--fh-radius-sm);
+  background: var(--fh-ok-soft);
+  color: #175f36;
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+
+.fh-main .home-safety-section-hint {
+  margin: -0.25rem 0 0.85rem;
+  font-size: 0.86rem;
+}
+
+/* Buttons (form controls only — chrome buttons are outside .fh-main). */
+.fh-main button {
+  min-height: 44px;
+  border: none;
+  border-radius: 12px;
+  padding: 0.62rem 1.1rem;
+  background: linear-gradient(135deg, var(--fh-blue-2) 0%, var(--fh-blue-deep) 100%);
+  color: #fff;
+  font-weight: 800;
+  font-size: 0.9rem;
+  letter-spacing: 0.005em;
+  box-shadow: 0 10px 18px -10px rgba(29, 95, 180, 0.55);
+  transition: transform 0.12s ease, box-shadow 0.12s ease, filter 0.12s ease;
+}
+
+.fh-main button:hover {
+  background: linear-gradient(135deg, var(--fh-blue-2) 0%, var(--fh-blue-deep) 100%);
+  filter: brightness(1.06);
+  transform: translateY(-1px);
+}
+
+.fh-main button:active {
+  transform: translateY(0);
+}
+
+.fh-main button.secondary {
+  background: var(--fh-blue-soft);
+  color: var(--fh-blue-deep);
+  box-shadow: none;
+}
+
+.fh-main button.secondary:hover {
+  background: #dbe7f8;
+  color: var(--fh-blue-deep);
+}
+
+.fh-main button.danger {
+  background: linear-gradient(135deg, #e2604e 0%, #b03422 100%);
+  box-shadow: 0 10px 18px -10px rgba(200, 64, 47, 0.6);
+}
+
+.fh-main button.danger:hover {
+  background: linear-gradient(135deg, #e2604e 0%, #b03422 100%);
+}
+
+.fh-main button:disabled {
+  opacity: 0.5;
+  transform: none;
+  box-shadow: none;
+}
+
+.fh-main button.primary {
+  width: auto;
+}
+
+/* Fields */
+.fh-main label {
+  color: var(--fh-ink);
+}
+
+.fh-main .home-safety-field {
+  display: block;
+  margin-bottom: 0.8rem;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--fh-muted);
+}
+
+.fh-main .home-safety-field > span,
+.fh-main label > span.muted {
+  display: block;
+  margin-bottom: 0.3rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--fh-muted);
+}
+
+.fh-main input:not([type="checkbox"]):not([type="radio"]):not([type="file"]),
+.fh-main select,
+.fh-main textarea {
+  width: 100%;
+  margin-top: 0.3rem;
+  padding: 0.68rem 0.85rem;
+  border: 1px solid #d5dee9;
+  border-radius: 12px;
+  background: #fff;
+  color: var(--fh-ink);
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: border-color 0.12s ease, box-shadow 0.12s ease;
+}
+
+.fh-main label > span + input,
+.fh-main label > span + select,
+.fh-main label > span + textarea {
+  margin-top: 0;
+}
+
+.fh-main input:not([type="checkbox"]):not([type="radio"]):focus-visible,
+.fh-main select:focus-visible,
+.fh-main textarea:focus-visible {
+  outline: none;
+  border-color: var(--fh-blue);
+  box-shadow: 0 0 0 3px rgba(29, 95, 180, 0.18);
+}
+
+.fh-main input[type="file"] {
+  margin-top: 0.3rem;
+  font-size: 0.85rem;
+}
+
+.fh-main .home-safety-field-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.6rem;
+}
+
+.fh-main .home-safety-check-inline {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin-bottom: 0.85rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--fh-ink);
+}
+
+.fh-main input[type="checkbox"],
+.fh-main input[type="radio"] {
+  accent-color: var(--fh-blue);
+}
+
+/* Pills & badges */
+.fh-main .home-safety-pill {
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 0.22rem 0.6rem;
+  border-radius: 999px;
+  letter-spacing: 0.02em;
+  text-transform: capitalize;
+}
+
+.fh-main .home-safety-pill-neutral {
+  background: var(--fh-blue-soft);
+  color: var(--fh-blue-deep);
+}
+
+.fh-main .home-safety-saved-badge,
+.fh-main .home-safety-draft-badge {
+  display: inline-block;
+  padding: 0.18rem 0.55rem;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 800;
+  background: var(--fh-green-soft);
+  color: var(--fh-green-deep);
+}
+
+.fh-main .home-safety-draft-badge {
+  background: var(--fh-gold-soft);
+  color: #8a5a0e;
+}
+
+/* Independence Score card */
+.fh-main .home-safety-family-score-kicker {
+  margin: 0 0 0.4rem;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--fh-green-deep);
+}
+
+.fh-main .home-safety-score-card {
+  gap: 1.1rem;
+  padding: 1.1rem 1.2rem;
+  margin-bottom: 1rem;
+  border-radius: var(--fh-radius);
+  border-width: 1px;
+  background: var(--fh-surface);
+  box-shadow: var(--fh-shadow);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.fh-main .ks-score-link:hover .home-safety-score-card {
+  transform: translateY(-2px);
+  box-shadow: var(--fh-shadow-lift);
+}
+
+/* The ring picks up the grade colour the card's grade class sets. */
+.fh-main .home-safety-score-ring {
+  width: 5.2rem;
+  height: 5.2rem;
+  background: #fff;
+  border: 6px solid;
+  border-color: inherit;
+  box-shadow: inset 0 0 0 4px #fff, inset 0 0 0 5px var(--fh-line);
+}
+
+.fh-main .home-safety-score-value {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: var(--fh-navy);
+}
+
+.fh-main .home-safety-grade-letter {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--fh-navy);
+}
+
+.fh-main .home-safety-score-summary {
+  color: var(--fh-muted);
+}
+
+/* Summary + lowest-area chips sit below the ring, full width, at every size. */
+.home-safety-score-card {
+  flex-wrap: wrap;
+}
+.home-safety-score-meta {
+  flex: 1 1 10rem;
+  min-width: 0;
+}
+/* Care status */
+.fh-main .home-safety-care-status {
+  margin: 0 0 1rem;
+  border-radius: var(--fh-radius);
+}
+
+.fh-main .home-safety-care-status-kicker {
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  color: var(--fh-muted);
+}
+
+.fh-main .home-safety-care-status-headline {
+  font-size: 1.35rem;
+  font-weight: 800;
+  letter-spacing: -0.015em;
+  color: var(--fh-navy);
+}
+
+.fh-main .home-safety-care-status-grid {
+  gap: 0.6rem;
+}
+
+.fh-main .home-safety-care-status-grid > div {
+  padding: 0.55rem 0.7rem;
+  border-radius: var(--fh-radius-sm);
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(16, 36, 58, 0.06);
+}
+
+.fh-main .home-safety-care-status-grid dt {
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--fh-muted);
+}
+
+.fh-main .home-safety-care-status-grid dd {
+  margin: 0.1rem 0 0;
+  font-weight: 700;
+  text-transform: capitalize;
+  color: var(--fh-ink);
+}
+
+.fh-main .home-safety-care-status-family-msg {
+  border-radius: var(--fh-radius-sm);
+}
+
+/* Pathway chip */
+.fh-main .home-safety-family-pathway-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin: 0 0 1rem;
+  padding: 0.4rem 0.85rem;
+  border-radius: 999px;
+  background: var(--fh-gold-soft);
+  color: #7a5200;
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+/* Priorities */
+.fh-main .home-safety-family-priority-list li {
+  padding: 0.6rem 0;
+  border-bottom: 1px solid var(--fh-line);
+}
+
+.fh-main .home-safety-family-priority-list li:last-child {
+  border-bottom: none;
+}
+
+.fh-main .home-safety-family-priority-badge {
+  border-radius: 999px;
+  font-weight: 800;
+}
+
+/* KPI tiles (plan page) */
+.fh-main .home-safety-family-kpis {
+  gap: 0.7rem;
+  margin: 0 0 1rem;
+}
+
+.fh-main .home-safety-family-kpi {
+  border-radius: var(--fh-radius);
+  border: 1px solid var(--fh-line);
+  box-shadow: var(--fh-shadow);
+  padding: 0.85rem 0.6rem;
+}
+
+.fh-main .home-safety-family-kpi strong {
+  font-size: 1.45rem;
+  font-weight: 800;
+  color: var(--fh-navy);
+}
+
+/* Feed (Care updates) */
+.fh-main .home-safety-family-feed {
+  gap: 0.7rem;
+}
+
+.fh-main .home-safety-family-feed-item {
+  padding: 0.95rem 1.05rem;
+  border-left: 4px solid var(--fh-blue);
+}
+
+.fh-main .home-safety-family-feed-item strong {
+  display: block;
+  margin-top: 0.15rem;
+  color: var(--fh-navy);
+}
+
+.fh-main .home-safety-family-feed-item p {
+  margin: 0.3rem 0 0;
+  font-size: 0.9rem;
+  color: var(--fh-muted);
+}
+
+.fh-main .home-safety-family-feed-kind {
+  display: inline-block;
+  padding: 0.15rem 0.55rem;
+  border-radius: 999px;
+  background: var(--fh-blue-soft);
+  color: var(--fh-blue-deep);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+}
+
+.fh-main .home-safety-family-feed-top .muted {
+  font-size: 0.78rem;
+}
+
+/* Visit / report cards */
+.fh-main .home-safety-family-report-list,
+.fh-main .home-safety-family-request-list,
+.fh-main .home-safety-family-more-list,
+.fh-main .home-safety-family-circle-list,
+.fh-main .home-safety-family-doc-list,
+.fh-main .home-safety-family-contact-list,
+.fh-main .home-safety-family-alert-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1rem;
+  display: grid;
+  gap: 0.7rem;
+}
+
+.fh-main .home-safety-family-visit-card {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.fh-main .home-safety-family-visit-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--fh-shadow-lift);
+}
+
+.fh-main .home-safety-family-report-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.fh-main .home-safety-family-report-top strong {
+  color: var(--fh-navy);
+  font-size: 1rem;
+  text-transform: capitalize;
+}
+
+.fh-main .home-safety-visit-open {
+  display: inline-block;
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: var(--fh-blue);
+}
+
+.fh-main .home-safety-visit-teaser {
+  margin: 0.4rem 0 0;
+  font-size: 0.9rem;
+}
+
+.fh-main .home-safety-family-highlights {
+  margin: 0.5rem 0 0;
+  padding-left: 1.1rem;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.fh-main .home-safety-family-msg-section {
+  padding: 0.8rem 0.95rem;
+  border-radius: var(--fh-radius-sm);
+  background: var(--fh-green-soft);
+  border: 1px solid #d4e6bd;
+}
+
+.fh-main .home-safety-family-msg-section h3 {
+  color: var(--fh-green-deep);
+}
+
+.fh-main .home-safety-family-msg-section p {
+  margin: 0;
+}
+
+.fh-main .home-safety-family-back a {
+  font-weight: 700;
+  text-decoration: none;
+}
+
+/* "More"-style row cards used by services and wallet lists */
+.fh-main .home-safety-family-more-card {
+  gap: 0.3rem;
+  padding: 0.9rem 1rem;
+}
+
+.fh-main .home-safety-family-more-card strong {
+  color: var(--fh-navy);
+}
+
+.fh-main .home-safety-family-more-card .muted {
+  font-size: 0.85rem;
+}
+
+/* Contacts */
+.fh-main .home-safety-family-contact {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.85rem 1rem;
+}
+
+.fh-main .home-safety-family-contact strong {
+  color: var(--fh-navy);
+}
+
+.fh-main .home-safety-family-call {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.5rem 0.95rem;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--fh-green-2) 0%, var(--fh-green-deep) 100%);
+  color: #fff;
+  font-weight: 800;
+  font-size: 0.85rem;
+  text-decoration: none;
+  white-space: nowrap;
+  box-shadow: 0 8px 16px -8px rgba(106, 154, 42, 0.6);
+}
+
+.fh-main .home-safety-family-call:hover {
+  filter: brightness(1.06);
+}
+
+/* Alerts */
+.fh-main .home-safety-family-sos {
+  border-color: #f2c2ba;
+  background: linear-gradient(160deg, #fff7f5 0%, #fdeeeb 100%);
+}
+
+.fh-main .home-safety-family-sos h2 {
+  color: var(--fh-danger);
+}
+
+.fh-main .home-safety-family-alert {
+  padding: 0.9rem 1rem;
+  border-left: 4px solid var(--fh-blue);
+}
+
+.fh-main .home-safety-family-alert.is-critical {
+  border-left-color: var(--fh-danger);
+}
+
+.fh-main .home-safety-family-alert strong {
+  color: var(--fh-navy);
+}
+
+.fh-main .home-safety-family-alert button {
+  margin-top: 0.5rem;
+  padding: 0.4rem 0.8rem;
+  font-size: 0.8rem;
+}
+
+/* Chat */
+.fh-main .home-safety-family-chat-list {
+  gap: 0.6rem;
+}
+
+.fh-main .home-safety-family-chat-bubble {
+  max-width: 88%;
+  padding: 0.75rem 0.95rem;
+  border-radius: 16px 16px 16px 4px;
+  background: var(--fh-surface);
+  border: 1px solid var(--fh-line);
+  box-shadow: var(--fh-shadow);
+}
+
+.fh-main .home-safety-family-chat-bubble p {
+  margin: 0;
+  font-size: 0.93rem;
+}
+
+.fh-main .home-safety-family-chat-bubble.from-family {
+  margin-left: auto;
+  border-radius: 16px 16px 4px 16px;
+  background: linear-gradient(135deg, var(--fh-blue-2) 0%, var(--fh-blue-deep) 100%);
+  border-color: transparent;
+  color: #fff;
+}
+
+.fh-main .home-safety-family-chat-bubble.from-family .muted {
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.fh-main .home-safety-family-chat-meta {
+  font-size: 0.72rem;
+  font-weight: 600;
+}
+
+.fh-main .home-safety-family-chat-compose {
+  margin-top: 0.75rem;
+  padding: 1rem 1.1rem;
+  border-radius: var(--fh-radius);
+  background: var(--fh-surface);
+  border: 1px solid var(--fh-line);
+  box-shadow: var(--fh-shadow);
+}
+
+/* Wallet / services balance banner */
+.fh-main .home-safety-family-p0-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  margin-bottom: 1rem;
+  padding: 1rem 1.15rem;
+  border-radius: var(--fh-radius);
+  border: none;
+  color: #fff;
+  background:
+    radial-gradient(360px 200px at 100% 0%, rgba(138, 184, 62, 0.5), transparent 60%),
+    linear-gradient(135deg, #0f2f5c 0%, #1d5fb4 100%);
+  box-shadow: 0 18px 36px -20px rgba(14, 42, 79, 0.6);
+  text-decoration: none;
+}
+
+.fh-main .home-safety-family-p0-card .muted {
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.fh-main .home-safety-family-p0-card strong {
+  font-size: 1.7rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+/* Documents */
+.fh-main .home-safety-family-doc-card strong {
+  color: var(--fh-navy);
+}
+
+.fh-main .home-safety-family-doc-card button {
+  padding: 0.45rem 0.9rem;
+  font-size: 0.82rem;
+}
+
+/* Digest preview */
+.fh-main .home-safety-family-digest-preview {
+  border-radius: var(--fh-radius-sm);
+  background: #f6f8fb;
+  border: 1px solid var(--fh-line);
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+
+/* Empty states */
+.fh-main .home-safety-empty {
+  padding: 1.75rem 1.25rem;
+  border-style: dashed;
+  background: #fbfcfe;
+  box-shadow: none;
+}
+
+.fh-main .home-safety-empty p {
+  margin: 0.25rem 0;
+}
+
+/* Trend chart */
+.fh-main .home-safety-family-sparkline {
+  color: var(--fh-muted);
+}
+
+.fh-main .home-safety-family-sparkline polyline {
+  stroke: var(--fh-blue);
+}
+
+.fh-main .home-safety-family-sparkline circle {
+  fill: var(--fh-blue);
+}
+
+/* Filter chips (Care updates) */
+.fh-main .ks-filterbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-bottom: 0.8rem;
+}
+
+.fh-main .ks-filter {
+  border: 1px solid var(--fh-line);
+  background: var(--fh-surface);
+  color: var(--fh-muted);
+  border-radius: 999px;
+  padding: 0.38rem 0.9rem;
+  font-size: 0.82rem;
+  font-weight: 700;
+  box-shadow: none;
+}
+
+.fh-main .ks-filter:hover {
+  background: var(--fh-blue-soft);
+  color: var(--fh-blue);
+  transform: none;
+  filter: none;
+}
+
+.fh-main .ks-filter.is-on,
+.fh-main .ks-filter.is-on:hover {
+  background: var(--fh-navy);
+  border-color: var(--fh-navy);
+  color: #fff;
+}
+
+.fh-main .ks-seealso {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem;
+  margin: 0 0 1rem;
+  font-size: 0.85rem;
+}
+
+.fh-main .ks-seealso a {
+  color: var(--fh-blue);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.fh-main .ks-seealso a:hover {
+  text-decoration: underline;
+}
+
+.fh-main .ks-score-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+.fh-main .home-safety-family-address {
+  font-size: 0.85rem;
+  margin: 0.5rem 0 0;
+  text-align: center;
+}
+
+/* --- Breakpoints -------------------------------------------------------- */
+
+@media (min-width: 900px) {
+  .fh-app .fh-burger {
+    display: none;
+  }
+
+  /* The copyright is fixed to the bottom of the CONTENT column, beside the
+     sidebar rather than across it: the nav is never covered, and the sidebar
+     column runs the full height at every scroll position instead of stopping
+     short above an in-flow footer. Same width as --fh-side-w, written out
+     because the footer sits outside .fh-app. The main area pads for it. */
+  .site-frame:has(.fh-app) > .site-footer {
+    position: fixed;
+    left: 276px;
+    right: 0;
+    bottom: 0;
+    z-index: 30;
+  }
+
+  .fh-app .fh-main {
+    padding-bottom: calc(3rem + 46px);
+  }
+
+  .fh-app .fh-sidebar {
+    display: flex;
+  }
+
+  .fh-app .fh-portal-title {
+    font-size: 1.15rem;
+  }
+
+  .fh-app .fh-main {
+    padding: 1rem 1.75rem 3rem;
+    max-width: 1120px;
+  }
+
+  .fh-app .fh-pagehead {
+    padding: 1.6rem 1.75rem 0.25rem;
+    max-width: 1120px;
+  }
+
+  .fh-app .fh-hero {
+    margin: 1.25rem 1.75rem 0;
+    padding: 1.7rem 1.8rem;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    max-width: calc(1120px - 3.5rem);
+  }
+
+  .fh-app .fh-hero h1 {
+    font-size: 2.05rem;
+  }
+
+  .fh-app .fh-hero-side {
+    align-items: flex-end;
+  }
+
+  .fh-app .fh-stats {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .fh-app .fh-quick,
+  .fh-app .fh-tiles {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .fh-app .fh-tiles {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1240px) {
+  .fh-app .fh-tiles {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+/* Below the sidebar breakpoint the bar carries burger, emblem, title, bell,
+   wallet chip and account button. Outer tracks size to content and the title
+   truncates, so nothing ever prints over anything else — checked at 320px. */
+@media (max-width: 899px) {
+  .fh-app .fh-topbar {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    padding: 0 0.75rem;
+  }
+
+  .fh-app .fh-logo {
+    width: 44px;
+    height: 44px;
+    object-fit: contain;
+  }
+
+  .fh-app .fh-portal-title {
+    justify-self: stretch;
+    justify-content: center;
+    min-width: 0;
+    overflow: hidden;
+    font-size: 0.98rem;
+  }
+
+  .fh-app .fh-portal-title span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .fh-app .fh-tabbar {
+    display: grid;
+  }
+
+  /* Keep the copyright footer visible above the tab bar (see .fh-tabbar). */
+  .site-frame:has(.fh-app) {
+    padding-bottom: calc(62px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .site-frame:has(.fh-app) > .site-footer {
+    bottom: calc(62px + env(safe-area-inset-bottom, 0px));
+  }
+}
+
+@media (max-width: 899px) {
+  .fh-app .fh-stat {
+    padding: 0.8rem 0.75rem;
+    gap: 0.6rem;
+  }
+
+  .fh-app .fh-stat-text small {
+    font-size: 0.62rem;
+  }
+
+  .fh-app .fh-stat-text strong,
+  .fh-app .fh-stat-text span {
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+    overflow-wrap: anywhere;
+  }
+
+  .fh-app .fh-stat-text strong {
+    font-size: 1rem;
+  }
+
+  .fh-app .fh-stat-text span {
+    font-size: 0.72rem;
+    line-height: 1.3;
+  }
+
+  .fh-app .fh-stat-ring {
+    width: 48px;
+    height: 48px;
+  }
+
+  .fh-app .fh-stat-ico {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+  }
+}
+
+@media (max-width: 520px) {
+  .fh-app .fh-wallet-chip {
+    display: none;
+  }
+
+  .fh-app .fh-portal-title {
+    font-size: 0.9rem;
+  }
+
+  .fh-app .fh-elder-switch {
+    max-width: 100%;
+  }
+
+  .fh-main .home-safety-field-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 420px) {
+  .fh-app .fh-portal-title .is-long {
+    display: none;
+  }
+
+  .fh-app .fh-portal-title .is-short {
+    display: inline;
+  }
+}
+
+@media (max-width: 360px) {
+  .fh-app .fh-portal-title::before {
+    display: none;
+  }
+
+  .fh-app .fh-stats {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .fh-app .fh-stat-ring {
+    width: 48px;
+    height: 48px;
+  }
+}
+
+/* --- KushLife trend card ---------------------------------------------------- */
+
+.fh-main .kl-card {
+  margin: 0 0 1rem;
+  padding: 1.15rem 1.2rem 1rem;
+  border-radius: var(--fh-radius);
+  background:
+    radial-gradient(420px 200px at 100% 0%, rgba(138, 184, 62, 0.12), transparent 60%),
+    var(--fh-surface);
+  border: 1px solid var(--fh-line);
+  box-shadow: var(--fh-shadow);
+}
+
+.fh-main .kl-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.fh-main .kl-mark {
+  margin: 0;
+  font-size: 1.45rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.fh-main .kl-kush {
+  color: var(--fh-gold);
+}
+
+.fh-main .kl-life {
+  color: var(--fh-navy);
+}
+
+.fh-main .kl-mark-sub {
+  margin-left: 0.4rem;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--fh-muted);
+}
+
+.fh-main .kl-sub {
+  margin: 0.35rem 0 0;
+  font-size: 0.85rem;
+  color: var(--fh-muted);
+}
+
+.fh-main .kl-now {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.fh-main .kl-now strong {
+  font-size: 2rem;
+  font-weight: 800;
+  line-height: 1;
+  color: var(--fh-navy);
+}
+
+.fh-main .kl-chip {
+  padding: 0.25rem 0.65rem;
+  border-radius: 999px;
+  font-size: 0.74rem;
+  font-weight: 800;
+}
+
+.fh-main .kl-chip.is-good {
+  background: var(--fh-green-soft);
+  color: var(--fh-green-deep);
+}
+
+.fh-main .kl-chip.is-watch {
+  background: var(--fh-gold-soft);
+  color: #8a5a0e;
+}
+
+.fh-main .kl-chip.is-low {
+  background: var(--fh-danger-soft);
+  color: var(--fh-danger);
+}
+
+.fh-main .kl-delta {
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+.fh-main .kl-delta.is-up {
+  color: var(--fh-ok);
+}
+
+.fh-main .kl-delta.is-down {
+  color: var(--fh-danger);
+}
+
+.fh-main .kl-chart {
+  display: block;
+  width: 100%;
+  height: 180px;
+  margin: 0.75rem 0 0.25rem;
+  overflow: visible;
+}
+
+.fh-main .kl-base {
+  stroke: var(--fh-muted);
+  stroke-opacity: 0.35;
+  stroke-dasharray: 4 4;
+}
+
+.fh-main .kl-base-label,
+.fh-main .kl-x {
+  font-size: 11px;
+  font-weight: 700;
+  fill: var(--fh-muted);
+}
+
+.fh-main .kl-area {
+  fill: url(#kl-fill);
+  opacity: 0;
+  animation: kl-fade 0.8s ease 0.9s forwards;
+}
+
+.fh-main .kl-line {
+  fill: none;
+  stroke: url(#kl-stroke);
+  stroke-width: 3.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 1400;
+  stroke-dashoffset: 1400;
+  filter: drop-shadow(0 4px 6px rgba(29, 95, 180, 0.25));
+  animation: kl-draw 1.6s cubic-bezier(0.2, 0.8, 0.2, 1) 0.2s forwards;
+}
+
+.fh-main .kl-dot {
+  fill: #fff;
+  stroke: var(--fh-blue);
+  stroke-width: 2.5;
+}
+
+.fh-main .kl-dot.is-last {
+  fill: var(--fh-green);
+  stroke: #fff;
+  stroke-width: 3;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: kl-pulse 2.4s ease-in-out 1.8s infinite;
+}
+
+.fh-main .kl-legend {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 1rem;
+  margin: 0.4rem 0 0.4rem;
+  padding: 0;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--fh-ink);
+}
+
+.fh-main .kl-legend i {
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  margin-right: 0.3rem;
+  border-radius: 999px;
+}
+
+.fh-main .kl-legend .is-safe { background: var(--fh-blue); }
+.fh-main .kl-legend .is-steady { background: var(--fh-green); }
+.fh-main .kl-legend .is-settled { background: var(--fh-gold); }
+.fh-main .kl-legend .is-connected { background: #7a5ad8; }
+
+.fh-main .kl-note {
+  margin: 0;
+  font-size: 0.76rem;
+  color: var(--fh-muted);
+}
+
+@keyframes kl-draw {
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes kl-fade {
+  to { opacity: 1; }
+}
+
+@keyframes kl-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.35); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fh-main .kl-line { animation: none; stroke-dashoffset: 0; }
+  .fh-main .kl-area { animation: none; opacity: 1; }
+  .fh-main .kl-dot.is-last { animation: none; }
+}
+
+/* Brand name beside the logo — laptops and larger only (the bar is crowded below). */
+.fh-app .fh-logo-link {
+  gap: 0.6rem;
+}
+
+.fh-app .fh-logo-text {
+  display: none;
+  font-size: 1.3rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--fh-navy);
+  white-space: nowrap;
+}
+
+@media (min-width: 1024px) {
+  .fh-app .fh-logo-text {
+    display: inline;
+  }
+}
+
+/* KushLife legend: the four checks, not a colour key for the line. */
+.fh-main .kl-legend i {
+  display: none;
+}
+
+.fh-main .kl-legend li:not(.kl-legend-title)::before {
+  content: "\2713";
+  margin-right: 0.3rem;
+  color: var(--fh-green-deep);
+}
+
+.fh-main .kl-legend-title {
+  color: var(--fh-muted);
+  font-weight: 700;
+}
+
+/* --- KushLife card, glowing dark style (matches the family sign-in pulse) --- */
+
+.fh-main .kl-card {
+  color: #fff;
+  border: 1px solid rgba(127, 212, 255, 0.18);
+  background:
+    radial-gradient(520px 240px at 100% 0%, rgba(138, 184, 62, 0.22), transparent 60%),
+    radial-gradient(420px 240px at 0% 100%, rgba(47, 121, 214, 0.35), transparent 60%),
+    linear-gradient(160deg, #0b2244 0%, #0f2f5c 55%, #133b72 100%);
+  box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.3), 0 22px 44px -22px rgba(14, 42, 79, 0.6);
+}
+
+.fh-main .kl-life {
+  color: #fff;
+}
+
+.fh-main .kl-mark-sub,
+.fh-main .kl-sub,
+.fh-main .kl-note,
+.fh-main .kl-legend-title {
+  color: rgba(255, 255, 255, 0.68);
+}
+
+.fh-main .kl-now strong {
+  color: #7fd4ff;
+  text-shadow: 0 0 14px rgba(127, 212, 255, 0.6);
+}
+
+.fh-main .kl-chip.is-good {
+  background: rgba(138, 184, 62, 0.22);
+  color: #cfe6a6;
+}
+
+.fh-main .kl-chip.is-watch {
+  background: rgba(217, 164, 65, 0.22);
+  color: #f3d58f;
+}
+
+.fh-main .kl-chip.is-low {
+  background: rgba(200, 64, 47, 0.25);
+  color: #ffb8ad;
+}
+
+.fh-main .kl-delta.is-up {
+  color: #cfe6a6;
+}
+
+.fh-main .kl-delta.is-down {
+  color: #ffb8ad;
+}
+
+.fh-main .kl-base {
+  stroke: rgba(255, 255, 255, 0.35);
+}
+
+.fh-main .kl-base-label,
+.fh-main .kl-x {
+  fill: rgba(255, 255, 255, 0.6);
+}
+
+.fh-main .kl-line {
+  filter: drop-shadow(0 0 5px rgba(127, 212, 255, 0.85)) drop-shadow(0 0 12px rgba(127, 212, 255, 0.45));
+}
+
+.fh-main .kl-dot {
+  fill: #0f2f5c;
+  stroke: #7fd4ff;
+}
+
+.fh-main .kl-dot.is-last {
+  fill: #8ab83e;
+  stroke: #fff;
+  filter: drop-shadow(0 0 6px rgba(138, 184, 62, 0.9));
+}
+
+.fh-main .kl-legend li:not(.kl-legend-title) {
+  padding: 0.25rem 0.65rem 0.25rem 0.45rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  color: #fff;
+}
+
+.fh-main .kl-legend li:not(.kl-legend-title)::before {
+  color: #8ab83e;
+}
+
+.fh-main .kl-legend {
+  align-items: center;
+  gap: 0.4rem 0.45rem;
+}
+
+/* Dashboard KushLife tile jumps here (#kushlife). */
+.fh-anchor {
+  scroll-margin-top: 5.5rem;
+}
+
+
+/* Family request: service / product / assessment (services/page.tsx). */
+.fh-req-groups {
+  display: grid;
+  gap: 0.6rem;
+  margin-bottom: 1rem;
+}
+
+@media (min-width: 720px) {
+  .fh-req-groups {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.fh-main .fh-req-group,
+.fh-main .fh-req-product {
+  display: grid;
+  gap: 0.2rem;
+  padding: 0.9rem 1rem;
+  border-radius: 16px;
+  border: 2px solid #e2e8f0;
+  background: #fff;
+  color: #0e2a4f;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.fh-main .fh-req-group:hover,
+.fh-main .fh-req-product:hover {
+  background: #f6f9fe;
+}
+
+.fh-main .fh-req-group span {
+  font-size: 0.85rem;
+  color: #64748b;
+}
+
+.fh-main .fh-req-group.is-on,
+.fh-main .fh-req-product.is-on {
+  border-color: #2f6fd6;
+  background: #eef4fd;
+}
+
+.fh-req-products {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.fh-main .fh-req-product {
+  font-weight: 700;
+  padding: 0.7rem 0.85rem;
+}
+
+/* Recommended products on the family Independence Score page (safety/page.tsx). */
+.fh-rec {
+  list-style: none;
+  margin: 0 0 0.75rem;
+  padding: 0;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.fh-rec li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.75rem 0.9rem;
+  border-radius: 14px;
+  border: 1px solid #f5d9a0;
+  background: #fffaf0;
+}
+
+.fh-rec li.is-high {
+  border-color: #f4b8b8;
+  background: #fff6f6;
+}
+
+.fh-rec li > div:first-child {
+  display: grid;
+  gap: 0.15rem;
+  min-width: 0;
+}
+
+.fh-rec li span {
+  color: #64748b;
+  font-size: 0.85rem;
+}
+
+.fh-rec-cta {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.fh-rec-done {
+  color: #5a8a1f !important;
+  font-weight: 700;
+}
+
+/* Incident reports: neutral cards; red only for a serious one still open. */
+.fh-rec li.fh-inc {
+  border-color: #e2e8f0;
+  background: #fff;
+}
+
+.fh-rec li.fh-inc.is-high {
+  border-color: #f4b8b8;
+  background: #fff6f6;
+}
+
+.fh-rec li .fh-inc-status {
+  color: #334155;
+  font-weight: 600;
+}
+
+.fh-rec li .fh-inc-status.is-closed {
+  color: #64748b;
+}
+
+.fh-rec li.is-fixed {
+  border-color: #cfe6a6;
+  background: #f4f9ec;
+}
+
+/* "We're safe — close SOS": its own line, big enough to tap. */
+.fh-sos-close {
+  display: block;
+  min-height: 44px;
+  margin-top: 0.4rem;
+  padding: 0.5rem 1rem;
+}
+
+/* "Why this score?" link under the Independence Score card. */
+.fh-why {
+  margin: -0.4rem 0 1rem;
+  text-align: right;
+}
+
+/* ---------- Phase 2E: care team contact, Needs you, errors, past alerts ---------- */
+.fh-care-call {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 0.6rem;
+  margin: 0 0 1rem;
+}
+.fh-care-call-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 52px;
+  padding: 0.7rem 1rem;
+  border-radius: var(--fh-radius-sm);
+  font-weight: 700;
+  font-size: 1rem;
+  text-decoration: none;
+  color: #fff;
+  background: var(--fh-blue);
+}
+.fh-care-call-btn svg {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  flex: none;
+}
+.fh-care-call-btn.is-wa {
+  background: #1f8a4c;
+}
+.fh-care-call-btn.is-msg {
+  background: var(--fh-surface);
+  color: var(--fh-blue);
+  border: 1px solid var(--fh-line);
+}
+.fh-care-call-btn:focus-visible {
+  outline: 3px solid var(--fh-gold);
+  outline-offset: 2px;
+}
+.fh-care-call.is-compact {
+  grid-template-columns: 1fr 1fr;
+  margin: 0.4rem 0;
+}
+.fh-care-call.is-compact .fh-care-call-btn {
+  min-height: 44px;
+  font-size: 0.9rem;
+  padding: 0.5rem 0.6rem;
+}
+.fh-emergency-line {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0 0 1rem;
+}
+.fh-emergency-btn {
+  flex: 1 1 8rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  min-height: 44px;
+  padding: 0.5rem 0.85rem;
+  border: 1.5px solid var(--fh-danger);
+  border-radius: 12px;
+  background: var(--fh-surface);
+  color: var(--fh-danger);
+  font-size: 0.9rem;
+  text-decoration: none;
+}
+.fh-emergency-btn strong {
+  font-size: 1.05rem;
+  font-weight: 800;
+}
+.fh-emergency-btn:hover,
+.fh-emergency-btn:focus-visible {
+  background: var(--fh-danger);
+  color: #fff;
+}
+.fh-alerts-callbar {
+  padding: 1rem;
+  margin: 0 0 1rem;
+  border-radius: var(--fh-radius);
+  background: var(--fh-surface);
+  border: 1px solid var(--fh-line);
+  box-shadow: var(--fh-shadow);
+}
+.fh-alerts-callbar h2 {
+  margin: 0 0 0.6rem;
+  font-size: 1.05rem;
+}
+.fh-alerts-callbar .fh-care-call,
+.fh-alerts-callbar .fh-emergency-line {
+  margin-bottom: 0.4rem;
+}
+
+.fh-error {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin: 0 0 1rem;
+  padding: 0.85rem 1rem;
+  border-radius: var(--fh-radius-sm);
+  background: var(--fh-danger-soft);
+  color: #8f2a1d;
+}
+.fh-error p {
+  margin: 0.2rem 0 0;
+  font-size: 0.88rem;
+}
+.fh-error button {
+  min-height: 44px;
+}
+
+.fh-status-line {
+  margin: 0 0 1rem;
+  padding: 0.85rem 1rem;
+  border-radius: var(--fh-radius-sm);
+  background: var(--fh-green-soft);
+  color: var(--fh-green-deep);
+  font-weight: 700;
+  font-size: 1rem;
+  line-height: 1.4;
+}
+.fh-status-line.is-warn {
+  background: var(--fh-warn-soft);
+  color: var(--fh-warn);
+}
+
+.fh-needs {
+  margin: 0 0 1rem;
+  padding: 1rem;
+  border-radius: var(--fh-radius);
+  background: var(--fh-gold-soft);
+  border: 1px solid var(--fh-gold);
+}
+.fh-needs h2 {
+  margin: 0 0 0.5rem;
+  font-size: 1.05rem;
+}
+.fh-needs ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.5rem;
+}
+.fh-needs li a {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+  min-height: 48px;
+  padding: 0.6rem 0.8rem;
+  border-radius: var(--fh-radius-sm);
+  background: var(--fh-surface);
+  color: var(--fh-ink);
+  text-decoration: none;
+  font-weight: 700;
+}
+.fh-needs li a span {
+  color: var(--fh-blue);
+  white-space: nowrap;
+}
+.fh-needs li.is-sos a {
+  color: var(--fh-danger);
+}
+
+.fh-home-card {
+  margin: 0 0 1rem;
+  padding: 1rem;
+  border-radius: var(--fh-radius);
+  background: var(--fh-surface);
+  border: 1px solid var(--fh-line);
+  box-shadow: var(--fh-shadow);
+}
+.fh-home-card h2 {
+  margin: 0 0 0.35rem;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--fh-muted);
+}
+.fh-home-card strong {
+  display: block;
+  font-size: 1.05rem;
+}
+.fh-home-card p {
+  margin: 0.25rem 0 0;
+}
+.fh-home-card a.fh-home-link {
+  display: inline-block;
+  margin-top: 0.5rem;
+  color: var(--fh-blue);
+  font-weight: 700;
+}
+
+.fh-past-alerts {
+  margin-top: 1rem;
+}
+.fh-past-alerts summary {
+  cursor: pointer;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.5rem 0.9rem;
+  border: 1px solid var(--fh-line);
+  border-radius: 12px;
+  background: var(--fh-surface);
+  font-weight: 700;
+  color: var(--fh-ink);
+  list-style: none;
+}
+.fh-past-alerts summary::-webkit-details-marker {
+  display: none;
+}
+.fh-past-alerts summary:focus-visible {
+  outline: 3px solid var(--fh-blue);
+  outline-offset: 2px;
+}
+/* A real-looking on/off switch: off = grey, on (open) = blue. */
+.fh-switch {
+  position: relative;
+  flex: none;
+  width: 44px;
+  height: 26px;
+  border-radius: 999px;
+  background: #c5cfdb;
+  transition: background 0.15s ease;
+}
+.fh-switch::after {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+  transition: transform 0.15s ease;
+}
+.fh-past-alerts[open] .fh-switch {
+  background: var(--fh-blue);
+}
+.fh-past-alerts[open] .fh-switch::after {
+  transform: translateX(18px);
+}
+.fh-past-alerts .home-safety-family-alert {
+  opacity: 0.8;
+}
+
+/* --- Phase 2F: product pictures, quotes (Approve & pay), My details ------------------- */
+.fh-main .fh-req-product img {
+  width: 56px;
+  height: 56px;
+  object-fit: cover;
+  border-radius: 10px;
+  justify-self: start;
+}
+.fh-main .fh-req-product small {
+  color: var(--fh-muted);
+  font-weight: 600;
+}
+.fh-quotes {
+  border: 2px solid var(--fh-gold);
+  background: var(--fh-gold-soft);
+}
+.fh-quote {
+  display: grid;
+  gap: 0.6rem;
+  margin: 0.75rem 0;
+  padding: 1rem;
+  border-radius: 16px;
+  background: var(--fh-surface);
+  border: 1px solid var(--fh-line);
+}
+.fh-quote-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+.fh-quote-status {
+  font-size: 0.85rem;
+  color: var(--fh-muted);
+}
+.fh-quote-lines {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.4rem;
+}
+.fh-quote-lines li {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 0.6rem;
+}
+.fh-quote-lines img {
+  width: 44px;
+  height: 44px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+.fh-quote-sum {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.25rem 1rem;
+  margin: 0;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--fh-line);
+}
+.fh-quote-sum dd {
+  margin: 0;
+  text-align: right;
+}
+.fh-quote-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.fh-quote-actions button {
+  min-height: 44px;
+}
+.fh-quote-decline {
+  display: grid;
+  gap: 0.5rem;
+}
+.fh-quotes-past .fh-quote {
+  opacity: 0.9;
+}
+.fh-details-form {
+  display: grid;
+  gap: 0.75rem;
+}
+.fh-details-form label {
+  display: grid;
+  gap: 0.25rem;
+}
+.fh-gst-note {
+  font-size: 0.85rem;
+  color: var(--fh-muted);
+}
+
+/* Audit fix: `.fh-main a` (blue) beat the button colours. */
+.fh-app .fh-care-call-btn,
+.fh-app .fh-care-call-btn:hover {
+  color: #fff;
+  text-decoration: none;
+}
+.fh-app .fh-care-call-btn.is-wa {
+  /* #1a7a43 on white text: 5.3:1 */
+  background: #1a7a43;
+}
+.fh-app .fh-care-call-btn.is-msg {
+  color: var(--fh-blue);
+}
+.fh-side-help .fh-care-call.is-compact {
+  grid-template-columns: 1fr;
+}
+
+/* Audit: on phones the copyright scrolls with the page instead of sitting
+   fixed over the content above the tab bar. */
+@media (max-width: 899px) {
+  .site-frame:has(.fh-app) > .site-footer {
+    position: static;
+  }
+}
+
+/* Home: KushLife as one line; the trend opens on tap. */
+.fh-kl-compact summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+  min-height: 44px;
+  cursor: pointer;
+  list-style: none;
+}
+.fh-kl-compact summary::-webkit-details-marker {
+  display: none;
+}
+.fh-kl-compact .fh-kl-more {
+  color: var(--fh-blue);
+  font-weight: 700;
+  white-space: nowrap;
+}
+.fh-kl-compact details[open] .fh-kl-more {
+  visibility: hidden;
+}
+.fh-kl-compact details[open] summary {
+  margin-bottom: 0.75rem;
+}
+
+/* KushLife K2: "This week for Amma" (Monday card) */
+.fh-kl-week h2 {
+  margin: 0 0 0.25rem;
+  font-size: 1.1rem;
+}
+.fh-kl-week-summary {
+  margin: 0.5rem 0;
+  line-height: 1.5;
+}
+.fh-kl-week-list {
+  margin: 0.5rem 0 0;
+  padding-left: 1.1rem;
+  display: grid;
+  gap: 0.3rem;
+}
+
+/* K2: contact level choice (My details) and "Call me" / "Ask about…". */
+.fh-level {
+  display: grid;
+  gap: 0.4rem;
+  margin: 0;
+  padding: 0.75rem;
+  border: 1px solid var(--fh-line);
+  border-radius: var(--fh-radius);
+}
+.fh-details-form .fh-level-opt {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+.fh-level-opt input {
+  margin-top: 0.25rem;
+}
+.fh-ask {
+  margin-top: 0.75rem;
+}
+.fh-ask-btns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.fh-ask-btns button {
+  min-height: 44px;
+}
+.fh-ask-form {
+  margin-top: 0.75rem;
+}
+.fh-q-list {
+  list-style: none;
+  margin: 0.75rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 0.6rem;
+}
+.fh-q-list li {
+  padding: 0.6rem 0.75rem;
+  border: 1px solid var(--fh-line);
+  border-radius: var(--fh-radius);
+}
+.fh-q-list li.is-open {
+  border-left: 4px solid var(--fh-blue);
+}
+.fh-home-card .fh-q-list strong {
+  display: inline;
+  font-size: 0.95rem;
+}
+.fh-q-reply {
+  background: var(--fh-blue-soft);
+  padding: 0.4rem 0.6rem;
+  border-radius: 8px;
+}
+
+/* K2 UI fixes: visit "Questions about this visit?" card, Call me zone hint, week card details. */
+.fh-visit-ask h3 {
+  margin: 0;
+}
+.fh-ask .fh-ask-form button[type="submit"] {
+  justify-self: start;
+  width: auto;
+  min-width: 10rem;
+}
+.fh-ask-zone {
+  margin: -0.35rem 0 0;
+  font-size: 0.85rem;
+}
+.fh-ask-zone a {
+  font-weight: 700;
+}
+.fh-kl-week .fh-kl-week-more {
+  justify-self: start;
+  width: auto;
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  box-shadow: none;
+  color: var(--fh-blue);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* Visit rating: five large stars, nothing picked until the family taps one. */
+.fh-stars { display: flex; gap: 0.35rem; }
+.fh-stars button {
+  min-width: 48px; min-height: 48px; padding: 0; border-radius: 10px;
+  border: 1px solid #cbd5e1; background: #fff; color: #cbd5e1;
+  font-size: 1.7rem; line-height: 1; cursor: pointer; box-shadow: none;
+}
+.fh-stars button:hover { background: #fff8e6; color: #e0a526; }
+.fh-stars button.is-on { color: #e0a526; border-color: #e0a526; background: #fff8e6; }
+.fh-stars-ends { display: flex; justify-content: space-between; max-width: 16.5rem; margin: 0.2rem 0 0.6rem; font-size: 0.8rem; }
+
+/* Room for the floating "?" help button (52px, see family-help-chat.css) so it
+   never sits over the last lines of a page. */
+@media (max-width: 1023px) {
+  /* The "?" sits 1rem above the tab bar (62px); leave room for both. */
+  .fh-app .fh-main {
+    padding-bottom: calc(62px + 1rem + 52px + 1rem + env(safe-area-inset-bottom, 0px));
+  }
+}
+@media (min-width: 1024px) {
+  .fh-app .fh-main {
+    padding-bottom: calc(4.5rem + 52px + 0.75rem);
+  }
+}
+
+/* Page actions: link rows as pill buttons (wrap; sideways scroll on phones). */
+.fh-app .fh-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0 0 1rem;
+}
+.fh-app .fh-actions a.fh-action {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 1rem;
+  border-radius: 999px;
+  border: 1px solid var(--fh-line, #e3e9f1);
+  background: #fff;
+  color: var(--fh-blue-deep, #17498c);
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.fh-app .fh-actions a.fh-action:hover {
+  background: var(--fh-blue-soft, #e8f0fb);
+}
+.fh-app .fh-actions a.fh-action.is-primary {
+  border-color: transparent;
+  background: var(--fh-blue, #1d5fb4);
+  color: #fff;
+}
+.fh-app .fh-actions a.fh-action.is-primary:hover {
+  background: var(--fh-blue-deep, #17498c);
+}
+.fh-app .home-safety-section .fh-actions {
+  margin: 0.5rem 0 0;
+}
+@media (max-width: 640px) {
+  .fh-app .fh-actions {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+}
+
+/* Sidebar help card, slim (owner: it covered too much of the menu on PC).
+   One row Call · WhatsApp · SOS, short labels, emergency line underneath. */
+.fh-app .fh-side-help.is-slim {
+  padding: 0.6rem 0.65rem;
+}
+.fh-app .fh-side-help.is-slim strong {
+  font-size: 0.82rem;
+  margin-bottom: 0.4rem;
+}
+.fh-app .fh-side-help.is-slim .fh-side-help-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 0.35rem;
+}
+.fh-app .fh-side-help.is-slim .fh-side-help-row > .fh-care-call {
+  display: contents;
+}
+.fh-app .fh-side-help.is-slim .fh-side-help-actions {
+  display: contents;
+}
+.fh-app .fh-side-help.is-slim .fh-care-call-btn,
+.fh-app .fh-side-help.is-slim .fh-side-help-actions a {
+  min-height: 44px;
+  padding: 0.35rem 0.3rem;
+  font-size: 0.72rem;
+  gap: 0.25rem;
+  border-radius: 10px;
+  justify-content: center;
+}
+/* "Call care team" → "Call" visually; the full text stays for screen readers. */
+.fh-app .fh-side-help.is-slim .fh-care-call-btn.is-call span {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+.fh-app .fh-side-help.is-slim .fh-care-call-btn.is-call::after {
+  content: "Call";
+}
+.fh-app .fh-side-help.is-slim .fh-emergency-line {
+  margin: 0.4rem 0 0;
+  gap: 0.35rem;
+}
+.fh-app .fh-side-help.is-slim .fh-emergency-btn {
+  flex: 1 1 100%;
+  font-size: 0.875rem;
+  padding: 0.35rem 0.6rem;
+}
+
+/* In-app confirm sheet (FamilyConfirmSheet): bottom sheet on phones. */
+.fh-sheet-scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 900;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  background: rgba(14, 42, 79, 0.45);
+}
+.fh-sheet {
+  width: 100%;
+  max-width: 480px;
+  max-height: calc(100dvh - 32px);
+  overflow-y: auto;
+  padding: 1.25rem 1rem calc(1rem + env(safe-area-inset-bottom));
+  border-radius: 18px 18px 0 0;
+  background: var(--fh-surface, #fff);
+  color: var(--fh-ink, #1f2937);
+  box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.2);
+}
+.fh-sheet h2 {
+  margin: 0 0 0.6rem;
+  font-size: 1.15rem;
+}
+.fh-sheet-body {
+  font-size: 0.95rem;
+}
+.fh-sheet-actions {
+  display: grid;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+.fh-sheet-actions button {
+  min-height: 48px;
+  width: 100%;
+}
+.fh-sheet-rows {
+  display: grid;
+  gap: 0.35rem;
+  margin: 0;
+}
+.fh-sheet-rows div {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.fh-sheet-rows dt {
+  color: var(--fh-muted, #5b6b7f);
+}
+.fh-sheet-rows dd {
+  margin: 0;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.fh-sheet-rows .is-total {
+  padding-top: 0.35rem;
+  border-top: 1px solid var(--fh-line, #e3e8ef);
+}
+@media (min-width: 700px) {
+  .fh-sheet-scrim {
+    align-items: center;
+  }
+  .fh-sheet {
+    border-radius: 18px;
+    padding-bottom: 1.25rem;
+  }
+}
+
+/* Plan chips read as words ("Urgent", "To do"), not shouted codes. */
+.fh-app .home-safety-family-priority-badge,
+.fh-app .home-safety-family-status-badge {
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 0.85rem;
+}
+
+/* Score & plan: products grouped by need, "from ₹x" each. */
+.fh-need + .fh-need {
+  margin-top: 1rem;
+}
+.fh-need-title {
+  margin: 0 0 0.4rem;
+  font-size: 1rem;
+}
+.fh-need-from {
+  font-weight: 600;
+  color: var(--fh-muted);
+}
+
+/* Photo credits: a small footer note, not part of the page content. */
+.fh-page-credits {
+  margin: 2.5rem 0 0;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--fh-line);
+  font-size: 0.75rem;
+  text-align: right;
+  color: var(--fh-muted);
+}
+.fh-page-credits a {
+  color: inherit;
+}
+
+/* NPS 0–10: every button at least 44×44; two rows on phones. */
+.fh-app .kq-nps-scale {
+  grid-template-columns: repeat(auto-fit, minmax(44px, 1fr));
+  gap: 6px;
+}
+.fh-app .kq-nps-scale button {
+  min-width: 44px;
+  min-height: 44px;
+  font-size: 1rem;
+}
+@media (max-width: 599px) {
+  .fh-app .kq-nps-scale {
+    grid-template-columns: repeat(6, minmax(44px, 1fr));
+  }
+}
+
+/* Badges never touch the name they follow ("Arjun Reddy  Primary"). */
+.fh-app .fh-circle-primary,
+.fh-app .home-safety-family-contact .home-safety-saved-badge {
+  display: inline-block;
+  margin-left: 0.5rem;
+  vertical-align: middle;
+}
+
+/* Emergency buttons keep their red text wherever they sit. */
+.fh-app .fh-emergency-btn,
+.fh-app .fh-emergency-btn span,
+.fh-app .fh-emergency-btn strong {
+  color: var(--fh-danger);
+}
+.fh-app .fh-emergency-btn:hover,
+.fh-app .fh-emergency-btn:hover span,
+.fh-app .fh-emergency-btn:hover strong {
+  color: #fff;
+}
+
+/* --- Requests page: the whole catalog (services/page.tsx, 2026-10-08) ---------------- */
+.fh-cat > .muted { margin-top: -0.25rem; }
+.fh-main .fh-cat-search { display: block; margin: 0.5rem 0 0.75rem; }
+.fh-main .fh-cat-search input { width: 100%; min-height: 48px; font-size: 1rem; }
+.fh-cat-chips { display: flex; flex-wrap: wrap; gap: 0.45rem; margin-bottom: 0.5rem; }
+.fh-main .fh-cat-chip {
+  min-height: 44px;
+  padding: 0.45rem 0.85rem;
+  border-radius: 999px;
+  border: 1.5px solid var(--fh-line);
+  background: var(--fh-surface);
+  color: var(--fh-ink);
+  font-weight: 700;
+  font-size: 0.88rem;
+  box-shadow: none;
+}
+.fh-main .fh-cat-chip:hover { background: var(--fh-blue-soft); filter: none; transform: none; }
+.fh-main .fh-cat-chip small { color: var(--fh-muted); font-weight: 600; margin-left: 0.15rem; }
+.fh-main .fh-cat-chip.is-on { background: var(--fh-navy); border-color: var(--fh-navy); color: #fff; }
+.fh-main .fh-cat-chip.is-on small { color: #cfdcef; }
+.fh-cat-group { margin-top: 1.25rem; }
+.fh-cat-group h3 { margin: 0 0 0.6rem; font-size: 1.05rem; color: var(--fh-navy); }
+.fh-cat-group > .muted { margin: -0.4rem 0 0.6rem; }
+.fh-cat-rec {
+  padding: 0.85rem;
+  border-radius: var(--fh-radius-sm);
+  background: var(--fh-gold-soft);
+  border: 1.5px solid var(--fh-gold);
+}
+.fh-cat-list,
+.fh-prod-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.6rem;
+}
+@media (min-width: 900px) {
+  .fh-cat-list, .fh-prod-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (min-width: 1600px) {
+  .fh-cat-list { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+.fh-cat-pick {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.7rem;
+  border: 1.5px solid var(--fh-blue-2);
+  border-radius: var(--fh-radius-sm);
+  background: var(--fh-blue-soft);
+  margin-bottom: 0.9rem;
+}
+.fh-cat-text { display: grid; gap: 0.12rem; min-width: 0; }
+.fh-main .fh-cat-pick button { min-height: 44px; }
+.fh-cat-empty {
+  padding: 1rem;
+  border: 1.5px dashed var(--fh-line);
+  border-radius: var(--fh-radius-sm);
+  margin: 0.75rem 0;
+}
+.fh-cat-empty p { margin: 0 0 0.6rem; }
+.fh-main .fh-cat-empty button { min-height: 44px; }
+
+/* One product / service card, used everywhere families see products (FamilyProductCard). */
+.fh-prod {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.65rem 0.75rem 0.65rem 0.65rem;
+  border: 1.5px solid var(--fh-line);
+  border-radius: var(--fh-radius-sm);
+  background: var(--fh-surface);
+  min-width: 0;
+}
+.fh-prod:hover { border-color: #c9d6e8; }
+.fh-main .fh-prod-open {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 0.8rem;
+  min-width: 0;
+  padding: 0;
+  background: none;
+  box-shadow: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  border-radius: 10px;
+}
+.fh-main .fh-prod-open:hover { background: none; filter: none; transform: none; }
+.fh-prod-thumb {
+  display: block;
+  width: 72px;
+  height: 72px;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 12px;
+  background: var(--fh-blue-soft);
+  flex: none;
+}
+.fh-prod-thumb-empty {
+  background: linear-gradient(135deg, var(--fh-blue-soft), #f4f7fb);
+}
+.fh-prod-text { display: grid; gap: 0.15rem; min-width: 0; }
+.fh-prod-name { color: var(--fh-ink); font-size: 0.98rem; font-weight: 800; line-height: 1.25; }
+.fh-prod-desc,
+.fh-prod-note {
+  font-size: 0.85rem;
+  line-height: 1.35;
+  color: var(--fh-muted);
+  font-weight: 500;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.fh-prod-note { color: #8a5a00; -webkit-line-clamp: 1; }
+.fh-prod-price { font-size: 0.88rem; font-weight: 800; color: var(--fh-blue-deep); margin-top: 0.1rem; }
+.fh-main .fh-prod-req { min-height: 44px; min-width: 44px; padding: 0.5rem 1rem; }
+.fh-prod-done { font-weight: 800; color: var(--fh-ok); font-size: 0.88rem; white-space: nowrap; }
+/* Phones: the button sits under the words (aligned with them), so names get the full width. */
+@media (max-width: 600px) {
+  .fh-prod { grid-template-columns: minmax(0, 1fr); padding: 0.6rem; gap: 0.45rem; }
+  .fh-main .fh-prod-open { gap: 0.7rem; }
+  .fh-prod .fh-prod-thumb { width: 64px; height: 64px; }
+  .fh-main .fh-prod-req,
+  .fh-prod-done { margin-left: calc(64px + 0.7rem); }
+  .fh-cat-rec { padding: 0.6rem; }
+  /* One swipeable row of chips instead of seven wrapped rows. */
+  .fh-cat-chips {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+    margin-inline: -0.25rem;
+    padding: 0 0.25rem 0.25rem;
+  }
+  .fh-cat-chips::-webkit-scrollbar { display: none; }
+  .fh-main .fh-cat-chip { flex: none; white-space: nowrap; }
+}
+.fh-prod-sheet { display: grid; gap: 0.75rem; }
+.fh-prod-sheet .fh-prod-thumb {
+  width: 100%;
+  height: auto;
+  max-width: 280px;
+  justify-self: center;
+  border-radius: 16px;
+}
+.fh-prod-sheet p { margin: 0; }
+.fh-prod-sheet .fh-sheet-rows dd { text-align: right; }
+/* Quote lines use the same square picture. */
+.fh-quote-lines .fh-prod-thumb { width: 44px; height: 44px; border-radius: 8px; }
+
+/* Updates feed: bodies with "- item" lines render as a real list. */
+.fh-feed-list {
+  margin: 0.35rem 0 0;
+  padding-left: 1.2rem;
+  list-style: disc;
+}
+
+.fh-feed-list li + li {
+  margin-top: 0.2rem;
+}
+
+/* Visit report photo grid (visits/[id]) — tap opens the full image. */
+.fh-visit-photos { list-style: none; margin: 0; padding: 0; }
+.fh-visit-photos li { min-width: 0; }
+.fh-visit-photos a { display: block; border-radius: 8px; }
+.fh-visit-photos a:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
+.fh-visit-photo-loading { display: block; height: 5rem; border-radius: 8px; background: rgba(0, 0, 0, 0.06); }
+
+/* Updates feed: up to 3 small thumbnails under a visit (the card links to the visit). */
+.fh-visit-thumbs { list-style: none; display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0.5rem 0 0; padding: 0; }
+.fh-visit-thumbs li { width: 4rem; height: 4rem; flex: 0 0 auto; }
+.fh-visit-thumbs img,
+.fh-visit-thumbs .fh-visit-photo-loading { width: 100%; height: 100%; object-fit: cover; border-radius: 8px; display: block; }
+.fh-visit-thumbs-more { display: flex; align-items: center; justify-content: center; border-radius: 8px; background: rgba(0, 0, 0, 0.06); font-size: 0.8rem; font-weight: 600; text-align: center; }
+
+/* ---------- Round 2 (2026-10-11) ---------- */
+/* Dashboard: one width so cards don't stretch on desktop; Next / Last side by side. */
+.fh-home-body {
+  max-width: 1040px;
+}
+.fh-home-pair {
+  display: grid;
+  gap: 0 1rem;
+}
+@media (min-width: 900px) {
+  .fh-home-pair {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+.fh-status-line p {
+  margin: 0;
+}
+.fh-status-line .fh-visit-thumbs {
+  margin-top: 0.6rem;
+}
+.fh-status-line.is-watch {
+  background: var(--fh-blue-soft);
+  color: var(--fh-blue-deep);
+}
+/* Message gets its own full row on phones (never alone on a half row). */
+@media (max-width: 520px) {
+  .fh-care-call:not(.is-compact) {
+    grid-template-columns: 1fr 1fr;
+  }
+  .fh-care-call:not(.is-compact) .fh-care-call-btn.is-msg {
+    grid-column: 1 / -1;
+  }
+}
+/* Tap targets: text links on cards are at least 44px tall. */
+.fh-home-card a.fh-home-link,
+.fh-tap {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+/* Updates: day headings in the feed. */
+.fh-feed-day {
+  list-style: none;
+}
+.fh-feed-day h2 {
+  margin: 0.75rem 0 0.25rem;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--fh-muted);
+}
+.ks-filterbar a.ks-filter { text-decoration: none; }
+/* Visit report: time row with the status pill inline, then who visited. */
+.fh-visit-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin: 0 0 0.5rem;
+}
+.fh-visit-head p {
+  margin: 0;
+}
+.fh-visit-who {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 0 0 0.75rem;
+}
+/* Contacts: number shown, and a 44px call button. */
+.fh-contact-phone {
+  margin: 0.25rem 0 0;
+  font-weight: 700;
+}
+.fh-contact-phone a {
+  color: var(--fh-ink);
+  text-decoration: none;
+}
+.home-safety-family-call.fh-call-44 {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  min-width: 64px;
+}
+/* Wallet: the preset matching the amount box is shown as selected. */
+.fh-amount-chip {
+  min-height: 44px;
+}
+.fh-amount-chip.is-on {
+  background: var(--fh-blue);
+  border-color: var(--fh-blue);
+  color: #fff;
+}
+/* Requests: requested → quoted → booked → done. */
+.fh-tracker {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.25rem;
+  list-style: none;
+  margin: 0.5rem 0;
+  padding: 0;
+  font-size: 0.8rem;
+  color: var(--fh-muted);
+}
+.fh-tracker li {
+  padding-top: 0.35rem;
+  border-top: 4px solid var(--fh-line);
+  text-align: center;
+}
+.fh-tracker li.is-done {
+  border-top-color: var(--fh-green);
+  color: var(--fh-green-deep);
+}
+.fh-tracker li.is-now {
+  border-top-color: var(--fh-blue);
+  color: var(--fh-blue-deep);
+  font-weight: 700;
+}
+/* Phone header: mark + whose care this is (no second brand name or dot). */
+@media (max-width: 420px) {
+  .fh-app .fh-portal-title::before {
+    display: none;
+  }
+}
+.fh-app .fh-logo-link {
+  min-width: 44px;
+  min-height: 44px;
+}
+/* Tap targets >= 44px: "Why this score?", alerts' contacts link, switches, checkboxes and radios. */
+.fh-why button,
+.fh-main .ks-seealso a,
+.fh-alerts-contacts a {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+}
+.fh-main .ks-switches label,
+.fh-main .home-safety-check-inline,
+.fh-main .fh-level-opt {
+  min-height: 44px;
+  align-items: center;
+}
+.fh-main input[type="checkbox"],
+.fh-main input[type="radio"] {
+  width: 22px;
+  height: 22px;
+  flex: none;
+}
+/* Switches keep their size; the whole 44px row (label) is the tap target. */
+
+/* ---------- Round 4 (audit 2026-10-12) ---------- */
+
+/* Header "?" (phones only; desktop has the sidebar "? Ask us"). */
+.fh-app .fh-help-btn {
+  font: inherit;
+  font-size: 1.15rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+@media (min-width: 900px) {
+  .fh-app .fh-help-btn {
+    display: none;
+  }
+}
+
+/* Sidebar: the nav scrolls with a visible bar, and the help card never sits
+   over it. On shorter screens the card is one row (Ask · Call · WhatsApp · SOS)
+   so every link fits above it. */
+.fh-app .fh-sidebar .fh-nav,
+.fh-app .fh-sidebar .fh-nav:hover {
+  scrollbar-color: rgba(255, 255, 255, 0.35) transparent;
+}
+.fh-app .fh-side-help-ask {
+  min-height: 44px;
+}
+@media (min-width: 900px) and (max-height: 960px) {
+  .fh-app .fh-sidebar .fh-nav {
+    gap: 0.45rem;
+  }
+  .fh-app .fh-sidebar .fh-nav-link {
+    padding-block: 0.36rem;
+  }
+  .fh-app .fh-sidebar .fh-side-help.is-slim {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 1fr;
+    gap: 0.35rem;
+    padding: 0.45rem;
+  }
+  .fh-app .fh-sidebar .fh-side-help.is-slim .fh-side-help-head,
+  .fh-app .fh-sidebar .fh-side-help.is-slim .fh-side-help-row {
+    display: contents;
+  }
+  .fh-app .fh-sidebar .fh-side-help.is-slim .fh-side-help-head strong,
+  .fh-app .fh-sidebar .fh-side-help.is-slim .fh-emergency-line {
+    display: none;
+  }
+  .fh-app .fh-sidebar .fh-side-help-ask {
+    padding: 0.35rem 0.3rem;
+    font-size: 0.72rem;
+  }
+}
+
+/* Wallet preset chip: beat `.fh-main button.secondary` so the selected one shows. */
+.fh-main button.fh-amount-chip.is-on {
+  background: var(--fh-blue);
+  border-color: var(--fh-blue);
+  color: #fff;
+}
+
+/* Desktop: the copyright footer is fixed to the bottom of the content column;
+   the later `.fh-main { padding: … 3rem }` shorthand had wiped the room kept
+   for it, so the last ~40px of every page scrolled under the footer. */
+@media (min-width: 900px) {
+  .fh-app .fh-main {
+    padding-bottom: calc(46px + 2.5rem);
+  }
+}
+
+/* Nothing of the help panel floats over an open sheet or dialog. */
+body:has([aria-modal="true"]) .fhc,
+body:has(.kl-sheet-backdrop) .fhc {
+  display: none;
+}
+
+/* /safety score card: top priorities as a short list (never clamped mid-word). */
+.home-safety-score-foot .home-safety-score-summary.fh-score-priorities {
+  display: block;
+  overflow: visible;
+  -webkit-line-clamp: unset;
+}
+.fh-score-priorities ul {
+  margin: 0.2rem 0 0;
+  padding-left: 1.1rem;
+}
+.fh-score-priorities li {
+  margin: 0.1rem 0;
+}
+
+/* "Why this score?" sheet: left-aligned (it used to inherit .fh-why's right
+   alignment), lists in normal flow, a 44px trigger. */
+.kl-sheet.fh-why-sheet,
+.kl-sheet.fh-why-sheet * {
+  text-align: left;
+}
+.kl-sheet.fh-why-sheet ul,
+.kl-sheet.fh-why-sheet ol {
+  margin: 0.3rem 0 0.8rem;
+  padding-left: 1.25rem;
+}
+.kl-sheet.fh-why-sheet li {
+  margin: 0.25rem 0;
+}
+.fh-why-gain {
+  font-weight: 700;
+}
+.fh-why-btn {
+  min-height: 44px;
+  padding: 0.5rem 0.25rem;
+}
+.fh-fix-total {
+  font-weight: 700;
+  margin: 0 0 0.75rem;
+}
+.fh-plan-card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1rem;
+  margin: 0.5rem 0 0;
+}
+.fh-plan-card-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-weight: 700;
+}
+
+/* Visit report: back link above the heading, status pill inline with the times,
+   and the NPS question without a second card frame so 0–10 fit inside it. */
+.fh-app .fh-pagehead-back {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  margin: 0 0 0.1rem;
+  font-weight: 700;
+  font-size: 0.95rem;
+  text-decoration: none;
+}
+.fh-visit-head .home-safety-pill {
+  display: inline-block;
+  margin-right: 0.35rem;
+  vertical-align: middle;
+}
+.home-safety-family-visit-report .kq-nps {
+  margin: 1rem 0 0;
+  padding: 1rem 0 0;
+  border: 0;
+  border-top: 1px solid var(--fh-line);
+  border-radius: 0;
+  box-shadow: none;
+  background: none;
+}
+.fh-app .home-safety-family-visit-report .kq-nps-scale {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 6px;
+}
+.fh-app .home-safety-family-visit-report .kq-nps-scale button {
+  min-width: 0;
+}
+
+/* Updates filter chips: one horizontal row that scrolls, never a 3-row wall. */
+.fh-main .ks-filterbar.fh-filter-row {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  gap: 0.4rem;
+  padding-bottom: 0.25rem;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+.fh-main .ks-filterbar.fh-filter-row .ks-filter {
+  flex: 0 0 auto;
+  white-space: nowrap;
+  min-height: 44px;
+}
+
+/* Round 4 tap targets (>= 44px): text links, the contact number, whole label
+   rows for radios / checkboxes / switches, header chips. */
+.fh-main .home-safety-family-inline-link,
+.fh-contact-phone a,
+.fh-main .fh-home-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+.fh-main .ks-switches label,
+.fh-main .home-safety-check-inline,
+.fh-main .fp-purpose,
+.fh-main .fh-level-opt {
+  display: flex;
+  gap: 0.6rem;
+  min-height: 44px;
+  padding-block: 0.25rem;
+  cursor: pointer;
+}
+.fh-main .home-safety-check-inline input,
+.fh-main .fp-purpose input,
+.fh-main .fh-level-opt input {
+  min-width: 22px;
+  min-height: 22px;
+  margin: 0;
+}
+.fh-app .fh-wallet-chip {
+  min-height: 44px;
+}
+.fh-app .fh-elder-switch select {
+  min-height: 44px;
+}
+
+/* Home: the safety score label sits clear of the Devices card above it. */
+.fh-home-body .ks-score-link {
+  display: block;
+  margin-top: 1.25rem;
+}
+.fh-home-body .ks-score-link .home-safety-family-score-kicker {
+  margin-top: 0;
+}
+
+/* Before / after: both photos fill the frame (no white band under "Before"). */
+.fh-app .ba-frame .ba-before .ba-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.fh-app .home-safety-family-visual-pair .ai-phase-thumb {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+
+/* More: referral link in the page font; Copy and Share look the same. */
+.fh-ref-link {
+  font: inherit;
+  font-weight: 600;
+  word-break: break-all;
+}
+.fh-ref-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+.fh-main .fh-ref-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0.6rem 1.1rem;
+  border-radius: var(--fh-radius-sm, 12px);
+  border: 1px solid var(--fh-blue);
+  background: var(--fh-blue);
+  color: #fff;
+  font: inherit;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+/* ---------- Round 5 (audit 2026-10-12): tap targets >= 44px ---------- */
+
+/* "Why this score?" and "What is KushLife?" are link-style buttons; kushlife.css
+   zeroes their height, so these win on specificity. */
+.fh-main .fh-why button.kl-link,
+.fh-main .kl-trend button.kl-link,
+.fh-main .fh-inline-tap {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+
+/* Checkboxes and radios: a 44px tap target with the same 22px box drawn in the
+   middle (transparent ring), and negative margins so the layout doesn't move.
+   Switches (role="switch") keep their own look in ks-shell.css. */
+.fh-main input[type="checkbox"]:not([role="switch"]),
+.fh-main input[type="radio"] {
+  -webkit-appearance: none;
+  appearance: none;
+  box-sizing: border-box;
+  width: 44px;
+  height: 44px;
+  margin: -11px;
+  flex: none;
+  padding: 0;
+  border: 0;
+  border-radius: 10px;
+  background: no-repeat center / 22px 22px
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 22 22'%3E%3Crect x='1' y='1' width='20' height='20' rx='5' fill='white' stroke='%2394a3b8' stroke-width='2'/%3E%3C/svg%3E");
+  cursor: pointer;
+}
+.fh-main input[type="checkbox"]:not([role="switch"]):checked {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 22 22'%3E%3Crect width='22' height='22' rx='6' fill='%231d5fb4'/%3E%3Cpath d='M6 11.5l3.2 3.2L16 8' fill='none' stroke='white' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+.fh-main input[type="radio"] {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 22 22'%3E%3Ccircle cx='11' cy='11' r='10' fill='white' stroke='%2394a3b8' stroke-width='2'/%3E%3C/svg%3E");
+}
+.fh-main input[type="radio"]:checked {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 22 22'%3E%3Ccircle cx='11' cy='11' r='10' fill='white' stroke='%231d5fb4' stroke-width='2'/%3E%3Ccircle cx='11' cy='11' r='5.5' fill='%231d5fb4'/%3E%3C/svg%3E");
+}
+.fh-main input[type="checkbox"]:not([role="switch"]):focus-visible,
+.fh-main input[type="radio"]:focus-visible {
+  outline: 3px solid rgba(29, 95, 180, 0.35);
+  outline-offset: -8px;
+}
+.fh-main input[type="checkbox"]:not([role="switch"]):disabled,
+.fh-main input[type="radio"]:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Score page fixes grouped by urgency (owner, 13 Oct): Urgent / Fix soon / Can wait. */
+.fh-tier { padding: 0.9rem 0 0.25rem; border-top: 1px solid var(--fh-line, #e3e9f1); }
+.fh-tier:first-of-type { border-top: 0; padding-top: 0.25rem; }
+.fh-tier-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+  font-size: 1.05rem;
+}
+.fh-tier-title::before {
+  content: "";
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--fh-green);
+  flex: none;
+}
+.fh-tier.is-urgent .fh-tier-title::before { background: #c8402f; }
+.fh-tier.is-soon .fh-tier-title::before { background: #d9a441; }
+.fh-tier-sub { margin: 0.15rem 0 0.75rem; font-size: 0.85rem; color: var(--fh-muted); }
+.fh-tier .fh-need-title { font-size: 0.98rem; }
+
+/* KushLife lifeline sits above the one-line summary on Home. */
+.fh-kl-compact .kll {
+  margin-bottom: 0.85rem;
+}

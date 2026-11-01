@@ -1,0 +1,24 @@
+/* "Start assessment" / "New assessment" with the continue-the-draft choice (NewAssessment.tsx). */
+.na-start,
+.na-start .sa-ask {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.na-start .sa-ask {
+  padding: 0.6rem 0.75rem;
+  border-radius: 12px;
+  background: #fff8e6;
+  color: #6b4500;
+  font-size: 0.92rem;
+}
+
+.na-start .sa-ask > span {
+  flex-basis: 100%;
+}
+
+.na-start button {
+  min-height: 44px;
+}

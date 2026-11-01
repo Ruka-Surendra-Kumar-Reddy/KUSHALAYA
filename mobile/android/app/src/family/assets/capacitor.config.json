@@ -1,0 +1,15 @@
+{
+  "appId": "com.kushalaya.family",
+  "appName": "KushAlaya Family",
+  "webDir": "www",
+  "server": {
+    "url": "https://family.kushalaya.com",
+    "androidScheme": "https",
+    "cleartext": false,
+    "errorPath": "index.html"
+  },
+  "android": {
+    "allowMixedContent": false,
+    "adjustMarginsForEdgeToEdge": "auto"
+  }
+}

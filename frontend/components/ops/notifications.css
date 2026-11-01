@@ -1,0 +1,375 @@
+/* Settings → Email notifications (app/(app)/settings/notifications/page.tsx). */
+
+.nt-top h1 {
+  margin: 0.25rem 0 0.2rem;
+}
+
+.ko-main .nt-back {
+  font-size: 0.88rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.nt-status {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin: 1rem 0;
+  border-left: 4px solid #c98a12;
+  background: #fffaf0;
+}
+
+.nt-status.is-on {
+  border-left-color: #5a8a1f;
+  background: #f3f8ec;
+}
+
+.nt-status p {
+  margin: 0.2rem 0 0;
+  color: #4b5b70;
+  max-width: 46rem;
+}
+
+.nt-test {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.ko-main .nt-test input {
+  min-height: 0;
+  width: 15rem;
+  max-width: 100%;
+  padding: 0.45rem 0.6rem;
+}
+
+.ko-main .nt-test button {
+  min-height: 0;
+  padding: 0.45rem 0.9rem;
+  white-space: nowrap;
+}
+
+.nt-rules {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nt-rules > li {
+  padding: 0.6rem 0 0.9rem;
+  border-bottom: 1px solid rgba(16, 36, 58, 0.07);
+}
+
+.nt-rules > li:last-child {
+  border-bottom: 0;
+}
+
+.nt-rules > li.is-off .nt-rule-head span {
+  color: #64748b;
+}
+
+.nt-rule-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 0;
+}
+
+.nt-rule-head small {
+  color: #64748b;
+  font-size: 0.8rem;
+}
+
+.nt-who {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1.2rem;
+  padding-left: 3.1rem;
+}
+
+.nt-who-label {
+  color: #64748b;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.nt-check {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.ko-main .nt-check input {
+  width: auto;
+  min-height: 0;
+  margin: 0;
+}
+
+.nt-extra {
+  flex-basis: 100%;
+  display: grid;
+  gap: 0.35rem;
+}
+
+.nt-foot {
+  margin: 0.75rem 0 0;
+  font-size: 0.85rem;
+}
+
+@media (max-width: 640px) {
+  .nt-who {
+    padding-left: 0;
+  }
+}
+
+/* Connections: Zoho Mail (SMTP) and MSG91 (ChannelSetup.tsx). */
+.nt-channels {
+  margin: 1rem 0;
+}
+
+.nt-channel {
+  margin-top: 0.75rem;
+  padding: 0.85rem 1rem;
+  border-radius: 14px;
+  border: 1px solid rgba(16, 36, 58, 0.09);
+  border-left: 4px solid #c98a12;
+  background: #fffdf8;
+}
+
+.nt-channel.is-on {
+  border-left-color: #5a8a1f;
+  background: #fbfdf8;
+}
+
+.nt-channel-head {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.nt-channel-head small {
+  display: block;
+  color: #64748b;
+}
+
+.nt-channel-ico {
+  display: grid;
+  place-items: center;
+  width: 2.3rem;
+  height: 2.3rem;
+  border-radius: 10px;
+  background: #e8f0fc;
+  color: #1f4f9f;
+  font-size: 1.15rem;
+}
+
+.nt-pill {
+  padding: 0.15rem 0.6rem;
+  border-radius: 999px;
+  background: #f1f5f9;
+  color: #64748b;
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+.nt-pill.is-on {
+  background: #eef6e2;
+  color: #3f6a12;
+}
+
+.ko-main .nt-link,
+.ko-main .nt-link:hover {
+  min-height: 0;
+  padding: 0.35rem 0.8rem;
+  border-radius: 9px;
+  border: 1px solid rgba(47, 111, 214, 0.35);
+  background: #fff;
+  color: #1f4f9f;
+  box-shadow: none;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.ko-main .nt-link.is-danger {
+  border-color: rgba(180, 35, 24, 0.3);
+  color: #b42318;
+}
+
+.nt-note {
+  margin: 0.6rem 0 0;
+  padding: 0.5rem 0.75rem;
+  border-radius: 10px;
+  font-weight: 600;
+}
+
+.nt-note.is-ok {
+  background: #eef6e2;
+  color: #3f6a12;
+}
+
+.nt-note.is-bad {
+  background: #fdecea;
+  color: #b42318;
+}
+
+.nt-form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0.75rem;
+  margin-top: 0.85rem;
+}
+
+.nt-form > label,
+.nt-advanced label {
+  display: grid;
+  gap: 0.3rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.nt-steps {
+  grid-column: 1 / -1;
+  margin: 0;
+  padding: 0.7rem 0.9rem 0.7rem 2rem;
+  border-radius: 10px;
+  background: #f3f6fa;
+  color: #24364d;
+  font-size: 0.9rem;
+  line-height: 1.55;
+}
+
+.nt-advanced {
+  grid-column: 1 / -1;
+}
+
+.nt-advanced summary {
+  cursor: pointer;
+  color: #1f4f9f;
+  font-weight: 700;
+  font-size: 0.88rem;
+}
+
+.nt-advanced[open] {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0.75rem;
+}
+
+.nt-advanced[open] summary {
+  grid-column: 1 / -1;
+}
+
+.nt-form-actions {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.6rem;
+}
+
+@media (max-width: 640px) {
+  .nt-channel-head {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+  }
+
+  .nt-channel-head .nt-link {
+    grid-column: 2 / -1;
+    justify-self: start;
+  }
+}
+
+/* SOS escalation ladder (EscalationTree.tsx). */
+.nt-esc {
+  margin: 1rem 0;
+}
+
+.nt-ladder {
+  list-style: none;
+  margin: 0.75rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 0.6rem;
+}
+
+.nt-ladder > li {
+  display: grid;
+  gap: 0.4rem;
+  padding: 0.8rem 1rem;
+  border-radius: 14px;
+  border: 1px solid rgba(16, 36, 58, 0.08);
+  background: #fbfcfe;
+}
+
+.nt-ladder p {
+  margin: 0;
+  color: #4b5b70;
+  font-size: 0.9rem;
+}
+
+.nt-step-head {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.nt-step-head strong {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.nt-step-no {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 1.7rem;
+  height: 1.7rem;
+  border-radius: 999px;
+  background: #e8f0fc;
+  color: #1f4f9f;
+  font-weight: 800;
+}
+
+.nt-step-no.is-amber {
+  background: #fdf1d8;
+  color: #8a5a00;
+}
+
+.nt-step-no.is-red {
+  background: #fdecea;
+  color: #b42318;
+}
+
+.ko-main .nt-min {
+  width: auto;
+  min-height: 0;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.9rem;
+}
+
+/* FIX 110: every switch and checkbox is at least 44px tall on a phone. */
+@media (max-width: 640px) {
+  .ko-main .nt-check,
+  .ko-main .ks-switches label {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+  }
+  .ko-main .nt-check input {
+    width: 22px;
+    height: 22px;
+  }
+  .ko-main .nt-test input,
+  .ko-main .nt-test button,
+  .ko-main .nt-link {
+    min-height: 44px;
+  }
+}

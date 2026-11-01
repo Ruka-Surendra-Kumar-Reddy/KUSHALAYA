@@ -1,0 +1,171 @@
+/* Customers page list (CustomersList.tsx): toolbar · header row · aligned rows. */
+.cu { padding: 1.1rem 1.2rem; }
+.cu-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 1rem;
+}
+.cu-bar .cu-search {
+  flex: 1 1 260px;
+  max-width: 360px;
+  min-height: 44px;
+  padding: 0 0.9rem;
+  border: 1px solid #d4dbe5;
+  border-radius: 12px;
+  font: inherit;
+}
+.cu-bar select {
+  min-height: 44px;
+  max-width: 13rem;
+  padding: 0 0.6rem;
+  border: 1px solid #d4dbe5;
+  border-radius: 12px;
+  background: #fff;
+  font: inherit;
+}
+.cu-count { color: #5b6b80; font-size: 0.9rem; white-space: nowrap; }
+.cu-bar .cu-export { margin-left: auto; min-height: 44px; white-space: nowrap; }
+.cu-empty { display: flex; align-items: center; flex-wrap: wrap; gap: 0.75rem; margin: 1rem 0 0.5rem; color: #5b6b80; }
+.ko-main .cu-clear,
+.cu-clear {
+  min-height: 40px;
+  padding: 0 0.9rem;
+  border: 1px solid #c7d4e6;
+  border-radius: 999px;
+  background: #fff;
+  background-image: none;
+  box-shadow: none;
+  color: #1e3a5f;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.cu-row {
+  display: grid;
+  grid-template-columns:
+    minmax(0, 1.5fr) 8.5rem minmax(0, 0.9fr) minmax(0, 1.2fr)
+    minmax(0, 1fr) 6.5rem 5.5rem 4.5rem;
+  align-items: center;
+  gap: 0.9rem;
+  min-height: 64px;
+  padding: 0.55rem 0.9rem;
+  border-bottom: 1px solid #edf1f6;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+.cu.has-check .cu-row { grid-template-columns: 1.4rem minmax(0, 1.5fr) 8.5rem minmax(0, 0.9fr) minmax(0, 1.2fr) minmax(0, 1fr) 6.5rem 5.5rem 4.5rem; }
+.cu-row:not(.cu-head):hover { background: #f8fafd; }
+.cu-row:focus-visible { outline: 2px solid #1d4ed8; outline-offset: -2px; border-radius: 10px; }
+.cu-head {
+  min-height: 0;
+  padding-top: 0.45rem;
+  padding-bottom: 0.45rem;
+  border-radius: 10px;
+  border-bottom: 0;
+  background: #f4f7fb;
+  color: #5b6b80;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: default;
+}
+.cu-row > span { min-width: 0; }
+.cu-check { display: flex; align-items: center; }
+.cu-check input { width: 18px; height: 18px; margin: 0; cursor: pointer; }
+.cu-who { display: grid; gap: 0.1rem; }
+.cu-name, .cu-area, .cu-mgr, .cu-plan-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.cu-name { color: #0f2a4a; }
+.cu-who small { display: flex; align-items: center; gap: 0.4rem; color: #5b6b80; font-size: 0.82rem; }
+.cu-tag {
+  padding: 0.02rem 0.45rem;
+  border-radius: 999px;
+  background: #e8f0fe;
+  color: #1d4ed8;
+  font-style: normal;
+  font-size: 0.72rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.cu-phone, .cu-next { white-space: nowrap; font-variant-numeric: tabular-nums; }
+.cu-plan { display: flex; flex-direction: column; align-items: flex-start; gap: 0.2rem; }
+.cu-plan .sp-pill { font-size: 0.72rem; }
+.cu-dim { color: #8a97a8; }
+.cu-pill {
+  display: inline-block;
+  padding: 0.15rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.cu-pill.is-active { background: #ecfdf3; color: #067647; }
+.cu-pill.is-paused { background: #fff4e5; color: #8a5a00; }
+.cu-pill.is-ended { background: #f1f3f6; color: #5b6b80; }
+.cu-act { display: flex; justify-content: flex-end; }
+.cu-act a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 36px;
+  padding: 0 0.9rem;
+  border: 1px solid #c7d4e6;
+  border-radius: 999px;
+  color: #1e3a5f;
+  font-weight: 700;
+  text-decoration: none;
+}
+.cu-row:hover .cu-act a { border-color: #1d4ed8; color: #1d4ed8; }
+
+/* Tablet / phone: no header; each row is a compact stacked block. */
+@media (max-width: 900px) {
+  .cu { padding: 0.9rem; }
+  .cu-head { display: none; }
+  .cu-bar .cu-search { flex: 1 1 100%; max-width: none; }
+  .cu-bar select { flex: 1 1 0; min-width: 0; max-width: none; }
+  .cu-bar .cu-export { margin-left: auto; }
+  .cu-row,
+  .cu.has-check .cu-row {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    grid-template-areas:
+      "who who state"
+      "phone area area"
+      "plan plan next"
+      "mgr mgr act";
+    gap: 0.35rem 0.75rem;
+    padding: 0.75rem 0.25rem;
+  }
+  .cu.has-check .cu-row {
+    grid-template-columns: 1.4rem auto minmax(0, 1fr) auto;
+    grid-template-areas:
+      "check who who state"
+      ". phone area area"
+      ". plan plan next"
+      ". mgr mgr act";
+  }
+  .cu-check { grid-area: check; }
+  .cu-who { grid-area: who; }
+  .cu-state { grid-area: state; justify-self: end; }
+  .cu-phone { grid-area: phone; }
+  .cu-area { grid-area: area; color: #5b6b80; }
+  .cu-plan { grid-area: plan; flex-direction: row; align-items: center; flex-wrap: wrap; gap: 0.4rem; }
+  .cu-next { grid-area: next; justify-self: end; font-size: 0.88rem; }
+  .cu-mgr { grid-area: mgr; font-size: 0.88rem; }
+  .cu-act { grid-area: act; }
+  .cu-mgr[data-label]::before,
+  .cu-next[data-label]::before {
+    content: attr(data-label) ": ";
+    color: #5b6b80;
+  }
+}
+@media (max-width: 480px) {
+  .cu-bar select { flex: 1 1 calc(50% - 0.3rem); }
+  .cu-next[data-label]::before { content: "Next: "; }
+  .cu-mgr[data-label]::before { content: "CM: "; }
+}

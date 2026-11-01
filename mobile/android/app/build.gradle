@@ -1,0 +1,98 @@
+apply plugin: 'com.android.application'
+
+android {
+    // Java package of the shared code; each flavor below sets its own applicationId.
+    namespace "com.kushalaya.app"
+    compileSdk rootProject.ext.compileSdkVersion
+    buildFeatures {
+        buildConfig true
+    }
+    defaultConfig {
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode 4
+        versionName "1.3"
+        aaptOptions {
+             // Files and dirs to omit from the packaged assets dir, modified to accommodate modern web apps.
+             // Default: https://android.googlesource.com/platform/frameworks/base/+/282e181b58cf72b6ca770dc7ca5f91f135444502/tools/aapt/AaptAssets.cpp#61
+            ignoreAssetsPattern '!.svn:!.git:!.ds_store:!*.scc:.*:!CVS:!thumbs.db:!picasa.ini:!*~'
+        }
+    }
+    // Two apps from one code base (see mobile/README.md).
+    flavorDimensions "app"
+    productFlavors {
+        ops {
+            dimension "app"
+            applicationId "com.kushalaya.ops"
+            resValue "string", "app_name", "KushAlaya Ops"
+            resValue "string", "title_activity_main", "Ops"  // home-screen label; the logo says KushAlaya
+            resValue "string", "package_name", "com.kushalaya.ops"
+            resValue "string", "custom_url_scheme", "com.kushalaya.ops"
+            buildConfigField "String", "APP_KIND", '"ops"'
+            buildConfigField "String", "SERVER_URL", '"https://ops.kushalaya.com"'
+        }
+        family {
+            dimension "app"
+            applicationId "com.kushalaya.family"
+            resValue "string", "app_name", "KushAlaya Family"
+            resValue "string", "title_activity_main", "Family"
+            resValue "string", "package_name", "com.kushalaya.family"
+            resValue "string", "custom_url_scheme", "com.kushalaya.family"
+            buildConfigField "String", "APP_KIND", '"family"'
+            buildConfigField "String", "SERVER_URL", '"https://family.kushalaya.com"'
+        }
+    }
+    // Release signing: android/keystore.properties (never committed), see README.
+    def ksFile = rootProject.file("keystore.properties")
+    signingConfigs {
+        release {
+            if (ksFile.exists()) {
+                def ks = new Properties()
+                ks.load(new FileInputStream(ksFile))
+                storeFile file(ks["storeFile"])
+                storePassword ks["storePassword"]
+                keyAlias ks["keyAlias"]
+                keyPassword ks["keyPassword"]
+            }
+        }
+    }
+    buildTypes {
+        release {
+            if (ksFile.exists()) {
+                signingConfig signingConfigs.release
+            }
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+repositories {
+    flatDir{
+        dirs '../capacitor-cordova-android-plugins/src/main/libs', 'libs'
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation "androidx.appcompat:appcompat:$androidxAppCompatVersion"
+    implementation "androidx.coordinatorlayout:coordinatorlayout:$androidxCoordinatorLayoutVersion"
+    implementation "androidx.core:core-splashscreen:$coreSplashScreenVersion"
+    implementation project(':capacitor-android')
+    // SOS alarm pushes (FCM). Works only once google-services.json is in app/.
+    implementation platform("com.google.firebase:firebase-bom:33.5.1")
+    implementation "com.google.firebase:firebase-messaging"
+    implementation "androidx.core:core:$androidxCoreVersion"
+    implementation project(':capacitor-cordova-android-plugins')
+}
+
+apply from: 'capacitor.build.gradle'
+
+try {
+    def servicesJSON = file('google-services.json')
+    if (servicesJSON.text) {
+        apply plugin: 'com.google.gms.google-services'
+    }
+} catch(Exception e) {
+    logger.info("google-services.json not found, google-services plugin not applied. Push Notifications won't work")
+}

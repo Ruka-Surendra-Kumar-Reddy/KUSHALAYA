@@ -1,0 +1,98 @@
+/* Family: approved AI room previews (FamilyAiPreviews.tsx). fh-* tokens from family-portal.css. */
+.fh-ap-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 1rem;
+}
+.fh-ap-card {
+  background: var(--fh-surface, #fff);
+  border: 1px solid var(--fh-line, #dfe6ec);
+  border-radius: var(--fh-radius, 14px);
+  box-shadow: var(--fh-shadow, none);
+  padding: 0.9rem;
+  min-width: 0;
+}
+.fh-ap-title {
+  margin: 0 0 0.6rem;
+  color: var(--fh-navy, #0f2a3a);
+  font-size: 1rem;
+}
+.fh-ap-wait {
+  aspect-ratio: 4 / 3;
+  border-radius: var(--fh-radius-sm, 10px);
+  background: var(--fh-blue-soft, #e8f1fa);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--fh-muted, #5b6b7a);
+}
+.fh-ap-items {
+  list-style: none;
+  margin: 0.8rem 0 0;
+  padding: 0;
+}
+.fh-ap-items li {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 0.6rem;
+  align-items: center;
+  padding: 0.45rem 0;
+  border-bottom: 1px solid var(--fh-line, #e6ecf1);
+}
+.fh-ap-n {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--fh-blue, #1d6fb8);
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.fh-ap-name {
+  color: var(--fh-ink, #1b2a36);
+  overflow-wrap: anywhere;
+}
+.fh-ap-price {
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+.fh-ap-total {
+  display: flex;
+  justify-content: space-between;
+  margin: 0.6rem 0 0;
+  color: var(--fh-navy, #0f2a3a);
+}
+.fh-ap-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.9rem;
+}
+.fh-ap-actions button {
+  min-height: 44px;
+}
+.fh-ap-actions .primary {
+  flex: 1 1 100%;
+}
+.fh-ap-ok {
+  flex: 1 1 100%;
+  margin: 0;
+  padding: 0.6rem 0.8rem;
+  border-radius: var(--fh-radius-sm, 10px);
+  background: var(--fh-green-soft, #e6f4ea);
+  color: var(--fh-green-deep, #1e6b3a);
+}
+.fh-ap-err {
+  color: var(--fh-danger, #b42318);
+  margin: 0.5rem 0 0;
+}
+.fh-ap-note {
+  font-size: 0.8rem;
+  color: var(--fh-muted, #5b6b7a);
+  margin: 0.7rem 0 0;
+}

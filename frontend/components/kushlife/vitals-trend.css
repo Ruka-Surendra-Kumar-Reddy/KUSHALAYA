@@ -1,0 +1,66 @@
+/* Vitals trend (VitalsTrend.tsx) and KushLife quality bits (ops client page, dashboard, family). */
+.vt {
+  --vt-a: #2563eb;
+  --vt-b: #d97706;
+  --vt-ink: #334155;
+  --vt-muted: #64748b;
+  --vt-line: #e2e8f0;
+  --vt-surface: #fff;
+  display: grid;
+  gap: 0.5rem;
+}
+.vt h3 { margin: 0; font-size: 1rem; }
+.vt-muted, .kq-muted { color: var(--vt-muted, #64748b); font-size: 0.85rem; margin: 0; }
+.vt-grid-wrap { display: grid; gap: 0.75rem; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+.vt-chart { margin: 0; min-width: 0; }
+.vt-chart figcaption { display: flex; flex-wrap: wrap; gap: 0.25rem 0.6rem; align-items: baseline; font-size: 0.85rem; color: var(--vt-ink); }
+.vt-chart figcaption small { color: var(--vt-muted); }
+.vt-legend { display: inline-flex; gap: 0.6rem; color: var(--vt-muted); font-size: 0.78rem; }
+.vt-swatch { display: inline-block; width: 12px; height: 2px; margin-right: 4px; vertical-align: middle; background: var(--vt-a); }
+.vt-swatch.is-b { background: var(--vt-b); }
+.vt-swatch.is-normal { background: none; border-top: 2px dashed #94a3b8; height: 0; }
+.vt svg { width: 100%; height: auto; display: block; touch-action: pan-y; }
+.vt-grid { stroke: var(--vt-line); stroke-width: 1; }
+.vt-axis { fill: var(--vt-muted); font-size: 9px; }
+.vt-normal { stroke: #94a3b8; stroke-width: 1.5; stroke-dasharray: 4 3; }
+.vt-series path { fill: none; stroke: var(--vt-a); stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
+.vt-series circle { fill: var(--vt-a); stroke: var(--vt-surface); stroke-width: 2; }
+.vt-series.is-b path { stroke: var(--vt-b); }
+.vt-series.is-b circle { fill: var(--vt-b); }
+.vt-label { fill: var(--vt-ink); font-size: 9px; font-weight: 600; }
+.vt-cross { stroke: #94a3b8; stroke-width: 1; }
+.vt-hit { fill: transparent; cursor: crosshair; }
+.vt-tip { margin: 0.2rem 0 0; font-size: 0.8rem; color: var(--vt-ink); }
+.vt-table summary { cursor: pointer; font-size: 0.85rem; color: var(--vt-muted); }
+.vt-table table { width: 100%; border-collapse: collapse; font-size: 0.85rem; margin-top: 0.4rem; }
+.vt-table th, .vt-table td { text-align: left; padding: 0.25rem 0.4rem; border-bottom: 1px solid var(--vt-line); }
+
+/* Quality numbers, letters, voice notes, feedback */
+.kq { display: grid; gap: 0.9rem; margin-top: 1rem; }
+.kq-tiles { display: grid; gap: 0.5rem; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); }
+.kq-tile { border: 1px solid #e2e8f0; border-radius: 10px; padding: 0.55rem 0.7rem; background: #fff; }
+.kq-tile strong { display: block; font-size: 1.3rem; color: #0f172a; }
+.kq-tile span { font-size: 0.78rem; color: #64748b; }
+.kq-row { border-top: 1px solid #e2e8f0; padding-top: 0.6rem; display: grid; gap: 0.4rem; }
+.kq-row textarea { width: 100%; min-width: 0; box-sizing: border-box; font: inherit; }
+.kq-actions { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; }
+.kq-voice { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; }
+.kq-voice audio { max-width: 100%; height: 36px; }
+.kq-status { font-size: 0.75rem; font-weight: 700; padding: 0.1rem 0.45rem; border-radius: 999px; background: #eef2f7; color: #334155; }
+.kq-status.is-amber { background: #fef3c7; color: #92400e; }
+.kq-status.is-red { background: #fee2e2; color: #991b1b; }
+.kq-nps { display: grid; gap: 0.5rem; }
+.kq-nps-scale { display: grid; grid-template-columns: repeat(11, minmax(0, 1fr)); gap: 3px; }
+.kq-nps-scale button { min-height: 44px; min-width: 0; padding: 0; border: 1px solid #cbd5e1; border-radius: 8px; background: #fff; color: #0f172a; font: inherit; font-weight: 700; font-size: 0.95rem; line-height: 1; cursor: pointer; }
+.kq-nps-scale button:hover { background: #eef5f1; color: #0f172a; }
+.kq-nps-scale button[aria-pressed="true"] { background: #1f5f4a; border-color: #1f5f4a; color: #fff; }
+.kq-nps-ends { display: flex; justify-content: space-between; font-size: 0.75rem; color: #64748b; }
+.kq-letter { display: grid; gap: 0.7rem; }
+.kq-letter h2, .kq-letter h3 { margin: 0; }
+.kq-letter p { margin: 0; line-height: 1.55; white-space: pre-wrap; }
+@media (max-width: 420px) {
+  .kq-nps-scale button { font-size: 0.85rem; border-radius: 6px; }
+}
+@media print {
+  .kq-noprint { display: none !important; }
+}

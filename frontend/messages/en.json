@@ -1,0 +1,299 @@
+{
+  "pages": {
+    "elders": {
+      "title": "Elders",
+      "subtitle": "Clients receiving care",
+      "addElder": "Add elder"
+    },
+    "assignments": {
+      "title": "Assignments",
+      "subtitle": "Link caregivers to elders for visits and attendance"
+    },
+    "matching": {
+      "title": "Caregiver matching",
+      "subtitle": "Run recommendations and see how scores are calculated (rules-v1)"
+    },
+    "prospects": {
+      "title": "Pipeline",
+      "subtitle": "Client and caregiver recruitment prospects",
+      "newProspect": "New prospect"
+    },
+    "documents": {
+      "title": "Documents",
+      "subtitle": "Upload and verify identity & compliance documents"
+    },
+    "scheduling": {
+      "title": "Scheduling",
+      "subtitle": "WorkforceOS shift planning — auto-schedule, coverage, and visit list"
+    },
+    "attendance": {
+      "title": "Attendance",
+      "subtitle": "Geofence-verified caregiver visits",
+      "openSimulator": "Open simulator",
+      "scanMissedArrivals": "Scan missed arrivals"
+    },
+    "attendanceSimulator": {
+      "title": "Attendance simulator",
+      "subtitle": "Simulate caregiver mobile GPS check-in and check-out"
+    },
+    "payroll": {
+      "title": "Payroll",
+      "subtitle": "Pay runs from verified attendance"
+    },
+    "billing": {
+      "title": "Billing",
+      "subtitle": "Client invoices from attendance"
+    },
+    "serviceRequests": {
+      "title": "Service requests",
+      "subtitle": "Family portal scheduling and service requests from elders and families"
+    },
+    "monitoring": {
+      "title": "Monitoring",
+      "subtitle": "Camera events, safety alerts, and incidents"
+    },
+    "monitoringAlerts": {
+      "title": "Alerts",
+      "subtitle": "Fall, no-movement, and high-severity camera events"
+    },
+    "monitoringEvents": {
+      "title": "Camera events",
+      "subtitle": "Motion, fall, door, and no-movement events"
+    },
+    "monitoringIncidents": {
+      "title": "Incidents",
+      "subtitle": "Safety and care incidents"
+    },
+    "monitoringNotifications": {
+      "title": "Alert delivery log",
+      "subtitle": "Auditable record of notifications (SMS/email logged until providers are connected)"
+    },
+    "monitoringConfig": {
+      "title": "Monitoring settings",
+      "subtitle": "Zones, alerting channels, and incident rules (tenant-scoped)"
+    },
+    "users": {
+      "title": "Users",
+      "subtitle": "Admins, managers and caregivers"
+    },
+    "settings": {
+      "title": "Settings",
+      "subtitle": "Notifications, website, business details, privacy and security",
+      "subtitleManager": "Notifications, website and activity log"
+    },
+    "tenants": {
+      "title": "Super admin · Tenants",
+      "subtitle": "Manage agencies on the platform"
+    }
+  },
+  "nav": {
+    "groups": {
+      "liveWellSales": "Sales",
+      "liveWellCustomersGroup": "Customers",
+      "liveWell": "KushAlaya",
+      "liveWellCare": "Care delivery",
+      "liveWellCareDelivery": "Care",
+      "liveWellCatalog": "Products & assessments",
+      "liveWellNetwork": "Partner network",
+      "liveWellPlatform": "Devices",
+      "liveWellPeople": "People & documents",
+      "liveWellToday": "Today",
+      "liveWellGrowth": "Growth",
+      "liveWellBusiness": "Business",
+      "liveWellSetup": "Team & setup"
+    },
+    "items": {
+      "liveWellCustomers": "Customers",
+      "liveWellAssessments": "Assessments",
+      "liveWellPipeline": "Pipeline",
+      "liveWellRecruits": "Leads & recruits",
+      "liveWellVisits": "Visits",
+      "liveWellFamily": "Family portal",
+      "liveWellCatalog": "Products",
+      "liveWellChecklist": "Assessment questions",
+      "liveWellSolutions": "Solution library",
+      "liveWellPricing": "Pricing",
+      "liveWellPartners": "Partners",
+      "liveWellActivity": "Session activity",
+      "liveWellSuppliers": "Vendors",
+      "liveWellMasterData": "Master data",
+      "liveWellAiJobs": "AI visualizations",
+      "liveWellIotDevices": "Wearables",
+      "liveWellAlerts": "SOS & alerts",
+      "liveWellFamilyMessages": "Messages",
+      "liveWellCoupons": "Coupons",
+      "liveWellBlog": "Blog",
+      "liveWellEnquiries": "Operations",
+      "liveWellVendors": "Vendors",
+      "liveWellHiring": "Hiring",
+      "liveWellOwner": "Owner dashboard",
+      "liveWellInvoices": "Invoices",
+      "liveWellTeam": "Team"
+    }
+  },
+  "dashboard": {
+    "safeHomeOps": "KushAlaya operations",
+    "safeHomeOpsBlurb": "Care delivery → visits & check-ins; catalog and platform tools when you need them.",
+    "liveWellOps": "KushAlaya operations",
+    "liveWellOpsBlurb": "Start in Care delivery (clients → assessments → visits), then Catalog & quotes or Platform tools as needed.",
+    "todayWork": "Today’s work",
+    "heroSub": "Here is what needs your attention today",
+    "apps": "Apps",
+    "open": "Open",
+    "cardClients": "Clients",
+    "cardClientsHint": "People in care",
+    "cardAssessments": "Assessments",
+    "cardAssessmentsHint": "{total} total",
+    "cardAssessmentsHintEmpty": "Open drafts",
+    "cardVisits": "Visits & check-ins",
+    "cardVisitsHint": "{total} logged",
+    "cardVisitsHintEmpty": "Logged today",
+    "cardCatalog": "Catalog",
+    "cardCatalogHint": "Services, products, packages",
+    "openAssessor": "Open assessor app",
+    "openFamily": "Open family portal",
+    "quickAccess": "Quick access",
+    "pipelinePeople": "Pipeline & apps",
+    "assessorApp": "Assessments →",
+    "familyApp": "Family portal →",
+    "criticalAlerts": "Critical alerts (24h)",
+    "openIncidents": "Open incidents",
+    "pendingDocuments": "Pending documents",
+    "checkInsToday": "Check-ins today",
+    "workforcePlacement": "Workforce & placement",
+    "workforceBlurb": "Utilization, bench, marketplace, and Copilot are on one screen.",
+    "commandCenter": "Workforce command center",
+    "benchInventory": "Bench inventory",
+    "elderMatching": "Elder matching",
+    "recruitmentPipeline": "Recruitment pipeline",
+    "careDelivery": "Care delivery",
+    "safetyCompliance": "Safety & compliance",
+    "monitoringAlerts": "Monitoring & alerts",
+    "reviewDocuments": "Review documents",
+    "finance": "Finance",
+    "cleaningOps": "Cleaning operations",
+    "cleaningSales": "Sales & customers",
+    "residentialCleaning": "Residential cleaning jobs",
+    "workforceCompliance": "Workforce & compliance",
+    "teamOperations": "Team operations",
+    "workforceCta": "Workforce command center →",
+    "executiveCta": "Executive Command Center →"
+  },
+  "workforce": {
+    "placementActions": "Placement actions:",
+    "matchElder": "Match caregivers to an elder",
+    "viewAssignments": "View assignments",
+    "alerts": "Operational alerts",
+    "activeWorkforce": "Active workforce",
+    "onBench": "On bench",
+    "utilization": "Utilization",
+    "deploymentReady": "Deployment ready (bench)",
+    "eldersUnassigned": "Elders unassigned",
+    "placementsThisMonth": "Placements this month",
+    "placementVelocity": "Placement velocity",
+    "assignmentsStarted": "Assignments started",
+    "thisMonth": "this month",
+    "lastMonth": "last month",
+    "placementStarts": "Placement starts",
+    "recruitmentFunnel": "Recruitment funnel",
+    "stage": "Stage",
+    "count": "Count",
+    "fullPipeline": "Full pipeline",
+    "benchSummary": "Bench summary",
+    "totalBench": "Total bench",
+    "openBench": "Open bench inventory",
+    "todayOps": "Today's operations",
+    "agencyDashboard": "Agency dashboard",
+    "dataAsOf": "Data as of",
+    "benchIntro": "Caregivers active but not on an assignment. For employability ranking across all caregivers, use the Marketplace tab.",
+    "totalBenchKpi": "Total bench",
+    "avgBenchDays": "Avg bench days",
+    "category": "Category",
+    "readiness": "Readiness",
+    "benchDays": "Bench days",
+    "city": "City",
+    "gaps": "Gaps",
+    "noBench": "No caregivers on bench for this filter.",
+    "marketplaceIntro": "Ranked by employability for proactive placement. For unassigned caregivers and bench aging, use the Bench tab.",
+    "filters": "Filters",
+    "minReadiness": "Min readiness",
+    "band": "Band",
+    "qpOnly": "Verified DWC/Q0801 only",
+    "caregiver": "Caregiver",
+    "employability": "Employability",
+    "experience": "Experience",
+    "languages": "Languages",
+    "noMarketplace": "No caregivers match filters. Click Apply to search.",
+    "copilotSuggest": "Suggested questions",
+    "copilotAsk": "Ask a question",
+    "copilotPlaceholder": "e.g. Why are placements down this month?",
+    "copilotThinking": "Thinking…",
+    "copilotSubmit": "Ask Copilot",
+    "copilotAnswer": "Answer",
+    "copilotAzureHint": "Azure OpenAI is not configured. Set AZURE_OPENAI_* on the API server for full AI answers.",
+    "categories": {
+      "READY": "Deployment ready",
+      "AWAITING_PLACEMENT": "Placement ready",
+      "VERIFICATION": "Verification",
+      "TRAINING": "Training required",
+      "RESTRICTED": "Restricted"
+    }
+  },
+  "auth": {
+    "loginTitle": "KushAlaya",
+    "loginSubtitle": "Staff sign-in",
+    "showPassword": "Show password",
+    "hidePassword": "Hide password",
+    "emailRequired": "Enter your email address.",
+    "emailInvalid": "Enter a valid email address.",
+    "passwordRequired": "Enter your password.",
+    "invalidCredentials": "Email or password is incorrect. Please try again.",
+    "tooManyAttempts": "Too many sign-in attempts. Try again in 15 minutes, or reset your password.",
+    "signingIn": "Signing in…"
+  },
+  "settings": {
+    "languageSection": "Language",
+    "brandingSection": "Portal branding",
+    "workforceEconomics": "Workforce economics",
+    "benchCostLabel": "Bench cost per caregiver (₹ / month)",
+    "benchCostHint": "Used in Executive Command Center to estimate monthly bench carrying cost. Default ₹15,000.",
+    "saveBranding": "Save settings",
+    "saveBenchCost": "Save bench cost"
+  },
+  "executive": {
+    "criticalAlerts": "Critical alerts",
+    "recommendedAction": "Recommended action",
+    "workforceKpis": "Executive KPIs",
+    "totalWorkforce": "Total workforce",
+    "activeWorkforce": "Active (assigned)",
+    "benchWorkforce": "On bench",
+    "readyDeploy": "Ready to deploy",
+    "placementReady": "Placement ready",
+    "inTraining": "In training / verification",
+    "utilization": "Workforce utilization",
+    "target": "Target",
+    "benchIntel": "Bench intelligence",
+    "benchEmpty": "No workers on bench — carrying cost is zero.",
+    "placementIntel": "Placement intelligence",
+    "recruitmentFunnel": "Recruitment funnel",
+    "demandForecast": "Demand forecast (30 days)",
+    "readiness": "Workforce readiness",
+    "attrition": "Attrition intelligence",
+    "financial": "Financial intelligence",
+    "cityOps": "City operations",
+    "marketplace": "Marketplace intelligence",
+    "aiInsights": "AI workforce insights",
+    "scorecard": "Executive scorecard",
+    "copilot": "Executive Copilot",
+    "workforceLink": "Workforce command center",
+    "heuristicNote": "Forecast uses heuristic v1 from open demand signals.",
+    "proxyNote": "Avg. time to placement uses avg. bench days as proxy until placement analytics ship."
+  },
+  "scheduling": {
+    "upcomingVisits": "Upcoming visits",
+    "elder": "Elder",
+    "caregiver": "Caregiver",
+    "noVisits": "No visits scheduled. Generate from assignments above.",
+    "generateVisits": "Generate visits"
+  }
+}

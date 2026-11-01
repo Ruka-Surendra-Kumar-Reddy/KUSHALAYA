@@ -1,0 +1,25 @@
+{
+  "_comment": "Merge into workforceos-core/contracts/verticals.json",
+  "validVerticals_add": ["SAFEHOME360"],
+  "verticalLabels": {
+    "SAFEHOME360": "SafeHome 360™"
+  },
+  "packs": {
+    "SAFEHOME360": {
+      "features": [
+        "home_safety",
+        "customer_spine",
+        "elder_prospects",
+        "communications",
+        "documents",
+        "prospects",
+        "workflows",
+        "subscriptions"
+      ]
+    }
+  },
+  "elder_care_optional_remove": {
+    "_comment": "After SafeHomeOps is live, remove home_safety from ELDER_CARE.features if ElderCare no longer embeds SafeHome",
+    "feature": "home_safety"
+  }
+}

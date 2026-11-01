@@ -1,0 +1,171 @@
+/* No-login contract signing page (/sign/<token> on the family site). Phone first. */
+.sg-page {
+  min-height: 100vh;
+  margin: 0 auto;
+  max-width: 760px;
+  padding: 16px 16px 88px; /* clear the fixed copyright footer */
+  display: grid;
+  align-content: start;
+  gap: 14px;
+  background: #f4f7fb;
+  color: #10243a;
+  box-sizing: border-box;
+}
+.sg-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.sg-logo {
+  height: 48px;
+  width: auto;
+}
+.sg-tag {
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: #fff4dc;
+  color: #8a5a00;
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.sg-tag.is-signed {
+  background: #e7f6ec;
+  color: #1d6b3a;
+}
+.sg-card {
+  display: grid;
+  gap: 10px;
+  padding: 18px;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 6px 24px -18px rgba(16, 36, 58, 0.45);
+  min-width: 0;
+}
+.sg-card h1 {
+  margin: 0;
+  font-size: 1.3rem;
+}
+.sg-h2 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+.sg-kicker {
+  margin: 0;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #5b6b80;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.sg-muted {
+  margin: 0;
+  color: #5b6b80;
+}
+.sg-text {
+  max-height: 60vh;
+  overflow-y: auto;
+  padding: 14px;
+  border: 1px solid #dde5ee;
+  border-radius: 12px;
+  background: #fbfcfe;
+  overscroll-behavior: contain;
+}
+.sg-done {
+  display: grid;
+  gap: 8px;
+  padding: 14px;
+  border-radius: 12px;
+  background: #e7f6ec;
+}
+.sg-done h1 {
+  color: #1d6b3a;
+}
+.sg-done p {
+  margin: 0;
+}
+.sg-done button {
+  justify-self: start;
+}
+.sg-blocks {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+@media (max-width: 520px) {
+  .sg-blocks {
+    grid-template-columns: 1fr;
+  }
+}
+.sg-block {
+  display: grid;
+  gap: 6px;
+  align-content: start;
+  padding: 12px;
+  border: 1px solid #dde5ee;
+  border-radius: 12px;
+  min-width: 0;
+}
+.sg-block.is-empty {
+  border-style: dashed;
+  background: #fbfcfe;
+}
+.sg-block-head {
+  margin: 0;
+  font-weight: 800;
+}
+.sg-block-sig {
+  min-height: 64px;
+  display: flex;
+  align-items: center;
+}
+.sg-block-who {
+  margin: 0;
+  font-size: 0.9rem;
+}
+.sg-form {
+  gap: 14px;
+}
+.sg-field {
+  display: grid;
+  gap: 6px;
+  font-weight: 700;
+}
+.sg-field input {
+  font-size: 1rem;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #c8d3df;
+}
+.sg-agree {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  font-weight: 600;
+}
+.sg-agree input {
+  width: 22px;
+  height: 22px;
+  flex: none;
+  margin-top: 1px;
+}
+.sg-sign {
+  min-height: 52px;
+  font-size: 1.1rem;
+  font-weight: 800;
+}
+.sg-small {
+  margin: 0;
+  font-size: 0.8rem;
+  color: #5b6b80;
+}
+.sg-error {
+  margin: 0;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: #fdecec;
+  color: #9b1c1c;
+  font-weight: 600;
+}

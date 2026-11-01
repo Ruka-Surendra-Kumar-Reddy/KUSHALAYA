@@ -1,0 +1,423 @@
+/* Weekly roster, repeating visits, leave and cover (rs-*). Builds on schedule.css. */
+
+.rs-weeknav {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 1rem 0 0.6rem;
+}
+
+.rs-grid {
+  padding: 0;
+  overflow-x: auto;
+}
+
+.rs-row {
+  display: grid;
+  grid-template-columns: 9.5rem repeat(7, minmax(7.5rem, 1fr));
+  border-top: 1px solid #e3e9f1;
+  min-width: 62rem;
+}
+
+.rs-row.rs-head {
+  border-top: 0;
+  background: #f4f7fb;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #4b5b70;
+}
+
+.rs-row > div {
+  padding: 0.45rem;
+  border-left: 1px solid #eef2f7;
+  min-width: 0;
+}
+
+.rs-row.rs-head .is-today {
+  color: #0e2a4f;
+  background: #e2ecf8;
+}
+
+.rs-name {
+  font-weight: 700;
+  color: #0e2a4f;
+  border-left: 0 !important;
+}
+
+.rs-row.is-unassigned {
+  background: #fff8ec;
+}
+
+.rs-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  min-height: 2.4rem;
+}
+
+.rs-cell.is-leave.is-approved {
+  background: repeating-linear-gradient(45deg, #fdf0f0, #fdf0f0 6px, #fff 6px, #fff 12px);
+  border-radius: 8px;
+}
+
+.rs-cell.is-leave.is-pending {
+  background: #fdf8ea;
+  border-radius: 8px;
+}
+
+.rs-leave {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #9a3b3b;
+}
+
+.ko-main .rs-chip {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0 0.25rem;
+  min-height: 0;
+  width: 100%;
+  padding: 0.3rem 0.45rem;
+  border: 1px solid #cfdcec;
+  border-left: 3px solid #2f6db5;
+  border-radius: 8px;
+  background: #fff;
+  color: #10243a;
+  box-shadow: none;
+  font-size: 0.76rem;
+  font-weight: 500;
+  text-align: left;
+  cursor: default;
+}
+
+.ko-main .rs-chip.is-series {
+  cursor: pointer;
+}
+
+.ko-main .rs-chip.is-series:hover {
+  background: #f1f6fd;
+}
+
+.rs-chip strong {
+  font-weight: 700;
+}
+
+.rs-chip span {
+  grid-column: 1 / -1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.rs-chip small {
+  grid-row: 1;
+  grid-column: 2;
+  color: #2f6db5;
+}
+
+.ko-main .rs-chip.is-completed {
+  border-left-color: #2e8b57;
+  opacity: 0.75;
+}
+
+.ko-main .rs-chip.is-missed {
+  border-left-color: #c0392b;
+}
+
+.ko-main .rs-chip.is-on_the_way,
+.ko-main .rs-chip.is-checked_in {
+  border-left-color: #d68910;
+}
+
+.rs-days {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  border: 0;
+  padding: 0;
+  margin: 0;
+}
+
+.rs-days legend {
+  width: 100%;
+  margin-bottom: 0.3rem;
+}
+
+.ko-main .rs-days button {
+  min-height: 2.75rem;
+  min-width: 3.2rem;
+  padding: 0.3rem 0.6rem;
+  border: 1px solid #cfdcec;
+  background: #fff;
+  color: #0e2a4f;
+  box-shadow: none;
+}
+
+.ko-main .rs-days button.is-on {
+  background: #0e2a4f;
+  border-color: #0e2a4f;
+  color: #fff;
+}
+
+.rs-clashes,
+.rs-edit,
+.rs-series,
+.rs-affected {
+  margin-top: 1rem;
+}
+
+.rs-clashes {
+  border-left: 4px solid #d68910;
+}
+
+.rs-clashes h3,
+.rs-edit h3,
+.rs-series h3,
+.rs-affected h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1rem;
+}
+
+.rs-series ul,
+.rs-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.rs-series li,
+.rs-list > li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.55rem 0;
+  border-top: 1px solid #eef2f7;
+}
+
+.rs-warn {
+  color: #9a5b00;
+  font-style: normal;
+}
+
+.rs-phone {
+  display: none;
+}
+
+.rs-phone label {
+  display: grid;
+  gap: 0.25rem;
+  margin-bottom: 0.6rem;
+}
+
+.rs-phone .sc-tabs {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 2px;
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 0.6rem;
+}
+
+.ko-main .rs-phone .rs-daytabs button {
+  display: grid;
+  justify-items: center;
+  gap: 0;
+  min-width: 0;
+  min-height: 44px;
+  padding: 0.3rem 0;
+  font-size: 0.72rem;
+  line-height: 1.2;
+}
+
+.rs-daytabs button strong {
+  font-size: 0.95rem;
+}
+
+.ko-main .rs-phone .rs-daytabs button.is-today:not(.is-on) {
+  color: #2f6db5;
+}
+
+/* Leave and cover */
+.rs-badge {
+  display: inline-block;
+  padding: 0.1rem 0.5rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  background: #e8edf4;
+  color: #4b5b70;
+}
+
+.rs-badge.is-approved {
+  background: #e3f4ea;
+  color: #1e6b42;
+}
+
+.rs-badge.is-pending {
+  background: #fdf3dc;
+  color: #8a5a00;
+}
+
+.rs-badge.is-rejected,
+.rs-badge.is-cancelled {
+  background: #f6e6e6;
+  color: #8f2f2f;
+}
+
+.rs-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.rs-visit {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.rs-visit input[type="checkbox"] {
+  width: 1.2rem;
+  height: 1.2rem;
+}
+
+.rs-suggest {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.rs-bulk {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 0.6rem;
+  margin-top: 0.75rem;
+}
+
+.rs-bulk label {
+  display: grid;
+  gap: 0.25rem;
+}
+
+@media (max-width: 760px) {
+  .rs-grid {
+    display: none;
+  }
+
+  .rs-phone {
+    display: block;
+  }
+
+  .rs-visit {
+    grid-template-columns: auto 1fr;
+  }
+}
+
+/* Another manager's caregiver covering our visit: blue-grey, not "Not assigned" amber. */
+.rs-row.is-other-team {
+  background: #f3f5fa;
+}
+
+.rs-row.is-other-team .rs-name {
+  font-weight: 600;
+  font-style: italic;
+  color: #4b5b70;
+}
+
+/* One-off and past visits link to Schedule. */
+.ko-main a.rs-chip.is-link {
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.ko-main a.rs-chip.is-link:hover {
+  background: #f1f6fd;
+}
+
+/* "End…" inline form for repeating visits. */
+.rs-end {
+  flex-basis: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 0.5rem;
+}
+
+.rs-end label {
+  display: grid;
+  gap: 0.25rem;
+}
+
+.rs-end .sc-clash {
+  flex-basis: 100%;
+  margin: 0;
+}
+
+.rs-series a.rs-warn {
+  font-weight: 600;
+}
+
+/* Leave: visits to cover (checkbox | text | button, cover chips on their own line). */
+.rs-list > li.rs-visit {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  justify-content: stretch;
+  justify-items: start;
+  text-align: left;
+}
+
+.rs-visit-pick {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  margin: -0.4rem 0;
+  cursor: pointer;
+}
+
+.rs-list > li.rs-visit > .sc-step {
+  justify-self: end;
+}
+
+.rs-list > li.rs-visit .rs-suggest {
+  grid-column: 1 / -1;
+  justify-content: flex-start;
+  width: 100%;
+}
+
+.rs-note {
+  color: #8f2f2f;
+}
+
+@media (max-width: 760px) {
+  .rs-list > li.rs-visit {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+  }
+}
+
+/* Week navigation: ‹ › and "This week" are real 44px targets on every screen. */
+.ko-main .rs-weeknav .sc-step,
+.ko-main .rs-weeknav .sc-text {
+  min-height: 44px;
+  min-width: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.ko-main .rs-weeknav .sc-step { font-size: 1.1rem; }
+.ko-main .rs-weeknav .sc-text { padding: 0 0.6rem; }
+
+/* Visit booked while its caregiver is on approved leave. */
+.rs-cover {
+  font-style: normal;
+  font-size: 0.7rem;
+  font-weight: 800;
+  color: #b42318;
+}
+.ko-main .rs-chip:has(.rs-cover) { border-color: #e8a29a; background: #fdeeeb; }

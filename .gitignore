@@ -1,0 +1,53 @@
+__pycache__/
+*.pyc
+.scannerwork/
+.env
+backend/.env
+frontend/.env.local
+ops-web/.env.local
+.venv/
+venv/
+node_modules/
+.next/
+dist/
+build/
+coverage/
+.idea/
+.vscode/
+.DS_Store
+*.db
+uploads/
+backend/uploads/
+test_uploads/
+backups/
+*.zip
+workforceos-core/**/node_modules/
+workforceos-core/**/dist/
+workforceos-core/**/*.egg-info/
+
+# LiveWell IoT Mosquitto secrets / TLS material
+deploy/mqtt/passwd
+deploy/mqtt/.credentials
+deploy/mqtt/.credentials.app
+deploy/mqtt/lab/passwd
+deploy/mqtt/lab/.credentials.app
+deploy/mqtt/certs/
+backend/iot_ingestor.env
+
+# Terraform
+**/.terraform/
+*.tfstate
+*.tfstate.*
+terraform.tfvars
+.terraform.lock.hcl
+
+# Personal scratch notes (often contain live credentials)
+scratchpad.txt
+**/scratchpad.txt
+
+# Release tarballs/manifests built by scripts/release.sh
+releases/
+# Production SSH key (see CLAUDE.md -> Deploying). Never commit.
+_ssh/
+# Per-copy deploy settings written on the VM by install-staging.sh
+.deploy-env

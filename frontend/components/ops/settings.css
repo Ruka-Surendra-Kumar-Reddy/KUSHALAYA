@@ -1,0 +1,141 @@
+/* Settings home (app/(app)/settings/page.tsx) for Kushalaya. */
+
+.st-grid {
+  list-style: none;
+  margin: 0 0 1rem;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 0.85rem;
+}
+
+.ko-main .st-tile {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.45rem;
+  height: 100%;
+  box-sizing: border-box;
+  padding: 1rem 1.1rem;
+  border-radius: 16px;
+  border: 1px solid rgba(16, 36, 58, 0.08);
+  background: #fff;
+  color: #0e2a4f;
+  text-decoration: none;
+  box-shadow: 0 1px 2px rgba(16, 36, 58, 0.05);
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.ko-main .st-tile:hover {
+  border-color: #2f6fd6;
+  box-shadow: 0 6px 18px -10px rgba(16, 36, 58, 0.35);
+}
+
+/* Icon and title on one row; description under it; status chip at the bottom. */
+.st-tile-head {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  min-width: 0;
+}
+
+.st-ico {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 12px;
+  background: #e8f0fc;
+  font-size: 1.25rem;
+}
+
+.st-tile strong {
+  min-width: 0;
+  font-size: 1.02rem;
+  line-height: 1.3;
+}
+
+.st-tile .st-desc {
+  color: #64748b;
+  font-size: 0.86rem;
+  line-height: 1.4;
+}
+
+.st-lang {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.st-lang h2 {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.st-lang p {
+  margin: 0.2rem 0 0;
+  font-size: 0.85rem;
+}
+
+/* FIX 110: line icons from the menu set (components/ops/OpsShell.tsx). */
+.st-ico svg {
+  width: 22px;
+  height: 22px;
+  fill: none;
+  stroke: #1d5fb4;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.st-lang > div {
+  flex: 1 1 12rem;
+  min-width: 0;
+}
+
+/* Phone: one card per row, still icon + title + one line. */
+@media (max-width: 600px) {
+  .st-grid {
+    grid-template-columns: 1fr;
+    gap: 0.6rem;
+  }
+  .ko-main .st-tile {
+    padding: 0.85rem 0.9rem;
+    border-radius: 14px;
+  }
+  .st-ico {
+    width: 2.3rem;
+    height: 2.3rem;
+  }
+}
+
+/* Language card: "Language:" sits on the buttons' baseline and every option has a frame. */
+.ko-main .st-lang .locale-switcher {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+}
+.ko-main .st-lang .locale-switcher > span { line-height: 1; }
+.ko-main .st-lang .locale-switcher button.tab {
+  min-height: 44px;
+  padding: 0 1rem;
+  border: 1px solid rgba(16, 36, 58, 0.18);
+  border-radius: 10px;
+  background: #fff;
+  background-image: none;
+  color: #12305a;
+  box-shadow: none;
+}
+.ko-main .st-lang .locale-switcher button.tab.active {
+  background: #12305a;
+  border-color: #12305a;
+  color: #fff;
+}
+
+/* Round 4: setup status on hub tiles */
+.st-tile .st-status { align-self: flex-start; margin-top: auto; padding: 0.15rem 0.6rem; border-radius: 999px; font-style: normal; font-size: 0.78rem; font-weight: 800; }
+.st-tile .st-status.is-warn { background: #fdf1d8; color: #8a5a00; }
+.st-tile .st-status.is-ok { background: #e7f4dc; color: #3f6d12; }

@@ -1,0 +1,14 @@
+[Unit]
+Description=Kushalaya weekly restore test of the latest off-server backup
+Documentation=file:///opt/safehomeops/app/docs/BACKUP.md
+Wants=network-online.target
+After=network-online.target postgresql.service safehomeops-backup.service
+
+[Service]
+Type=oneshot
+EnvironmentFile=/etc/safehomeops/backup.env
+ExecStart=/usr/bin/bash /opt/safehomeops/app/scripts/backup/restore-test.sh
+Nice=10
+IOSchedulingClass=idle
+TimeoutStartSec=3h
+PrivateTmp=true

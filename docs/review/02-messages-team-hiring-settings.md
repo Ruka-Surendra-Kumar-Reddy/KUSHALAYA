@@ -1,0 +1,5 @@
+# Messages / Team / Hiring / Settings
+Messages P1: unread first (family_care_hub.py:958); don't auto-open+mark read newest thread (messages/page.tsx:43-55); mark unread; 60s/focus refresh. P2: context line (manager, next visit, open alerts), quick replies, Ctrl+Enter, attachments, search. P3 subtitle "Messages from families. Unread first."
+Team P1: ⋯ menu Edit / Change role / Reset password / Deactivate–Reactivate (backend PATCH /users/{id}, /deactivate, /reactivate exist users.py:31,42,52, unused); Status column. No staff password reset (only family team.py:416). P2: Clients column per manager, filter caregivers by manager; caregiver edit + "Mark as left" (no caregiver PATCH). P3 invite link.
+Hiring P2: hint "BLS & CPR, home safety basics" (not Raju, :35); replace window.prompt with reason chips; Back a step; "5 days here" tag. P3 search.
+Settings P1: heading "Notifications & SOS"; tile blurb "Who gets emails and SMS, and who is called in an SOS". P2: SMTP host under Advanced; move "Log a past visit" to Schedule. P3: non-admin "View only" banner.

@@ -1,0 +1,58 @@
+/* Phase 5B: owner dashboard, invoices, business details (od-*). */
+.od-bar { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; margin-bottom: 1rem; }
+.od-bar label { display: flex; gap: 0.5rem; align-items: center; font-weight: 600; }
+.od-links { display: inline-flex; flex-wrap: nowrap; gap: 1rem; white-space: nowrap; }
+.od-banner { border-left: 4px solid var(--warning, #d97706); margin-bottom: 1rem; }
+.od-grid { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); margin-bottom: 1rem; }
+.od-card { display: flex; flex-direction: column; gap: 0.35rem; min-width: 0; }
+.od-card h2 { font-size: 0.95rem; margin: 0; color: var(--muted, #6b7280); font-weight: 600; }
+.od-big { font-size: 1.6rem; font-weight: 700; line-height: 1.2; }
+.od-sub { font-size: 0.85rem; color: var(--muted, #6b7280); margin: 0; }
+.od-rows { list-style: none; margin: 0; padding: 0; font-size: 0.9rem; }
+.od-rows li { display: flex; justify-content: space-between; gap: 0.5rem; padding: 0.15rem 0; }
+.od-rows li span:last-child { font-variant-numeric: tabular-nums; font-weight: 600; }
+.od-exports { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.od-num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.od-form { display: grid; gap: 0.75rem; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); align-items: end; }
+.od-form label { display: flex; flex-direction: column; gap: 0.25rem; font-weight: 600; }
+.od-form label small { font-weight: 400; color: var(--muted, #6b7280); }
+.od-form .od-wide { grid-column: 1 / -1; }
+.od-table-wrap { overflow-x: auto; }
+
+/* Invoices: numbers never break; on phones each invoice is a small card. */
+.od-inv-table .od-inv-no { white-space: nowrap; }
+@media (max-width: 640px) {
+  .od-inv-table thead { display: none; }
+  .od-inv-table, .od-inv-table tbody, .od-inv-table tr, .od-inv-table td { display: block; width: 100%; }
+  .od-inv-table tr {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem 0.75rem;
+    padding: 0.75rem 0; border-bottom: 1px solid rgba(16, 36, 58, 0.08);
+  }
+  .od-inv-table td, .ko-main .table.od-inv-table td { padding: 0; border: 0; text-align: left; background: none; }
+  .od-inv-table td[data-label]::before {
+    content: attr(data-label); display: block; font-size: 0.72rem; color: var(--muted, #6b7280); font-weight: 600;
+  }
+  .od-inv-table td.od-num { text-align: left; }
+  .od-inv-table td[data-label="Type"], .od-inv-table td[data-label="Client"] { grid-column: 1 / -1; }
+  .od-inv-table td.od-inv-pdf { grid-column: 1 / -1; }
+  .od-inv-table td.od-inv-pdf button { width: 100%; }
+}
+/* FIX 110: Business details — labels and boxes top-aligned, hints under the box. */
+.od-form.is-top { align-items: start; }
+.od-form.is-top label small { order: 2; }
+/* FIX 110: month picker as a page action ("October 2026"). */
+.od-month { display: inline-flex; align-items: center; gap: 0.5rem; font-weight: 600; }
+.ko-main .od-month select { width: auto; min-height: 44px; }
+/* FIX 110: Invoices search + type filter. */
+.od-filter { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+.od-filter label { flex: 1 1 14rem; min-width: 0; }
+.od-filter label:last-child { flex: 0 1 16rem; }
+.ko-main .od-filter input, .ko-main .od-filter select { width: 100%; min-height: 44px; }
+.ko-main .od-inv-pdf button { min-height: 44px; }
+/* Ops clean-up (Oct 2026): filters in one row under the page header. */
+.od-filter-row { display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem; margin-bottom: 1rem; }
+.od-filter { margin-bottom: 1rem; }
+.ks-head-actions .ks-ha-icon svg { width: 20px; height: 20px; display: block; }
+@media (max-width: 640px) {
+  .od-filter label, .od-filter label:last-child { flex: 1 1 100%; }
+}

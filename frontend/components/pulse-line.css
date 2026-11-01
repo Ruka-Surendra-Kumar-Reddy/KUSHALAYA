@@ -1,0 +1,453 @@
+/* KushLife pulse — see components/PulseLine.tsx. Sits on the navy sign-in panels. */
+
+.pl {
+  position: relative;
+  width: 100%;
+  margin: 1.6rem 0 0;
+  padding: 1.1rem 1.15rem 1rem;
+  border-radius: 20px;
+  background: rgba(5, 18, 38, 0.55);
+  border: 1px solid rgba(127, 212, 255, 0.18);
+  box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.35), 0 24px 48px -24px rgba(0, 0, 0, 0.6);
+  color: #fff;
+}
+
+.pl-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.pl-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.pl-live {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: #8ab83e;
+  box-shadow: 0 0 0 0 rgba(138, 184, 62, 0.7);
+  animation: pl-live 1.6s ease-out infinite;
+}
+
+.pl-value {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.45rem;
+}
+
+.pl-value strong {
+  font-size: 1.9rem;
+  font-weight: 800;
+  line-height: 1;
+  color: #7fd4ff;
+  text-shadow: 0 0 14px rgba(127, 212, 255, 0.6);
+  font-variant-numeric: tabular-nums;
+}
+
+.pl-value em {
+  font-style: normal;
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+  background: rgba(138, 184, 62, 0.22);
+  color: #cfe6a6;
+}
+
+.pl-svg {
+  display: block;
+  width: 100%;
+  height: 110px;
+  margin: 0.6rem 0 0.2rem;
+  overflow: visible;
+}
+
+.pl-grid {
+  fill: none;
+  stroke: rgba(127, 212, 255, 0.08);
+  stroke-width: 1;
+}
+
+.pl-ghost {
+  fill: none;
+  stroke: rgba(127, 212, 255, 0.16);
+  stroke-width: 2;
+  stroke-linejoin: round;
+}
+
+/* A bright segment sweeps along the path, like a bedside monitor trace. */
+.pl-trace {
+  fill: none;
+  stroke: url(#pl-grad);
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 260 1400;
+  stroke-dashoffset: 1660;
+  filter: drop-shadow(0 0 5px rgba(127, 212, 255, 0.9)) drop-shadow(0 0 12px rgba(127, 212, 255, 0.5));
+  animation: pl-sweep 3.2s linear infinite;
+}
+
+.pl-caption {
+  margin: 0 0 0.8rem;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.pl-items {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.5rem;
+}
+
+.pl-items li {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  min-width: 0;
+  padding: 0.5rem 0.6rem;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  animation: pl-light 6.4s ease-in-out infinite;
+  animation-delay: calc(var(--i) * 1.6s);
+}
+
+.pl-tick {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 999px;
+  background: rgba(138, 184, 62, 0.25);
+  color: #cfe6a6;
+  font-size: 0.75rem;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+
+.pl-items li > span:last-child {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.pl-items strong {
+  font-size: 0.84rem;
+  color: #fff;
+}
+
+.pl-items small {
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.65);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@keyframes pl-sweep {
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes pl-live {
+  70% { box-shadow: 0 0 0 8px rgba(138, 184, 62, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(138, 184, 62, 0); }
+}
+
+/* Each check brightens in turn, in step with the sweep. */
+@keyframes pl-light {
+  0%, 30%, 100% {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+  8%, 22% {
+    background: rgba(138, 184, 62, 0.2);
+    border-color: rgba(138, 184, 62, 0.55);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pl-trace {
+    animation: none;
+    stroke-dasharray: none;
+    stroke-dashoffset: 0;
+  }
+
+  .pl-live,
+  .pl-items li {
+    animation: none;
+  }
+}
+
+/* Phones: the sign-in brand panel is a compact header there, so the pulse
+   is hidden on the sign-in pages only — the family home page keeps it. */
+@media (max-width: 859px) {
+  .fh-login .pl {
+    display: none;
+  }
+}
+
+/* On the family home page the panel sits in the content column. */
+.fh-main .pl {
+  margin: 0 0 1rem;
+}
+
+/* One slim row of check pills under the trace (replaces the four boxed cards). */
+.pl-pills {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.pl-pills li {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.75rem 0.35rem 0.4rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.9);
+  animation: pl-pill 6.4s ease-in-out infinite;
+  animation-delay: calc(var(--i) * 1.6s);
+}
+
+.pl-pill-tick {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  background: #8ab83e;
+  color: #0e2a4f;
+  font-size: 0.65rem;
+  font-weight: 900;
+}
+
+@keyframes pl-pill {
+  0%, 30%, 100% {
+    border-color: rgba(255, 255, 255, 0.12);
+    box-shadow: none;
+  }
+  8%, 22% {
+    border-color: rgba(138, 184, 62, 0.7);
+    box-shadow: 0 0 12px rgba(138, 184, 62, 0.35);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pl-pills li {
+    animation: none;
+  }
+}
+
+/* --- Ops "care day" panel (components/OpsDayPanel.tsx) --------------------- */
+
+.od-row {
+  display: grid;
+  grid-template-columns: 110px minmax(0, 1fr);
+  gap: 1.1rem;
+  align-items: end;
+  margin: 0.9rem 0 0.6rem;
+}
+
+.od-ring {
+  position: relative;
+  width: 110px;
+  height: 110px;
+}
+
+.od-ring svg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.od-ring circle {
+  fill: none;
+  stroke-width: 7;
+}
+
+.od-ring-track {
+  stroke: rgba(127, 212, 255, 0.12);
+}
+
+.od-ring-bar {
+  stroke: #7fd4ff;
+  stroke-linecap: round;
+  stroke-dashoffset: 214;
+  filter: drop-shadow(0 0 6px rgba(127, 212, 255, 0.8));
+  animation: od-ring 1.6s cubic-bezier(0.2, 0.8, 0.2, 1) 0.3s forwards;
+}
+
+.od-ring > span {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.od-ring strong {
+  font-size: 1.6rem;
+  font-weight: 800;
+  line-height: 1;
+  color: #7fd4ff;
+  text-shadow: 0 0 12px rgba(127, 212, 255, 0.6);
+}
+
+.od-ring small {
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.od-bars {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 0.45rem;
+  height: 110px;
+  align-items: end;
+}
+
+.od-bar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  height: 100%;
+  gap: 0.3rem;
+}
+
+.od-bar-fill {
+  width: 100%;
+  max-width: 22px;
+  border-radius: 6px 6px 3px 3px;
+  background: linear-gradient(180deg, rgba(127, 212, 255, 0.55), rgba(127, 212, 255, 0.15));
+  transform: scaleY(0);
+  transform-origin: bottom;
+  animation: od-grow 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  animation-delay: calc(0.2s + var(--i) * 0.08s);
+}
+
+.od-bar.is-today .od-bar-fill {
+  background: linear-gradient(180deg, #8ab83e, rgba(138, 184, 62, 0.35));
+  box-shadow: 0 0 14px rgba(138, 184, 62, 0.7);
+}
+
+.od-bar small {
+  font-size: 0.66rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.od-bar.is-today small {
+  color: #cfe6a6;
+}
+
+@keyframes od-ring {
+  to { stroke-dashoffset: var(--od-off); }
+}
+
+@keyframes od-grow {
+  to { transform: scaleY(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .od-ring-bar {
+    animation: none;
+    stroke-dashoffset: var(--od-off);
+  }
+
+  .od-bar-fill {
+    animation: none;
+    transform: none;
+  }
+}
+
+/* On a light page the translucent panel reads grey — give it a solid navy. */
+.fh-main .pl {
+  background:
+    radial-gradient(520px 220px at 100% 0%, rgba(138, 184, 62, 0.2), transparent 60%),
+    linear-gradient(160deg, #0b2244 0%, #0f2f5c 55%, #133b72 100%);
+}
+
+/* --- Real-data variant (family home page) ---------------------------------- */
+
+.pl-trace-data {
+  stroke-dasharray: 180 1000;
+  stroke-dashoffset: 1180;
+  animation: pl-sweep-data 3.6s linear infinite;
+}
+
+.pl-base {
+  stroke: rgba(255, 255, 255, 0.28);
+  stroke-dasharray: 4 5;
+}
+
+.pl-dot {
+  fill: #0f2f5c;
+  stroke: #7fd4ff;
+  stroke-width: 2;
+}
+
+.pl-dot.is-last {
+  fill: #8ab83e;
+  stroke: #fff;
+  stroke-width: 2.5;
+  filter: drop-shadow(0 0 6px rgba(138, 184, 62, 0.9));
+}
+
+.pl-date {
+  font-size: 10px;
+  font-weight: 700;
+  fill: rgba(255, 255, 255, 0.6);
+}
+
+.pl-svg:has(.pl-trace-data) {
+  height: 130px;
+}
+
+@keyframes pl-sweep-data {
+  to { stroke-dashoffset: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pl-trace-data {
+    animation: none;
+    stroke-dasharray: none;
+    stroke-dashoffset: 0;
+  }
+}
+
+/* Real data: the line itself is clearly visible; the glow sweeps over it. */
+.pl-ghost-data {
+  stroke: rgba(127, 212, 255, 0.6);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+}
+
+.pl-svg:has(.pl-trace-data) {
+  margin-bottom: 0.9rem;
+}

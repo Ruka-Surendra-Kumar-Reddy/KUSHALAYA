@@ -1,0 +1,10 @@
+# Lab ACL — wider than production so we can see every MG7 topic.
+
+user livewell_ingestor
+topic read #
+
+user lab_sniffer
+topic read #
+
+user mg7_home1
+topic readwrite #

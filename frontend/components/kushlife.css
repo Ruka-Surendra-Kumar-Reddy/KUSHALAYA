@@ -1,0 +1,643 @@
+/* KushLife capture (KushLifeCapture.tsx) and trend (KushLifeTrend.tsx). Works in the ops portal,
+   the caregiver sheet and the family portal, so it carries its own button resets. */
+
+.kl-capture {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.kl-capture-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.kl-capture-head small,
+.kl-check-name small {
+  display: block;
+  color: #64748b;
+  font-size: 0.8rem;
+}
+
+.kl-capture button {
+  min-height: 44px;
+  box-shadow: none;
+  font: inherit;
+  cursor: pointer;
+}
+
+.kl-capture .kl-all {
+  padding: 0.4rem 0.85rem;
+  border: 1px solid #5a8a1f;
+  border-radius: 10px;
+  background: #f3f8ec;
+  color: #3f6a12;
+  font-weight: 700;
+}
+
+.kl-check {
+  padding: 0.6rem 0.7rem;
+  border-radius: 12px;
+  border: 1px solid rgba(16, 36, 58, 0.1);
+  background: #fff;
+}
+
+.kl-check.is-usual {
+  border-color: rgba(90, 138, 31, 0.35);
+}
+
+.kl-check.is-changed {
+  border-color: rgba(201, 138, 18, 0.55);
+  background: #fffaf0;
+}
+
+.kl-check-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.kl-seg {
+  display: inline-flex;
+  padding: 0.18rem;
+  border-radius: 10px;
+  background: #e8edf4;
+}
+
+.kl-capture .kl-seg button {
+  padding: 0.5rem 0.9rem;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: #4b5b70;
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+
+.kl-capture .kl-seg button.is-on {
+  background: #0e2a4f;
+  color: #fff;
+}
+
+.kl-capture .kl-seg button.is-on.is-ok {
+  background: #5a8a1f;
+}
+
+.kl-capture .kl-seg button.is-on.is-changed {
+  background: #c98a12;
+}
+
+.kl-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.kl-capture .kl-chip {
+  padding: 0.5rem 0.9rem;
+  border: 1px solid rgba(16, 36, 58, 0.15);
+  border-radius: 999px;
+  background: #fff;
+  color: #24364d;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.kl-capture .kl-chip.is-on {
+  border-color: #c98a12;
+  background: #fdf1d8;
+  color: #6b4500;
+}
+
+.kl-capture .kl-chip.is-red.is-on {
+  border-color: #b42318;
+  background: #fdecea;
+  color: #b42318;
+}
+
+.kl-chip-note {
+  flex: 1 1 100%;
+  min-height: 0;
+  padding: 0.45rem 0.6rem;
+  font-size: 0.88rem;
+}
+
+.kl-pair {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 0.45rem 0.75rem;
+  padding: 0.6rem 0.7rem;
+  border-radius: 12px;
+  background: #f3f6fa;
+}
+
+.kl-pair-label {
+  font-weight: 700;
+  font-size: 0.88rem;
+}
+
+.kl-pair .kl-seg {
+  justify-self: start;
+}
+
+.kl-capture .kl-vitals-toggle {
+  justify-self: start;
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: #2f6fd6;
+  font-weight: 700;
+  font-size: 0.88rem;
+}
+
+.kl-vitals {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 0.5rem;
+}
+
+.kl-vitals label {
+  display: grid;
+  gap: 0.25rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.kl-vitals input {
+  min-height: 0;
+  padding: 0.45rem 0.6rem;
+}
+
+.kl-red-note {
+  margin: 0;
+  padding: 0.55rem 0.75rem;
+  border-radius: 10px;
+  background: #fdecea;
+  color: #b42318;
+  font-size: 0.88rem;
+}
+
+/* --- Trend card ------------------------------------------------------------- */
+
+.kl-trend {
+  display: grid;
+  gap: 0.7rem;
+}
+
+.kl-trend-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.kl-trend-head h2,
+.kl-trend-head h3 {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.kl-status {
+  padding: 0.18rem 0.65rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 800;
+  background: #eef6e2;
+  color: #3f6a12;
+}
+
+.kl-status.is-amber {
+  background: #fdf1d8;
+  color: #8a5a00;
+}
+
+.kl-status.is-red {
+  background: #fdecea;
+  color: #b42318;
+}
+
+.kl-sentence {
+  margin: 0;
+  font-weight: 600;
+  color: #24364d;
+}
+
+.kl-grid {
+  display: grid;
+  grid-template-columns: 6.5rem repeat(var(--kl-cols, 8), minmax(14px, 1fr));
+  align-items: center;
+  gap: 0.35rem 0.3rem;
+  overflow-x: auto;
+}
+
+.kl-grid-label {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #24364d;
+}
+
+.kl-grid-date {
+  font-size: 0.6rem;
+  line-height: 1.1;
+  color: #64748b;
+  text-align: center;
+  white-space: normal;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.kl-dot {
+  justify-self: center;
+  width: 14px;
+  height: 14px;
+  border-radius: 999px;
+  background: #5a8a1f;
+}
+
+/* Changed = a ring, not just a different colour (readable for colour-blind users). */
+.kl-dot.is-concern {
+  background: #fff;
+  box-shadow: inset 0 0 0 4px #b7791f;
+}
+
+.kl-dot.is-empty {
+  background: #e2e8f0;
+}
+
+.kl-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem;
+  margin: 0;
+  color: #64748b;
+  font-size: 0.8rem;
+}
+
+.kl-legend span::before {
+  content: "";
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin-right: 0.3rem;
+  border-radius: 999px;
+  background: #5a8a1f;
+  vertical-align: -1px;
+}
+
+.kl-legend span.is-concern::before {
+  background: #fff;
+  box-shadow: inset 0 0 0 3px #b7791f;
+}
+
+.kl-last {
+  padding: 0.7rem 0.8rem;
+  border-radius: 12px;
+  background: #f8fafc;
+  font-size: 0.9rem;
+}
+
+.kl-last p {
+  margin: 0.25rem 0 0;
+}
+
+.kl-flags {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.4rem;
+}
+
+.kl-flags li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  padding: 0.5rem 0.7rem;
+  border-radius: 10px;
+  border-left: 4px solid #e0a526;
+  background: #fffaf0;
+}
+
+.kl-flags li.is-red {
+  border-left-color: #b42318;
+  background: #fdecea;
+}
+
+.kl-flags small {
+  color: #64748b;
+}
+
+.kl-link,
+.kl-link:hover,
+.kl-trend button.kl-link,
+.kl-trend button.kl-link:hover,
+.kl-sheet button.kl-link,
+.kl-sheet button.kl-link:hover,
+.cp-stats button.kl-link,
+.fh-why button.kl-link,
+.kl-baseline button.kl-link,
+.kl-baseline button.kl-link:hover {
+  justify-self: start;
+  width: auto;
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  background-image: none;
+  text-align: left;
+  box-shadow: none;
+  color: #2f6fd6;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* --- "Why this score?" sheet + journey ------------------------------------------ */
+
+.kl-sheet-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: grid;
+  place-items: center; /* centred like every popup (owner, 27 Oct) */
+  padding: 1rem;
+  background: rgba(14, 42, 79, 0.45);
+}
+
+.kl-sheet {
+  width: min(640px, 100%);
+  max-height: 88vh;
+  overflow-y: auto;
+  padding: 1.2rem 1.25rem 1.5rem;
+  border-radius: 20px;
+  background: #fff;
+  color: #24364d;
+}
+
+@media (min-width: 700px) {
+  .kl-sheet-backdrop {
+    place-items: center;
+  }
+
+  .kl-sheet {
+    border-radius: 20px;
+  }
+}
+
+.kl-sheet-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.kl-sheet h2 {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.kl-sheet h3 {
+  margin: 1rem 0 0.4rem;
+  font-size: 0.95rem;
+}
+
+.kl-sheet ol,
+.kl-sheet ul {
+  margin: 0;
+  padding-left: 1.2rem;
+  line-height: 1.55;
+}
+
+.kl-sheet .kl-x,
+.kl-sheet .kl-x:hover {
+  min-height: 0;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: #f1f5f9;
+  color: #24364d;
+  box-shadow: none;
+  font-size: 1.2rem;
+}
+
+.kl-drag {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.kl-drag b {
+  color: #b42318;
+  white-space: nowrap;
+}
+
+.kl-muted {
+  color: #64748b;
+  font-size: 0.85rem;
+}
+
+.kl-journey {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 0.4rem;
+  counter-reset: kl-step;
+}
+
+.kl-journey li {
+  position: relative;
+  display: grid;
+  gap: 0.15rem;
+  padding: 0.6rem 0.55rem;
+  border-radius: 12px;
+  background: #f1f5f9;
+  color: #64748b;
+  font-size: 0.82rem;
+  counter-increment: kl-step;
+}
+
+.kl-journey li::before {
+  content: counter(kl-step);
+  display: grid;
+  place-items: center;
+  width: 1.4rem;
+  height: 1.4rem;
+  border-radius: 999px;
+  background: #cbd5e1;
+  color: #fff;
+  font-weight: 800;
+  font-size: 0.75rem;
+}
+
+.kl-journey li strong {
+  color: #24364d;
+  font-size: 0.88rem;
+}
+
+.kl-journey li.is-done {
+  background: #f3f8ec;
+}
+
+.kl-journey li.is-done::before {
+  content: "✓";
+  background: #5a8a1f;
+}
+
+.kl-journey li.is-current {
+  background: #eef4fd;
+  outline: 2px solid #2f6fd6;
+}
+
+.kl-journey li.is-current::before {
+  background: #2f6fd6;
+}
+
+.kl-next {
+  margin: 0.5rem 0 0;
+  font-size: 0.9rem;
+}
+
+@media (max-width: 720px) {
+  .kl-journey {
+    grid-template-columns: 1fr;
+  }
+
+  .kl-journey li {
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    column-gap: 0.6rem;
+  }
+
+  .kl-journey li::before {
+    grid-row: 1 / 3;
+  }
+}
+
+/* The sheet sits inside portal shells whose global span/small rules would restyle it. */
+.kl-sheet span,
+.kl-sheet li,
+.kl-sheet p {
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+.kl-sheet li {
+  font-size: 0.95rem;
+  color: #24364d;
+}
+
+.kl-sheet .kl-muted {
+  font-size: 0.85rem;
+  font-weight: 400;
+  color: #64748b;
+}
+
+.kl-sheet .kl-drag > span {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #24364d;
+}
+
+
+/* --- K1 UI audit -------------------------------------------------------------- */
+.kl-sheet .kl-x,
+.kl-sheet .kl-x:hover {
+  width: 2.75rem;
+  height: 2.75rem;
+}
+
+.kl-sheet {
+  overscroll-behavior: contain;
+  padding-bottom: calc(1.5rem + env(safe-area-inset-bottom));
+}
+
+.kl-capped {
+  margin: 0.5rem 0 0;
+  padding: 0.55rem 0.75rem;
+  border-radius: 10px;
+  background: #fdecea;
+  color: #8f1d14;
+}
+
+.kl-pct {
+  margin: -0.3rem 0 0;
+  color: #475569;
+  font-size: 0.85rem;
+}
+
+.kl-journey li strong,
+.kl-journey li span {
+  overflow-wrap: anywhere;
+  hyphens: auto;
+}
+
+.kl-journey {
+  grid-template-columns: repeat(auto-fit, minmax(118px, 1fr));
+}
+
+.kl-pair-label {
+  min-width: 3rem;
+}
+
+.kl-flags .kl-link,
+.kl-trend .kl-flags button.kl-link {
+  min-height: 44px;
+  padding: 0 0.25rem;
+}
+
+@media (max-width: 600px) {
+  .kl-capture .kl-all {
+    width: 100%;
+  }
+}
+
+/* KushLife K2: baseline editor, weekly summaries */
+.kl-readings {
+  margin-top: 0.25rem;
+}
+.kl-baseline,
+.kl-weekly {
+  margin-top: 0.75rem;
+}
+.kl-weekly-row {
+  margin: 0.5rem 0;
+  display: grid;
+  gap: 0.35rem;
+}
+.kl-weekly-row textarea {
+  width: 100%;
+}
+
+/* Baseline ("Normal for Amma") editor: two columns so select text isn't cut off. */
+.kl-normal-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin: 0.5rem 0 0.75rem;
+}
+.kl-normal-grid select {
+  width: 100%;
+  min-width: 0;
+}
+.kl-last .kl-normal {
+  margin: 0.15rem 0 0;
+}
+.kl-weekly-row > .kl-status,
+.kl-weekly-row > button,
+.kl-baseline > div > button.secondary {
+  justify-self: start;
+  width: auto;
+}

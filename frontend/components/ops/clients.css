@@ -1,0 +1,1404 @@
+/* Clients page (app/(app)/kushalaya/customers/page.tsx). */
+
+.cl-bar {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.ko-main .cl-bar input {
+  flex: 1;
+  max-width: 28rem;
+}
+
+.cl-form {
+  margin-bottom: 1rem;
+}
+
+.cl-step {
+  margin: 1rem 0 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #5a8a1f;
+}
+
+.cl-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0.75rem;
+}
+
+.cl-grid label {
+  display: grid;
+  gap: 0.3rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.cl-grid .cl-wide {
+  grid-column: span 2;
+}
+
+.cl-hint {
+  margin: 0.6rem 0 0;
+  font-size: 0.85rem;
+}
+
+.cl-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 0.75rem;
+}
+
+.cl-table td {
+  vertical-align: top;
+}
+
+.cl-name {
+  font-weight: 800;
+  color: #0e2a4f;
+}
+
+.cl-table small {
+  display: block;
+  color: #64748b;
+  font-size: 0.8rem;
+}
+
+.cl-login {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+  margin-bottom: 0.35rem;
+}
+
+.ko-main .cl-login button,
+.ko-main .cl-row-actions button {
+  min-height: 0;
+  padding: 0.3rem 0.6rem;
+  font-size: 0.8rem;
+}
+
+.ko-main .cl-link {
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  box-shadow: none;
+  color: #2f6fd6;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.ko-main .cl-link:hover {
+  background: none;
+  text-decoration: underline;
+}
+
+.cl-row-actions {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: flex-end;
+  white-space: nowrap;
+}
+
+@media (max-width: 700px) {
+  .cl-grid .cl-wide {
+    grid-column: auto;
+  }
+}
+
+/* Session activity rows were buttons in the portal's blue button style. */
+.ko-main .ai-ops-accordion-toggle,
+.ko-main .ai-ops-accordion-toggle:hover {
+  width: 100%;
+  background: #fff;
+  color: #26384f;
+  border: 1px solid rgba(16, 36, 58, 0.1);
+  box-shadow: none;
+  text-align: left;
+}
+
+.ko-main .ai-ops-accordion-toggle:hover {
+  background: #f6f9fe;
+}
+
+.ko-main .ai-ops-accordion-toggle * {
+  color: inherit;
+}
+
+.ko-main .ai-ops-accordion-toggle .muted,
+.ko-main .ai-ops-accordion-toggle small {
+  color: #64748b;
+}
+
+/* Messages inbox: family rows were buttons in the blue button style. */
+.ko-main .inbox-row,
+.ko-main .inbox-row:hover {
+  display: grid;
+  gap: 0.2rem;
+  width: 100%;
+  padding: 0.75rem 0.85rem;
+  border-radius: 12px;
+  border: 1px solid rgba(16, 36, 58, 0.08);
+  background: #fff;
+  color: #26384f;
+  box-shadow: none;
+  text-align: left;
+}
+
+.ko-main .inbox-row:hover {
+  background: #f6f9fe;
+}
+
+.ko-main .inbox-row.is-active {
+  background: #eef4fd;
+  border-color: #2f6fd6;
+  box-shadow: inset 3px 0 0 #2f6fd6;
+}
+
+.ko-main .inbox-row-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+  color: #0e2a4f;
+  font-weight: 800;
+}
+
+.ko-main .inbox-row-preview {
+  color: #4b5b70;
+  font-size: 0.88rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ko-main .inbox-row-when {
+  color: #64748b;
+  font-size: 0.78rem;
+}
+
+.ko-main .inbox-list {
+  list-style: none;
+  display: grid;
+  align-content: start;
+  gap: 0.4rem;
+}
+
+/* Client cards (replaces the table). */
+.cl-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.cl-card {
+  border-radius: 18px;
+  background: #fff;
+  border: 1px solid rgba(16, 36, 58, 0.07);
+  box-shadow: 0 8px 22px -18px rgba(16, 36, 58, 0.35);
+  overflow: hidden;
+}
+
+.cl-main {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 1rem 1.15rem;
+}
+
+.cl-avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #2f6fd6, #1f4f9f);
+  color: #fff;
+  font-weight: 800;
+}
+
+.cl-who {
+  display: grid;
+  min-width: 0;
+}
+
+.ko-main .cl-name {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #0e2a4f;
+  text-decoration: none;
+}
+
+.ko-main .cl-name:hover {
+  text-decoration: underline;
+}
+
+.cl-meta {
+  color: #64748b;
+  font-size: 0.88rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cl-chip {
+  padding: 0.25rem 0.7rem;
+  border-radius: 999px;
+  background: #eef6e2;
+  color: #3f6a12;
+  font-size: 0.8rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.cl-actions-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.ko-main .cl-actions-row button {
+  min-height: 0;
+  padding: 0.45rem 0.8rem;
+  font-size: 0.85rem;
+}
+
+.ko-main .cl-open {
+  padding: 0.45rem 0.9rem;
+  border-radius: 10px;
+  background: #0e2a4f;
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.cl-logins {
+  display: grid;
+  gap: 0.35rem;
+  padding: 0.75rem 1.15rem 0.9rem 4.4rem;
+  background: #f8fafc;
+  border-top: 1px solid rgba(16, 36, 58, 0.06);
+}
+
+.cl-logins-title {
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #64748b;
+}
+
+.cl-logins .cl-login {
+  display: grid;
+  grid-template-columns: minmax(0, 20rem) minmax(0, 1fr) minmax(0, 15rem) auto;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 0;
+}
+
+.cl-seen {
+  color: #3f6a12;
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.cl-seen.is-never {
+  color: #8a5a00;
+}
+
+.cl-email {
+  white-space: nowrap;
+  font-weight: 700;
+  color: #0e2a4f;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cl-rel {
+  color: #64748b;
+  font-size: 0.88rem;
+}
+
+.ko-main .cl-logins .cl-link {
+  justify-self: start;
+  font-size: 0.85rem;
+}
+
+.ko-main .cl-add {
+  margin-top: 0.15rem;
+}
+
+@media (max-width: 900px) {
+  .cl-main {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+
+  .cl-chip,
+  .cl-actions-row {
+    grid-column: 2;
+    justify-self: start;
+  }
+
+  .cl-logins {
+    padding-left: 1.15rem;
+  }
+
+  .cl-logins .cl-login {
+    grid-template-columns: 1fr;
+    gap: 0.1rem;
+  }
+}
+
+/* Wearables: technical broker settings folded away (IotDevicesAdminPanel). */
+.iot-tech {
+  padding: 0.75rem 1rem;
+  border-radius: 14px;
+  background: #f6f8fb;
+  border: 1px solid rgba(16, 36, 58, 0.08);
+}
+
+.iot-tech summary {
+  cursor: pointer;
+  font-weight: 700;
+  color: #4b5b70;
+}
+
+.iot-tech[open] summary {
+  margin-bottom: 0.75rem;
+}
+
+/* Client profile tabs: quiet segmented control instead of 8 blue buttons. */
+.ko-main .cp-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  padding: 0.3rem;
+  border-radius: 14px;
+  background: #e8edf4;
+  width: fit-content;
+  max-width: 100%;
+}
+
+.ko-main .cp-tabs button,
+.ko-main .cp-tabs button:hover {
+  min-height: 0;
+  padding: 0.45rem 0.9rem;
+  border-radius: 10px;
+  border: 0;
+  background: transparent;
+  color: #4b5b70;
+  box-shadow: none;
+  font-weight: 700;
+}
+
+.ko-main .cp-tabs button:hover {
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.ko-main .cp-tabs button.is-active {
+  background: #fff;
+  color: #0e2a4f;
+  box-shadow: 0 2px 6px -2px rgba(16, 36, 58, 0.25);
+}
+
+/* Client document vault (ClientDocuments.tsx). */
+.cd-upload {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr) auto;
+  align-items: end;
+  gap: 0.75rem;
+  padding: 0.85rem;
+  border-radius: 14px;
+  background: #f3f6fa;
+}
+
+.cd-upload label {
+  display: grid;
+  gap: 0.3rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.ko-main .cd-upload input[type="file"] {
+  padding: 0.35rem;
+  background: #fff;
+}
+
+.cd-msg {
+  margin: 0.6rem 0 0;
+  padding: 0.5rem 0.75rem;
+  border-radius: 10px;
+  font-weight: 600;
+}
+
+.cd-msg.is-ok {
+  background: #eef6e2;
+  color: #3f6a12;
+}
+
+.cd-msg.is-bad {
+  background: #fdecea;
+  color: #b42318;
+}
+
+.cd-list {
+  list-style: none;
+  margin: 0.9rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 0.4rem;
+}
+
+.cd-list li {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto auto auto;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.55rem 0.75rem;
+  border-radius: 12px;
+  border: 1px solid rgba(16, 36, 58, 0.07);
+}
+
+.cd-name strong {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cd-name small {
+  color: #64748b;
+}
+
+.cd-seen {
+  padding: 0.15rem 0.55rem;
+  border-radius: 999px;
+  background: #f1f5f9;
+  color: #64748b;
+  font-size: 0.75rem;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.cd-seen.is-family {
+  background: #eef6e2;
+  color: #3f6a12;
+}
+
+.ko-main .cd-link,
+.ko-main .cd-link:hover {
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  box-shadow: none;
+  color: #2f6fd6;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.ko-main .cd-link.is-danger {
+  color: #b42318;
+}
+
+.cd-photos-title {
+  margin: 1.2rem 0 0.5rem;
+  font-size: 1rem;
+}
+
+@media (max-width: 760px) {
+  .cd-upload {
+    grid-template-columns: 1fr;
+  }
+
+  .cd-list li {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+  }
+
+  .cd-list li > .cd-seen {
+    grid-column: 2;
+    justify-self: start;
+  }
+}
+
+.ko-main .cp-go,
+.ko-main .cp-go:hover {
+  background: #5a8a1f;
+  border-color: #5a8a1f;
+  color: #fff;
+}
+
+/* Client Overview: KushLife + journey row above the details. */
+.cp-kl {
+  margin-bottom: 1rem;
+}
+
+.cp-stats .kl-link {
+  font-size: 0.78rem;
+}
+
+/* Phase 1D: client header, edit form, family card, assessments tab. */
+.cp-title {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 0.9rem;
+}
+
+.cp-title h1 {
+  margin: 0;
+}
+
+.cp-title .cp-pill {
+  margin-left: 0;
+}
+
+/* Address line + Directions (components/Directions.tsx). */
+.cp-addr {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 0.75rem;
+  margin-top: -0.4rem;
+  color: #475569;
+  font-size: 0.92rem;
+}
+
+.cp-title .cp-manager {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #475569;
+  font-size: 0.9rem;
+}
+
+.cp-stats small {
+  font-size: 0.78rem;
+}
+
+.cp-bad {
+  color: #b91c1c;
+  font-weight: 700;
+}
+
+.cp-none {
+  color: #94a3b8;
+  font-weight: 500;
+}
+
+.cp-pill-cancelled {
+  background: #f1f5f9;
+  color: #64748b;
+}
+
+.cp-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.cp-card-head h2 {
+  margin: 0 0 0.5rem;
+}
+
+.ko-main .cp-linkbtn,
+.ko-main .cp-linkbtn:hover {
+  border: 0;
+  background: none;
+  box-shadow: none;
+  transform: none;
+  filter: none;
+  padding: 0;
+  color: #1b4f9c;
+  font-weight: 600;
+  font-size: inherit;
+  text-decoration: underline;
+}
+
+.ko-main .cp-linkbtn:disabled {
+  opacity: 0.5;
+}
+
+.cp-edit {
+  grid-column: 1 / -1;
+}
+
+.cp-edit-grid,
+.fl-form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+  gap: 0.75rem;
+}
+
+.cp-edit-grid label,
+.fl-form label {
+  display: grid;
+  gap: 0.25rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #475569;
+}
+
+.cp-edit-wide {
+  grid-column: 1 / -1;
+}
+
+.cp-edit-actions,
+.fl-form-actions {
+  display: flex;
+  gap: 0.6rem;
+  margin-top: 0.9rem;
+  align-items: center;
+}
+
+.fl-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.6rem;
+}
+
+.fl-list li {
+  border-bottom: 1px solid #eef2f7;
+  padding-bottom: 0.6rem;
+}
+
+.fl-list li.is-off .fl-who strong {
+  color: #94a3b8;
+}
+
+.fl-meta {
+  font-size: 0.82rem;
+}
+
+.fl-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.3rem;
+  font-size: 0.85rem;
+}
+
+.fl-form {
+  margin-top: 0.75rem;
+}
+
+.fl-inline {
+  align-items: end;
+}
+
+.fl-form-actions {
+  grid-column: 1 / -1;
+  margin-top: 0;
+}
+
+.fl-pass {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.fl-pass input {
+  flex: 1;
+  min-width: 0;
+}
+
+.ca-head-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.ca-list {
+  list-style: none;
+  margin: 0.5rem 0 0;
+  padding: 0;
+}
+
+.ca-list li {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.7rem 0;
+  border-bottom: 1px solid #eef2f7;
+}
+
+.ca-up {
+  color: #166534;
+  font-weight: 700;
+}
+
+.ca-down {
+  color: #b91c1c;
+  font-weight: 700;
+}
+
+.ko-main .ca-go,
+.ko-main .ca-go:hover {
+  background: #5a8a1f;
+  color: #fff;
+  box-shadow: none;
+}
+
+.ca-compare {
+  background: #f4f7fb;
+  border-radius: 0.75rem;
+  padding: 0.8rem 1rem;
+  margin: 0.5rem 0 0.75rem;
+}
+
+.ca-compare-scores {
+  display: flex;
+  gap: 2rem;
+}
+
+.ca-compare-scores div {
+  display: grid;
+}
+
+.ca-compare-scores span {
+  font-size: 0.75rem;
+  color: #64748b;
+  font-weight: 700;
+}
+
+.ca-compare-scores strong {
+  font-size: 1.3rem;
+}
+
+.ca-areas {
+  margin: 0.6rem 0 0;
+  padding-left: 1.1rem;
+}
+
+@media (max-width: 760px) {
+  .ca-list li {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  .ca-list li > :last-child {
+    grid-column: 1 / -1;
+    justify-self: start;
+  }
+}
+
+/* Clients list: badges, filters, collapsed family line. */
+.cl-filters {
+  display: flex;
+  gap: 0.4rem;
+  margin-bottom: 0.8rem;
+  flex-wrap: wrap;
+}
+
+.ko-main .cl-filters button {
+  background: #fff;
+  color: #334155;
+  border: 1px solid #d7dfea;
+  box-shadow: none;
+  transform: none;
+  padding: 0.35rem 0.85rem;
+  font-weight: 600;
+}
+
+.ko-main .cl-filters button.is-on {
+  background: #1b4f9c;
+  border-color: #1b4f9c;
+  color: #fff;
+}
+
+.cl-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-top: 0.35rem;
+}
+
+.cl-badge {
+  font-size: 0.74rem;
+  font-weight: 700;
+  border-radius: 999px;
+  padding: 0.1rem 0.55rem;
+  background: #eef2f7;
+  color: #334155;
+}
+
+.cl-badge.is-bad {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.cl-badge.is-warn {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.cl-badge.is-score {
+  background: #e0ecfb;
+  color: #1b4f9c;
+}
+
+/* Audit fixes: chips, toast, start confirm, equal-weight assessment actions, phone layout. */
+.cl-chip.is-none {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.cp-toast {
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 0.55rem 0.9rem;
+  font-weight: 600;
+}
+
+.sa,
+.sa-ask,
+.fl-confirm {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.fl-confirm {
+  display: flex;
+  margin-top: 0.45rem;
+  padding: 0.5rem 0.7rem;
+  border-radius: 10px;
+  background: #fef2f2;
+  color: #991b1b;
+  font-size: 0.88rem;
+}
+
+.ca-act {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.3rem;
+  padding: 0.45rem 1rem;
+  border-radius: 11px;
+  background: var(--ko-blue-soft, #e8f0fb);
+  color: var(--ko-blue-deep, #1b4f9c);
+  font-weight: 800;
+  font-size: 0.88rem;
+  text-decoration: none;
+}
+
+.ko-main .ca-go,
+.ko-main .ca-go:hover {
+  min-height: 2.3rem;
+  padding: 0.45rem 1rem;
+}
+
+@media (max-width: 640px) {
+  /* Phones: every tab visible (wrapped rows) instead of a sideways strip
+     that hid six of the nine tabs with no cue. */
+  .ko-main .cp-tabs {
+    flex-wrap: wrap;
+    overflow: visible;
+    width: 100%;
+  }
+
+  .ko-main .cp-tabs button {
+    flex: 1 1 auto;
+    min-height: 44px;
+    white-space: nowrap;
+  }
+
+  .cp-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .cp-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+  }
+
+  .cp-actions > :first-child {
+    grid-column: 1 / -1;
+  }
+
+  .cp-actions > :first-child button,
+  .cp-actions > a,
+  .cp-actions > :first-child {
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .ko-main .cp-linkbtn {
+    min-height: 44px;
+    padding: 0.5rem 0.35rem;
+  }
+
+  .fl-actions {
+    gap: 0.5rem;
+  }
+}
+
+/* Wearables panel (components/livewell/IotDevicesAdminPanel.tsx). */
+.iot-card {
+  display: grid;
+  gap: 0.75rem;
+  margin: 0;
+  min-width: 0;
+}
+
+/* Client page Devices card: assign picker (components/ops/ClientDevicesCard.tsx). */
+.cp-device-pick {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+  min-width: 0;
+}
+
+.cp-device-pick select {
+  flex: 1 1 14rem;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.iot-row-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.iot-assign {
+  display: inline-flex;
+  gap: 0.35rem;
+  align-items: center;
+  min-width: 0;
+}
+
+.iot-assign select {
+  max-width: 14rem;
+  min-width: 0;
+}
+
+.iot-more {
+  position: relative;
+}
+
+.iot-more summary {
+  cursor: pointer;
+  padding: 0.35rem 0.6rem;
+  list-style: none;
+}
+
+.iot-more[open] > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.4rem;
+}
+
+.iot-heard {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.iot-gw-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.iot-gw-list > li {
+  display: grid;
+  gap: 0.4rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border, #eee);
+  min-width: 0;
+}
+
+.iot-gw-head {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.iot-pill {
+  padding: 0.1rem 0.55rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.iot-setup {
+  display: grid;
+  gap: 0.5rem;
+  margin: 0.5rem 0;
+}
+
+.iot-url {
+  display: block;
+  padding: 0.5rem;
+  background: var(--surface-muted, #f6f6f6);
+  border-radius: 6px;
+  font-size: 0.85rem;
+  overflow-wrap: anywhere;
+  word-break: break-all;
+}
+
+.iot-steps {
+  margin: 0;
+  padding-left: 1.25rem;
+  display: grid;
+  gap: 0.25rem;
+}
+
+.iot-3col {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.iot-3col input {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.iot-hub-tech summary {
+  cursor: pointer;
+  font-size: 0.85rem;
+  color: #64748b;
+}
+
+@media (max-width: 600px) {
+  .iot-3col {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Clients regroup (2026-10-07): list badges, header flags, new tabs, sticky phone tab bar. */
+.ko-main a.cl-badge {
+  text-decoration: none;
+}
+
+.cl-badge.is-sos {
+  background: #dc2626;
+  color: #fff;
+}
+
+.cl-badge.is-req {
+  background: #fdf0c4;
+  color: #8a5a00;
+}
+
+.cl-badge.is-msg {
+  background: #dbeafe;
+  color: #1e4fa3;
+}
+
+.cp-age {
+  font-weight: 600;
+  color: #64748b;
+}
+
+.ko-main .cp-flag,
+.ko-main .cp-flag:hover {
+  min-height: 0;
+  padding: 0.2rem 0.7rem;
+  border-radius: 999px;
+  border: 0;
+  box-shadow: none;
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+
+.ko-main .cp-flag.is-sos {
+  background: #dc2626;
+  color: #fff;
+}
+
+.ko-main .cp-flag.is-req {
+  background: #fdf0c4;
+  color: #8a5a00;
+}
+
+.cp-section-title {
+  margin: 1.2rem 0 0.6rem;
+}
+
+.cp-reqs li,
+.cp-inv {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 0.75rem;
+}
+
+.cp-req-text {
+  min-width: 0;
+  flex: 1 1 16rem;
+}
+
+.cp-req-notes {
+  margin: 0.25rem 0 0;
+}
+
+.cp-sos-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.6rem;
+}
+
+.cp-sos-row {
+  border: 1px solid #e2e8f0;
+  border-left: 4px solid #f59e0b;
+  border-radius: 12px;
+  padding: 0.7rem 0.85rem;
+  min-width: 0;
+}
+
+.cp-sos-row.is-critical {
+  border-left-color: #dc2626;
+  background: #fff7f7;
+}
+
+.cp-sos-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem 0.6rem;
+}
+
+.cp-sos-note {
+  margin: 0.4rem 0 0;
+  overflow-wrap: anywhere;
+}
+
+.cp-sos-actions,
+.cp-sos-close {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.6rem;
+}
+
+.cp-sos-close input {
+  flex: 1 1 12rem;
+  min-width: 0;
+}
+
+.cp-msgs {
+  min-width: 0;
+}
+
+@media (max-width: 600px) {
+  .ko-main .cp-tabs {
+    position: sticky;
+    top: var(--ko-topbar-h, 56px);
+    z-index: 20;
+    border-radius: 0;
+    margin-left: -1rem;
+    margin-right: -1rem;
+    width: calc(100% + 2rem);
+    max-width: none;
+    padding: 0.35rem 1rem;
+    box-shadow: 0 6px 10px -8px rgba(16, 36, 58, 0.35);
+  }
+
+  .ko-main .cp-tabs button,
+  .ko-main .cp-tabs button:hover {
+    min-height: 44px;
+  }
+
+  .ko-main .cp-flag,
+  .ko-main .cp-flag:hover,
+  .ko-main .cp-sos-actions > *,
+  .ko-main .cp-sos-close button,
+  .ko-main .cp-reqs button,
+  .ko-main .cp-inv button {
+    min-height: 44px;
+  }
+
+  .cp-sos-actions > * {
+    flex: 1 1 auto;
+    justify-content: center;
+    text-align: center;
+  }
+}
+
+/* FIX 110 (builder C): client header — one primary, small secondaries, More menu. */
+.cp-actions {
+  align-items: center;
+}
+.ko-main .cp-actions .cp-act-sm,
+.ko-main .cp-actions .ks-more > button {
+  min-height: 40px;
+  padding: 0.35rem 0.85rem;
+  font-size: 0.88rem;
+}
+.ko-main .cp-actions a.cp-go {
+  color: #fff;
+  border-color: #5a8a1f;
+}
+.cp-stats small:has(.kl-link) {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0 0.25rem;
+}
+.ko-main .cp-stats .kl-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  min-width: 44px;
+  margin: -0.6rem 0;
+}
+
+@media (max-width: 640px) {
+  /* Shorter header on phones so the tabs show on the first screen. */
+  .cp-head {
+    padding: 0.85rem;
+  }
+  .cp-stats {
+    display: flex;
+    gap: 0.5rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+    margin: 0 -0.85rem;
+    padding: 0 0.85rem;
+  }
+  .cp-stats > div {
+    flex: 0 0 auto;
+    min-width: 9.5rem;
+    max-width: 12rem;
+    padding: 0.45rem 0.7rem;
+  }
+  .cp-stats strong {
+    font-size: 1rem;
+  }
+  .cp-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .cp-actions > :first-child {
+    flex: 1 1 100%;
+  }
+  .ko-main .cp-actions .cp-act-sm {
+    flex: 1 1 auto;
+    width: auto;
+  }
+  .ko-main .cp-actions .cp-act-sm,
+  .ko-main .cp-actions .ks-more > button {
+    min-height: 44px;
+  }
+}
+
+/* FIX 110 (builder C): clients list + client tabs tap targets. */
+.ko-main .cl-logins .cl-fam-btn {
+  justify-self: start;
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  padding: 0.3rem 0.85rem;
+  font-size: 0.85rem;
+  text-decoration: none;
+}
+.ko-main .cp-inline-btn,
+.ko-main .cp-inline-btn:hover {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0.3rem 0.85rem;
+  font-size: 0.85rem;
+  text-decoration: none;
+}
+@media (max-width: 640px) {
+  .cl-filters {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    margin-left: -1rem;
+    margin-right: -1rem;
+    padding: 0 1rem 0.2rem;
+  }
+  .ko-main .cl-filters button {
+    flex: 0 0 auto;
+    white-space: nowrap;
+    min-height: 44px;
+  }
+  .ko-main .cl-logins .cl-fam-btn {
+    min-height: 44px;
+  }
+}
+.ko-main .cp-inline-btn.cd-del {
+  color: #b3261e;
+}
+.cd-list li > .cp-inline-btn {
+  justify-self: start;
+}
+
+/* "WhatsApp needs a phone number" chip on How to reach the family. */
+.fl-meta .fl-warn { color: #9a3412; font-weight: 600; }
+
+/* "Hide from family" under a visit photo: a light text button, not a primary one. */
+.ko-main button.cp-photo-toggle {
+  min-height: 32px;
+  padding: 0.2rem 0.6rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  background: #fff;
+  background-image: none;
+  color: #1f4f9f;
+  border: 1px solid rgba(16, 36, 58, 0.18);
+  box-shadow: none;
+}
+
+/* Round 4: home pin far from the saved address */
+.cp-home-warn { margin: 0 0 0.6rem; padding: 0.6rem 0.8rem; border-radius: 10px; background: #fff4e5; color: #8a4b00; font-weight: 600; }
+.session-recent { flex-basis: 100%; display: block; margin-top: 0.2rem; color: #26384f; font-size: 0.85rem; text-align: left; overflow-wrap: anywhere; }
+.session-activity-accordion .ai-ops-accordion-toggle { flex-wrap: wrap; }
+
+/* Round 4: document thumbnails and file badges (no emoji icons) */
+.cd-list .cd-thumb { width: 44px; height: 44px; border-radius: 8px; object-fit: cover; background: #eef2f6; }
+.cd-list .cd-ico { display: inline-grid; place-items: center; width: 44px; height: 44px; border-radius: 8px; background: #eef2f6; color: #4b5b70; font-size: 0.68rem; font-weight: 800; letter-spacing: 0.03em; }
+.cd-list .cd-ico.is-photo { background: linear-gradient(110deg, #eef2f7 30%, #f7f9fc 50%, #eef2f7 70%); }
+/* Round 4: chips never touch the text beside them (SOS tab: "Band offline  Closed"). */
+.ko-main .cp-list li > .cp-pill { margin-inline: 0.45rem; }
+
+/* Round 4 (phones): the chip row fades at the edge so it reads as scrollable;
+   the client header numbers sit in two columns instead of a sideways strip. */
+@media (max-width: 640px) {
+  .ko-main .cl-filters {
+    -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 2.5rem), transparent);
+    mask-image: linear-gradient(90deg, #000 calc(100% - 2.5rem), transparent);
+  }
+  .ko-main .cp-stats {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    overflow-x: visible;
+    gap: 0.6rem;
+  }
+  .ko-main .cp-stats > * { min-width: 0; }
+}

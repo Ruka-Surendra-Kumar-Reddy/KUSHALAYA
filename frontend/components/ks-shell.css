@@ -1,0 +1,2415 @@
+/* Kushalaya app shell — shared by the family Care Hub and SafeHome Ops.
+   White chrome so the blue/green logo keeps its contrast, side navigation
+   (persistent on desktop, drawer on phones), account menu top right. */
+
+/* The portal root replaces .home-safety-family-portal so the frame is not
+   pinned to 100dvh with overflow:hidden — this shell scrolls the document,
+   which behaves better on phones (address bar, momentum, pull-to-refresh). */
+.ks-portal-root {
+  min-height: 100vh;
+}
+
+.site-frame:has(.ks-ops) {
+  height: auto;
+  max-height: none;
+  overflow: visible;
+  display: block;
+}
+
+/* Column flex, not block: the copyright is the last child of the frame, so
+   the frame owns the full height and the portal grows into it. Without this
+   the portal's own `min-height: 100vh` pushed the footer a whole screen below
+   the content, and you had to scroll past empty space to reach it. */
+.site-frame:has(> .ks-portal-root) {
+  height: auto;
+  max-height: none;
+  overflow: visible;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.site-frame:has(> .ks-portal-root) > .ks-portal-root {
+  flex: 1 0 auto;
+  min-height: 0;
+}
+
+.ks-app {
+  --ks-ink: #0f2a3d;
+  --ks-muted: #5b7185;
+  --ks-line: #e3e9ef;
+  --ks-brand: #1b4f9c;
+  --ks-brand-soft: #eef3fb;
+  --ks-danger: #c0392b;
+  --ks-danger-soft: #fdecea;
+  --ks-surface: #fff;
+  --ks-bg: #f4f7fa;
+  --ks-topbar-h: 72px;
+  --ks-side-w: 268px;
+
+  min-height: 100vh;
+  background: var(--ks-bg);
+  color: var(--ks-ink);
+}
+
+.ks-staff-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.4rem 1rem;
+  background: #fff4d6;
+  color: #7a5200;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.ks-staff-banner button {
+  border: 1px solid #d8a800;
+  background: transparent;
+  color: #7a5200;
+  border-radius: 999px;
+  padding: 0.2rem 0.7rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* --- Top bar ------------------------------------------------------------ */
+
+/* Three tracks so the title sits at the true centre of the bar, independent of
+   how wide the logo or the right-hand controls happen to be. */
+.ks-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 0.75rem;
+  height: var(--ks-topbar-h);
+  padding: 0 0.9rem;
+  background: var(--ks-surface);
+  border-bottom: 1px solid var(--ks-line);
+}
+
+.ks-topbar-left {
+  grid-column: 1;
+  justify-self: start;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-width: 0;
+}
+
+.ks-burger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border: 1px solid var(--ks-line);
+  border-radius: 10px;
+  background: var(--ks-surface);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.ks-burger svg {
+  width: 20px;
+  height: 20px;
+  /* The button is a flex container, so the icon needs to opt out of shrinking
+     or it collapses to a sliver. */
+  flex-shrink: 0;
+  fill: none;
+  stroke: var(--ks-ink);
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+.ks-logo-link {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-width: 0;
+  text-decoration: none;
+}
+
+/* The square KushAlaya mark (name arched over the emblem). Sized as a square:
+   the name is drawn small, so anything under ~44px turns it into a smudge. */
+.ks-logo {
+  height: 56px;
+  width: 56px;
+  max-height: none;
+  max-width: none;
+  display: block;
+  flex-shrink: 0;
+}
+
+/* Emblem + name, in the drawer only. Sized by height like .ks-logo; max-width
+   keeps it clear of the close button on a 320px screen. */
+.ks-drawer-logo {
+  height: 48px;
+  width: 48px;
+  max-width: 70%;
+  object-fit: contain;
+  display: block;
+}
+
+.ks-portal-title {
+  grid-column: 2;
+  justify-self: center;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--ks-ink);
+  letter-spacing: -0.015em;
+  white-space: nowrap;
+  text-align: center;
+}
+
+.ks-topbar-right {
+  grid-column: 3;
+  justify-self: end;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.ks-wallet-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.38rem 0.7rem;
+  border-radius: 999px;
+  background: var(--ks-brand-soft);
+  color: var(--ks-brand);
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.ks-wallet-chip svg {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  flex-shrink: 0;
+}
+
+/* --- Layout ------------------------------------------------------------- */
+
+.ks-body {
+  display: flex;
+  align-items: flex-start;
+}
+
+.ks-sidebar {
+  display: none;
+  width: var(--ks-side-w);
+  flex-shrink: 0;
+  position: sticky;
+  top: var(--ks-topbar-h);
+  height: calc(100vh - var(--ks-topbar-h));
+  overflow-y: auto;
+  padding: 1rem 0.65rem 2rem;
+  background: var(--ks-surface);
+  border-right: 1px solid var(--ks-line);
+}
+
+.ks-content {
+  flex: 1;
+  min-width: 0;
+}
+
+/* --- Navigation --------------------------------------------------------- */
+
+.ks-nav-group + .ks-nav-group {
+  margin-top: 1.1rem;
+}
+
+.ks-nav-title {
+  margin: 0 0 0.35rem;
+  padding: 0 0.7rem;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ks-muted);
+}
+
+.ks-nav-link {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.55rem 0.7rem;
+  border-radius: 10px;
+  color: var(--ks-ink);
+  text-decoration: none;
+  font-size: 0.92rem;
+  font-weight: 500;
+}
+
+.ks-nav-link:hover {
+  background: var(--ks-brand-soft);
+}
+
+.ks-nav-link.is-active {
+  background: var(--ks-brand-soft);
+  color: var(--ks-brand);
+  font-weight: 700;
+}
+
+.ks-nav-ico {
+  display: inline-flex;
+  flex-shrink: 0;
+}
+
+.ks-nav-ico svg {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  flex-shrink: 0;
+}
+
+.ks-nav-link.is-urgent .ks-nav-ico svg {
+  stroke: var(--ks-danger);
+}
+
+.ks-nav-label {
+  flex: 1;
+  min-width: 0;
+}
+
+.ks-nav-count {
+  min-width: 20px;
+  height: 20px;
+  padding: 0 5px;
+  border-radius: 999px;
+  background: var(--ks-danger);
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* --- Mobile drawer ------------------------------------------------------ */
+
+.ks-scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  background: rgba(15, 42, 61, 0.45);
+}
+
+.ks-drawer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 80;
+  width: min(300px, 86vw);
+  background: var(--ks-surface);
+  padding: 0.5rem 0.65rem 2rem;
+  overflow-y: auto;
+  box-shadow: 4px 0 24px rgba(15, 42, 61, 0.18);
+}
+
+.ks-drawer-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.4rem 0.5rem 0.75rem;
+  margin-bottom: 0.5rem;
+  border-bottom: 1px solid var(--ks-line);
+  font-weight: 700;
+}
+
+.ks-drawer-head button {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 0.25rem;
+  line-height: 0;
+}
+
+.ks-drawer-head button svg {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: var(--ks-ink);
+  stroke-width: 2;
+  stroke-linecap: round;
+  flex-shrink: 0;
+}
+
+/* --- Page heading ------------------------------------------------------- */
+
+.ks-pagehead {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 1rem 1rem 0.85rem;
+  background: var(--ks-surface);
+  border-bottom: 1px solid var(--ks-line);
+}
+
+.ks-pagehead-text h1 {
+  margin: 0;
+  font-size: 1.3rem;
+  line-height: 1.2;
+  font-weight: 700;
+}
+
+.ks-pagehead-text p {
+  margin: 0.2rem 0 0;
+  font-size: 0.86rem;
+  color: var(--ks-muted);
+}
+
+.ks-elder-switch {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  flex-shrink: 0;
+}
+
+.ks-elder-switch span {
+  font-size: 0.68rem;
+  color: var(--ks-muted);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.ks-elder-switch select {
+  border: 1px solid var(--ks-line);
+  border-radius: 8px;
+  padding: 0.3rem 0.5rem;
+  font-size: 0.85rem;
+  background: var(--ks-surface);
+  max-width: 45vw;
+}
+
+.ks-main {
+  padding: 1rem;
+}
+
+
+/* --- Account menu (both portals) -------------------------------------- */
+/* Lives here, not beside one component, so a shell that forgets to import
+   it cannot render the menu unstyled. */
+
+.ks-profile {
+  position: relative;
+}
+
+.ks-avatar-btn {
+  border: none;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+  border-radius: 999px;
+  line-height: 0;
+}
+
+/* globals.css has a blanket `button:hover { background: var(--primary-hover) }`
+   for form buttons. On the account pill that flooded the whole control with
+   solid brand colour, leaving the dark name text sitting on a dark fill. These
+   are chrome controls, not form buttons: a soft tint is enough to show they are
+   live, and it keeps the name readable and the avatar circle distinct.
+   `.class:hover` outranks `button:hover`, so no !important is needed. */
+.ks-avatar-btn:hover,
+.ks-burger:hover {
+  background: var(--ks-brand-soft, #eef3fb);
+}
+
+.ks-avatar-btn:focus-visible {
+  outline: 2px solid var(--ks-brand, #1b4f9c);
+  outline-offset: 2px;
+}
+
+.ks-avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  background: var(--ks-brand, #1b4f9c);
+  color: #fff;
+  font-size: 0.88rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.ks-avatar-lg {
+  width: 46px;
+  height: 46px;
+  font-size: 1rem;
+}
+
+.ks-menu {
+  position: absolute;
+  top: calc(100% + 0.6rem);
+  right: 0;
+  /* Fixed width, clamped to the viewport so it never runs off a phone screen. */
+  width: 288px;
+  max-width: calc(100vw - 1.5rem);
+  box-sizing: border-box;
+  background: #fff;
+  border: 1px solid var(--ks-line, #e3e9ef);
+  border-radius: 14px;
+  box-shadow: 0 14px 38px rgba(15, 42, 61, 0.18);
+  padding: 0.5rem;
+  z-index: 90;
+}
+
+.ks-menu-head {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.5rem 0.5rem 0.8rem;
+  border-bottom: 1px solid var(--ks-line, #e3e9ef);
+  margin-bottom: 0.4rem;
+}
+
+.ks-menu-id {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  min-width: 0;
+}
+
+.ks-menu-id strong {
+  color: var(--ks-ink, #0f2a3d);
+  font-size: 0.95rem;
+  line-height: 1.25;
+}
+
+.ks-menu-id > span {
+  color: var(--ks-muted, #5b7185);
+  font-size: 0.78rem;
+  line-height: 1.3;
+  /* Long emails must not widen the menu. */
+  overflow-wrap: anywhere;
+}
+
+.ks-chip-sm {
+  align-self: flex-start;
+  margin-top: 0.2rem;
+  padding: 0.08rem 0.5rem;
+  border-radius: 999px;
+  background: var(--ks-brand-soft, #eef3fb);
+  color: var(--ks-brand, #1b4f9c) !important;
+  font-size: 0.7rem !important;
+  font-weight: 700;
+  overflow-wrap: normal !important;
+}
+
+.ks-menu-item {
+  display: block;
+  width: 100%;
+  text-align: left;
+  border: none;
+  background: transparent;
+  padding: 0.6rem 0.65rem;
+  border-radius: 9px;
+  color: var(--ks-ink, #0f2a3d);
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.ks-menu-item:hover,
+.ks-menu-item:focus-visible {
+  background: var(--ks-brand-soft, #eef3fb);
+}
+
+.ks-menu-danger {
+  color: #b3261e;
+}
+
+.ks-menu-danger:hover {
+  background: #fdecea;
+}
+
+.ks-menu-sep {
+  height: 1px;
+  background: var(--ks-line, #e3e9ef);
+  margin: 0.4rem 0;
+}
+
+.ks-menu-note {
+  margin: 0.25rem 0.5rem 0.5rem;
+  font-size: 0.8rem;
+}
+
+.ks-ok {
+  color: #1d7a3c;
+}
+
+.ks-err {
+  color: #b3261e;
+}
+
+.ks-pwd {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  padding: 0.25rem 0.5rem 0.5rem;
+}
+
+.ks-pwd label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.22rem;
+}
+
+.ks-pwd label span {
+  font-size: 0.76rem;
+  color: var(--ks-muted, #5b7185);
+  font-weight: 600;
+}
+
+.ks-pwd input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.48rem 0.6rem;
+  border: 1px solid var(--ks-line, #e3e9ef);
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-family: inherit;
+}
+
+.ks-pwd input:focus-visible {
+  outline: 2px solid var(--ks-brand, #1b4f9c);
+  outline-offset: 1px;
+}
+
+.ks-pwd-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.15rem;
+}
+
+.ks-pwd-actions button {
+  flex: 1;
+  font-size: 0.85rem;
+  padding: 0.5rem 0.5rem;
+}
+
+/* --- SafeHome Ops ------------------------------------------------------- */
+
+.ks-ops .ks-nav-link {
+  padding-left: 0.85rem;
+}
+
+.ks-ops .ks-main {
+  padding: 1.25rem 1.25rem 3rem;
+}
+
+.ks-menu-locale {
+  padding: 0.35rem 0.5rem 0.5rem;
+  border-bottom: 1px solid var(--ks-line, #e3e9ef);
+  margin-bottom: 0.35rem;
+}
+
+@media (min-width: 900px) {
+  .ks-burger {
+    display: none;
+  }
+
+  .ks-sidebar {
+    display: block;
+  }
+
+  .ks-logo {
+    height: 60px;
+    width: 60px;
+  }
+
+  .ks-portal-title {
+    font-size: 1.7rem;
+  }
+
+  .ks-main {
+    padding: 1.25rem 1.5rem 3rem;
+    max-width: 1100px;
+  }
+
+  .ks-pagehead {
+    padding: 1.25rem 1.5rem 1rem;
+  }
+
+}
+
+/* Below the sidebar breakpoint the burger appears and the bar has to carry
+   burger, mark, portal title and account button — plus a wallet balance in the
+   family portal. The wordmark is 3.1:1, so at 48px tall it is 149px wide with
+   `flex-shrink: 0`; the outer columns are `1fr` and got an equal share, so the
+   left column overflowed and printed the mark underneath the title.
+
+   The shells swap to the square emblem here (see the <picture> in OpsShell and
+   FamilyShell), which costs ~40px instead of 149px. Both dimensions are set
+   explicitly because the <img> element still carries the wordmark's 1200x387
+   attributes, and `object-fit` keeps it letterboxed rather than stretched if a
+   browser ever picks the wrong source. */
+@media (max-width: 899px) {
+  .ks-topbar {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+  }
+
+  .ks-logo {
+    width: 44px;
+    height: 44px;
+    object-fit: contain;
+  }
+
+  .ks-portal-title {
+    /* Stretch, not centre: a centred item is sized to its own text and spills
+       out of the column, which is the collision this block exists to prevent.
+       The text stays centred via the base rule's text-align. */
+    justify-self: stretch;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+@media (max-width: 480px) {
+  /* "Care Hub" is short enough to keep on phones; just ease the size and let
+     the logo give up room rather than hiding the title. */
+  .ks-portal-title {
+    font-size: 1.15rem;
+  }
+}
+
+/* Name beside the avatar — initials alone don't say whose account is open.
+   Hidden on narrow screens, where the top bar has no room. */
+.ks-avatar-name {
+  display: none;
+  max-width: 12rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #143a45;
+}
+
+@media (min-width: 720px) {
+  .ks-avatar-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    padding-right: 0.7rem;
+    border-radius: 999px;
+    /* The base rule sets line-height: 0 for the bare avatar. Left at 0 the
+       name renders with zero height — present in the DOM, invisible on screen. */
+    line-height: 1.2;
+  }
+
+  .ks-avatar-name {
+    display: inline-block;
+    line-height: 1.2;
+  }
+}
+
+/* Email recipients (EmailChips) and notification switches — ops Settings and family Notifications. */
+.ks-chips {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+}
+.ks-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem 0.35rem 0.25rem 0.7rem;
+  border-radius: 999px;
+  background: #e8f0fc;
+  color: #1f4f9f;
+  font-size: 0.85rem;
+  font-weight: 600;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+.ks-chip button,
+.ks-chip button:hover {
+  min-height: 0;
+  width: 1.4rem;
+  height: 1.4rem;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: #1f4f9f;
+  box-shadow: none;
+  font-size: 1rem;
+  line-height: 1;
+  cursor: pointer;
+}
+.ks-chip button:hover {
+  background: rgba(31, 79, 159, 0.12);
+}
+.ks-chip-add {
+  display: inline-flex;
+  gap: 0.35rem;
+  flex: 1 1 14rem;
+  min-width: 0;
+}
+.ks-chip-add input {
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  padding: 0.4rem 0.6rem;
+  font-size: 0.88rem;
+}
+.ks-chip-add input[aria-invalid="true"] {
+  border-color: #b42318;
+}
+.ks-chip-add button,
+.ks-chip-add button:hover {
+  min-height: 0;
+  padding: 0.4rem 0.8rem;
+  border-radius: 9px;
+  border: 1px solid rgba(47, 111, 214, 0.35);
+  background: #fff;
+  color: #1f4f9f;
+  box-shadow: none;
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+.ks-chip-error {
+  flex-basis: 100%;
+  color: #b42318;
+}
+.ks-switches {
+  list-style: none;
+  margin: 0.5rem 0 1rem;
+  padding: 0;
+  display: grid;
+  gap: 0.15rem;
+}
+.ks-switches label {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.45rem 0;
+  font-weight: 600;
+  cursor: pointer;
+}
+.ks-switches label input[type="checkbox"][role="switch"] {
+  appearance: none;
+  -webkit-appearance: none;
+  box-sizing: border-box;
+  flex: 0 0 2.4rem;
+  min-width: 2.4rem;
+  max-width: 2.4rem;
+  min-height: 0;
+  box-shadow: none;
+  outline-offset: 2px;
+  position: relative;
+  width: 2.4rem;
+  height: 1.35rem;
+  margin: 0;
+  padding: 0;
+  border-radius: 999px;
+  border: 0;
+  background: #cbd5e1;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.ks-switches label input[type="checkbox"][role="switch"]::after {
+  content: "";
+  position: absolute;
+  top: 0.15rem;
+  left: 0.15rem;
+  width: 1.05rem;
+  height: 1.05rem;
+  border-radius: 999px;
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(16, 36, 58, 0.3);
+  transition: transform 0.15s;
+}
+.ks-switches label input[type="checkbox"][role="switch"]:checked {
+  background: #5a8a1f;
+}
+.ks-switches label input[type="checkbox"][role="switch"]:checked::after {
+  transform: translateX(1.05rem);
+}
+.ks-switches label input[type="checkbox"][role="switch"]:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+.ks-email-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.ks-email-head small {
+  color: #5a8a1f;
+  font-weight: 700;
+}
+.ks-email-prefs h3 {
+  margin: 0.5rem 0 0.25rem;
+  font-size: 1rem;
+}
+
+/* SOS bar on every ops page (components/ops/SosBanner.tsx). */
+.ks-sos-bar {
+  position: sticky;
+  top: calc(var(--ko-topbar-h, 68px) + 0.5rem);
+  z-index: 35;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin: -0.25rem 0 1rem;
+  padding: 0.7rem 1rem;
+  border-radius: 14px;
+  background: #b42318;
+  color: #fff;
+  box-shadow: 0 10px 24px -12px rgba(180, 35, 24, 0.7);
+}
+
+.ks-sos-dot {
+  flex: none;
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 999px;
+  background: #fff;
+  animation: ks-sos-pulse 1s ease-in-out infinite;
+}
+
+@keyframes ks-sos-pulse {
+  50% {
+    opacity: 0.25;
+  }
+}
+
+.ks-sos-text {
+  flex: 1 1 18rem;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.ks-sos-text em {
+  font-style: normal;
+  opacity: 0.85;
+}
+
+.ks-sos-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 0.75rem;
+}
+
+.ks-sos-actions button:focus-visible,
+.ks-sos-actions a:focus-visible {
+  outline: 3px solid #fff;
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ks-sos-dot {
+    animation: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .ks-sos-bar {
+    padding: 0.6rem 0.75rem;
+    border-radius: 10px;
+  }
+
+  .ks-sos-actions button {
+    min-height: 44px;
+  }
+}
+
+.ks-sos-actions button,
+.ks-sos-actions button:hover {
+  min-height: 0;
+  padding: 0.45rem 0.9rem;
+  border: 0;
+  border-radius: 9px;
+  background: #fff;
+  color: #b42318;
+  box-shadow: none;
+  font-weight: 800;
+}
+
+.ks-sos-actions a,
+.ks-sos-bar .ks-sos-actions a.ks-sos-open,
+.ks-sos-bar .ks-sos-actions a.ks-sos-open:hover,
+.ks-sos-bar .ks-sos-actions a.ks-sos-open:visited {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.4rem 0.9rem;
+  border: 2px solid #fff;
+  border-radius: 9px;
+  color: #fff;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+/* Phone: the bar scrolls with the page instead of covering it. */
+@media (max-width: 600px) {
+  .ks-sos-bar {
+    position: static;
+    gap: 0.5rem;
+    margin-top: 0;
+  }
+  .ks-sos-text {
+    flex-basis: calc(100% - 1.5rem);
+    font-size: 0.9rem;
+  }
+}
+
+.ks-sos-actions .ks-sos-sound,
+.ks-sos-actions .ks-sos-sound:hover {
+  background: rgba(255, 255, 255, 0.18);
+  color: #fff;
+}
+
+.ks-sos-text .ks-sos-more {
+  color: #fff;
+  font-weight: 700;
+}
+
+/* "View only" note for non-admins on admin pages (Settings, Notifications & SOS). */
+.st-viewonly {
+  margin: 0 0 1rem;
+  padding: 0.7rem 0.9rem;
+  border-left: 4px solid #2f6fd6;
+  background: #eef4fd;
+  color: #0e2a4f;
+  font-size: 0.9rem;
+}
+
+/* Alerts desk: "Call client" / "Call family" as real buttons (app/(app)/kushalaya/alerts). */
+.ks-call-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0.5rem 0 0;
+}
+
+.ks-call-btn,
+.ks-call-btn:visited {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-height: 44px;
+  padding: 0 0.95rem;
+  border: 1px solid #1f5fbf;
+  border-radius: 10px;
+  background: #fff;
+  color: #1f5fbf;
+  font-weight: 700;
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+.ks-call-btn:hover {
+  background: #eef4fd;
+}
+
+/* Raise emergency form (components/ops/RaiseEmergency.tsx). */
+.ks-emg-form {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.ks-emg-form label,
+.ks-emg-form .ks-emg-legend {
+  display: grid;
+  gap: 0.3rem;
+  margin: 0 0 0.3rem;
+  padding: 0;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: inherit;
+}
+
+.ks-emg-form label > input,
+.ks-emg-form label > select,
+.ks-emg-form label > textarea {
+  font-weight: 400;
+}
+
+button.ks-emg-x,
+button.ks-emg-x:hover {
+  position: absolute;
+  top: 0.6rem;
+  right: 0.6rem;
+  width: 2.25rem;
+  height: 2.25rem;
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: #64748b;
+  box-shadow: none;
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+button.ks-emg-x:hover {
+  background: rgba(15, 23, 42, 0.06);
+  color: #0f172a;
+}
+
+.ks-emg-loadfail {
+  padding: 0.85rem 1rem;
+  border: 1px solid rgba(180, 35, 24, 0.3);
+  border-radius: 10px;
+  background: #fdf1ef;
+}
+
+.ks-emg-loadfail a {
+  color: #b42318;
+}
+
+/* ==========================================================================
+   Page actions, section tabs and back links (components/ops/PageActions.tsx).
+   One pattern for link rows in page headers: secondary pill buttons that wrap
+   on desktop and scroll sideways on phones; sibling pages as a segmented bar.
+   ========================================================================== */
+.ks-pa {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin: 0 0 1rem;
+}
+.ks-pa-main {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+.ks-pa-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 0;
+}
+.ks-pa-links:only-child {
+  margin-left: auto;
+}
+.ks-pa a.ks-pa-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-height: 38px;
+  padding: 0 0.95rem;
+  border-radius: 999px;
+  border: 1px solid #d5e0ee;
+  background: #fff;
+  color: #17498c;
+  font-size: 0.86rem;
+  font-weight: 700;
+  line-height: 1.2;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background 0.12s ease, border-color 0.12s ease;
+}
+.ks-pa a.ks-pa-item:hover {
+  background: #e8f0fb;
+  border-color: #b9cde8;
+  color: #17498c;
+}
+.ks-pa a.ks-pa-item:focus-visible,
+.ks-seg a.ks-seg-item:focus-visible,
+a.ks-back:focus-visible {
+  outline: 2px solid #1d5fb4;
+  outline-offset: 2px;
+}
+.ks-pa-icon {
+  display: inline-flex;
+  color: #1d5fb4;
+}
+
+.ks-seg {
+  display: inline-flex;
+  gap: 2px;
+  margin: 0 0 1rem;
+  padding: 4px;
+  border-radius: 13px;
+  border: 1px solid #dfe7f1;
+  background: #fff;
+  max-width: 100%;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.ks-seg::-webkit-scrollbar {
+  display: none;
+}
+.ks-seg .ks-seg-item {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 36px;
+  padding: 0 1rem;
+  border-radius: 9px;
+  color: #4b5b70;
+  font-size: 0.88rem;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.ks-seg a.ks-seg-item:hover {
+  background: #eef3f9;
+  color: #0e2a4f;
+}
+.ks-seg .ks-seg-item.is-on {
+  background: #0e2a4f;
+  color: #fff;
+}
+
+a.ks-back.ks-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  min-height: 32px;
+  color: #1d5fb4;
+  font-size: 0.88rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+a.ks-back.ks-back:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 640px) {
+  .ks-seg {
+    display: flex;
+    width: 100%;
+  }
+  .ks-seg .ks-seg-item {
+    flex: 1 0 auto;
+    min-height: 44px;
+    padding: 0 0.7rem;
+    font-size: 0.85rem;
+  }
+  .ks-pa-links {
+    flex-wrap: nowrap;
+    width: 100%;
+    overflow-x: auto;
+    padding-bottom: 2px;
+    scrollbar-width: none;
+  }
+  .ks-pa-links::-webkit-scrollbar {
+    display: none;
+  }
+  .ks-pa-links:only-child {
+    margin-left: 0;
+  }
+  .ks-pa a.ks-pa-item,
+  a.ks-back {
+    min-height: 44px;
+  }
+}
+.ks-pa.is-inline {
+  margin: 0;
+}
+
+/* Client care team (customers/[id] Overview, clients list bulk bar) */
+.ct-card h3 {
+  margin: 0;
+  font-size: 1rem;
+}
+.ct-block {
+  border-top: 1px solid #e2e8f0;
+  padding-top: 0.75rem;
+  margin-top: 0.75rem;
+  min-width: 0;
+}
+.ct-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+.ct-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.6rem;
+}
+.ct-list li {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  min-width: 0;
+}
+.ct-person {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  min-width: 0;
+}
+.ct-contacts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1rem;
+  overflow-wrap: anywhere;
+}
+.ct-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  color: #1b4f9c;
+  font-weight: 600;
+}
+.ct-actions,
+.ct-dialog-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.ct-dialog-actions {
+  justify-content: flex-end;
+  margin-top: 1rem;
+}
+.ct-btn {
+  min-height: 44px;
+  min-width: 44px;
+}
+.ct-recent summary {
+  cursor: pointer;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+}
+.ct-notice {
+  background: #eef6ff;
+  border: 1px solid #bfdbfe;
+  border-radius: 10px;
+  padding: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+.ct-notice p {
+  margin: 0 0 0.4rem;
+}
+.ct-dialog {
+  max-width: 480px;
+  width: calc(100vw - 32px);
+}
+.ct-field {
+  display: grid;
+  gap: 0.35rem;
+  margin: 0.75rem 0 0;
+  border: 0;
+  padding: 0;
+  min-width: 0;
+}
+.ct-field select,
+.ct-field textarea {
+  min-height: 44px;
+  width: 100%;
+}
+.ct-radio {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 44px;
+}
+.ct-radio input {
+  width: 22px;
+  height: 22px;
+}
+.ct-bulk {
+  position: sticky;
+  bottom: 0;
+  z-index: 5;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 0.75rem;
+  background: #fff;
+  border: 1px solid #cbd5e1;
+  border-radius: 12px;
+  box-shadow: 0 -4px 16px rgba(15, 23, 42, 0.08);
+  margin-top: 0.75rem;
+}
+.ct-check {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+}
+.ct-check input {
+  width: 20px;
+  height: 20px;
+}
+.ct-selects {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 0.5rem 1rem;
+  margin: 0.5rem 0 0.75rem;
+}
+.ct-selects label {
+  display: grid;
+  gap: 0.25rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  min-width: 0;
+  flex: 1 1 160px;
+  max-width: 260px;
+}
+.ct-selects select {
+  min-height: 44px;
+  width: 100%;
+}
+.ct-selects .ct-all {
+  display: inline-flex;
+  flex: 0 0 auto;
+  gap: 0.4rem;
+  font-weight: 500;
+}
+.ct-their {
+  margin-top: 0.75rem;
+  display: grid;
+  gap: 0.35rem;
+}
+.ct-their .ct-list li {
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0 0.75rem;
+}
+.ct-chips {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.3rem;
+  min-width: 0;
+  max-width: 260px;
+}
+.ct-chips .cl-chip {
+  white-space: normal;
+}
+.cl-main.ct-pickable {
+  grid-template-columns: auto auto minmax(0, 1fr) auto auto;
+}
+@media (max-width: 900px) {
+  .cl-main .ct-chips {
+    grid-column: 2;
+    max-width: 100%;
+  }
+  .cl-main.ct-pickable {
+    grid-template-columns: auto auto minmax(0, 1fr);
+  }
+  .cl-main.ct-pickable .ct-chips,
+  .cl-main.ct-pickable .cl-actions-row {
+    grid-column: 2 / -1;
+  }
+}
+/* Above the fixed footer on the clients list */
+.ct-bulk {
+  bottom: 56px;
+}
+
+/* More menu (components/ops/MoreMenu.tsx), FIX 110 builder C. */
+.ks-more {
+  position: relative;
+  display: inline-flex;
+}
+.ks-more-menu {
+  position: absolute;
+  top: calc(100% + 0.35rem);
+  left: 0;
+  z-index: 60;
+  display: grid;
+  min-width: 13rem;
+  max-width: calc(100vw - 2rem);
+  padding: 0.35rem;
+  border-radius: 12px;
+  background: #fff;
+  border: 1px solid rgba(16, 36, 58, 0.1);
+  box-shadow: 0 12px 28px -12px rgba(16, 36, 58, 0.35);
+}
+.ks-more-menu.is-right {
+  left: auto;
+  right: 0;
+}
+.ko-main .ks-more-menu .ks-more-item,
+.ko-main .ks-more-menu .ks-more-item:hover {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-height: 44px;
+  padding: 0 0.8rem;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  box-shadow: none;
+  color: #0e2a4f;
+  font: inherit;
+  font-weight: 700;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+}
+.ko-main .ks-more-menu .ks-more-item:hover,
+.ko-main .ks-more-menu .ks-more-item:focus-visible {
+  background: #eef4fd;
+}
+.ko-main .ks-more-menu .ks-more-item.is-danger {
+  color: #b3261e;
+}
+.ko-main .ks-more-menu .ks-more-item.is-danger:hover {
+  background: #fdecea;
+}
+.ko-main .ks-more-dots {
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0 0.6rem;
+  font-size: 1.2rem;
+  line-height: 1;
+}
+
+/* Standard page frame (FIX 110 builder A): back link above the title,
+   subtitle, then page actions, with one gap between every block.
+   <div class="ks-frame [is-narrow]"><header class="ks-head">…</header>… */
+.ko-main .ks-frame {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  min-width: 0;
+}
+.ko-main .ks-frame.is-narrow {
+  max-width: 60rem;
+}
+.ko-main .ks-frame > *,
+.ko-main .ks-frame > .card,
+.ko-main .ks-frame > .ks-pa {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+.ko-main .ks-head {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.3rem;
+  min-width: 0;
+}
+.ko-main .ks-head h1 {
+  margin: 0;
+}
+.ko-main .ks-head > p {
+  margin: 0;
+  max-width: 50rem;
+}
+/* A secondary button: outlined, not the filled primary. */
+.ko-main button.ks-btn-secondary,
+.ko-main .ks-btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  min-height: 44px;
+  padding: 0 1rem;
+  border-radius: 999px;
+  border: 1px solid #c9d7ea;
+  background: #fff;
+  color: #17498c;
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 700;
+  box-shadow: none;
+  cursor: pointer;
+  text-decoration: none;
+}
+.ko-main button.ks-btn-secondary:hover:not(:disabled) {
+  background: #eef4fd;
+  border-color: #9fbbe0;
+}
+/* Pill-shaped primary inside page actions ("+ Add enquiry"). */
+.ko-main .ks-pa-main button {
+  min-height: 44px;
+  border-radius: 999px;
+  padding: 0 1.1rem;
+}
+/* Small type tag at the start of a row ("Staff", "Family"). */
+.ks-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.1rem 0.55rem;
+  border-radius: 999px;
+  background: #eef3fb;
+  color: #17498c;
+  font-size: 0.75rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.ks-tag.is-family { background: #fdf1e6; color: #8a4b0f; }
+.ks-tag.is-assessor { background: #e9f6ee; color: #1d6b3b; }
+.ks-tag.is-system { background: #f1f3f6; color: #4b5b70; }
+/* Right-hand drawer for a short form (Enquiries "+ Add enquiry"). */
+.ks-side-drawer-scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  background: rgba(14, 42, 79, 0.35);
+}
+.ks-side-drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 81;
+  width: min(28rem, 100vw);
+  overflow-y: auto;
+  padding: 1.25rem;
+  background: #fff;
+  box-shadow: -12px 0 32px -16px rgba(16, 36, 58, 0.45);
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+.ks-side-drawer-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+.ks-side-drawer-head h2 {
+  margin: 0;
+}
+.ks-side-drawer label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-weight: 600;
+}
+
+/* Assessment questions (RubricAdminEditor): section header as text + Edit, Open, ⋯ menu. */
+.home-safety-rubric-admin .rubric-stats {
+  margin: 0 0 1rem;
+}
+.home-safety-rubric-admin .rubric-cat-name {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex: 1 1 14rem;
+  min-width: 0;
+  font-size: 1rem;
+}
+.home-safety-rubric-admin .rubric-cat-meta {
+  font-size: 0.86rem;
+  white-space: nowrap;
+}
+.home-safety-rubric-admin .rubric-cat-btns {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.ko-main .home-safety-rubric-admin button.rubric-link-btn {
+  min-height: 32px;
+  padding: 0 0.4rem;
+  border: 0;
+  background: none;
+  box-shadow: none;
+  color: #1d5fb4;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+.ko-main .home-safety-rubric-admin button.rubric-link-btn:hover {
+  text-decoration: underline;
+}
+.home-safety-rubric-admin .rubric-menu-wrap {
+  position: relative;
+  display: inline-flex;
+}
+.ko-main .home-safety-rubric-admin button.rubric-menu-btn {
+  min-width: 40px;
+  min-height: 38px;
+  padding: 0 0.6rem;
+  font-size: 1.1rem;
+  line-height: 1;
+}
+.home-safety-rubric-admin .rubric-menu {
+  position: absolute;
+  top: calc(100% + 4px);
+  right: 0;
+  z-index: 20;
+  display: grid;
+  min-width: 170px;
+  padding: 4px;
+  border: 1px solid #dfe7f1;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 10px 28px rgba(16, 36, 58, 0.16);
+}
+.ko-main .home-safety-rubric-admin .rubric-menu button {
+  justify-content: flex-start;
+  min-height: 40px;
+  padding: 0 0.75rem;
+  border: 0;
+  border-radius: 8px;
+  background: none;
+  box-shadow: none;
+  color: #0e2a4f;
+  font-weight: 600;
+  text-align: left;
+}
+.ko-main .home-safety-rubric-admin .rubric-menu button:hover {
+  background: #eef3f9;
+}
+.ko-main .home-safety-rubric-admin .rubric-menu button.is-danger {
+  color: #b42318;
+}
+@media (max-width: 600px) {
+  .home-safety-rubric-admin .rubric-cat-name {
+    flex-basis: 100%;
+  }
+  .home-safety-rubric-admin .rubric-cat-btns {
+    margin-left: auto;
+  }
+  .ko-main .home-safety-rubric-admin button.rubric-link-btn,
+  .ko-main .home-safety-rubric-admin .rubric-cat-btns button,
+  .ko-main .home-safety-rubric-admin .rubric-menu button {
+    min-height: 44px;
+  }
+}
+/* Back link sits above the page title (FIX 110). */
+.ks-back-row {
+  margin: 0 0 0.2rem;
+}
+/* A link inside a sentence: brand colour, no raw underline until hover. */
+.ko-main a.ks-link {
+  color: #1d5fb4;
+  font-weight: 700;
+  text-decoration: none;
+}
+.ko-main a.ks-link:hover,
+.ko-main a.ks-link:focus-visible {
+  text-decoration: underline;
+}
+/* Light segmented tabs, same look as Visits/Clients (.sc-tabs): grey track, white current tab. */
+.ko-main .tabs.ks-ltabs {
+  flex-wrap: nowrap;
+  max-width: 100%;
+  overflow-x: auto;
+  scrollbar-width: none;
+  gap: 0.15rem;
+  padding: 0.25rem;
+  border: 0;
+  border-radius: 12px;
+  background: #e8edf4;
+  box-shadow: none;
+}
+.ko-main .tabs.ks-ltabs .tab {
+  border-radius: 9px;
+  background: transparent;
+  color: #4b5b70;
+  white-space: nowrap;
+}
+.ko-main .tabs.ks-ltabs .tab:hover:not(.active) {
+  background: rgba(255, 255, 255, 0.6);
+  color: #0e2a4f;
+}
+.ko-main .tabs.ks-ltabs .tab.active,
+.ko-main .tabs.ks-ltabs .tab.active:hover {
+  background: #fff;
+  color: #0e2a4f;
+  box-shadow: 0 2px 6px -2px rgba(16, 36, 58, 0.25);
+}
+@media (max-width: 1000px) {
+  .ko-main .tabs.ks-ltabs .tab {
+    min-height: 44px;
+  }
+}
+/* Activity log rows: a coloured edge per kind of person, matching the tag. */
+.ko-main .session-activity-accordion {
+  border-left: 4px solid #9fbbe0;
+}
+.ko-main .session-activity-accordion.is-family { border-left-color: #e3a35b; }
+.ko-main .session-activity-accordion.is-assessor { border-left-color: #3e9a63; }
+.ko-main .session-activity-accordion.is-system { border-left-color: #b8c2cf; }
+.ko-main .session-activity-accordion .ai-ops-accordion-toggle {
+  min-height: 44px;
+}
+/* Lead funnel table (components/ops/LeadFunnel.tsx): one card per month on phones. */
+@media (max-width: 640px) {
+  .ko-main .ks-funnel thead { display: none; }
+  .ko-main .ks-funnel,
+  .ko-main .ks-funnel tbody { display: block; width: 100%; }
+  .ko-main .ks-funnel tr {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.35rem 0.75rem;
+    padding: 0.7rem 0;
+    border-bottom: 1px solid rgba(16, 36, 58, 0.08);
+  }
+  .ko-main .ks-funnel td {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.5rem;
+    padding: 0;
+    border: 0;
+    background: none;
+  }
+  .ko-main .ks-funnel td.ks-funnel-month {
+    grid-column: 1 / -1;
+    font-weight: 700;
+  }
+  .ko-main .ks-funnel td[data-label]::before {
+    content: attr(data-label);
+    color: #64748b;
+    font-size: 0.82rem;
+  }
+}
+/* Assessments: "Show empty drafts (N)" toggle. */
+.al-empty-toggle {
+  margin: 0 0 0.75rem;
+}
+@media (max-width: 640px) {
+  a.ks-back.ks-back {
+    min-height: 44px;
+  }
+}
+/* Links that act as secondary buttons (FIX 110): same soft-blue skin as button.secondary. */
+.ko-main a.cl-fam-btn,
+.ko-main a.cp-inline-btn,
+.ko-main .cp-actions a.cp-act-sm,
+.ko-main .ks-pa-main a.secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 11px;
+  background: var(--ko-blue-soft, #e8f0fb);
+  color: var(--ko-blue-deep, #17498c);
+  font-weight: 800;
+  font-size: 0.88rem;
+  text-decoration: none;
+}
+.ko-main .ks-pa-main a.secondary {
+  min-height: 40px;
+  padding: 0.58rem 1.05rem;
+  box-sizing: border-box;
+}
+.ko-main a.cl-fam-btn:hover,
+.ko-main a.cp-inline-btn:hover,
+.ko-main .cp-actions a.cp-act-sm:hover,
+.ko-main .ks-pa-main a.secondary:hover {
+  background: #dbe7f8;
+  text-decoration: none;
+}
+@media (max-width: 640px) {
+  .ko-main .table.ks-funnel td {
+    border: 0;
+    padding: 0.15rem 0;
+  }
+}
+
+/* ——— Batch B+C ops (2026-10-08) ——— */
+
+/* Access denied (/unauthorized) inside the ops shell, styled like the 404. */
+.ko-main .not-found.is-in-shell {
+  min-height: 50vh;
+  background: transparent;
+}
+
+/* Read-only settings list (Security for managers). */
+.ks-readonly-list { display: grid; gap: 0.6rem; margin: 0; }
+.ks-readonly-list > div { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; padding: 0.5rem 0; border-bottom: 1px solid #e3e9f1; }
+.ks-readonly-list dd { margin: 0; font-weight: 700; }
+
+/* Assessment detail: client name heading and a spaced score / status line. */
+.ko-main .ks-assess-head { margin: 0 0 0.75rem; }
+.ko-main .ks-assess-head h1 { margin: 0 0 0.15rem; }
+.ko-main .ks-assess-head p { margin: 0; }
+.ko-main .home-safety-wizard-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1.25rem;
+  margin-bottom: 1rem;
+}
+.ko-main .home-safety-live-score {
+  display: inline-flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.75rem;
+  padding: 0.45rem 0.9rem;
+  border-width: 2px;
+  border-style: solid; /* colour from .home-safety-grade-* */
+  border-radius: 12px;
+  background: #fff;
+}
+.ko-main .home-safety-live-score-value { font-size: 1.4rem; font-weight: 800; }
+.ko-main .home-safety-live-score-value small { font-size: 0.8rem; font-weight: 600; color: #61748a; margin-left: 0.1rem; }
+.ko-main .home-safety-live-score-band { font-weight: 700; }
+.ko-main .home-safety-live-score-pct { color: #61748a; font-size: 0.85rem; }
+.ko-main .home-safety-lock-banner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1rem;
+}
+.ko-main .home-safety-lock-state { font-weight: 700; }
+.ko-main .home-safety-lock-actions { display: inline-flex; flex-wrap: wrap; gap: 0.5rem; }
+
+/* Phone tap targets: real 44px for the small row actions (#14). */
+@media (max-width: 720px) {
+  .ko-main .ks-tap44,
+  .ko-main .dash-act,
+  .ko-main .cl-open,
+  .ko-main .cp-go,
+  .ko-main .ks-more-item,
+  .kl-vitals-toggle {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+}
+
+/* Standard "not found" empty state inside a page (e.g. Client not found). */
+.ko-main .ks-empty-state { display: grid; justify-items: start; gap: 0.5rem; padding: 1.5rem; }
+.ko-main .ks-empty-state h1 { margin: 0; font-size: 1.3rem; }
+.ko-main .ks-empty-state p { margin: 0; }
+.ko-main .ks-empty-action { display: inline-flex; align-items: center; min-height: 44px; font-weight: 700; }
+
+/* Hide on paper (e.g. the AI preview link above the printable report). */
+@media print {
+  .ks-no-print {
+    display: none !important;
+  }
+}
+
+/* Safety score card foot + focus-area chips (SafetyScoreCard: family app and ops client page). */
+.home-safety-score-foot {
+  flex: 1 1 100%;
+  min-width: 0;
+}
+.home-safety-score-foot .home-safety-score-summary {
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.home-safety-focus-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0.5rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+.home-safety-focus-chips li {
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  line-height: 1.4;
+  background: var(--fh-surface-2, #f1f4f7);
+  border: 1px solid var(--fh-line, #dde3ea);
+  color: var(--fh-navy, #1d2b3a);
+  white-space: nowrap;
+}
+
+
+/* Round 4: funnel "include closed leads" toggle */
+.ks-funnel-closed { display: inline-flex; align-items: center; gap: 0.5rem; min-height: 44px; font-size: 0.85rem; }
+
+/* Visit checked in / finished away from home (components/ops/VisitLocationAlerts.tsx). */
+.ks-loc-alerts {
+  display: grid;
+  gap: 0.4rem;
+  margin: 0 0 1rem;
+}
+
+.ks-loc-alert {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  padding: 0.55rem 0.6rem 0.55rem 0.9rem;
+  border-radius: 12px;
+  background: #fff7ed;
+  border: 1px solid #fed7aa;
+  color: #7c2d12;
+  font-size: 0.9rem;
+}
+
+.ks-loc-alert > span {
+  flex: 1;
+  min-width: 0;
+}
+
+.ks-loc-alert a {
+  color: inherit;
+  font-weight: 600;
+}
+
+.ks-loc-alert button {
+  flex: none;
+  width: 28px;
+  height: 28px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: inherit;
+  font-size: 1.2rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.ks-loc-alert button:hover {
+  background: #ffedd5;
+}
+
+.ks-loc-more {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #7c2d12;
+}
+
+/* SOS in the Ops top bar (every page) and the raise-emergency client search. */
+.ko-topbar-right .ko-sos-btn {
+  min-height: 40px;
+  padding: 0 1.1rem;
+  border: 0;
+  border-radius: 999px;
+  background: #c8402f;
+  color: #fff;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  box-shadow: 0 0 0 4px rgba(200, 64, 47, 0.15);
+  cursor: pointer;
+}
+.ko-topbar-right .ko-sos-btn:hover,
+.ko-topbar-right .ko-sos-btn:focus-visible {
+  background: #a8321f;
+}
+.ks-emg-results {
+  list-style: none;
+  margin: 0.4rem 0 0;
+  padding: 0;
+  max-height: 14rem;
+  overflow-y: auto;
+  border: 1px solid #dde3ea;
+  border-radius: 10px;
+}
+.ks-emg-results li + li {
+  border-top: 1px solid #eef2f7;
+}
+.ks-emg-results li.muted {
+  padding: 0.6rem 0.75rem;
+}
+.ks-emg-results button {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.6rem 0.75rem;
+  background: #fff;
+  color: #0e2a4f;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  text-align: left;
+  min-height: 44px;
+  cursor: pointer;
+}
+.ks-emg-results button:hover,
+.ks-emg-results button:focus-visible {
+  background: #f1f5fb;
+}
+.ks-emg-results small,
+.ks-emg-chosen small {
+  color: #64748b;
+}
+.ks-emg-chosen {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.6rem 0.75rem;
+  border: 1px solid #cfe6a6;
+  background: #f6fbee;
+  border-radius: 10px;
+}
+.ks-emg-confirm {
+  flex-basis: 100%;
+  margin: 0 0 0.25rem;
+  color: #9b1c1c;
+}
+/* The raise-emergency form never grows past the screen: on a short laptop or a
+   phone its top (the client search) was pushed out of view. */
+.ks-emg-modal {
+  max-height: calc(100dvh - 2rem);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+/* Raise emergency in three steps (27 Oct): step bar, big targets, phone layout. */
+.ks-emg-steps {
+  list-style: none;
+  display: flex;
+  gap: 0.4rem;
+  margin: 0 0 0.25rem;
+  padding: 0;
+}
+.ks-emg-steps li {
+  flex: 1 1 0;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.45rem 0.5rem;
+  border-radius: 10px;
+  background: #f1f5f9;
+  color: #64748b;
+  font-size: 0.82rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.ks-emg-steps li span {
+  display: inline-grid;
+  place-items: center;
+  width: 1.4rem;
+  height: 1.4rem;
+  border-radius: 50%;
+  background: #cbd5e1;
+  color: #fff;
+  font-size: 0.75rem;
+  flex: none;
+}
+.ks-emg-steps li.is-on {
+  background: #fdecea;
+  color: #9b1c1c;
+}
+.ks-emg-steps li.is-on span {
+  background: #c8402f;
+}
+.ks-emg-steps li.is-done span {
+  background: #4f8a1d;
+}
+.ks-emg-types {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(9rem, 1fr));
+  gap: 0.45rem;
+}
+.ks-emg-types button,
+.ks-emg-actions button {
+  min-height: 48px;
+}
+.ks-emg-actions {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: flex-end;
+}
+.ks-emg-hint {
+  margin: 0;
+  font-size: 0.85rem;
+  text-align: right;
+}
+.ks-emg-summary dl {
+  margin: 0;
+  display: grid;
+  gap: 0.5rem;
+}
+.ks-emg-summary dl > div {
+  display: grid;
+  grid-template-columns: 9rem 1fr;
+  gap: 0.5rem;
+  padding: 0.55rem 0.75rem;
+  border-radius: 10px;
+  background: #f8fafc;
+}
+.ks-emg-summary dt {
+  color: #64748b;
+  font-size: 0.85rem;
+}
+.ks-emg-summary dd {
+  margin: 0;
+  font-weight: 700;
+  color: #0e2a4f;
+}
+@media (max-width: 600px) {
+  .ks-emg-modal {
+    width: calc(100vw - 1rem);
+    max-width: none;
+    padding: 1rem;
+  }
+  .ks-emg-steps li {
+    flex-direction: column;
+    font-size: 0.72rem;
+    gap: 0.2rem;
+    text-align: center;
+    white-space: normal;
+  }
+  .ks-emg-actions {
+    position: sticky;
+    bottom: -1rem;
+    background: #fff;
+    padding: 0.5rem 0;
+  }
+  .ks-emg-actions button {
+    flex: 1 1 0;
+  }
+  .ks-emg-summary dl > div {
+    grid-template-columns: 1fr;
+    gap: 0.1rem;
+  }
+}
+
+/* Raise-emergency overlay: it opens on the page body (from the top-bar SOS), outside
+   the app's own styles, so it carries its own centring. */
+.ks-emg-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background: rgba(14, 42, 79, 0.45);
+}
+.ks-emg-backdrop > .ks-emg-modal {
+  margin: 0;
+  width: min(560px, 100%);
+}
+.ks-emg-actions button:disabled {
+  background: #e2e8f0;
+  border-color: #e2e8f0;
+  color: #94a3b8;
+  box-shadow: none;
+  cursor: not-allowed;
+}
+
+/* --- Ops modal (components/ops/OpsModal.tsx): every Add / Assign / New form --- */
+.ks-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background: rgba(14, 42, 79, 0.45);
+}
+.ks-modal {
+  display: flex;
+  flex-direction: column;
+  width: min(560px, 100%);
+  max-height: calc(100dvh - 2rem);
+  border-radius: 18px;
+  background: #fff;
+  box-shadow: 0 24px 60px rgba(14, 42, 79, 0.28);
+  overflow: hidden;
+}
+.ks-modal.is-wide { width: min(860px, 100%); }
+.ks-modal-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 1rem 1.2rem 0.6rem;
+  border-bottom: 1px solid #edf1f6;
+}
+.ks-modal-head h2 { margin: 0; font-size: 1.2rem; color: #0f2a4a; }
+.ks-modal .ks-modal-x {
+  flex: 0 0 auto;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  box-shadow: none;
+  color: #0f2a4a;
+  font-size: 1.05rem;
+  cursor: pointer;
+}
+.ks-modal .ks-modal-x:hover { background: #eef2f7; }
+.ks-modal-body {
+  min-height: 0; /* scrolling flex child */
+  overflow-y: auto;
+  padding: 1rem 1.2rem 1.2rem;
+}
+/* Forms moved into the popup lose their old card look. */
+.ks-modal-body > form,
+.ks-modal-body > .card {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  box-shadow: none;
+  background: transparent;
+}
+.ks-modal-error {
+  margin: 0 0 0.75rem;
+  padding: 0.55rem 0.75rem;
+  border-radius: 8px;
+  background: #fdecec;
+  color: #a12020;
+  font-size: 0.9rem;
+}
+@media (max-width: 560px) {
+  .ks-modal-backdrop { padding: 0.5rem; }
+  .ks-modal { border-radius: 16px; }
+}
+
+/* Page header with actions top right (Assessments …): text buttons on wide
+   screens, icon buttons on phones. */
+.ks-head-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+.ks-head-row > :first-child { flex: 1 1 auto; min-width: 0; }
+.ks-head-actions { display: flex; flex: 0 0 auto; gap: 0.5rem; padding-top: 0.35rem; }
+.ks-head-actions .ks-ha-icon { display: none; }
+@media (max-width: 640px) {
+  .ks-head-actions .ks-ha-label { display: none; }
+  .ks-head-actions .ks-ha-icon { display: inline; font-size: 1.2rem; line-height: 1; }
+  .ks-head-actions button { width: 44px; min-width: 44px; min-height: 44px; padding: 0; justify-content: center; }
+}
+
+/* --- Search pick (components/ops/SearchPick.tsx): type-to-search client / lead lists --- */
+.ks-pick { position: relative; display: grid; gap: 0.3rem; }
+.ks-pick > label { font-weight: 600; font-size: 0.92rem; }
+.ks-pick > input { width: 100%; min-height: 46px; padding: 0 0.8rem; border: 1px solid #d4dbe5; border-radius: 12px; font: inherit; }
+.ks-pick-list {
+  position: absolute;
+  z-index: 5;
+  top: 100%;
+  left: 0;
+  right: 0;
+  margin: 0.25rem 0 0;
+  padding: 0.3rem;
+  list-style: none;
+  max-height: 260px;
+  overflow-y: auto;
+  border: 1px solid #d4dbe5;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 12px 30px rgba(14, 42, 79, 0.16);
+}
+.ks-pick-list li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.15rem 0.5rem;
+  min-height: 44px;
+  padding: 0.5rem 0.65rem;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.ks-pick-list li.is-hi, .ks-pick-list li:hover { background: #eef4ff; }
+.ks-pick-list li em { font-style: normal; font-size: 0.72rem; font-weight: 700; color: #8a5a00; background: #fff4e5; padding: 0 0.4rem; border-radius: 999px; }
+.ks-pick-list li small { flex-basis: 100%; color: #5b6b80; }
+.ks-pick-list .ks-pick-none { color: #5b6b80; cursor: default; }
+.ks-pick-list.is-inline { position: static; max-height: 220px; box-shadow: none; }
+.ks-pick-or { margin: 0; text-align: center; color: #5b6b80; font-size: 0.85rem; }
+.ks-pick-two { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.75rem; }
+.ks-pick-two label { display: grid; gap: 0.3rem; font-weight: 600; font-size: 0.92rem; min-width: 0; }
+.ks-pick-two select { width: 100%; min-height: 46px; }
+@media (max-width: 560px) { .ks-pick-two { grid-template-columns: minmax(0, 1fr); } }
+/* Popup footer: Cancel then the main action, bottom right; full width on phones. */
+.ks-modal-actions { display: flex; flex-wrap: wrap; justify-content: flex-end; align-items: center; gap: 0.6rem; margin-top: 0.4rem; }
+.ks-modal-actions > button, .ks-modal-actions > * > button { min-height: 46px; width: auto; }
+@media (max-width: 560px) {
+  .ks-modal-actions { flex-direction: column-reverse; align-items: stretch; }
+  .ks-modal-actions > button, .ks-modal-actions > * > button { width: 100%; }
+}
+.ks-draft-note { margin: 0.2rem 0 0; padding: 0.7rem 0.9rem; border-radius: 12px; background: #fff7e6; color: #7a4d00; font-size: 0.92rem; }
+
+/* Ops: the SOS card sits at the top of the page (not floating over the title) and
+   replaces the red banner while it shows — one SOS on screen, not three. */
+.ko-main:has(> .ks-siren) > .ks-sos-bar {
+  display: none;
+}
+
+.ko-main > .ks-siren {
+  position: sticky;
+  top: calc(var(--ko-topbar-h, 68px) + 0.5rem);
+  left: auto;
+  transform: none;
+  z-index: 36;
+  width: auto;
+  max-height: none;
+  overflow: visible;
+  margin: -0.25rem 0 1rem;
+}
+
+.ko-main > .ks-siren .ks-siren-card {
+  box-shadow: 0 10px 24px -12px rgba(180, 35, 24, 0.55);
+}
+
+.ko-main > .ks-siren button.ks-siren-sound,
+.ko-main > .ks-siren button.ks-siren-sound:hover {
+  justify-self: start;
+  min-height: 34px;
+  padding: 0 14px;
+  border: 1.5px solid #c0392b;
+  background: #fff;
+  color: #b42318;
+  font-size: 0.85rem;
+  box-shadow: none;
+}
+
+/* Phone: a big sticky card would cover the list; it scrolls with the page
+   (the header SOS button stays visible). */
+@media (max-width: 767px) {
+  .ko-main > .ks-siren {
+    position: relative;
+    top: auto;
+  }
+}
+
+@media (min-width: 768px) {
+  .ko-main > .ks-siren .ks-siren-card {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    column-gap: 1.25rem;
+    align-items: center;
+  }
+
+  .ko-main > .ks-siren .ks-siren-card > * {
+    grid-column: 1;
+  }
+
+  .ko-main > .ks-siren .ks-siren-card > .ks-siren-actions {
+    grid-column: 2;
+    grid-row: 1 / span 4;
+    flex-wrap: nowrap;
+  }
+
+  .ko-main > .ks-siren .ks-siren-btn {
+    flex: none;
+    min-width: 9.5rem;
+  }
+}

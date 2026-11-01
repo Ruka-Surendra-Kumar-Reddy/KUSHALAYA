@@ -1,0 +1,16 @@
+[Unit]
+Description=SafeHomeOps Web (Next.js)
+After=network.target safehomeops-api.service
+
+[Service]
+User=safehomeops
+Group=safehomeops
+WorkingDirectory=/opt/safehomeops/app/frontend
+Environment=NODE_ENV=production
+Environment=PORT=3010
+ExecStart=/usr/bin/npm run start -- -p 3010 -H 127.0.0.1
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

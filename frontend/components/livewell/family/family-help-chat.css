@@ -1,0 +1,199 @@
+/* Family help chat (FamilyHelpChat.tsx). Sits above the phone tab bar. */
+
+.fhc-fab {
+  position: fixed;
+  right: 1rem;
+  bottom: calc(4.75rem + env(safe-area-inset-bottom, 0px));
+  z-index: 80;
+  width: 52px;
+  height: 52px;
+  border-radius: 999px;
+  border: 0;
+  background: linear-gradient(135deg, #2f6fd6, #1f4f9f);
+  color: #fff;
+  font-size: 1.4rem;
+  font-weight: 800;
+  box-shadow: 0 12px 28px -10px rgba(16, 36, 58, 0.55);
+  cursor: pointer;
+}
+
+.fhc-fab:hover {
+  background: linear-gradient(135deg, #2f6fd6, #1f4f9f);
+  filter: brightness(1.06);
+}
+
+/* With the sidebar (>= 900px) the opener is the "? Ask us" button in its
+   "Need help?" card, so nothing floats over the page content. */
+@media (min-width: 900px) {
+  .fhc-fab {
+    display: none;
+  }
+}
+
+.fhc {
+  position: fixed;
+  right: 1rem;
+  bottom: calc(8.5rem + env(safe-area-inset-bottom, 0px));
+  z-index: 80;
+  display: flex;
+  flex-direction: column;
+  width: min(380px, calc(100vw - 2rem));
+  max-height: min(560px, calc(100vh - 10rem));
+  border-radius: 20px;
+  background: #fff;
+  border: 1px solid rgba(16, 36, 58, 0.1);
+  box-shadow: 0 30px 60px -24px rgba(16, 36, 58, 0.5);
+  overflow: hidden;
+}
+
+@media (min-width: 900px) {
+  .fhc {
+    left: calc(var(--fh-side-w, 276px) + 1.25rem);
+    right: auto;
+    bottom: calc(46px + 1rem);
+    max-height: min(560px, calc(100vh - 9rem));
+  }
+}
+
+.fhc-head {
+  position: relative;
+  display: grid;
+  padding-right: 3rem;
+  padding: 0.85rem 1rem;
+  color: #fff;
+  background: linear-gradient(160deg, #0b2244 0%, #0f2f5c 55%, #133b72 100%);
+}
+
+.fhc-head span {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.fhc-body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 0.85rem;
+  display: grid;
+  align-content: start;
+  gap: 0.5rem;
+  background: #f6f8fb;
+}
+
+.fhc-line {
+  margin: 0;
+  max-width: 88%;
+  padding: 0.6rem 0.75rem;
+  border-radius: 14px;
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+
+.fhc-line.is-bot,
+.fhc-line.is-team {
+  justify-self: start;
+  background: #fff;
+  border: 1px solid rgba(16, 36, 58, 0.08);
+  color: #26384f;
+}
+
+.fhc-line.is-team {
+  border-color: #cfe6a6;
+}
+
+.fhc-line small {
+  display: block;
+  font-weight: 800;
+  color: #5a8a1f;
+}
+
+.fhc-line.is-you {
+  justify-self: end;
+  background: #2f6fd6;
+  color: #fff;
+}
+
+.fhc-follow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+  color: #4b5b70;
+}
+
+.fhc-follow button,
+.fhc-chips button {
+  min-height: 0;
+  padding: 0.35rem 0.7rem;
+  border-radius: 999px;
+  border: 1px solid rgba(47, 111, 214, 0.35);
+  background: #fff;
+  color: #1f4f9f;
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.fhc-follow button:hover,
+.fhc-chips button:hover {
+  background: #eef4fd;
+}
+
+.fhc-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.fhc-actions a {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #2f6fd6;
+}
+
+.fhc-form {
+  display: flex;
+  gap: 0.4rem;
+  padding: 0.6rem;
+  border-top: 1px solid rgba(16, 36, 58, 0.08);
+}
+
+.fhc-form input {
+  flex: 1;
+  min-width: 0;
+  padding: 0.55rem 0.7rem;
+  border-radius: 12px;
+  border: 1px solid #cbd5e1;
+  font: inherit;
+}
+
+.fhc-form button {
+  padding: 0 1rem;
+  border-radius: 12px;
+}
+
+/* Round 4: the floating "?" is gone on every width (the header "?" opens the
+   panel on phones), so no lane is reserved under the content for it. */
+.fhc-fab {
+  display: none !important;
+}
+
+.fhc-close {
+  position: absolute;
+  top: 0.6rem;
+  right: 0.6rem;
+  width: 36px;
+  height: 36px;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.14);
+  color: #fff;
+  font-size: 1.3rem;
+  line-height: 1;
+  cursor: pointer;
+}
+.fhc-close:hover {
+  background: rgba(255, 255, 255, 0.24);
+}

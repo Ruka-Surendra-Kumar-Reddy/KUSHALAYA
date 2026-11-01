@@ -1,0 +1,296 @@
+/*
+ * Office checklist question (RatingControl.tsx): clean option chips, round "?" help,
+ * inline Critical badge, "+ Add a note" link. Matches the caregiver checklist.
+ *
+ * Selectors are deliberately specific: the Ops shell paints every button blue
+ * (`.ko-main button`, ops-portal.css) and globals.css has older chip rules.
+ */
+
+.home-safety-rating-list {
+  gap: 0;
+}
+
+.home-safety-section-panel .home-safety-rating-block {
+  padding: 1rem 0;
+  border-bottom: 1px solid #edf1f5;
+}
+
+.home-safety-section-panel .home-safety-rating-block:last-child {
+  border-bottom: none;
+}
+
+/* Group headings ("Bath & wet areas") stand apart from the questions. */
+.home-safety-section-panel .home-safety-item-group {
+  margin: 1.5rem 0 0.25rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 2px solid #e2e8f0;
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #5a8a1f;
+}
+
+.home-safety-section-panel .home-safety-rating-list > div:first-child .home-safety-item-group {
+  margin-top: 0.25rem;
+}
+
+.home-safety-section-panel .home-safety-section-panel-head {
+  margin-bottom: 0.25rem;
+}
+
+/* Question row: text, then "?" and the Critical badge right after it. */
+.home-safety-rating-block .home-safety-rating-label-row {
+  display: block;
+  margin-bottom: 0.6rem;
+}
+
+.home-safety-rating-block .home-safety-rating-label {
+  display: inline;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.4;
+  color: #0e2a4f;
+}
+
+.home-safety-rating-block .home-safety-rating-label > span:first-child {
+  margin-right: 0.15rem;
+}
+
+/* Round outline "?" — 24 px circle inside a 44 px tap area. */
+.home-safety-rating-block button.home-safety-rating-help-btn,
+.home-safety-rating-block button.home-safety-rating-help-btn:hover,
+.home-safety-rating-block button.home-safety-rating-help-btn:active {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  min-height: 0;
+  margin: -10px -6px -10px -4px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  box-shadow: none;
+  filter: none;
+  transform: none;
+  vertical-align: middle;
+  cursor: pointer;
+}
+
+.home-safety-rating-block button.home-safety-rating-help-btn > span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border: 1.5px solid #8aa4c4;
+  border-radius: 50%;
+  background: #fff;
+  color: #2f5f9f;
+  font-size: 0.8rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.home-safety-rating-block button.home-safety-rating-help-btn:hover > span,
+.home-safety-rating-block button.home-safety-rating-help-btn.is-open > span {
+  border-color: #2f6fd6;
+  background: #2f6fd6;
+  color: #fff;
+}
+
+.home-safety-rating-block button.home-safety-rating-help-btn:focus-visible {
+  outline: 2px solid #2f6fd6;
+  outline-offset: -8px;
+}
+
+.home-safety-rating-block .home-safety-rating-critical-tag {
+  display: inline-block;
+  margin-left: 0.4rem;
+  padding: 0.12rem 0.45rem;
+  border-radius: 999px;
+  background: #fde8e8;
+  color: #b42318;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  vertical-align: middle;
+}
+
+/* Help opens below the question as a tidy panel. */
+.home-safety-rating-block .home-safety-rating-help {
+  margin: 0 0 0.75rem;
+  padding: 0.75rem 0.9rem;
+  border: 1px solid #dbe7f5;
+  border-radius: 12px;
+  background: #f5f9fe;
+  font-size: 0.88rem;
+  line-height: 1.45;
+}
+
+/* Answer chips: white with a thin border; the chosen one filled with a check. */
+.home-safety-rating-block .home-safety-rating-chips {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.5rem;
+}
+
+/* 4 across only where each chip still fits its words on one or two lines (laptop). */
+@media (min-width: 1200px) {
+  .home-safety-rating-block .home-safety-rating-chips {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.home-safety-rating-block .home-safety-rating-chips button.home-safety-rating-chip,
+.home-safety-rating-block .home-safety-rating-chips button.home-safety-rating-chip:hover,
+.home-safety-rating-block .home-safety-rating-chips button.home-safety-rating-chip:active {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.4rem;
+  min-width: 0;
+  min-height: 44px;
+  margin: 0;
+  padding: 0.5rem 0.75rem;
+  border: 1.5px solid #d5dee8;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: none;
+  filter: none;
+  transform: none;
+  color: #0e2a4f;
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1.25;
+  text-align: left;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  cursor: pointer;
+}
+
+.home-safety-rating-block .home-safety-rating-chips button.home-safety-rating-chip:hover:not(.active) {
+  border-color: #8aa4c4;
+  background: #f6f9fc;
+}
+
+.home-safety-rating-block .home-safety-rating-chips button.home-safety-rating-chip.home-safety-rating-na:not(.active) {
+  color: #64748b;
+}
+
+.home-safety-rating-block .home-safety-rating-chips button.home-safety-rating-chip.active,
+.home-safety-rating-block .home-safety-rating-chips button.home-safety-rating-chip.active:hover {
+  border-color: #0e2a4f;
+  background: #0e2a4f;
+  color: #fff;
+}
+
+/* A subtle tone for the level picked. */
+.home-safety-rating-block .home-safety-rating-chips button.home-safety-rating-chip.active.home-safety-rating-excellent {
+  border-color: #3f6a12;
+  background: #3f6a12;
+}
+
+.home-safety-rating-block .home-safety-rating-chips button.home-safety-rating-chip.active.home-safety-rating-acceptable {
+  border-color: #9a6400;
+  background: #9a6400;
+}
+
+.home-safety-rating-block .home-safety-rating-chips button.home-safety-rating-chip.active.home-safety-rating-unsafe {
+  border-color: #b42318;
+  background: #b42318;
+}
+
+.home-safety-rating-block .home-safety-rating-chips button.home-safety-rating-chip.active.home-safety-rating-na {
+  border-color: #475569;
+  background: #475569;
+}
+
+.home-safety-rating-block .home-safety-rating-chips button.home-safety-rating-chip:focus-visible {
+  outline: 2px solid #2f6fd6;
+  outline-offset: 2px;
+}
+
+.home-safety-rating-block .home-safety-rating-chips button.home-safety-rating-chip:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.home-safety-rating-block .home-safety-rating-chip-check,
+.home-safety-rating-block .home-safety-rating-chip-icon {
+  flex: 0 0 auto;
+  font-size: 0.85rem;
+  font-weight: 800;
+}
+
+.home-safety-rating-block .home-safety-rating-chip-icon {
+  color: #94a3b8;
+}
+
+.home-safety-rating-block .home-safety-rating-chip-word {
+  min-width: 0;
+  font-weight: 600;
+}
+
+/* "+ Add a note": a small link that opens the note field. */
+.home-safety-rating-block button.home-safety-add-note,
+.home-safety-rating-block button.home-safety-add-note:hover {
+  display: inline-flex;
+  align-items: center;
+  min-height: 36px;
+  margin-top: 0.3rem;
+  padding: 0;
+  border: 0;
+  background: none;
+  box-shadow: none;
+  filter: none;
+  transform: none;
+  color: #2f6fd6;
+  font: inherit;
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.home-safety-rating-block button.home-safety-add-note:hover {
+  text-decoration: underline;
+}
+
+.home-safety-rating-block .home-safety-item-note,
+.home-safety-rating-block .home-safety-notes {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  margin-top: 0.6rem;
+  padding: 0.6rem 0.75rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  font: inherit;
+  font-size: 0.95rem;
+}
+
+/* Progress chip above the checklist ("Draft · 66% rated"). */
+.home-safety-wizard-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.home-safety-wizard-head .home-safety-live-score-draft {
+  display: inline-flex;
+  align-items: center;
+  min-height: 32px;
+  padding: 0.2rem 0.75rem;
+  border: 1px solid #d5dee8;
+  border-radius: 999px;
+  background: #fff;
+  color: #475569;
+  font-size: 0.85rem;
+  font-weight: 700;
+}

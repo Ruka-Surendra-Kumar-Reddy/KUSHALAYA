@@ -1,0 +1,677 @@
+/* Field assessment, one question at a time (app/caregiver/assess/[id]/page.tsx). */
+
+/* Header, progress and section bar stick together (both were sticky at top: 0,
+   so the section bar slid under the header). */
+.fa-top {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: #fff;
+}
+
+.fa-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.6rem 1rem;
+  background: #fff;
+  border-bottom: 1px solid rgba(16, 36, 58, 0.06);
+}
+
+.fa-back {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: #f1f5f9;
+  color: #0e2a4f;
+  font-size: 1.3rem;
+  text-decoration: none;
+}
+
+.fa-bar-text {
+  display: grid;
+}
+
+.fa-bar-text strong {
+  color: #0e2a4f;
+}
+
+.fa-bar-text small {
+  color: #64748b;
+}
+
+.fa-progress {
+  height: 5px;
+  background: #e2e8f0;
+}
+
+.fa-progress span {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, #8ab83e, #2f6fd6);
+  transition: width 0.25s ease;
+}
+
+.fa-card {
+  padding: 1.25rem;
+  border-radius: 20px;
+  background: #fff;
+  border: 1px solid rgba(16, 36, 58, 0.07);
+}
+
+.fa-cat {
+  margin: 0;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #5a8a1f;
+}
+
+.fa-q {
+  margin: 0.5rem 0 1rem;
+  font-size: 1.45rem;
+  line-height: 1.25;
+  color: #0e2a4f;
+}
+
+.fa-q.is-small {
+  font-size: 1.05rem;
+  margin-top: 1.25rem;
+}
+
+.fa-hint {
+  margin: -0.5rem 0 1rem;
+  color: #64748b;
+  font-size: 0.9rem;
+}
+
+.cg-app .fa-choices {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.cg-app .fa-choices.is-two {
+  grid-template-columns: 1fr 1fr;
+}
+
+.cg-app .fa-choice {
+  min-height: 60px;
+  border-radius: 16px;
+  border: 2px solid #e2e8f0;
+  background: #fff;
+  color: #0e2a4f;
+  font: inherit;
+  font-size: 1.1rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.cg-app .fa-choice.is-safe {
+  border-color: #cfe6a6;
+  color: #3f6a12;
+}
+
+.cg-app .fa-choice.is-watch {
+  border-color: #f5d9a0;
+  color: #8a5a00;
+}
+
+.cg-app .fa-choice.is-risk {
+  border-color: #f4b8b8;
+  color: #b42318;
+}
+
+.cg-app .fa-choice.is-na {
+  color: #64748b;
+}
+
+.cg-app .fa-choice.is-on {
+  background: #0e2a4f;
+  border-color: #0e2a4f;
+  color: #fff;
+}
+
+.cg-app .fa-choice.is-safe.is-on {
+  background: #5a8a1f;
+  border-color: #5a8a1f;
+}
+
+.cg-app .fa-choice.is-watch.is-on {
+  background: #c98a12;
+  border-color: #c98a12;
+}
+
+.cg-app .fa-choice.is-risk.is-on {
+  background: #c53030;
+  border-color: #c53030;
+}
+
+.fa-text {
+  width: 100%;
+  margin-top: 0.75rem;
+  padding: 0.75rem;
+  border-radius: 12px;
+  border: 1px solid #cbd5e1;
+  font: inherit;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+.cg-app .fa-link {
+  margin-top: 0.75rem;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: #2f6fd6;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.fa-nav {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.6rem;
+  margin-top: 1.25rem;
+}
+
+.fa-next {
+  width: 100%;
+  margin-top: 1.25rem;
+}
+
+.fa-summary {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+}
+
+.fa-summary span {
+  display: grid;
+  padding: 0.75rem;
+  border-radius: 14px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.fa-summary strong {
+  font-size: 1.5rem;
+}
+
+.fa-summary .is-safe {
+  background: #eef6e2;
+  color: #3f6a12;
+}
+
+.fa-summary .is-watch {
+  background: #fdf1d8;
+  color: #8a5a00;
+}
+
+.fa-summary .is-risk {
+  background: #fde8e8;
+  color: #b42318;
+}
+
+.fa-risks {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.4rem;
+}
+
+.cg-app .fa-risks button {
+  width: 100%;
+  padding: 0.7rem 0.8rem;
+  border-radius: 12px;
+  border: 1px solid #f4b8b8;
+  background: #fff6f6;
+  color: #7a1c1c;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.cg-app .fa-choice:hover,
+.cg-app .fa-choice:focus-visible {
+  background: #f6f8fb;
+  box-shadow: none;
+  transform: none;
+}
+
+.cg-app .fa-choice.is-on:hover {
+  filter: brightness(1.05);
+}
+
+.cg-app .fa-choice.is-safe.is-on:hover {
+  background: #5a8a1f;
+}
+
+.cg-app .fa-choice.is-watch.is-on:hover {
+  background: #c98a12;
+}
+
+.cg-app .fa-choice.is-risk.is-on:hover {
+  background: #c53030;
+}
+
+.cg-app .fa-choice.is-on:not(.is-safe):not(.is-watch):not(.is-risk):hover {
+  background: #0e2a4f;
+}
+
+
+/* Room photo and suggestions in the field assessment. */
+.fa-photo {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.fa-photo small {
+  color: #5a8a1f;
+  font-weight: 700;
+}
+
+.fa-sugg {
+  list-style: none;
+  margin: 0 0 0.5rem;
+  padding: 0;
+  display: grid;
+  gap: 0.4rem;
+}
+
+.fa-sugg li {
+  display: grid;
+  gap: 0.15rem;
+  padding: 0.7rem 0.8rem;
+  border-radius: 12px;
+  border: 1px solid #f5d9a0;
+  background: #fffaf0;
+}
+
+.fa-sugg li.is-high {
+  border-color: #f4b8b8;
+  background: #fff6f6;
+}
+
+.fa-sugg small {
+  color: #64748b;
+}
+
+/* Questions that didn't apply to this home last time (per-client skip). */
+.fa-skipped {
+  margin: 0 0 1rem;
+  padding: 0.6rem 0.8rem;
+  border-radius: 12px;
+  background: #eef4fd;
+  color: #1f4f9f;
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+
+.fa-skipped-link,
+.fa-skipped-link:hover {
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  box-shadow: none;
+  color: #1f4f9f;
+  font: inherit;
+  font-weight: 800;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+/* Done screen for staff: report, suggested products, back to Schedule. */
+.fa-done-actions {
+  display: grid;
+  gap: 0.6rem;
+}
+
+/* One screen per section (owner, 12 Oct): section bar, every question listed,
+   answers that describe what the caregiver sees. Neutral buttons on purpose:
+   the caregiver records the fact, the app works out the risk. */
+.fa-sections {
+  display: flex;
+  gap: 0.4rem;
+  padding: 0.55rem 1rem;
+  overflow-x: auto;
+  background: #fff;
+  border-bottom: 1px solid #e2e8f0;
+  scrollbar-width: none;
+}
+.fa-sections::-webkit-scrollbar { display: none; }
+.cg-app .fa-sec {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-height: 44px;
+  padding: 0 0.85rem;
+  border-radius: 999px;
+  border: 1.5px solid #e2e8f0;
+  background: #fff;
+  color: #0e2a4f;
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 700;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.cg-app .fa-sec small { font-weight: 600; color: #64748b; }
+.cg-app .fa-sec.is-done { border-color: #cfe6a6; }
+.cg-app .fa-sec.is-done small { color: #3f6a12; }
+.cg-app .fa-sec.is-on { background: #0e2a4f; border-color: #0e2a4f; color: #fff; }
+.cg-app .fa-sec.is-on small { color: #dbe7f5; }
+
+.fa-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.75rem; }
+.fa-item {
+  padding: 0.9rem 0.9rem 0.6rem;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 16px;
+}
+.fa-item.is-answered { border-color: #cfe6a6; background: #fbfdf7; }
+.fa-item-q { margin: 0 0 0.6rem; font-size: 1.02rem; font-weight: 700; line-height: 1.35; color: #0e2a4f; }
+.fa-item .fa-hint { margin: -0.3rem 0 0.6rem; }
+.fa-opts { display: grid; grid-template-columns: 1fr 1fr; gap: 0.45rem; }
+.cg-app .fa-opt {
+  min-height: 48px;
+  padding: 0.45rem 0.6rem;
+  border-radius: 12px;
+  border: 1.5px solid #dbe3ec;
+  background: #fff;
+  color: #0e2a4f;
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1.25;
+  text-align: left;
+  cursor: pointer;
+}
+.cg-app .fa-opt.is-na { color: #64748b; }
+/* 3 answers (no "does not apply" option): last one takes the full row on phones. */
+.fa-opts.is-3 > :last-child { grid-column: 1 / -1; }
+.cg-app .fa-opt.is-on { background: #0e2a4f; border-color: #0e2a4f; color: #fff; }
+.fa-item .fa-link { margin-top: 0.35rem; }
+@media (min-width: 720px) {
+  .fa-opts { grid-template-columns: repeat(4, 1fr); }
+  .fa-opts.is-3 { grid-template-columns: repeat(3, 1fr); }
+  .fa-opts.is-3 > :last-child { grid-column: auto; }
+}
+
+/* Save draft + what blocks submit (27 Oct: submits that "did nothing"). */
+.fa-bar-text { flex: 1; min-width: 0; }
+.cg-app .fa-save {
+  flex: 0 0 auto;
+  min-height: 44px;
+  padding: 0 1rem;
+  border-radius: 12px;
+  border: 1.5px solid #cbd5e1;
+  background: #fff;
+  color: #0e2a4f;
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+.cg-app .fa-save:disabled { opacity: 0.6; cursor: default; }
+.fa-banner { display: grid; gap: 0.5rem; }
+.fa-banner .cg-btn { justify-self: start; min-height: 44px; }
+.fa-item { scroll-margin-top: 9rem; }
+.fa-item.is-missing { border-color: #f4b8b8; background: #fff8f8; }
+.fa-tag {
+  display: inline-block;
+  margin-bottom: 0.35rem;
+  padding: 0.1rem 0.55rem;
+  border-radius: 999px;
+  background: #fde8e8;
+  color: #b42318;
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+.cg-app .fa-sec.is-missing { border-color: #f4b8b8; }
+.cg-app .fa-sec.is-missing small { color: #b42318; }
+.fa-missing-note {
+  margin: -0.4rem 0 1rem;
+  color: #b42318;
+  font-weight: 700;
+}
+.fa-blockers { display: grid; gap: 0.75rem; margin-top: 1.25rem; scroll-margin-top: 9rem; }
+.fa-blockers:empty { display: none; }
+.fa-left {
+  display: grid;
+  gap: 0.6rem;
+  padding: 0.9rem 1rem;
+  border-radius: 16px;
+  border: 1.5px solid #f5d9a0;
+  background: #fffaf0;
+  color: #6b4500;
+}
+.fa-left.is-alert { border-color: #f4b8b8; background: #fff6f6; color: #7a1c1c; }
+.fa-left strong { font-size: 1.1rem; }
+.fa-left p { margin: 0; line-height: 1.4; }
+.fa-left-list { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.cg-app .fa-left-list button {
+  min-height: 44px;
+  padding: 0 0.85rem;
+  border-radius: 999px;
+  border: 1.5px solid currentColor;
+  background: #fff;
+  color: inherit;
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+.fa-left-list span { font-weight: 600; opacity: 0.8; }
+.cg-app .fa-left-list button { display: inline-flex; align-items: center; gap: 0.35rem; text-align: left; }
+.fa-left-list span { white-space: nowrap; }
+@media (max-width: 560px) {
+  .fa-left-list li { flex: 1 1 100%; }
+  .cg-app .fa-left-list button { width: 100%; justify-content: space-between; border-radius: 12px; }
+}
+.fa-next + .fa-hint { margin: 0.6rem 0 0; }
+
+/* Tablets (iPad 768-1024): bigger answer targets, a little more reading room. */
+@media (min-width: 720px) {
+  .cg-app .fa-opt { min-height: 54px; padding: 0.5rem 0.7rem; font-size: 0.95rem; }
+  .fa-item { padding: 1rem 1rem 0.7rem; }
+  .cg-app .fa-sec { min-height: 48px; }
+  .fa-nav .cg-btn, .cg-app .fa-next { min-height: 54px; }
+}
+
+/* Step 1 · Client info (ClientStep.tsx) */
+.fa-client-form {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem 0.9rem;
+  margin: 0.5rem 0 1rem;
+}
+.fa-client-form label { display: grid; gap: 0.3rem; font-weight: 600; font-size: 0.92rem; min-width: 0; }
+.fa-client-form label.is-wide { grid-column: 1 / -1; }
+.fa-client-form em { color: #b42318; font-style: normal; }
+.fa-client-form input,
+.fa-client-form select {
+  min-height: 48px;
+  padding: 0 0.8rem;
+  border: 1px solid #d4dbe5;
+  border-radius: 12px;
+  font: inherit;
+  font-weight: 500;
+  background: #fff;
+  width: 100%;
+}
+.fa-client-form input:focus,
+.fa-client-form select:focus { outline: 2px solid #2563eb; outline-offset: 1px; border-color: transparent; }
+.fa-client-map { grid-column: 1 / -1; justify-self: start; min-height: 44px; }
+.fa-client-review dl { display: grid; gap: 0.6rem; margin: 0.5rem 0 1rem; }
+.fa-client-review dl > div {
+  display: grid;
+  grid-template-columns: 9rem minmax(0, 1fr);
+  gap: 0.75rem;
+  padding: 0.65rem 0.8rem;
+  border-radius: 12px;
+  background: #f4f7fb;
+}
+.fa-client-review dt { color: #5b6b80; font-weight: 600; font-size: 0.88rem; }
+.fa-client-review dd { margin: 0; font-weight: 600; overflow-wrap: anywhere; }
+.fa-client .fa-choice small { display: block; font-weight: 500; font-size: 0.8rem; opacity: 0.75; margin-top: 0.15rem; }
+.fa-client-last { color: #5b6b80; font-size: 0.85rem; margin: 0.5rem 0 0; overflow-wrap: anywhere; }
+.fa-client-sum {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin: 0.25rem 0 1rem;
+  padding: 0.75rem 0.9rem;
+  border-radius: 12px;
+  background: #f4f7fb;
+}
+.fa-client-sum > div { display: grid; gap: 0.15rem; min-width: 0; }
+.fa-client-sum small { color: #5b6b80; overflow-wrap: anywhere; }
+.fa-client-sum.is-missing { background: #fdecec; }
+.fa-client-sum.is-missing small { color: #8f1d1d; }
+@media (max-width: 560px) {
+  .fa-client-form { grid-template-columns: minmax(0, 1fr); }
+  .fa-client-review dl > div { grid-template-columns: minmax(0, 1fr); gap: 0.1rem; }
+}
+
+/* Home location choice (ClientStep): two option cards, the chosen one light blue + tick. */
+.fa-loc { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.75rem; margin: 0.4rem 0 0.2rem; }
+.cg-app .fa-loc-opt {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.75rem;
+  min-height: 72px;
+  padding: 0.75rem 0.9rem;
+  border: 1.5px solid #d4dbe5;
+  border-radius: 14px;
+  background: #fff;
+  color: #0f2a4a;
+  text-align: left;
+  font: inherit;
+  cursor: pointer;
+  box-shadow: none;
+}
+.cg-app .fa-loc-opt:hover { border-color: #9db7e8; }
+.cg-app .fa-loc-opt.is-on { border: 2px solid #1d4ed8; background: #eef4ff; }
+.fa-loc-ic { width: 26px; height: 26px; color: #5b6b80; }
+.fa-loc-opt.is-on .fa-loc-ic { color: #1d4ed8; }
+.fa-loc-text { display: grid; gap: 0.1rem; min-width: 0; }
+.fa-loc-text strong { font-size: 1rem; }
+.fa-loc-text small { color: #5b6b80; font-size: 0.82rem; font-weight: 500; }
+.fa-loc-tick {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border: 1.5px solid #c7d2e0;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: #fff;
+}
+.fa-loc-opt.is-on .fa-loc-tick { background: #1d4ed8; border-color: #1d4ed8; }
+@media (max-width: 560px) {
+  .fa-loc { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* Next tapped with gaps: missing answers / fields turn red with a short reason. */
+.fa-item.is-missing { border: 2px solid #dc2626; background: #fff5f5; }
+.fa-req { margin: -0.3rem 0 0.6rem; color: #b42318; font-size: 0.85rem; font-weight: 700; }
+.fa-choices.is-bad { padding: 0.4rem; border: 2px solid #dc2626; border-radius: 16px; background: #fff5f5; }
+.fa-client-form label.is-bad > span { color: #b42318; }
+.fa-client-form label.is-bad input,
+.fa-client-form label.is-bad select { border: 2px solid #dc2626; background: #fff5f5; }
+.fa-client-form .fa-field-err { color: #b42318; font-size: 0.8rem; font-weight: 700; }
+
+/* Step 1 groups: Beneficiary details · Home address · Contact person details. */
+.fa-client-groups { display: grid; gap: 1rem; margin: 0.5rem 0 1rem; }
+.fa-group { margin: 0; padding: 0.9rem 1rem 1rem; border: 1px solid #e3e9f1; border-radius: 16px; background: #fbfcfe; min-width: 0; }
+.fa-group legend {
+  display: grid;
+  gap: 0.1rem;
+  padding: 0 0.4rem;
+  font-weight: 800;
+  font-size: 1.02rem;
+  color: #0f2a4a;
+}
+.fa-group legend small { font-weight: 500; font-size: 0.82rem; color: #5b6b80; }
+.fa-group .fa-client-form { margin: 0.4rem 0 0; }
+.fa-hint { font-style: normal; font-weight: 500; color: #7a8899; }
+.fa-bens { display: grid; gap: 0.75rem; margin-top: 0.9rem; }
+.fa-ben { padding: 0.8rem 0.9rem; border: 1px dashed #c7d4e6; border-radius: 14px; background: #fff; }
+.fa-ben-head { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; }
+.cg-app .fa-ben-x,
+.cg-app .fa-add-ben {
+  min-height: 44px;
+  padding: 0 0.9rem;
+  border-radius: 999px;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: none;
+}
+.cg-app .fa-ben-x { border: 1px solid #f1c4c0; background: #fff; color: #b42318; }
+.cg-app .fa-add-ben { justify-self: start; border: 1.5px dashed #9db7e8; background: #eef4ff; color: #1d4ed8; }
+/* Title inside the box, not on its border. */
+.fa-group legend { float: left; width: 100%; padding: 0; margin: 0 0 0.5rem; }
+.fa-group legend + * { clear: both; }
+
+/* N/A beside each question; "Mark all N/A & next" under the section. */
+.fa-item-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 0.6rem; }
+.fa-item-top .fa-item-q { flex: 1; min-width: 0; }
+.cg-app .fa-na {
+  flex: 0 0 auto;
+  min-width: 52px;
+  min-height: 34px;
+  margin-top: -0.15rem;
+  padding: 0 0.7rem;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 999px;
+  background: #fff;
+  color: #475569;
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: none;
+}
+.cg-app .fa-na:hover { border-color: #94a3b8; }
+.cg-app .fa-na.is-on { background: #475569; border-color: #475569; color: #fff; }
+.cg-app .fa-all-na {
+  display: block;
+  width: 100%;
+  min-height: 46px;
+  margin: 1rem 0 0.25rem;
+  border: 1.5px dashed #94a3b8;
+  border-radius: 12px;
+  background: #f8fafc;
+  color: #334155;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: none;
+}
+.cg-app .fa-all-na:hover { background: #eef2f7; }
+
+/* Chosen answer: coloured by meaning (light shade + tick), not solid navy (owner, 28 Oct). */
+/* The button text already starts with "✓ " when chosen. */
+.cg-app .fa-opt.is-on { border-width: 2px; font-weight: 700; }
+.cg-app .fa-opt.is-safe.is-on { background: #ecfdf3; border-color: #16a34a; color: #14532d; }
+.cg-app .fa-opt.is-watch.is-on { background: #fff7e6; border-color: #d97706; color: #7a4100; }
+.cg-app .fa-opt.is-risk.is-on { background: #fdecec; border-color: #dc2626; color: #8f1d1d; }
+.cg-app .fa-opt.is-na.is-on { background: #f1f5f9; border-color: #64748b; color: #334155; }
+.cg-app .fa-opt.is-pick.is-on { background: #eef4ff; border-color: #1d4ed8; color: #1e3a8a; }
+
+/* Long client names stay on the bar (ellipsis), never pushed off the right edge. */
+.fa-bar-text strong, .fa-bar-text small { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.fa-sections { scroll-padding-inline: 1rem; }

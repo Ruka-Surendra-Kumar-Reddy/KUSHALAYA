@@ -1,0 +1,33 @@
+{
+  "_comment": "Merge into workforceos-core/contracts/nav.json — Safe Home admin nav for SAFEHOME360 deploy",
+  "routePrefixFeatures": {
+    "/home-safety": "home_safety"
+  },
+  "groups": [
+    {
+      "id": "safehome",
+      "labelKey": "nav.safeHome",
+      "verticals": ["SAFEHOME360", "ELDER_CARE"],
+      "items": [
+        { "href": "/home-safety/visits", "labelKey": "nav.safeHomeVisits", "feature": "home_safety" },
+        { "href": "/home-safety/catalog", "labelKey": "nav.safeHomeCatalog", "feature": "home_safety" },
+        { "href": "/home-safety/rubric", "labelKey": "nav.safeHomeChecklist", "feature": "home_safety" },
+        { "href": "/home-safety/solutions", "labelKey": "nav.safeHomeSolutions", "feature": "home_safety" },
+        { "href": "/home-safety/pricing", "labelKey": "nav.safeHomePricing", "feature": "home_safety" },
+        { "href": "/home-safety/partners", "labelKey": "nav.safeHomePartners", "feature": "home_safety" },
+        { "href": "/home-safety/suppliers", "labelKey": "nav.safeHomeSuppliers", "feature": "home_safety" },
+        { "href": "/home-safety/master-data", "labelKey": "nav.safeHomeMasterData", "feature": "home_safety" },
+        { "href": "/home-safety/ai-jobs", "labelKey": "nav.safeHomeAiJobs", "feature": "home_safety" }
+      ]
+    }
+  ],
+  "messageKeys_add": {
+    "nav.safeHome": "Safe Home 360™",
+    "nav.safeHomeSolutions": "Solution library",
+    "nav.safeHomePricing": "Pricing",
+    "nav.safeHomePartners": "Partners",
+    "nav.safeHomeSuppliers": "Suppliers",
+    "nav.safeHomeMasterData": "Master data",
+    "nav.safeHomeAiJobs": "AI jobs"
+  }
+}

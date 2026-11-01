@@ -1,0 +1,11 @@
+[Unit]
+Description=Every 2 minutes: Kushalaya background jobs (SOS escalation needs a 2-minute tick)
+
+[Timer]
+OnBootSec=2min
+OnUnitActiveSec=2min
+AccuracySec=15s
+Persistent=true
+
+[Install]
+WantedBy=timers.target

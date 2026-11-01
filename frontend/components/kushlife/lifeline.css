@@ -1,0 +1,267 @@
+/* KushLife lifeline — heart-monitor style trend (family dashboard + customer page). */
+.kll {
+  display: grid;
+  gap: 0.6rem;
+  padding: 1rem;
+  border-radius: 18px;
+  background: radial-gradient(120% 140% at 85% 0%, #123a5c 0%, #0b2238 55%, #081a2b 100%);
+  color: #e8f3ff;
+  box-shadow: 0 10px 28px rgba(8, 26, 43, 0.28);
+  min-width: 0;
+}
+
+.kll-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem 1rem;
+  flex-wrap: wrap;
+}
+
+.kll-mark {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+
+.kll-kush {
+  color: #7fd4ff;
+}
+
+.kll-life {
+  color: #9be15d;
+}
+
+.kll-sub {
+  margin-left: 0.4rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: #9fb6cc;
+}
+
+.kll-now {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.kll-now strong {
+  font-size: 2rem;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  color: #fff;
+}
+
+.kll-chip {
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+.kll-chip.is-good {
+  background: rgba(155, 225, 93, 0.18);
+  color: #b9f08a;
+}
+
+.kll-chip.is-watch {
+  background: rgba(255, 196, 77, 0.18);
+  color: #ffd27a;
+}
+
+.kll-chip.is-low {
+  background: rgba(255, 107, 94, 0.2);
+  color: #ff9b91;
+}
+
+.kll-delta {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #9fb6cc;
+}
+
+.kll-delta.is-up {
+  color: #b9f08a;
+}
+
+.kll-delta.is-down {
+  color: #ffd27a;
+}
+
+.kll-screen {
+  min-width: 0;
+  border-radius: 12px;
+  background: rgba(3, 14, 25, 0.45);
+  border: 1px solid rgba(127, 212, 255, 0.14);
+  overflow: hidden;
+}
+
+.kll-screen svg {
+  display: block;
+}
+
+.kll-gridline {
+  stroke: rgba(127, 212, 255, 0.07);
+  stroke-width: 1;
+}
+
+.kll-usual {
+  stroke: rgba(232, 243, 255, 0.45);
+  stroke-width: 1.2;
+  stroke-dasharray: 5 5;
+}
+
+.kll-usual-label {
+  paint-order: stroke;
+  stroke: #0b2238;
+  stroke-width: 4px;
+  stroke-linejoin: round;
+  fill: #9fb6cc;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.kll-area {
+  fill: url(#kll-fill);
+  animation: kll-fade 1.2s ease-out both;
+}
+
+.kll-line,
+.kll-beat {
+  fill: none;
+  stroke: url(#kll-stroke);
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: kll-draw 1.4s ease-out forwards;
+}
+
+.kll-beat {
+  stroke: #9be15d;
+  stroke-width: 2.4;
+  animation: kll-draw 1.4s ease-out forwards, kll-beat 2.6s ease-in-out 1.4s infinite;
+}
+
+.kll-pt {
+  cursor: pointer;
+  outline: none;
+}
+
+.kll-hit {
+  fill: transparent;
+}
+
+.kll-dot {
+  fill: #9be15d;
+  stroke: #0b2238;
+  stroke-width: 2.5;
+  transition: r 0.15s;
+}
+
+.kll-pt.is-watch .kll-dot {
+  fill: #ffc44d;
+}
+
+.kll-pt.is-low .kll-dot {
+  fill: #ff6b5e;
+}
+
+.kll-pt.is-picked .kll-dot,
+.kll-pt:focus-visible .kll-dot {
+  stroke: #fff;
+}
+
+.kll-pulse {
+  fill: none;
+  stroke: #9be15d;
+  stroke-width: 2;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: kll-ring 2.6s ease-out 1.4s infinite;
+  opacity: 0;
+}
+
+.kll-pt.is-watch .kll-pulse {
+  stroke: #ffc44d;
+}
+
+.kll-pt.is-low .kll-pulse {
+  stroke: #ff6b5e;
+}
+
+.kll-x {
+  fill: #9fb6cc;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.kll-visit {
+  margin: 0;
+  display: grid;
+  gap: 0.15rem;
+  font-size: 0.88rem;
+}
+
+.kll-visit strong {
+  color: #fff;
+}
+
+.kll-visit span {
+  color: #c7d8e8;
+}
+
+.kll-note,
+.kll-empty {
+  margin: 0;
+  font-size: 0.78rem;
+  color: #9fb6cc;
+}
+
+@keyframes kll-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes kll-fade {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes kll-beat {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.45;
+  }
+}
+
+@keyframes kll-ring {
+  0% {
+    opacity: 0.9;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(3.2);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kll-line,
+  .kll-beat,
+  .kll-area,
+  .kll-pulse {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
+}

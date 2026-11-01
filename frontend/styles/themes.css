@@ -1,0 +1,54 @@
+/**
+ * Tenant themes — switch via data-theme on <html>
+ * classic: default navy (current)
+ * ocean: teal clinical
+ * warm: amber home-care
+ */
+
+[data-theme="classic"] {
+  --bg: #f4f6f9;
+  --card: #ffffff;
+  --primary: #1e5a8a;
+  --primary-hover: #2472a8;
+  --control-hover: #e8f2fa;
+  --sidebar-bg: #1a2b3c;
+  --sidebar-text: #e8edf2;
+  --sidebar-muted: #c5d0db;
+  --border: #dde3ea;
+  --text: #1a2332;
+  --muted: #5c6b7a;
+  --success: #1d7a4a;
+  --danger: #b42318;
+}
+
+[data-theme="ocean"] {
+  --bg: #f0f7f7;
+  --card: #ffffff;
+  --primary: #0d6e6e;
+  --primary-hover: #128484;
+  --control-hover: #e0f4f4;
+  --sidebar-bg: #0a3d3d;
+  --sidebar-text: #e6f4f4;
+  --sidebar-muted: #9ec5c5;
+  --border: #c5dddd;
+  --text: #123333;
+  --muted: #4a6f6f;
+  --success: #0f766e;
+  --danger: #c53030;
+}
+
+[data-theme="warm"] {
+  --bg: #faf6f1;
+  --card: #ffffff;
+  --primary: #b45309;
+  --primary-hover: #c9650f;
+  --control-hover: #faf0e6;
+  --sidebar-bg: #3d2914;
+  --sidebar-text: #faf0e4;
+  --sidebar-muted: #d4b896;
+  --border: #e8ddd0;
+  --text: #292018;
+  --muted: #6b5b4f;
+  --success: #15803d;
+  --danger: #b91c1c;
+}

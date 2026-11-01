@@ -1,0 +1,4 @@
+# Clients
+P1: "Edit details" on Overview (phone, address, DOB, emergency contact, conditions, allergies, mobility) via existing PUT /elders/{id}; header = name + status pill + "Care manager: X (Change)", stats Score(+date) / Next visit / Next assessment / Last visit (View report) / Open items; drop Wallet. 8 tabs → 5: Overview (+Know them, Upcoming, editable Family card), Timeline (History; delete Visits & Requests tabs, map toggle), Orders & wallet, Alerts & devices, Documents. Message family → /kushalaya/messages?elder=id.
+P2: replace window.prompt family add/reset (customers/page.tsx:117-147) with inline form on profile Family card (+last seen, reset); list badges (Assessment overdue, open alert, next visit, score), collapse logins; filters My clients / Needs attention / All.
+P3: hide "Client #id", plain labels (Independence score out of 100), friendly alert kinds, merge Care level/status, empty states with buttons, "Not recorded".

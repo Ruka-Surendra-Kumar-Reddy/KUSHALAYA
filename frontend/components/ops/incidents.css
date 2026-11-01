@@ -1,0 +1,252 @@
+/* Incident reports (#97) and the per-client visit checklist (#99). */
+.ir-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 14px;
+}
+.ir-head h2 {
+  margin: 0;
+}
+.ir-head > button {
+  margin-left: auto;
+}
+.ir-form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 10px 14px;
+  margin: 12px 0;
+}
+.ir-form label,
+.ir-block {
+  display: grid;
+  gap: 4px;
+  font-size: 0.9rem;
+}
+.ir-block {
+  margin-top: 10px;
+}
+.ir-wide {
+  grid-column: 1 / -1;
+}
+.ir-check {
+  display: flex !important;
+  align-items: center;
+  gap: 8px;
+}
+.ir-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  margin-top: 8px;
+}
+.ir-row input {
+  flex: 1;
+  min-width: 0;
+}
+.ir-warn {
+  color: #9a5b00;
+  margin: 0;
+}
+.ir-error {
+  color: #b42318;
+}
+.ir-list {
+  list-style: none;
+  padding: 0;
+  margin: 12px 0 0;
+  display: grid;
+  gap: 8px;
+}
+.ir-item {
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 10px;
+}
+.ir-item.is-serious {
+  border-left: 4px solid #b42318;
+}
+.ir-summary {
+  all: unset;
+  box-sizing: border-box;
+  cursor: pointer;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 10px;
+  align-items: center;
+  width: 100%;
+  padding: 10px 12px;
+  min-height: 44px;
+}
+/* Ops portal paints every button blue (.ko-main button); keep report rows plain. */
+.ko-main button.ir-summary,
+.ko-main button.ir-summary:hover,
+.ko-main button.ir-summary:active {
+  background: transparent;
+  color: #26384f;
+  border: 0;
+  border-radius: 10px;
+  box-shadow: none;
+  transform: none;
+  font-weight: 400;
+  text-align: left;
+  justify-content: flex-start;
+  padding: 10px 12px;
+  width: 100%;
+  min-height: 44px;
+}
+.ko-main button.ir-summary:hover {
+  background: #f6f9fe;
+}
+.ko-main button.ir-summary * {
+  color: inherit;
+}
+.ko-main button.ir-summary .ir-tag.is-serious {
+  color: #b42318;
+}
+.ko-main button.ir-summary .ir-tag.is-open {
+  color: #8a5300;
+}
+.ko-main button.ir-summary .ir-tag.is-closed {
+  color: #1e6b35;
+}
+.ir-tag {
+  font-size: 0.75rem;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.06);
+}
+.ir-tag.is-serious {
+  background: #fde7e5;
+  color: #b42318;
+}
+.ir-tag.is-open {
+  background: #fff4e0;
+  color: #8a5300;
+}
+.ir-tag.is-closed {
+  background: #e6f4ea;
+  color: #1e6b35;
+}
+.ir-body {
+  padding: 0 12px 12px;
+}
+.ir-facts {
+  display: grid;
+  grid-template-columns: minmax(110px, max-content) 1fr;
+  gap: 4px 12px;
+  margin: 0 0 8px;
+}
+.ir-facts dt {
+  font-weight: 600;
+}
+.ir-facts dd {
+  margin: 0;
+  white-space: pre-wrap;
+}
+.ir-fu {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 8px;
+  display: grid;
+  gap: 6px;
+}
+.ir-fu li {
+  display: grid;
+  grid-template-columns: 2fr 1fr auto auto;
+  gap: 8px 10px;
+  align-items: end;
+  padding: 8px 10px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+.ir-fu label {
+  display: grid;
+  gap: 2px;
+  font-size: 0.8rem;
+  color: #475569;
+  min-width: 0;
+}
+.ir-fu input:not([type="checkbox"]) {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+.ir-fu .ir-fu-done {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  font-size: 0.9rem;
+  color: inherit;
+}
+.ir-fu .ir-fu-done input {
+  width: 20px;
+  height: 20px;
+}
+@media (max-width: 640px) {
+  .ir-fu li {
+    grid-template-columns: 1fr 1fr;
+  }
+  .ir-fu .ir-fu-action {
+    grid-column: 1 / -1;
+  }
+  .ir-facts {
+    grid-template-columns: 1fr;
+  }
+}
+.ir-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.ir-check-edit {
+  margin: 0;
+  padding-left: 20px;
+  display: grid;
+  gap: 6px;
+}
+.ir-check-edit li > * {
+  vertical-align: middle;
+}
+.ir-check-edit li {
+  display: flex;
+  gap: 8px;
+}
+.ir-check-edit input {
+  flex: 1;
+  min-width: 0;
+}
+.ir-check-view {
+  margin: 0;
+  padding-left: 20px;
+}
+.ir-checklist-result {
+  list-style: none;
+  padding: 0;
+  margin: 4px 0;
+}
+.ir-checklist-result .is-no {
+  color: #9a5b00;
+}
+.ir-checklist-result .is-skip {
+  color: #6b6b6b;
+}
+
+/* Checklist editor: one column on every screen, inputs full width. */
+.kt-form.ir-check-form {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 12px;
+}
+.ir-check-form > * {
+  width: 100%;
+  min-width: 0;
+}
+.ir-check-form .ir-check-edit li {
+  align-items: center;
+}
+.ir-check-form .ir-row {
+  flex-wrap: nowrap;
+}

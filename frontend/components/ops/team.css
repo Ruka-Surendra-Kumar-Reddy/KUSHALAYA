@@ -1,0 +1,272 @@
+/* Team page (/users): row "⋯" menus, inline action panels, status badges. */
+
+.tm-table-wrap { overflow-x: auto; }
+.tm-actions-cell { width: 1%; white-space: nowrap; text-align: right; }
+
+.tm-menu-wrap { position: relative; display: inline-block; }
+.ko-main .tm-menu-btn {
+  background: transparent;
+  color: inherit;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0 0.6rem;
+  font-size: 1.25rem;
+  line-height: 1;
+  box-shadow: none;
+  cursor: pointer;
+}
+.ko-main .tm-menu-btn:hover,
+.ko-main .tm-menu-btn[aria-expanded="true"] { border-color: var(--border, #d9dee5); background: var(--surface-2, #f4f6f8); }
+
+.tm-menu {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 4px);
+  z-index: 20;
+  min-width: 170px;
+  padding: 0.3rem;
+  background: var(--surface, #fff);
+  border: 1px solid var(--border, #d9dee5);
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.12);
+  display: flex;
+  flex-direction: column;
+}
+.ko-main .tm-menu-item {
+  background: transparent;
+  color: inherit;
+  border: 0;
+  border-radius: 6px;
+  text-align: left;
+  padding: 0.45rem 0.75rem;
+  font-weight: 500;
+  min-height: 44px;
+  box-shadow: none;
+  width: 100%;
+}
+.ko-main .tm-menu-item:focus-visible { outline: 2px solid var(--accent, #0f766e); outline-offset: -2px; }
+.ko-main .tm-menu-item:hover { background: var(--surface-2, #f4f6f8); }
+.ko-main .tm-menu-item.tm-danger { color: #b42318; }
+
+.tm-panel-row > td { background: var(--surface-2, #f7f8fa); }
+.tm-panel { display: flex; flex-direction: column; gap: 0.75rem; padding: 0.5rem 0.25rem; }
+.tm-panel-title { font-size: 0.95rem; }
+.tm-panel-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem; }
+.tm-panel-note { margin: 0; grid-column: 1 / -1; }
+.tm-panel-actions { display: flex; gap: 0.75rem; align-items: center; }
+.tm-pw-row { display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap; }
+.tm-pw-row input { flex: 1 1 200px; max-width: 320px; }
+
+.ko-main .tm-link-btn {
+  background: transparent;
+  color: var(--accent, #0f766e);
+  border: 0;
+  padding: 0.3rem 0.4rem;
+  font-weight: 600;
+  min-height: 0;
+  box-shadow: none;
+}
+.ko-main .tm-link-btn:hover { text-decoration: underline; background: transparent; }
+.ko-main .tm-danger-btn { background: #b42318; border-color: #b42318; color: #fff; }
+
+.ko-main .tm-name-btn {
+  background: transparent;
+  color: var(--accent, #0f766e);
+  border: 0;
+  padding: 0;
+  font: inherit;
+  font-weight: 600;
+  min-height: 0;
+  box-shadow: none;
+  text-align: left;
+}
+.ko-main .tm-name-btn:hover { text-decoration: underline; background: transparent; }
+.ko-main .tm-name-btn.tm-on { text-decoration: underline; }
+
+.tm-badge {
+  display: inline-block;
+  padding: 0.1rem 0.55rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.tm-badge-on { background: #e7f6ef; color: #067647; }
+.tm-badge-off { background: #fdecea; color: #b42318; }
+.tm-badge-none { background: #f2f4f7; color: #475467; }
+.tm-row-off td { color: var(--muted, #667085); }
+
+.tm-cg-head { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; flex-wrap: wrap; }
+.tm-filter-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin-left: 0.6rem;
+  padding: 0.1rem 0.3rem 0.1rem 0.6rem;
+  border-radius: 999px;
+  background: var(--surface-2, #eef2f6);
+  font-size: 0.8rem;
+  font-weight: 600;
+  vertical-align: middle;
+}
+
+/* Phones: each row becomes a card — name and ⋯ on top, the other fields labelled below. */
+@media (max-width: 639px) {
+  .tm-stack thead { display: none; }
+  .tm-stack, .tm-stack tbody { display: block; }
+  .tm-stack tr {
+    display: block;
+    position: relative;
+    padding: 0.6rem 3.25rem 0.6rem 0.75rem;
+    border: 1px solid var(--border, #d9dee5);
+    border-radius: 12px;
+    margin-bottom: 0.6rem;
+  }
+  .tm-stack td { display: flex; gap: 0.75rem; justify-content: space-between; padding: 0.2rem 0; border: 0; text-align: right; }
+  .tm-stack td[data-label]::before { content: attr(data-label); color: var(--muted, #667085); font-weight: 500; text-align: left; }
+  .tm-stack td.tm-name-cell { font-weight: 700; font-size: 1rem; justify-content: flex-start; text-align: left; padding-bottom: 0.35rem; }
+  .tm-stack td.tm-actions-cell { position: absolute; top: 0.25rem; right: 0.25rem; width: auto; padding: 0; }
+  .tm-stack td select { max-width: 60%; }
+  .tm-stack tr.tm-panel-row { padding: 0.5rem 0.75rem; }
+  .tm-stack tr.tm-panel-row > td { display: block; text-align: left; }
+  .tm-table-wrap { overflow-x: visible; }
+}
+
+@media (prefers-color-scheme: dark) {
+  .tm-badge-on { background: rgba(6, 118, 71, 0.2); color: #6ce9a6; }
+  .tm-badge-off { background: rgba(180, 35, 24, 0.2); color: #fda29b; }
+  .tm-badge-none { background: rgba(148, 163, 184, 0.18); color: #cbd5e1; }
+}
+
+/* FIX 110 (builder C): search + role filter above the lists; manager team filter button. */
+.tm-find {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin: 0 0 1rem;
+}
+.tm-find input {
+  flex: 1 1 16rem;
+  min-width: 0;
+  min-height: 44px;
+}
+.tm-find select {
+  flex: 0 0 auto;
+  width: auto;
+  min-height: 44px;
+}
+.ko-main .tm-team-btn {
+  min-height: 36px;
+  min-width: 44px;
+  padding: 0.2rem 0.7rem;
+}
+.ko-main .tm-team-btn.tm-on {
+  background: #0e2a4f;
+  color: #fff;
+}
+.ko-main .tm-name-btn {
+  min-height: 36px;
+}
+@media (max-width: 640px) {
+  .ko-main .tm-name-btn,
+  .ko-main .tm-team-btn {
+    min-height: 44px;
+  }
+}
+/* "+ Add team member" uses the shared right-hand drawer (.ks-side-drawer in ks-shell.css). */
+.ks-side-drawer.tm-add-drawer {
+  left: auto;
+  right: 0;
+}
+.tm-add-drawer .ks-drawer-form,
+.tm-add-form {
+  display: grid;
+  gap: 0.75rem;
+}
+.tm-add-drawer .ks-drawer-form > div:empty,
+.tm-add-form > div:empty {
+  display: none;
+}
+.ko-main .tm-add-drawer .ks-drawer-x {
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0;
+  font-size: 1.3rem;
+}
+
+/* Round 4: the caregiver count reads like the client count (a plain number that filters on click). */
+.ko-main .tm-team-btn:not(.tm-on) {
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
+  color: #1f4f9f;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  padding-left: 0;
+  justify-content: flex-start;
+}
+
+/* Tidy-up (2026-10-29): phones look the same in both tables, the caregiver count is a
+   plain blue number, the hiring link is a quiet link, and phone cards use the full width. */
+.ko-main a.tm-tel {
+  color: #1f4f9f;
+  text-decoration: none;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.ko-main a.tm-tel:hover {
+  text-decoration: underline;
+}
+.ko-main .tm-team-btn:not(.tm-on) {
+  text-decoration: none;
+  font-weight: 700;
+}
+.ko-main a.tm-hire-link {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #1f4f9f;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.ko-main a.tm-hire-link:hover {
+  text-decoration: underline;
+}
+@media (max-width: 639px) {
+  .tm-stack tr {
+    padding: 0.6rem 0.85rem;
+  }
+  .tm-stack td.tm-name-cell {
+    padding-right: 2.5rem;
+  }
+  .tm-stack td {
+    align-items: baseline;
+  }
+  .tm-stack td > * {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+  .tm-stack td[data-label]::before {
+    flex: none;
+  }
+}
+
+/* Tidy-up (2026-10-30): numbers line up, both cards start the same, phone cards are plain. */
+.tm-cg-head { align-items: center; margin-bottom: 0.75rem; }
+.tm-cg-head h2 { margin: 0; }
+.ko-main .tm-team-btn:not(.tm-on) {
+  min-width: 0;
+  padding: 0;
+}
+@media (max-width: 639px) {
+  .tm-find { flex-wrap: nowrap; }
+  .tm-find input { flex: 1 1 auto; }
+  .ko-main .tm-stack tr,
+  .ko-main .tm-stack tr td {
+    background: none;
+    border-bottom: 0;
+  }
+  .ko-main .tm-stack td.tm-actions-cell { top: 0.35rem; right: 0.35rem; }
+  .ko-main .tm-team-btn:not(.tm-on) { justify-content: flex-end; }
+}

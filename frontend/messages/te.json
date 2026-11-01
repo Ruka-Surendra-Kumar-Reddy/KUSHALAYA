@@ -1,0 +1,299 @@
+{
+  "pages": {
+    "elders": {
+      "title": "వృద్ధులు",
+      "subtitle": "సంరక్షణ పొందుతున్న క్లయింట్లు",
+      "addElder": "వృద్ధుడిని జోడించండి"
+    },
+    "assignments": {
+      "title": "నియామకాలు",
+      "subtitle": "సందర్శనలు మరియు హాజరు కోసం సంరక్షకులను వృద్ధులకు అనుసంధానం"
+    },
+    "matching": {
+      "title": "సంరక్షకుడు మ్యాచింగ్",
+      "subtitle": "సిఫార్సులు నడపండి మరియు స్కోర్‌లు ఎలా లెక్కించబడతాయో చూడండి (rules-v1)"
+    },
+    "prospects": {
+      "title": "పైప్‌లైన్",
+      "subtitle": "క్లయింట్ మరియు సంరక్షకుడు నియామక ప్రాస్పెక్ట్‌లు",
+      "newProspect": "కొత్త ప్రాస్పెక్ట్"
+    },
+    "documents": {
+      "title": "పత్రాలు",
+      "subtitle": "గుర్తింపు మరియు అనుపాలన పత్రాలను అప్‌లోడ్ చేసి ధృవీకరించండి"
+    },
+    "scheduling": {
+      "title": "షెడ్యూలింగ్",
+      "subtitle": "వృద్ధుడి షెడ్యూల్ ప్రాధాన్యతల నుండి ప్రణాళిక సందర్శనలు"
+    },
+    "attendance": {
+      "title": "హాజరు",
+      "subtitle": "జియోఫెన్స్ ధృవీకరించిన సంరక్షకుడు సందర్శనలు",
+      "openSimulator": "సిమ్యులేటర్ తెరవండి",
+      "scanMissedArrivals": "తప్పిపోయిన రాకలను స్కాన్ చేయండి"
+    },
+    "attendanceSimulator": {
+      "title": "హాజరు సిమ్యులేటర్",
+      "subtitle": "సంరక్షకుడు మొబైల్ GPS చెక్-ఇన్/అవుట్ సిమ్యులేట్ చేయండి"
+    },
+    "payroll": {
+      "title": "జీతం",
+      "subtitle": "ధృవీకరించిన హాజరు నుండి జీతం రన్‌లు"
+    },
+    "billing": {
+      "title": "బిల్లింగ్",
+      "subtitle": "హాజరు నుండి క్లయింట్ ఇన్‌వాయిస్‌లు"
+    },
+    "serviceRequests": {
+      "title": "సేవా అభ్యర్థనలు",
+      "subtitle": "కుటుంబ పోర్టల్ నుండి అదనపు సందర్శనలు మరియు సేవా అభ్యర్థనలు"
+    },
+    "monitoring": {
+      "title": "మానిటరింగ్",
+      "subtitle": "కెమెరా ఈవెంట్‌లు, భద్రతా అలర్ట్‌లు, సంఘటనలు"
+    },
+    "monitoringAlerts": {
+      "title": "అలర్ట్‌లు",
+      "subtitle": "అత్యవసర భద్రతా ఈవెంట్‌లు"
+    },
+    "monitoringEvents": {
+      "title": "ఈవెంట్‌లు",
+      "subtitle": "అన్ని కెమెరా మరియు సెన్సార్ ఈవెంట్‌లు"
+    },
+    "monitoringIncidents": {
+      "title": "సంఘటనలు",
+      "subtitle": "భద్రతా మరియు సంరక్షణ సంఘటనలు"
+    },
+    "monitoringNotifications": {
+      "title": "అలర్ట్ లాగ్",
+      "subtitle": "అవుట్‌బౌండ్ మానిటరింగ్ నోటిఫికేషన్‌లు"
+    },
+    "monitoringConfig": {
+      "title": "మానిటరింగ్ సెట్టింగ్‌లు",
+      "subtitle": "టెనెంట్ మానిటరింగ్ నియమాలు మరియు జోన్‌లు"
+    },
+    "users": {
+      "title": "వినియోగదారులు",
+      "subtitle": "మీ టెనెంట్ టీమ్ సభ్యులు"
+    },
+    "settings": {
+      "title": "సెట్టింగ్‌లు",
+      "subtitle": "బ్రాండింగ్, కస్టమ్ ఫీల్డ్‌లు, పోర్టల్ ప్రాధాన్యతలు",
+      "subtitleManager": "నోటిఫికేషన్‌లు, వెబ్‌సైట్, యాక్టివిటీ లాగ్"
+    },
+    "tenants": {
+      "title": "సూపర్ అడ్మిన్ · టెనెంట్లు",
+      "subtitle": "ప్లాట్‌ఫారమ్‌పై ఏజెన్సీలను నిర్వహించండి"
+    }
+  },
+  "nav": {
+    "groups": {
+      "liveWellSales": "అమ్మకాలు",
+      "liveWellCustomersGroup": "కస్టమర్లు",
+      "liveWell": "KushAlaya",
+      "liveWellCare": "కేర్ డెలివరీ",
+      "liveWellCareDelivery": "కేర్ డెలివరీ",
+      "liveWellCatalog": "కేటలాగ్ & కోట్స్",
+      "liveWellNetwork": "భాగస్వామి నెట్‌వర్క్",
+      "liveWellPlatform": "ప్లాట్‌ఫామ్ టూల్స్",
+      "liveWellPeople": "పీపుల్ & డాక్యుమెంట్స్",
+      "liveWellToday": "ఈరోజు",
+      "liveWellGrowth": "వృద్ధి",
+      "liveWellBusiness": "వ్యాపారం",
+      "liveWellSetup": "బృందం & సెటప్"
+    },
+    "items": {
+      "liveWellCustomers": "కస్టమర్లు",
+      "liveWellAssessments": "అసెస్‌మెంట్‌లు",
+      "liveWellPipeline": "పైప్‌లైన్",
+      "liveWellRecruits": "లీడ్‌లు & రిక్రూట్‌లు",
+      "liveWellVisits": "సందర్శనలు",
+      "liveWellFamily": "కుటుంబ పోర్టల్",
+      "liveWellCatalog": "ఉత్పత్తి కేటలాగ్",
+      "liveWellChecklist": "KAA చెక్‌లిస్ట్",
+      "liveWellSolutions": "పరిష్కార లైబ్రరీ",
+      "liveWellPricing": "ధరలు",
+      "liveWellPartners": "భాగస్వాములు",
+      "liveWellActivity": "సెషన్ కార్యకలాపం",
+      "liveWellSuppliers": "విక్రేతలు",
+      "liveWellMasterData": "మాస్టర్ డేటా",
+      "liveWellAiJobs": "AI విజువలైజేషన్‌లు",
+      "liveWellIotDevices": "వేరబుల్స్ (B7/MG7)",
+      "liveWellAlerts": "SOS & హెచ్చరికలు",
+      "liveWellFamilyMessages": "సందేశాలు",
+      "liveWellCoupons": "కూపన్లు",
+      "liveWellBlog": "బ్లాగ్",
+      "liveWellEnquiries": "కార్యకలాపాలు",
+      "liveWellVendors": "విక్రేతలు",
+      "liveWellHiring": "నియామకం",
+      "liveWellOwner": "యజమాని డ్యాష్‌బోర్డ్",
+      "liveWellInvoices": "ఇన్‌వాయిస్‌లు",
+      "liveWellTeam": "బృందం"
+    }
+  },
+  "dashboard": {
+    "safeHomeOps": "KushAlaya కార్యకలాపాలు",
+    "safeHomeOpsBlurb": "కేర్ డెలివరీ → సందర్శనలు & చెక్-ఇన్‌లు; అవసరమైతే కేటలాగ్ మరియు ప్లాట్‌ఫామ్ టూల్స్.",
+    "liveWellOps": "KushAlaya కార్యకలాపాలు",
+    "liveWellOpsBlurb": "కేర్ డెలివరీతో ప్రారంభించండి (క్లయింట్లు → అసెస్‌మెంట్‌లు → సందర్శనలు), తర్వాత కేటలాగ్ లేదా ప్లాట్‌ఫామ్ టూల్స్.",
+    "todayWork": "ఈరోజు పని",
+    "heroSub": "ఈరోజు మీ దృష్టి అవసరమైనవి ఇవి",
+    "apps": "యాప్‌లు",
+    "open": "తెరవండి",
+    "cardClients": "క్లయింట్లు",
+    "cardClientsHint": "సంరక్షణలో ఉన్నవారు",
+    "cardAssessments": "అసెస్‌మెంట్‌లు",
+    "cardAssessmentsHint": "మొత్తం {total}",
+    "cardAssessmentsHintEmpty": "ఓపెన్ డ్రాఫ్ట్‌లు",
+    "cardVisits": "సందర్శనలు & చెక్-ఇన్‌లు",
+    "cardVisitsHint": "{total} నమోదు",
+    "cardVisitsHintEmpty": "ఈరోజు నమోదు",
+    "cardCatalog": "కేటలాగ్",
+    "cardCatalogHint": "సేవలు, ఉత్పత్తులు, ప్యాకేజీలు",
+    "openAssessor": "అసెసర్ యాప్ తెరవండి",
+    "openFamily": "కుటుంబ పోర్టల్ తెరవండి",
+    "quickAccess": "త్వరిత యాక్సెస్",
+    "pipelinePeople": "పైప్‌లైన్ & యాప్‌లు",
+    "assessorApp": "అసెస్‌మెంట్‌లు →",
+    "familyApp": "కుటుంబ పోర్టల్ →",
+    "criticalAlerts": "క్రిటికల్ అలర్ట్‌లు (24గం)",
+    "openIncidents": "తెరిచి ఉన్న సంఘటనలు",
+    "pendingDocuments": "పెండింగ్ పత్రాలు",
+    "checkInsToday": "ఈరోజు చెక్-ఇన్‌లు",
+    "workforcePlacement": "కార్యబలం & నియామకం",
+    "workforceBlurb": "వినియోగం, బెంచ్, మార్కెట్‌ప్లేస్, Copilot ఒకే స్క్రీన్‌లో.",
+    "commandCenter": "కార్యబలం కమాండ్ సెంటర్",
+    "benchInventory": "బెంచ్ జాబితా",
+    "elderMatching": "వృద్ధుడు మ్యాచింగ్",
+    "recruitmentPipeline": "నియామక పైప్‌లైన్",
+    "careDelivery": "సంరక్షణ సేవలు",
+    "safetyCompliance": "భద్రత & అనుపాలన",
+    "monitoringAlerts": "మానిటరింగ్ & అలర్ట్‌లు",
+    "reviewDocuments": "పత్రాలను సమీక్షించండి",
+    "finance": "ఆర్థికం",
+    "cleaningOps": "Cleaning operations",
+    "cleaningSales": "Sales & customers",
+    "residentialCleaning": "Residential cleaning jobs",
+    "workforceCompliance": "Workforce & compliance",
+    "teamOperations": "Team operations",
+    "workforceCta": "కార్యబలం కమాండ్ సెంటర్ →",
+    "executiveCta": "ఎగ్జిక్యూటివ్ కమాండ్ సెంటర్ →"
+  },
+  "workforce": {
+    "placementActions": "నియామక చర్యలు:",
+    "matchElder": "వృద్ధుడికి సంరక్షకులను మ్యాచ్ చేయండి",
+    "viewAssignments": "నియామకాలను చూడండి",
+    "alerts": "కార్యాచరణ అలర్ట్‌లు",
+    "activeWorkforce": "సక్రియ కార్యబలం",
+    "onBench": "బెంచ్‌లో",
+    "utilization": "వినియోగం",
+    "deploymentReady": "డిప్లాయ్‌మెంట్ రెడీ (బెంచ్)",
+    "eldersUnassigned": "నియామకం లేని వృద్ధులు",
+    "placementsThisMonth": "ఈ నెల నియామకాలు",
+    "placementVelocity": "నియామక వేగం",
+    "assignmentsStarted": "ప్రారంభమైన నియామకాలు",
+    "thisMonth": "ఈ నెల",
+    "lastMonth": "గత నెల",
+    "placementStarts": "నియామక ప్రారంభాలు",
+    "recruitmentFunnel": "నియామక ఫన్నెల్",
+    "stage": "దశ",
+    "count": "లెక్క",
+    "fullPipeline": "పూర్తి పైప్‌లైన్",
+    "benchSummary": "బెంచ్ సారాంశం",
+    "totalBench": "మొత్తం బెంచ్",
+    "openBench": "బెంచ్ జాబితా తెరవండి",
+    "todayOps": "ఈరోజు కార్యకలాపాలు",
+    "agencyDashboard": "ఏజెన్సీ డాష్‌బోర్డ్",
+    "dataAsOf": "డేటా సమయం",
+    "benchIntro": "సక్రియ కానీ నియామకం లేని సంరక్షకులు. అన్ని సంరక్షకుల employability క్రమంలో Marketplace ట్యాబ్ చూడండి.",
+    "totalBenchKpi": "మొత్తం బెంచ్",
+    "avgBenchDays": "సగటు బెంచ్ రోజులు",
+    "category": "వర్గం",
+    "readiness": "సిద్ధత",
+    "benchDays": "బెంచ్ రోజులు",
+    "city": "నగరం",
+    "gaps": "గ్యాప్‌లు",
+    "noBench": "ఈ ఫిల్టర్‌కు బెంచ్‌లో సంరక్షకులు లేరు.",
+    "marketplaceIntro": "చురుకైన నియామకానికి employability క్రమం. నియామకం లేని వారి కోసం Bench ట్యాబ్.",
+    "filters": "ఫిల్టర్‌లు",
+    "minReadiness": "కనీస సిద్ధత",
+    "band": "బ్యాండ్",
+    "qpOnly": "ధృవీకరించిన DWC/Q0801 మాత్రమే",
+    "caregiver": "సంరక్షకుడు",
+    "employability": "Employability",
+    "experience": "అనుభవం",
+    "languages": "భాషలు",
+    "noMarketplace": "ఫిల్టర్‌కు సంరక్షకులు లేరు. వెతకడానికి Apply నొక్కండి.",
+    "copilotSuggest": "సూచించిన ప్రశ్నలు",
+    "copilotAsk": "ప్రశ్న అడగండి",
+    "copilotPlaceholder": "ఉదా. ఈ నెల నియామకాలు ఎందుకు తగ్గాయి?",
+    "copilotThinking": "ఆలోచిస్తోంది…",
+    "copilotSubmit": "Copilot ను అడగండి",
+    "copilotAnswer": "సమాధానం",
+    "copilotAzureHint": "Azure OpenAI కాన్ఫిగర్ కాలేదు. పూర్తి AI సమాధానాలకు API సర్వర్‌లో AZURE_OPENAI_* సెట్ చేయండి.",
+    "categories": {
+      "READY": "డిప్లాయ్‌మెంట్ రెడీ",
+      "AWAITING_PLACEMENT": "నియామకానికి సిద్ధం",
+      "VERIFICATION": "ధృవీకరణ",
+      "TRAINING": "శిక్షణ అవసరం",
+      "RESTRICTED": "పరిమితం"
+    }
+  },
+  "auth": {
+    "loginTitle": "KushAlaya",
+    "loginSubtitle": "స్టాఫ్ సైన్-ఇన్",
+    "showPassword": "పాస్‌వర్డ్ చూపించు",
+    "hidePassword": "పాస్‌వర్డ్ దాచు",
+    "emailRequired": "మీ ఇమెయిల్ చిరునామాను నమోదు చేయండి.",
+    "emailInvalid": "చెల్లుబాటు అయ్యే ఇమెయిల్ చిరునామాను నమోదు చేయండి.",
+    "passwordRequired": "మీ పాస్‌వర్డ్ నమోదు చేయండి.",
+    "invalidCredentials": "ఇమెయిల్ లేదా పాస్‌వర్డ్ తప్పు. దయచేసి మళ్లీ ప్రయత్నించండి.",
+    "tooManyAttempts": "చాలా సార్లు సైన్ ఇన్ ప్రయత్నించారు. 15 నిమిషాల తర్వాత మళ్లీ ప్రయత్నించండి, లేదా మీ పాస్‌వర్డ్‌ను రీసెట్ చేయండి.",
+    "signingIn": "సైన్ ఇన్ అవుతోంది…"
+  },
+  "settings": {
+    "languageSection": "అడ్మిన్ పోర్టల్ భాష",
+    "brandingSection": "పోర్టల్ బ్రాండింగ్",
+    "workforceEconomics": "కార్యబల ఆర్థికాలు",
+    "benchCostLabel": "సంరక్షకుడు బెంచ్ ఖర్చు (₹ / నెల)",
+    "benchCostHint": "ఎగ్జిక్యూటివ్ కమాండ్ సెంటర్‌లో నెలవారీ బెంచ్ ఖర్చు అంచనా. డిఫాల్ట్ ₹15,000.",
+    "saveBranding": "సెట్టింగ్‌లు సేవ్ చేయండి",
+    "saveBenchCost": "బెంచ్ ఖర్చు సేవ్ చేయండి"
+  },
+  "executive": {
+    "criticalAlerts": "క్రిటికల్ అలర్ట్‌లు",
+    "recommendedAction": "సిఫార్సు చర్య",
+    "workforceKpis": "ఎగ్జిక్యూటివ్ KPIలు",
+    "totalWorkforce": "మొత్తం కార్యబలం",
+    "activeWorkforce": "యాక్టివ్ (నియమించబడిన)",
+    "benchWorkforce": "బెంచ్‌లో",
+    "readyDeploy": "డిప్లాయ్‌మెంట్‌కు సిద్ధం",
+    "placementReady": "నియామకానికి సిద్ధం",
+    "inTraining": "శిక్షణ / ధృవీకరణ",
+    "utilization": "కార్యబల వినియోగం",
+    "target": "లక్ష్యం",
+    "benchIntel": "బెంచ్ ఇంటెలిజెన్స్",
+    "benchEmpty": "బెంచ్‌పై వర్కర్లు లేరు — carrying cost సున్నా.",
+    "placementIntel": "నియామక ఇంటెలిజెన్స్",
+    "recruitmentFunnel": "నియామక ఫన్నెల్",
+    "demandForecast": "డిమాండ్ అంచనా (30 రోజులు)",
+    "readiness": "కార్యబల సిద్ధత",
+    "attrition": "అట్రిషన్ ఇంటెలిజెన్స్",
+    "financial": "ఆర్థిక ఇంటెలిజెన్స్",
+    "cityOps": "నగర కార్యకలాపాలు",
+    "marketplace": "మార్కెట్‌ప్లేస్ ఇంటెలిజెన్స్",
+    "aiInsights": "AI కార్యబల అంతర్దృష్టులు",
+    "scorecard": "ఎగ్జిక్యూటివ్ స్కోర్‌కార్డ్",
+    "copilot": "ఎగ్జిక్యూటివ్ కోపైలట్",
+    "workforceLink": "కార్యబల కమాండ్ సెంటర్",
+    "heuristicNote": "హ్యూరిస్టిక్ v1 — తెరిచి ఉన్న డిమాండ్ సిగ్నల్‌ల నుండి.",
+    "proxyNote": "సగటు బెంచ్ రోజులు ప్రాక్సీగా ఉపయోగించబడతాయి."
+  },
+  "scheduling": {
+    "upcomingVisits": "రాబోయే సందర్శనలు",
+    "elder": "వృద్ధుడు",
+    "caregiver": "సంరక్షకుడు",
+    "noVisits": "సందర్శనలు షెడ్యూల్ కాలేదు. పైన నియామకాల నుండి జనరేట్ చేయండి.",
+    "generateVisits": "సందర్శనలు జనరేట్ చేయండి"
+  }
+}

@@ -1,0 +1,237 @@
+/* Wearables page (components/livewell/IotDevicesAdminPanel.tsx), tidy-up 2026-10-30.
+   Each device or gateway is one row: name + status + type, small muted meta under it,
+   and the client picker / Test / More lined up on the right (stacked on phones). */
+.iot-page {
+  display: grid;
+  gap: 1.25rem;
+  min-width: 0;
+}
+.iot-page .ks-head-row {
+  margin-bottom: -0.5rem;
+}
+.ko-main .iot-page h2.iot-card-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+  font-size: 1.1rem;
+}
+.iot-page .iot-count {
+  padding: 0.05rem 0.5rem;
+  border-radius: 999px;
+  background: #eef2f7;
+  color: #4b5b70;
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+.iot-page .iot-list {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.iot-page .iot-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.5rem 1rem;
+  padding: 0.85rem 0;
+  border-top: 1px solid #e8edf4;
+  min-width: 0;
+}
+.iot-page .iot-row:first-child {
+  border-top: 0;
+  padding-top: 0.25rem;
+}
+.iot-page .iot-row-info {
+  display: grid;
+  gap: 0.25rem;
+  min-width: 0;
+}
+.iot-page .iot-row-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem 0.55rem;
+  min-width: 0;
+}
+.iot-page .iot-row-head strong {
+  font-size: 1rem;
+  color: #0e2a4f;
+}
+.iot-page .iot-row-head strong.muted {
+  color: #64748b;
+}
+.iot-page .iot-pill {
+  padding: 0.1rem 0.55rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.iot-page .iot-type {
+  font-size: 0.86rem;
+}
+.iot-page .iot-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.15rem 0.9rem;
+  color: #64748b;
+  font-size: 0.82rem;
+  min-width: 0;
+}
+.iot-page .iot-meta code {
+  font-size: 0.8rem;
+  color: #45566b;
+  background: none;
+  padding: 0;
+}
+/* Actions: client picker, Test, More — same order and size on every row. */
+.iot-page .iot-row-actions {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+.ko-main .iot-page .iot-assign {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-width: 0;
+  margin: 0;
+}
+.iot-page .iot-assign > .muted {
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+.iot-page .iot-assign select {
+  width: 11rem;
+  max-width: 100%;
+  min-width: 0;
+  min-height: 40px;
+}
+.ko-main .iot-page .iot-row-actions > button {
+  min-height: 40px;
+}
+.iot-page .iot-more {
+  position: relative;
+}
+.ko-main .iot-page .iot-more > summary {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  padding: 0 0.85rem;
+  border: 1px solid #d5e0ee;
+  border-radius: 999px;
+  background: #fff;
+  color: #17498c;
+  font-size: 0.88rem;
+  font-weight: 700;
+  list-style: none;
+  cursor: pointer;
+  user-select: none;
+}
+.iot-page .iot-more > summary::-webkit-details-marker {
+  display: none;
+}
+.iot-page .iot-more > summary::after {
+  content: "▾";
+  margin-left: 0.35rem;
+  font-size: 0.75rem;
+}
+.iot-page .iot-more[open] > div {
+  position: absolute;
+  top: calc(100% + 4px);
+  right: 0;
+  z-index: 20;
+  display: grid;
+  gap: 2px;
+  min-width: 170px;
+  margin: 0;
+  padding: 4px;
+  border: 1px solid #dfe7f1;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 10px 28px rgba(16, 36, 58, 0.16);
+}
+.ko-main .iot-page .iot-more[open] > div > button {
+  justify-content: flex-start;
+  min-height: 40px;
+  padding: 0 0.75rem;
+  border: 0;
+  border-radius: 8px;
+  background: none;
+  box-shadow: none;
+  color: #0e2a4f;
+  font-weight: 600;
+  text-align: left;
+}
+.ko-main .iot-page .iot-more[open] > div > button:hover:not(:disabled) {
+  background: #eef3f9;
+}
+.ko-main .iot-page .iot-more[open] > div > button.is-danger {
+  color: #b42318;
+}
+.iot-page .iot-replace {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 0.5rem;
+}
+.iot-page .iot-heard,
+.iot-page .iot-hub-tech {
+  grid-column: 1 / -1;
+}
+.iot-page .iot-heard {
+  margin: 0;
+  font-size: 0.86rem;
+}
+.iot-page .iot-hub-tech summary {
+  display: inline-block;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #1d5fb4;
+}
+.iot-page .iot-hub-tech[open] {
+  padding: 0.75rem;
+  border-radius: 12px;
+  background: #f6f8fb;
+}
+.iot-page .iot-tech summary {
+  font-size: 0.95rem;
+}
+
+@media (max-width: 900px) {
+  .iot-page .iot-row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .iot-page .iot-row-actions {
+    justify-content: flex-start;
+  }
+  .iot-page .iot-assign {
+    flex: 1 1 auto;
+  }
+  .iot-page .iot-assign select {
+    flex: 1 1 auto;
+    width: auto;
+  }
+}
+@media (max-width: 640px) {
+  .iot-page .iot-row-actions {
+    flex-wrap: wrap;
+  }
+  .ko-main .iot-page .iot-assign {
+    flex: 1 1 100%;
+  }
+  .iot-page .iot-assign > .muted {
+    min-width: 3rem;
+  }
+  .iot-page .iot-assign select,
+  .ko-main .iot-page .iot-row-actions > button,
+  .ko-main .iot-page .iot-more > summary {
+    min-height: 44px;
+  }
+}

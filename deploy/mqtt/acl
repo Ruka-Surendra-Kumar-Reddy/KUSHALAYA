@@ -1,0 +1,15 @@
+# Ingestor: read LiveWell + Minew MG7 vendor topics
+user livewell_ingestor
+topic read livewell/#
+topic read mg7/#
+topic read /mg7/#
+
+# Example hub — replace home/hub ids and username to match mosquitto_passwd
+# Minew firmware often publishes /mg7/{bandMac}/status (not livewell/…)
+user mg7_home1
+topic write livewell/homes/home1/hubs/+/ble
+topic read livewell/homes/home1/hubs/+/ble
+topic write mg7/#
+topic write /mg7/#
+topic read mg7/#
+topic read /mg7/#

@@ -1,0 +1,883 @@
+/* Staff sign-in (SafeHome Ops).
+
+   Two columns on wide screens: a navy panel with the pitch, a flipping deck
+   of today's ops boards and trust chips, beside the sign-in card with the
+   lockup. On phones the panel is a compact header above the card.
+
+   `main.auth-page` keeps its class (globals.css pins the copyright below the
+   form through `.site-frame:has(> .auth-page)`); everything visual is scoped
+   under .ko-login. Motion is switched off under prefers-reduced-motion. */
+
+.ko-login {
+  --ko-navy: #0e2a4f;
+  --ko-blue: #1d5fb4;
+  --ko-blue-2: #2f79d6;
+  --ko-blue-deep: #17498c;
+  --ko-blue-soft: #e8f0fb;
+  --ko-green: #6a9a2a;
+  --ko-green-2: #8ab83e;
+  --ko-green-deep: #4f7a1d;
+  --ko-green-soft: #edf5e2;
+  --ko-gold-soft: #fbf3df;
+  --ko-ink: #10243a;
+  --ko-muted: #61748a;
+  --ko-line: #e3e9f1;
+  --ko-danger: #c8402f;
+  --ko-loop: 18s;
+
+  font-family: var(--fh-font, "Manrope"), "Segoe UI", system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  background:
+    radial-gradient(900px 480px at 100% -10%, rgba(29, 95, 180, 0.1), transparent 60%),
+    radial-gradient(700px 420px at -10% 110%, rgba(106, 154, 42, 0.12), transparent 60%),
+    #f3f6fa;
+  padding: 1rem;
+  align-items: flex-start;
+}
+
+.ko-login-wrap {
+  width: 100%;
+  max-width: 1040px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  border-radius: 24px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 30px 60px -30px rgba(14, 42, 79, 0.45);
+  /* Movement only, never opacity: the card must be visible from first paint. */
+  animation: ko-rise 0.55s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+/* --- Brand panel -------------------------------------------------------- */
+
+.ko-login-brand {
+  position: relative;
+  overflow: hidden;
+  color: #fff;
+  background: linear-gradient(160deg, #0f2f5c 0%, #17498c 60%, #1d5fb4 100%);
+  isolation: isolate;
+}
+
+.ko-login-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(40px);
+  opacity: 0.75;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.ko-login-blob-a {
+  width: 420px;
+  height: 420px;
+  right: -140px;
+  top: -160px;
+  background: radial-gradient(circle, rgba(138, 184, 62, 0.75), rgba(138, 184, 62, 0) 65%);
+  animation: ko-drift-a 14s ease-in-out infinite alternate;
+}
+
+.ko-login-blob-b {
+  width: 380px;
+  height: 380px;
+  left: -160px;
+  bottom: -160px;
+  background: radial-gradient(circle, rgba(47, 121, 214, 0.9), rgba(47, 121, 214, 0) 65%);
+  animation: ko-drift-b 18s ease-in-out infinite alternate;
+}
+
+.ko-login-grid {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.16) 1px, transparent 1.5px);
+  background-size: 22px 22px;
+  mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.7), transparent 85%);
+  -webkit-mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.7), transparent 85%);
+}
+
+.ko-login-brand-inner {
+  position: relative;
+  z-index: 1;
+  padding: 1.1rem 1.15rem 1rem;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.ko-login-brand-eyebrow {
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  /* No uppercase: the brand is spelled "KushAlaya". */
+  text-transform: none;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.ko-login-brand h2 {
+  margin: 0.3rem 0 0;
+  font-size: 1.3rem;
+  line-height: 1.15;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.ko-login-brand-lead {
+  display: none;
+  margin: 0.55rem 0 0;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.82);
+  max-width: 44ch;
+}
+
+.ko-login-live {
+  position: relative;
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--ko-green-2);
+  flex-shrink: 0;
+}
+
+.ko-login-live::after {
+  content: "";
+  position: absolute;
+  inset: -3px;
+  border-radius: 999px;
+  border: 1.5px solid var(--ko-green-2);
+  opacity: 0;
+  animation: ko-pulse 2.4s ease-out infinite 0.8s;
+}
+
+.ko-deck,
+.ko-login-trust {
+  display: none;
+}
+
+/* --- Deck (desktop) ----------------------------------------------------- */
+
+.ko-deck {
+  position: relative;
+  width: 100%;
+  margin: 1.6rem 0 0;
+  perspective: 1200px;
+}
+
+.ko-live {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 1rem 1.1rem 1rem;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.97);
+  color: var(--ko-ink);
+  box-shadow: 0 24px 48px -22px rgba(0, 0, 0, 0.6);
+  backface-visibility: hidden;
+  opacity: 0;
+  animation: ko-flip var(--ko-loop) ease-in-out infinite;
+  animation-delay: calc(var(--i) * 6s);
+}
+
+.ko-live:not(:first-child) {
+  position: absolute;
+  inset: 0;
+}
+
+.ko-live-head {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding-bottom: 0.8rem;
+  border-bottom: 1px solid var(--ko-line);
+}
+
+.ko-live-ico {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 13px;
+  color: #fff;
+  background: linear-gradient(135deg, var(--ko-blue-2) 0%, var(--ko-blue-deep) 100%);
+  flex-shrink: 0;
+}
+
+.ko-live-ico.is-green {
+  background: linear-gradient(135deg, var(--ko-green-2) 0%, var(--ko-green-deep) 100%);
+}
+
+.ko-live-ico.is-gold {
+  background: linear-gradient(135deg, #e6b95a 0%, #b9832a 100%);
+}
+
+.ko-live-ico svg,
+.ko-live-dot svg,
+.ko-login-trust svg,
+.ko-cg-benefits svg,
+.ko-field-ico svg,
+.ko-login-btn-arrow svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.9;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  flex-shrink: 0;
+}
+
+.ko-live-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.05rem;
+  min-width: 0;
+}
+
+.ko-live-text small {
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ko-muted);
+}
+
+.ko-live-text strong {
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--ko-navy);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ko-live-text span {
+  font-size: 0.76rem;
+  color: var(--ko-muted);
+}
+
+.ko-live-rows {
+  list-style: none;
+  margin: 0;
+  padding: 0.7rem 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.ko-live-rows li {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: var(--ko-ink);
+  min-width: 0;
+}
+
+.ko-live-dot {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 999px;
+  border: 2px solid var(--ko-line);
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.ko-live-dot.is-ok {
+  border-color: var(--ko-green);
+  background: var(--ko-green);
+}
+
+.ko-live-dot svg {
+  width: 12px;
+  height: 12px;
+  stroke-width: 2.6;
+}
+
+.ko-live-row-text {
+  flex: 1;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ko-live-state {
+  padding: 0.15rem 0.55rem;
+  border-radius: 999px;
+  background: var(--ko-blue-soft);
+  color: var(--ko-blue-deep);
+  font-size: 0.68rem;
+  font-weight: 800;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.ko-live-state.is-ok {
+  background: var(--ko-green-soft);
+  color: var(--ko-green-deep);
+}
+
+/* --- Trust chips -------------------------------------------------------- */
+
+.ko-login-trust {
+  list-style: none;
+  padding: 1.1rem 0 0;
+  margin: auto 0 0;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.5rem;
+}
+
+.ko-login-trust li {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.5rem 0.7rem 0.5rem 0.5rem;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.9);
+  white-space: nowrap;
+  min-width: 0;
+}
+
+.ko-login-trust-ico {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 9px;
+  background: rgba(138, 184, 62, 0.28);
+  color: #d7ec9f;
+  flex-shrink: 0;
+}
+
+.ko-login-trust svg {
+  width: 15px;
+  height: 15px;
+}
+
+/* --- Sign-in card ------------------------------------------------------- */
+
+.ko-login .ko-login-card {
+  position: relative;
+  width: 100%;
+  max-width: none;
+  border: none;
+  border-radius: 0;
+  padding: 1.5rem 1.25rem 1.4rem;
+  text-align: center;
+}
+
+.ko-login-locale {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 0.75rem;
+}
+
+/* Scoped to beat the global .brand-logo / .auth-brand-lockup caps. */
+.ko-login .ko-login-logo {
+  display: block;
+  width: 160px;
+  height: 160px;
+  max-width: 48vw;
+  max-height: none;
+  object-fit: contain;
+  margin: 0 auto 0.6rem;
+}
+
+.ko-login-eyebrow {
+  margin: 0 0 0.25rem;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ko-green-deep);
+}
+
+.ko-login-title {
+  margin: 0 0 0.35rem;
+  font-size: 1.45rem;
+  line-height: 1.2;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--ko-navy);
+}
+
+.ko-login .ko-login-intro {
+  margin: 0 auto 1.25rem;
+  max-width: 36ch;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--ko-muted);
+}
+
+.ko-login .ko-login-card form {
+  text-align: left;
+}
+
+.ko-field {
+  margin-bottom: 0.9rem;
+}
+
+.ko-login .ko-field label {
+  display: block;
+  margin-bottom: 0.35rem;
+  color: var(--ko-ink);
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+
+.ko-field-input {
+  position: relative;
+  display: block;
+}
+
+.ko-field-ico {
+  position: absolute;
+  left: 0.85rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--ko-muted);
+  line-height: 0;
+  pointer-events: none;
+  transition: color 0.15s ease;
+}
+
+.ko-field-input:focus-within .ko-field-ico {
+  color: var(--ko-blue);
+}
+
+.ko-login input:not([type="checkbox"]):not([type="radio"]) {
+  margin: 0;
+  padding: 0.78rem 0.9rem;
+  border: 1.5px solid #d5dee9;
+  border-radius: 13px;
+  background: #fff;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--ko-ink);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+
+.ko-login .ko-field-input input:not([type="checkbox"]):not([type="radio"]) {
+  padding-left: 2.6rem;
+}
+
+.ko-login .password-field input:not([type="checkbox"]):not([type="radio"]) {
+  padding-right: 2.9rem;
+}
+
+.ko-login .password-field {
+  display: block;
+}
+
+.ko-login .password-toggle {
+  right: 0.45rem;
+  border-radius: 9px;
+}
+
+.ko-login .password-toggle:hover,
+.ko-login .password-toggle:focus-visible {
+  background: var(--ko-blue-soft);
+  color: var(--ko-blue);
+}
+
+.ko-login input:not([type="checkbox"]):not([type="radio"]):hover {
+  border-color: #b9c8db;
+}
+
+.ko-login input:not([type="checkbox"]):not([type="radio"]):focus-visible {
+  outline: none;
+  border-color: var(--ko-blue);
+  box-shadow: 0 0 0 4px rgba(29, 95, 180, 0.16);
+}
+
+.ko-login .has-error input:not([type="checkbox"]):not([type="radio"]),
+.ko-login input[aria-invalid="true"] {
+  border-color: var(--ko-danger);
+  background: #fffafa;
+}
+
+.ko-login .field-error {
+  margin: 0.35rem 0 0;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--ko-danger);
+}
+
+.ko-login .ko-login-error {
+  margin: 0 0 0.85rem;
+  padding: 0.65rem 0.85rem;
+  border-radius: 12px;
+  background: #fdeeeb;
+  color: #8f2a1d;
+  font-size: 0.88rem;
+  font-weight: 600;
+  text-align: left;
+}
+
+.ko-login .ko-login-btn {
+  position: relative;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  margin-top: 0.35rem;
+  padding: 0.85rem 1rem;
+  border: none;
+  border-radius: 13px;
+  font-size: 1rem;
+  font-weight: 800;
+  color: #fff;
+  background: linear-gradient(135deg, var(--ko-blue-2) 0%, var(--ko-blue-deep) 100%);
+  box-shadow: 0 14px 24px -12px rgba(29, 95, 180, 0.75);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease;
+}
+
+.ko-login .ko-login-btn::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -60%;
+  width: 40%;
+  height: 100%;
+  background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.28), transparent);
+  transform: skewX(-18deg);
+  transition: left 0.6s ease;
+}
+
+.ko-login .ko-login-btn:hover {
+  background: linear-gradient(135deg, var(--ko-blue-2) 0%, var(--ko-blue-deep) 100%);
+  filter: brightness(1.06);
+  transform: translateY(-1px);
+}
+
+.ko-login .ko-login-btn:hover::after {
+  left: 120%;
+}
+
+.ko-login .ko-login-btn:disabled {
+  opacity: 0.85;
+  transform: none;
+  filter: none;
+}
+
+.ko-login-btn-arrow {
+  display: inline-flex;
+  transition: transform 0.15s ease;
+}
+
+.ko-login .ko-login-btn:hover .ko-login-btn-arrow {
+  transform: translateX(3px);
+}
+
+.ko-spinner {
+  width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  border: 2.5px solid rgba(255, 255, 255, 0.35);
+  border-top-color: #fff;
+  animation: ko-spin 0.8s linear infinite;
+  flex-shrink: 0;
+}
+
+.ko-login-alt {
+  margin: 1rem 0 0;
+  font-size: 0.85rem;
+  color: var(--ko-muted);
+}
+
+.ko-login-alt a {
+  color: var(--ko-blue);
+  font-weight: 700;
+}
+
+.ko-login .ko-login-demo {
+  margin: 0.75rem 0 0;
+  font-size: 0.78rem;
+  line-height: 1.45;
+}
+
+/* --- Wide screens ------------------------------------------------------- */
+
+@media (min-width: 860px) {
+  .ko-login {
+    padding: 1.5rem;
+  }
+
+  .ko-login-wrap {
+    grid-template-columns: 1.22fr 1fr;
+    min-height: 640px;
+  }
+
+  .ko-login-brand-inner {
+    padding: 2.2rem 2.25rem 1.75rem;
+  }
+
+  .ko-login-brand h2 {
+    font-size: 1.95rem;
+  }
+
+  .ko-login-brand-lead {
+    display: block;
+  }
+
+  .ko-deck {
+    display: block;
+  }
+
+  .ko-login-trust {
+    display: grid;
+  }
+
+  .ko-login .ko-login-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 2rem 2.1rem 1.75rem;
+  }
+
+  .ko-login-locale {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    margin: 0;
+  }
+
+  .ko-login .ko-login-logo {
+    width: 180px;
+    height: 180px;
+  }
+
+  .ko-login-title {
+    font-size: 1.6rem;
+  }
+}
+
+/* --- Motion ------------------------------------------------------------- */
+
+@keyframes ko-rise {
+  from { transform: translateY(14px); }
+  to { transform: translateY(0); }
+}
+
+@keyframes ko-flip {
+  0% { opacity: 0; transform: rotateY(-70deg) translateX(24px); }
+  4% { opacity: 1; transform: rotateY(0) translateX(0); }
+  30% { opacity: 1; transform: rotateY(0) translateX(0); }
+  33.3%, 100% { opacity: 0; transform: rotateY(70deg) translateX(-24px); }
+}
+
+@keyframes ko-pulse {
+  0% { transform: scale(0.6); opacity: 0.9; }
+  100% { transform: scale(1.6); opacity: 0; }
+}
+
+@keyframes ko-drift-a {
+  from { transform: translate(0, 0); }
+  to { transform: translate(-60px, 50px); }
+}
+
+@keyframes ko-drift-b {
+  from { transform: translate(0, 0); }
+  to { transform: translate(70px, -40px); }
+}
+
+@keyframes ko-spin {
+  to { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ko-login-wrap,
+  .ko-login-blob,
+  .ko-login-live::after {
+    animation: none;
+  }
+
+  .ko-live {
+    animation: none;
+    opacity: 1;
+  }
+
+  .ko-live:not(:first-child) {
+    display: none;
+  }
+
+  .ko-login .ko-login-btn::after {
+    display: none;
+  }
+}
+
+/* --- Refinement: soft slide-and-fade instead of the 3D flip ---------------- */
+
+.ko-deck {
+  perspective: none;
+}
+
+.ko-live {
+  animation-name: ko-login-deck-slide;
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes ko-login-deck-slide {
+  0% {
+    opacity: 0;
+    transform: translateY(14px) scale(0.985);
+  }
+  5%,
+  29% {
+    opacity: 1;
+    transform: none;
+  }
+  33.3%,
+  100% {
+    opacity: 0;
+    transform: translateY(-10px) scale(0.985);
+  }
+}
+
+/* Which board is showing: a dot per board, filled in step with the deck. */
+.ko-deck-dots {
+  display: none;
+  gap: 0.4rem;
+  justify-content: center;
+  margin-top: 0.8rem;
+}
+
+.ko-deck-dots span {
+  width: 22px;
+  height: 4px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.22);
+  overflow: hidden;
+  position: relative;
+}
+
+.ko-deck-dots span::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: #8ab83e;
+  transform: scaleX(0);
+  transform-origin: left;
+  animation: ko-dot var(--ko-loop) linear infinite;
+  animation-delay: calc(var(--i) * 6s);
+}
+
+@keyframes ko-dot {
+  0% { transform: scaleX(0); }
+  33.2% { transform: scaleX(1); }
+  33.3%, 100% { transform: scaleX(0); }
+}
+
+@media (min-width: 860px) {
+  .ko-deck-dots {
+    display: flex;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ko-deck-dots {
+    display: none;
+  }
+}
+
+/* No empty gap: centre the panel content and keep the chips close to the card. */
+@media (min-width: 860px) {
+  .ko-login-brand-inner {
+    justify-content: center;
+  }
+
+  .ko-login-brand-inner .ko-login-trust {
+    margin-top: 2rem;
+  }
+}
+
+/* "This week" strip under the deck (desktop only). */
+.ko-week {
+  display: none;
+  margin-top: 1.4rem;
+  padding: 1rem 1.1rem;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.ko-week p {
+  margin: 0 0 0.55rem;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.ko-week ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.ko-week li + li {
+  border-left: 1px solid rgba(255, 255, 255, 0.14);
+  padding-left: 1rem;
+}
+
+.ko-week strong {
+  display: block;
+  font-size: 1.7rem;
+  font-weight: 800;
+  line-height: 1.1;
+  color: #fff;
+}
+
+.ko-week span {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+@media (min-width: 860px) {
+  .ko-week {
+    display: block;
+  }
+}
+
+/* Phones: the sticky copyright footer covered the bottom of the sign-in card
+   (and the "Family portal" link). On the login page it simply follows the card. */
+@media (max-width: 640px) {
+  .site-frame:has(> .ko-login) > .site-footer {
+    position: static;
+  }
+}
+
+/* Round 4: caregiver host side panel — a simple picture and three benefits, no example data. */
+.ko-cg-panel { display: grid; gap: 1.25rem; margin: 1.5rem 0 0; }
+.ko-cg-art { width: min(240px, 70%); height: auto; }
+.ko-cg-benefits { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.85rem; }
+.ko-cg-benefits li { display: flex; align-items: flex-start; gap: 0.65rem; font-size: 1rem; line-height: 1.4; }
+
+/* Round 5: caregiver host on phones shows the sign-in form first; bigger tap targets. */
+@media (max-width: 859.98px) {
+  .ko-login-wrap:has(.ko-cg-panel) > .ko-login-card { order: -1; }
+  .ko-cg-art { display: none; }
+}
+.ko-login-alt a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 0.25rem; }
+.ko-login-card .password-toggle { min-width: 44px; min-height: 44px; }

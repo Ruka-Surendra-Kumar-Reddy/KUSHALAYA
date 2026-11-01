@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:fitsSystemWindows="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <ImageView
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:contentDescription="@string/app_name"
+            android:src="@mipmap/ic_launcher_round" />
+
+        <TextView
+            style="@style/SetupHeading"
+            android:layout_marginTop="16dp"
+            android:text="@string/setup_title"
+            android:textSize="24sp" />
+
+        <TextView
+            style="@style/SetupText"
+            android:layout_marginBottom="8dp"
+            android:text="@string/setup_intro" />
+
+        <TextView style="@style/SetupHeading" android:text="@string/setup_notify" />
+        <TextView style="@style/SetupText" android:text="@string/setup_notify_why" />
+        <Button android:id="@+id/setup_notify_btn" style="@style/SetupButton" />
+
+        <TextView style="@style/SetupHeading" android:text="@string/setup_fullscreen" />
+        <TextView style="@style/SetupText" android:text="@string/setup_fullscreen_why" />
+        <Button android:id="@+id/setup_fullscreen_btn" style="@style/SetupButton" />
+
+        <TextView style="@style/SetupHeading" android:text="@string/setup_dnd" />
+        <TextView style="@style/SetupText" android:text="@string/setup_dnd_why" />
+        <Button android:id="@+id/setup_dnd_btn" style="@style/SetupButton" />
+
+        <TextView style="@style/SetupHeading" android:text="@string/setup_battery" />
+        <TextView style="@style/SetupText" android:text="@string/setup_battery_why" />
+        <Button android:id="@+id/setup_battery_btn" style="@style/SetupButton" />
+
+        <Button
+            android:id="@+id/setup_test_btn"
+            style="@style/SetupButton"
+            android:layout_marginTop="28dp"
+            android:text="@string/setup_test" />
+
+        <Button
+            android:id="@+id/setup_done_btn"
+            style="@style/SetupButton"
+            android:backgroundTint="@color/colorPrimary"
+            android:text="@string/setup_done"
+            android:textColor="#FFFFFF" />
+    </LinearLayout>
+</ScrollView>

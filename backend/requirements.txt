@@ -1,0 +1,48 @@
+# Requires Python >= 3.10 (use 3.11 on production VMs; OL9 default python3 is often 3.9)
+fastapi==0.115.12
+uvicorn[standard]==0.34.3
+
+sqlalchemy==2.0.41
+alembic==1.16.1
+psycopg2-binary==2.9.10
+
+python-jose[cryptography]==3.5.0
+
+bcrypt==4.2.1
+
+pydantic==2.11.5
+pydantic-settings==2.9.1
+
+python-multipart==0.0.20
+email-validator==2.2.0
+
+python-dotenv==1.1.0
+
+httpx==0.28.1
+
+openpyxl==3.1.5
+
+pytest==8.4.0
+pytest-asyncio==1.0.0
+
+azure-storage-blob==12.24.0
+
+# Optional S3-compatible storage (Cloudflare R2 / Backblaze B2 / AWS S3)
+boto3==1.38.27
+
+# Finance outputs — payslip & invoice PDF
+reportlab==4.4.1
+
+# Local AI concept stub (before/after boards without GPU)
+Pillow==11.2.1
+
+# Observability (optional — used when APPLICATIONINSIGHTS_CONNECTION_STRING is set)
+azure-monitor-opentelemetry==1.6.4
+opentelemetry-instrumentation-fastapi==0.49b2
+opentelemetry-instrumentation-sqlalchemy==0.49b2
+
+# workforceos-core is installed separately — see scripts/install-backend-deps.sh
+#   export WORKFORCEOS_CORE=/opt/workforceos-core   # VM
+#   export WORKFORCEOS_CORE=../workforceos-core     # local sibling clone
+# IANA tz database for zoneinfo on platforms without a system copy (Windows dev); family digest send slots
+tzdata>=2024.1

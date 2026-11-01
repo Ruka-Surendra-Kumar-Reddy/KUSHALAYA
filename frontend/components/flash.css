@@ -1,0 +1,58 @@
+/* Flash.tsx: top-right notification card (success fades after 5 s, errors stay). */
+.ks-toast {
+  position: fixed;
+  top: 84px;
+  right: 1.25rem;
+  z-index: 2000; /* above popups (ks-modal-backdrop 1000) */
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.7rem;
+  width: min(380px, calc(100vw - 2rem));
+  padding: 0.75rem 0.6rem 0.75rem 0.85rem;
+  border: 1px solid #b7e4c7;
+  border-left: 5px solid #16a34a;
+  border-radius: 14px;
+  background: #fff;
+  color: #0f2a4a;
+  box-shadow: 0 14px 36px rgba(14, 42, 79, 0.18);
+  animation: ks-toast-in 0.18s ease-out;
+}
+.ks-toast.is-error { border-color: #f5c2c0; border-left-color: #dc2626; }
+.ks-toast p { margin: 0; font-size: 0.95rem; font-weight: 600; line-height: 1.35; overflow-wrap: anywhere; }
+.ks-toast-ic {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  background: #16a34a;
+  color: #fff;
+  font-weight: 800;
+  font-size: 0.9rem;
+}
+.ks-toast.is-error .ks-toast-ic { background: #dc2626; }
+.ks-toast .ks-toast-x {
+  width: 40px;
+  height: 40px;
+  min-height: 40px;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  box-shadow: none;
+  color: #5b6b80;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+.ks-toast .ks-toast-x:hover { background: #eef2f7; color: #0f2a4a; }
+@keyframes ks-toast-in {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: none; }
+}
+@media (max-width: 560px) {
+  .ks-toast { top: 72px; right: 0.75rem; left: 0.75rem; width: auto; }
+}
+@media print {
+  .ks-toast { display: none; }
+}

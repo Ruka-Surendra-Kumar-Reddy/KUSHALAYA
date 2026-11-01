@@ -1,0 +1,12 @@
+{
+  "_comment": "Merge into workforceos-core/contracts/database_packs.json",
+  "deployPacks": {
+    "SAFEHOME360": ["platform", "workforce", "customer_spine", "safehome360"]
+  },
+  "defaultSqliteFiles": {
+    "SAFEHOME360": "safehomeops.db"
+  },
+  "packLabels": {
+    "safehome360": "SafeHome 360™ domain"
+  }
+}

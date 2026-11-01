@@ -1,0 +1,7 @@
+node_modules/
+dist/
+# Secrets the owner supplies (README): never commit
+android/keystore.properties
+*.jks
+*.keystore
+android/app/google-services.json

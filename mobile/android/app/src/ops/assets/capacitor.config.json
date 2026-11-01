@@ -1,0 +1,15 @@
+{
+  "appId": "com.kushalaya.ops",
+  "appName": "KushAlaya Ops",
+  "webDir": "www",
+  "server": {
+    "url": "https://ops.kushalaya.com",
+    "androidScheme": "https",
+    "cleartext": false,
+    "errorPath": "index.html"
+  },
+  "android": {
+    "allowMixedContent": false,
+    "adjustMarginsForEdgeToEdge": "auto"
+  }
+}

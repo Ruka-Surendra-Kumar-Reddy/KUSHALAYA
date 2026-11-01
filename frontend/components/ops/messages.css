@@ -1,0 +1,516 @@
+/* Messages: conversation list + thread (app/(app)/kushalaya/messages, components/ops/MessageThread.tsx).
+   Laptop: two panes in one card. Phone (<=600px): list first, the thread opens full-screen. */
+
+.ko-main .km-shell {
+  display: grid;
+  grid-template-columns: minmax(260px, 340px) minmax(0, 1fr);
+  height: calc(100dvh - var(--ko-topbar-h, 68px) - 12.5rem);
+  min-height: 480px;
+  background: var(--ko-surface, #fff);
+  border: 1px solid var(--ko-line, #e3e9f1);
+  border-radius: var(--ko-radius, 16px);
+  box-shadow: var(--ko-shadow);
+  overflow: hidden;
+}
+
+/* --- List pane ------------------------------------------------------------ */
+.ko-main .km-list-pane {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  border-right: 1px solid var(--ko-line, #e3e9f1);
+  background: #fbfcfe;
+}
+
+.ko-main .km-search {
+  padding: 0.9rem 0.9rem 0.6rem;
+}
+
+.ko-main .km-search input {
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 44px;
+  padding: 0 0.85rem;
+  border: 1px solid var(--ko-line, #e3e9f1);
+  border-radius: var(--ko-radius-sm, 11px);
+  background: #fff;
+  font: inherit;
+}
+
+.ko-main .km-filters {
+  display: flex;
+  flex-wrap: nowrap;
+  margin: 0 0.9rem 0.6rem;
+  box-shadow: none;
+}
+
+.ko-main .km-filters .tab {
+  flex: 1 1 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  min-height: 40px;
+  padding: 0.4rem 0.6rem;
+  white-space: nowrap;
+}
+
+.ko-main .km-count {
+  min-width: 1.25rem;
+  padding: 0 0.35rem;
+  border-radius: 999px;
+  background: var(--ko-danger, #c8402f);
+  color: #fff;
+  font-size: 0.72rem;
+  line-height: 1.25rem;
+}
+
+.ko-main .km-rows {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  list-style: none;
+  margin: 0;
+  padding: 0 0.5rem 0.75rem;
+}
+
+.ko-main .km-row,
+.ko-main .km-row:hover {
+  width: 100%;
+  display: flex;
+  gap: 0.7rem;
+  align-items: flex-start;
+  padding: 0.75rem 0.7rem;
+  border: 0;
+  border-radius: 12px;
+  background: transparent;
+  box-shadow: none;
+  color: var(--ko-ink, #10243a);
+  font: inherit;
+  font-weight: 400;
+  text-align: left;
+  transform: none;
+  filter: none;
+  cursor: pointer;
+}
+
+.ko-main .km-row:hover {
+  background: var(--ko-blue-soft, #e8f0fb);
+}
+
+.ko-main .km-row.is-active {
+  background: var(--ko-blue-soft, #e8f0fb);
+  box-shadow: inset 3px 0 0 var(--ko-blue, #1d5fb4);
+}
+
+.ko-main .km-avatar {
+  flex: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--ko-navy, #0e2a4f);
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 800;
+}
+
+.ko-main .km-row-body {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: grid;
+  gap: 0.2rem;
+}
+
+.ko-main .km-row-top,
+.ko-main .km-row-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  min-width: 0;
+}
+
+.ko-main .km-row-top strong {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ko-main .km-row-top time {
+  flex: none;
+  color: var(--ko-muted, #61748a);
+  font-size: 0.78rem;
+}
+
+.ko-main .km-preview {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--ko-muted, #61748a);
+  font-size: 0.88rem;
+}
+
+.ko-main .km-row.is-unread .km-preview {
+  color: var(--ko-ink, #10243a);
+  font-weight: 600;
+}
+
+.ko-main .km-row.is-unread .km-row-top time {
+  color: var(--ko-blue, #1d5fb4);
+  font-weight: 700;
+}
+
+.ko-main .km-unread {
+  flex: none;
+  min-width: 1.35rem;
+  padding: 0 0.4rem;
+  border-radius: 999px;
+  background: var(--ko-blue, #1d5fb4);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 800;
+  line-height: 1.35rem;
+  text-align: center;
+}
+
+.ko-main .km-tag {
+  display: inline-block;
+  margin-right: 0.35rem;
+  padding: 0 0.45rem;
+  border-radius: 6px;
+  background: var(--ko-gold-soft, #fbf3df);
+  color: #8a5a00;
+  font-size: 0.72rem;
+  font-weight: 800;
+  line-height: 1.3rem;
+  vertical-align: 1px;
+}
+
+.ko-main .km-state {
+  padding: 2rem 1rem;
+  text-align: center;
+  color: var(--ko-muted, #61748a);
+  list-style: none;
+}
+
+.ko-main .km-state p {
+  margin: 0 0 0.75rem;
+}
+
+.ko-main .km-retry {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 0 0.9rem 0.5rem;
+}
+
+/* --- Thread pane ---------------------------------------------------------- */
+.ko-main .km-thread-pane {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  min-width: 0;
+}
+
+.ko-main .km-pick {
+  flex: 1;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 0.6rem;
+  color: var(--ko-muted, #61748a);
+  text-align: center;
+  padding: 2rem;
+}
+
+.ko-main .km-pick p {
+  margin: 0;
+}
+
+.ko-main .km-thread {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  height: 100%;
+  background: var(--ko-surface, #fff);
+}
+
+.ko-main .km-thread.is-embedded {
+  height: min(70vh, 640px);
+  border: 1px solid var(--ko-line, #e3e9f1);
+  border-radius: var(--ko-radius, 16px);
+  overflow: hidden;
+}
+
+.ko-main .km-thread-head {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.85rem 1.1rem;
+  border-bottom: 1px solid var(--ko-line, #e3e9f1);
+}
+
+.ko-main .km-thread-title {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.ko-main .km-thread-title h2 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.ko-main .km-thread-title h2 a {
+  color: var(--ko-ink, #10243a);
+  text-decoration: none;
+}
+
+.ko-main .km-thread-title h2 a:hover {
+  color: var(--ko-blue, #1d5fb4);
+  text-decoration: underline;
+}
+
+.ko-main .km-context {
+  margin: 0.15rem 0 0;
+  color: var(--ko-muted, #61748a);
+  font-size: 0.84rem;
+}
+
+.ko-main .km-back,
+.ko-main .km-back:hover {
+  display: none;
+  flex: none;
+  min-height: 44px;
+  padding: 0 0.6rem;
+  background: none;
+  box-shadow: none;
+  color: var(--ko-blue, #1d5fb4);
+  transform: none;
+  filter: none;
+}
+
+.ko-main .km-link-btn,
+.ko-main .km-link-btn:hover {
+  flex: none;
+  min-height: 44px;
+  padding: 0 0.25rem;
+  border: 0;
+  background: none;
+  box-shadow: none;
+  color: var(--ko-blue, #1d5fb4);
+  font-weight: 700;
+  font-size: 0.88rem;
+  transform: none;
+  filter: none;
+  cursor: pointer;
+}
+
+.ko-main .km-link-btn:hover {
+  text-decoration: underline;
+}
+
+.ko-main .km-messages {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  list-style: none;
+  margin: 0;
+  padding: 1rem 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  background: var(--ko-bg, #f3f6fa);
+}
+
+.ko-main .km-msg {
+  max-width: min(80%, 36rem);
+  padding: 0.6rem 0.85rem;
+  border-radius: 14px 14px 14px 4px;
+  background: #fff;
+  border: 1px solid var(--ko-line, #e3e9f1);
+  align-self: flex-start;
+}
+
+.ko-main .km-msg.is-team {
+  align-self: flex-end;
+  border-radius: 14px 14px 4px 14px;
+  background: #dbe8fb;
+  border-color: #c9dbf6;
+}
+
+.ko-main .km-msg.is-call {
+  border-color: #ecd59c;
+  background: var(--ko-gold-soft, #fbf3df);
+}
+
+.ko-main .km-msg.is-call .km-tag {
+  background: #fff;
+}
+
+.ko-main .km-msg p {
+  margin: 0;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.ko-main .km-meta {
+  display: block;
+  margin-top: 0.2rem;
+  color: var(--ko-muted, #61748a);
+  font-size: 0.76rem;
+}
+
+.ko-main .km-compose {
+  flex: none;
+  padding: 0.6rem 1.1rem 0.75rem;
+  border-top: 1px solid var(--ko-line, #e3e9f1);
+  background: #fff;
+}
+
+.ko-main .km-error {
+  margin: 0 0 0.4rem;
+}
+
+.ko-main .km-quick {
+  display: flex;
+  gap: 0.4rem;
+  margin-bottom: 0.5rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.ko-main .km-chip,
+.ko-main .km-chip:hover {
+  flex: none;
+  min-height: 36px;
+  padding: 0 0.75rem;
+  border: 1px solid rgba(29, 95, 180, 0.28);
+  border-radius: 999px;
+  background: #f3f7fe;
+  box-shadow: none;
+  color: var(--ko-blue-deep, #17498c);
+  font-size: 0.8rem;
+  font-weight: 600;
+  white-space: nowrap;
+  transform: none;
+  filter: none;
+}
+
+.ko-main .km-chip:hover {
+  background: #e3edfc;
+}
+
+.ko-main .km-reply {
+  display: flex;
+  gap: 0.5rem;
+  align-items: flex-end;
+}
+
+.ko-main .km-reply textarea {
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 44px;
+  max-height: 9rem;
+  box-sizing: border-box;
+  padding: 0.6rem 0.75rem;
+  border: 1px solid #cbd5e1;
+  border-radius: var(--ko-radius-sm, 11px);
+  font: inherit;
+  resize: vertical;
+}
+
+.ko-main .km-reply button {
+  flex: none;
+  min-height: 44px;
+  min-width: 5.5rem;
+}
+
+.ko-main .km-hint {
+  margin: 0.35rem 0 0;
+  color: var(--ko-muted, #61748a);
+  font-size: 0.76rem;
+}
+
+/* --- Tablet: narrower list ------------------------------------------------ */
+@media (max-width: 900px) {
+  .ko-main .km-shell {
+    grid-template-columns: minmax(220px, 280px) minmax(0, 1fr);
+  }
+}
+
+/* --- Phone: list first; a picked thread fills the screen -------------------- */
+@media (max-width: 600px) {
+  .ko-main .km-shell {
+    display: block;
+    height: auto;
+    min-height: 0;
+    overflow: visible;
+  }
+
+  .ko-main .km-list-pane {
+    border-right: 0;
+    border-radius: var(--ko-radius, 16px);
+  }
+
+  .ko-main .km-rows {
+    overflow: visible;
+  }
+
+  .ko-main .km-row {
+    min-height: 64px;
+  }
+
+  .ko-main .km-thread-pane {
+    display: none;
+  }
+
+  .ko-main .km-shell.has-thread .km-thread-pane {
+    display: flex;
+    position: fixed;
+    inset: 0;
+    z-index: 1200;
+    background: #fff;
+  }
+
+  .ko-main .km-back,
+  .ko-main .km-back:hover {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .ko-main .km-thread-head {
+    padding: 0.5rem 0.75rem;
+    gap: 0.4rem;
+  }
+
+  .ko-main .km-messages {
+    padding: 0.85rem 0.75rem;
+  }
+
+  .ko-main .km-msg {
+    max-width: 88%;
+  }
+
+  .ko-main .km-compose {
+    padding: 0.5rem 0.75rem calc(0.6rem + env(safe-area-inset-bottom, 0px));
+  }
+
+  .ko-main .km-hint {
+    display: none;
+  }
+}
+
+/* "Waiting 5 days" stays on one line; the preview shrinks instead. */
+.ko-main .km-row-bottom .km-awaiting {
+  flex: none;
+  white-space: nowrap;
+}
+.ko-main .km-row-bottom .km-preview { min-width: 0; }
+
+/* Round 4: the segmented control stays inside the panel padding. */
+.ko-main .km-filters { flex-wrap: wrap; max-width: calc(100% - 1.8rem); box-sizing: border-box; }
+.ko-main .km-filters .tab { min-height: 44px; min-width: 0; }

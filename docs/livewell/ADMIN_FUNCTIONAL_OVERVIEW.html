@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>LiveWell Ops — Admin Functional Overview (Developer)</title>
+  <style>
+    :root {
+      --ink: #1a2332;
+      --muted: #5a6577;
+      --line: #d8dee8;
+      --bg: #f7f8fb;
+      --card: #ffffff;
+      --accent: #0b6e4f;
+      --accent-soft: #e6f4ef;
+      --warn: #8a5a00;
+      --warn-bg: #fff6e5;
+      --code: #0f172a;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+      color: var(--ink);
+      background: var(--bg);
+      line-height: 1.55;
+      font-size: 15px;
+    }
+    .wrap { max-width: 920px; margin: 0 auto; padding: 2rem 1.25rem 4rem; }
+    header.doc-hero {
+      background: linear-gradient(145deg, #0b3d2e 0%, #0b6e4f 55%, #148a63 100%);
+      color: #fff;
+      border-radius: 16px;
+      padding: 2rem 1.75rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 12px 40px rgba(11, 61, 46, 0.25);
+    }
+    header.doc-hero h1 {
+      margin: 0 0 0.4rem;
+      font-size: 1.85rem;
+      letter-spacing: -0.02em;
+      font-weight: 700;
+    }
+    header.doc-hero .sub {
+      margin: 0;
+      opacity: 0.92;
+      max-width: 42rem;
+      font-size: 1.02rem;
+    }
+    header.doc-hero .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem 1.25rem;
+      margin-top: 1.25rem;
+      font-size: 0.85rem;
+      opacity: 0.88;
+    }
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-bottom: 1.5rem;
+      align-items: center;
+    }
+    .toolbar button, .toolbar a.btn {
+      appearance: none;
+      border: 1px solid var(--line);
+      background: var(--card);
+      color: var(--ink);
+      border-radius: 8px;
+      padding: 0.45rem 0.85rem;
+      font-size: 0.9rem;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+    .toolbar button:hover, .toolbar a.btn:hover { border-color: var(--accent); color: var(--accent); }
+    .toolbar .hint { color: var(--muted); font-size: 0.85rem; }
+    nav.toc {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 1rem 1.25rem;
+      margin-bottom: 2rem;
+    }
+    nav.toc h2 { margin: 0 0 0.6rem; font-size: 1rem; }
+    nav.toc ol { margin: 0; padding-left: 1.2rem; columns: 2; column-gap: 2rem; }
+    nav.toc li { break-inside: avoid; margin: 0.25rem 0; }
+    nav.toc a { color: var(--accent); text-decoration: none; }
+    nav.toc a:hover { text-decoration: underline; }
+    @media (max-width: 700px) { nav.toc ol { columns: 1; } }
+    section {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 1.35rem 1.4rem 1.5rem;
+      margin-bottom: 1.15rem;
+    }
+    section h2 {
+      margin: 0 0 0.75rem;
+      font-size: 1.25rem;
+      color: var(--accent);
+      letter-spacing: -0.01em;
+      border-bottom: 2px solid var(--accent-soft);
+      padding-bottom: 0.4rem;
+    }
+    section h3 {
+      margin: 1.15rem 0 0.45rem;
+      font-size: 1.05rem;
+    }
+    p { margin: 0.5rem 0; }
+    ul, ol { margin: 0.4rem 0 0.6rem; padding-left: 1.25rem; }
+    li { margin: 0.25rem 0; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+      margin: 0.65rem 0 0.85rem;
+    }
+    th, td {
+      border: 1px solid var(--line);
+      padding: 0.45rem 0.55rem;
+      text-align: left;
+      vertical-align: top;
+    }
+    th { background: var(--accent-soft); color: #064433; font-weight: 600; }
+    tr:nth-child(even) td { background: #fafbfc; }
+    code, .path {
+      font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+      font-size: 0.86em;
+      background: #eef1f6;
+      padding: 0.1em 0.35em;
+      border-radius: 4px;
+      color: var(--code);
+    }
+    pre {
+      background: #0f172a;
+      color: #e2e8f0;
+      padding: 0.9rem 1rem;
+      border-radius: 10px;
+      overflow-x: auto;
+      font-size: 0.82rem;
+      line-height: 1.45;
+    }
+    .note {
+      background: var(--warn-bg);
+      border-left: 4px solid var(--warn);
+      padding: 0.65rem 0.85rem;
+      border-radius: 0 8px 8px 0;
+      color: #5c4200;
+      margin: 0.75rem 0;
+      font-size: 0.92rem;
+    }
+    .pill {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      padding: 0.15rem 0.45rem;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: #064433;
+    }
+    .pill.pilot { background: #efe8ff; color: #4c2a9a; }
+    .pill.planned { background: #eee; color: #555; }
+    .flow {
+      font-family: ui-monospace, Consolas, monospace;
+      font-size: 0.82rem;
+      background: #f0f4f8;
+      border: 1px dashed var(--line);
+      border-radius: 10px;
+      padding: 0.85rem 1rem;
+      white-space: pre;
+      overflow-x: auto;
+      margin: 0.75rem 0;
+    }
+    footer {
+      margin-top: 2rem;
+      color: var(--muted);
+      font-size: 0.85rem;
+      text-align: center;
+    }
+    @media print {
+      body { background: #fff; font-size: 11pt; }
+      .wrap { max-width: none; padding: 0; }
+      .toolbar { display: none !important; }
+      header.doc-hero {
+        background: #0b6e4f !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+        box-shadow: none;
+        border-radius: 0;
+      }
+      nav.toc, section {
+        break-inside: avoid;
+        box-shadow: none;
+        border-color: #ccc;
+      }
+      a { color: inherit; text-decoration: none; }
+      pre, .flow { white-space: pre-wrap; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="doc-hero">
+      <h1>LiveWell Ops — Admin Functional Overview</h1>
+      <p class="sub">
+        Developer handoff for the staff / operations portal: apps, roles, screens,
+        workflows, and API surfaces. Product brand: <strong>Kushalaya</strong>
+        (SafeHomeOps codebase).
+      </p>
+      <div class="meta">
+        <span>Audience: backend &amp; frontend developers</span>
+        <span>Host: ops.kushalaya.com</span>
+        <span>Version: 2026-08-27</span>
+      </div>
+    </header>
+
+    <div class="toolbar">
+      <button type="button" onclick="window.print()">Print / Save as PDF</button>
+      <a class="btn" href="#toc">Jump to contents</a>
+      <span class="hint">Open this file in a browser → Print → “Save as PDF”.</span>
+    </div>
+
+    <nav class="toc" id="toc">
+      <h2>Contents</h2>
+      <ol>
+        <li><a href="#apps">Product apps &amp; shells</a></li>
+        <li><a href="#roles">Roles &amp; access</a></li>
+        <li><a href="#nav">Ops sidebar map</a></li>
+        <li><a href="#care">Care delivery</a></li>
+        <li><a href="#assess">Assessments &amp; commercial pipeline</a></li>
+        <li><a href="#catalog">Catalog, pricing &amp; master data</a></li>
+        <li><a href="#partners">Partners &amp; vendors</a></li>
+        <li><a href="#platform">Platform tools (AI, Wearables)</a></li>
+        <li><a href="#people">People, documents &amp; admin</a></li>
+        <li><a href="#family">Family touchpoints (ops side)</a></li>
+        <li><a href="#apis">API map</a></li>
+        <li><a href="#flows">End-to-end flows</a></li>
+        <li><a href="#repo">Repo map &amp; docs</a></li>
+        <li><a href="#gaps">Known gaps / pilot notes</a></li>
+      </ol>
+    </nav>
+
+    <!-- 1 -->
+    <section id="apps">
+      <h2>1. Product apps &amp; shells</h2>
+      <p>
+        LiveWell is three separate UX shells on the same ops host. Do not fold Family or
+        Assessor into the ops sidebar.
+      </p>
+      <table>
+        <thead>
+          <tr><th>App</th><th>Shell</th><th>Users</th><th>Entry</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Ops portal</strong></td>
+            <td><code>AppShell</code> sidebar</td>
+            <td>Care managers, tenant admins, viewers, system admins</td>
+            <td><code>/login</code> → <code>/dashboard</code></td>
+          </tr>
+          <tr>
+            <td><strong>Assessor PWA</strong></td>
+            <td><code>HomeSafetyShell</code> bottom nav</td>
+            <td>Field assessors (<code>CAREGIVER</code>)</td>
+            <td><code>/livewell</code></td>
+          </tr>
+          <tr>
+            <td><strong>Family portal</strong></td>
+            <td><code>FamilyShell</code> bottom nav</td>
+            <td>Family / NRI (<code>ELDER_PORTAL</code>)</td>
+            <td><code>/livewell/family/login</code></td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+        Public marketing site (<code>www.kushalaya.com</code>) is separate.
+        Canonical brand: Kushalaya; code package <code>app.livewell</code>; routes under
+        <code>/livewell</code> (legacy <code>/home-safety</code> redirects).
+      </p>
+    </section>
+
+    <!-- 2 -->
+    <section id="roles">
+      <h2>2. Roles &amp; access</h2>
+      <p>Staff RBAC (from <code>workforceos_core</code> via <code>backend/app/core/rbac.py</code> / <code>frontend/lib/auth.ts</code>):</p>
+      <table>
+        <thead>
+          <tr><th>Constant</th><th>Roles</th><th>Typical use</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>STAFF_ROLES</code> / <code>READ_ROLES</code></td>
+            <td>VIEWER, CARE_MANAGER, TENANT_ADMIN, SYSTEM_ADMIN</td>
+            <td>Read APIs, see Care delivery</td>
+          </tr>
+          <tr>
+            <td><code>WRITE_ROLES</code></td>
+            <td>CARE_MANAGER, TENANT_ADMIN, SYSTEM_ADMIN</td>
+            <td>Mutating care / visits / IoT registry / activity</td>
+          </tr>
+          <tr>
+            <td><code>ADMIN_ROLES</code></td>
+            <td>TENANT_ADMIN, SYSTEM_ADMIN</td>
+            <td>Users, catalog/platform nav, permanent deletes</td>
+          </tr>
+        </tbody>
+      </table>
+      <h3>Nav visibility (ops sidebar)</h3>
+      <table>
+        <thead>
+          <tr><th>Role</th><th>Sees</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>VIEWER</strong></td><td>Overview + Care delivery</td></tr>
+          <tr><td><strong>CARE_MANAGER</strong></td><td>+ Partner network + People &amp; documents + Admin (Team / Settings). <em>No</em> Catalog or Platform tools.</td></tr>
+          <tr><td><strong>TENANT_ADMIN</strong></td><td>All non-tenant groups including Catalog &amp; Platform + Users</td></tr>
+          <tr><td><strong>SYSTEM_ADMIN</strong></td><td>Same as tenant admin + <strong>Tenants</strong></td></tr>
+        </tbody>
+      </table>
+      <div class="note">
+        <strong>Note:</strong> Session activity appears under Care delivery for all staff in the nav,
+        but the page and <code>/api/v1/activity/*</code> effectively require write / settings access
+        (CARE_MANAGER+). Treat VIEWER access as read-oriented Care screens only.
+      </div>
+      <h3>Non-ops portal roles</h3>
+      <ul>
+        <li><code>CAREGIVER</code> — assessor PWA (lands on <code>/livewell</code>)</li>
+        <li><code>ELDER_PORTAL</code> — family PWA (lands on family dashboard)</li>
+      </ul>
+    </section>
+
+    <!-- 3 -->
+    <section id="nav">
+      <h2>3. Ops sidebar map</h2>
+      <p>Source of truth: <code>frontend/lib/i18n/nav.ts</code> (+ core <code>nav.json</code> / <code>AppShell</code>).</p>
+      <table>
+        <thead>
+          <tr><th>Group</th><th>Items (path)</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Overview</strong></td>
+            <td>Dashboard <code>/dashboard</code> · Tenants <code>/tenants</code> (system admin)</td>
+          </tr>
+          <tr>
+            <td><strong>Care delivery</strong></td>
+            <td>
+              Clients <code>/livewell/customers</code> ·
+              Assessments <code>/livewell</code> ·
+              Visits &amp; check-ins <code>/livewell/visits</code> ·
+              Session activity <code>/livewell/activity</code>
+            </td>
+          </tr>
+          <tr>
+            <td><strong>Catalog &amp; quotes</strong></td>
+            <td>
+              Product catalog <code>/livewell/catalog</code> ·
+              KAA checklist <code>/livewell/rubric</code> ·
+              Solution library <code>/livewell/solutions</code> ·
+              Pricing <code>/livewell/pricing</code>
+            </td>
+          </tr>
+          <tr>
+            <td><strong>Partner network</strong></td>
+            <td>Partners <code>/livewell/partners</code> · Vendors <code>/livewell/suppliers</code></td>
+          </tr>
+          <tr>
+            <td><strong>Platform tools</strong></td>
+            <td>
+              Master data <code>/livewell/master-data</code> ·
+              AI visualizations <code>/livewell/ai-jobs</code> ·
+              Wearables (B7/MG7) <code>/livewell/iot-devices</code>
+              <span class="pill pilot">pilot</span>
+            </td>
+          </tr>
+          <tr>
+            <td><strong>People &amp; documents</strong></td>
+            <td>Assessor recruits <code>/prospects</code> · Documents <code>/documents</code></td>
+          </tr>
+          <tr>
+            <td><strong>Admin</strong></td>
+            <td>
+              Users / Team <code>/users</code> ·
+              Settings <code>/settings</code> ·
+              Workflows <code>/settings/workflows</code>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- 4 -->
+    <section id="care">
+      <h2>4. Care delivery</h2>
+
+      <h3>4.1 Clients — <code>/livewell/customers</code></h3>
+      <p><span class="pill">Care spine</span> Lead → convert → assess → publish score to family.</p>
+      <ul>
+        <li>Create / manage elder prospects and clients (<code>elders</code> + prospects pipeline).</li>
+        <li>Start or open home assessments; link assessment to client.</li>
+        <li>Republish Independence Score™ / living plan to the family portal.</li>
+        <li>Admin danger zone: permanent delete of client / lead / assessment (admin roles).</li>
+      </ul>
+      <p><strong>APIs:</strong> <code>/api/v1/elders</code>, <code>/api/v1/prospects/elders</code>, <code>/api/v1/home-safety/assessments</code></p>
+
+      <h3>4.2 Assessments — <code>/livewell</code> (assessor shell)</h3>
+      <p>
+        Ops nav “Assessments” opens the <strong>assessor PWA</strong> list, not an ops-chrome page.
+        Wizard: resident intake → scored sections → photos → review (score, improvement plan, quote).
+      </p>
+      <ul>
+        <li>Rubric ratings: Excellent / Acceptable / Unsafe / N/A → SafeHome Score™ / Independence Score™.</li>
+        <li>Conditional logic hides irrelevant items from resident profile.</li>
+        <li>Photos, AI visualization jobs, signed documents, recommendation chat.</li>
+      </ul>
+      <p><strong>APIs:</strong> <code>/api/v1/home-safety/assessments</code>, photos, signed-docs, recommendation-chat, AI</p>
+
+      <h3>4.3 Visits &amp; check-ins — <code>/livewell/visits</code></h3>
+      <p><span class="pill">Ongoing care</span> After enrollment, trend comes from visits — not repeated full assessments.</p>
+      <table>
+        <thead>
+          <tr><th>Score</th><th>Source</th><th>Cadence</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Independence Score™</strong></td>
+            <td>Home assessment publish</td>
+            <td>Intake (rare re-assess)</td>
+          </tr>
+          <tr>
+            <td><strong>Care stability score</strong></td>
+            <td>Structured Care Manager visits</td>
+            <td>Every completed visit (baseline = 50)</td>
+          </tr>
+        </tbody>
+      </table>
+      <ul>
+        <li><strong>Baseline visit:</strong> Observe/Ask protocol; type forced to Baseline profile; score 50; optional family message.</li>
+        <li><strong>Later check-ins:</strong> Multiple-choice scoring → GREEN / YELLOW / RED “Mom is OK” status; history for family sparkline.</li>
+        <li>Also: living plan items, family service request triage, installer partner pick.</li>
+      </ul>
+      <p><strong>APIs:</strong> <code>/api/v1/home-safety/visits</code>, <code>/api/v1/home-safety/care/*</code></p>
+
+      <h3>4.4 Session activity — <code>/livewell/activity</code></h3>
+      <ul>
+        <li>Accordion timeline of staff / assessor / family / <strong>system</strong> sessions.</li>
+        <li>Meaningful user actions + optional verbose API hydration.</li>
+        <li>IoT ingest (SOS) appears under Actor → <strong>System</strong>; expand Details (JSON) for <code>raw_payload</code>.</li>
+        <li>Verbose: set <code>ACTIVITY_LOG_MODE=verbose</code> on API <code>.env</code>.</li>
+      </ul>
+      <p><strong>APIs:</strong> <code>/api/v1/activity/sessions</code> (WRITE_ROLES)</p>
+    </section>
+
+    <!-- 5 -->
+    <section id="assess">
+      <h2>5. Assessments &amp; commercial pipeline</h2>
+      <div class="flow">Assessment finding (Unsafe / Acceptable)
+        ↓
+Solution library (SH-*)
+        ↓
+Product catalog (SKU via solution_ids)
+        ↓
+Pricing engine (margin, labor, travel, GST)
+        ↓
+Customer quote (assess review + report)
+        ↓
+[Planned] Approval → work order → invoice</div>
+      <p>
+        Admin configures rubric / solutions / catalog / pricing; assessors consume them in the
+        wizard. Showcase packages are family-facing via public catalog API.
+      </p>
+    </section>
+
+    <!-- 6 -->
+    <section id="catalog">
+      <h2>6. Catalog, pricing &amp; master data</h2>
+      <p><span class="pill">Tenant admin+</span> Prefer Excel master workbook as source of truth.</p>
+      <table>
+        <thead>
+          <tr><th>Screen</th><th>Path</th><th>Purpose</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>KAA checklist</td>
+            <td><code>/livewell/rubric</code></td>
+            <td>Assessment items / weights</td>
+          </tr>
+          <tr>
+            <td>Solution library</td>
+            <td><code>/livewell/solutions</code></td>
+            <td>Findings → corrective actions (<code>SH-*</code>)</td>
+          </tr>
+          <tr>
+            <td>Product catalog</td>
+            <td><code>/livewell/catalog</code></td>
+            <td>SKUs, packages, photos, solution links</td>
+          </tr>
+          <tr>
+            <td>Pricing</td>
+            <td><code>/livewell/pricing</code></td>
+            <td>Margin, labor, travel, GST, surcharges</td>
+          </tr>
+          <tr>
+            <td>Master data</td>
+            <td><code>/livewell/master-data</code></td>
+            <td>Upload → stage → approve → seed; export / rollback</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+        Canonical workbook: <code>backend/app/livewell/data/Kushalaya_Configuration.xlsx</code>
+        (pilot trimmed: <code>Kushalaya_Configuration_Pilot.xlsx</code>).
+      </p>
+      <p><strong>APIs:</strong>
+        <code>/api/v1/home-safety/{rubric,solutions,catalog,pricing,master-data}</code>
+      </p>
+    </section>
+
+    <!-- 7 -->
+    <section id="partners">
+      <h2>7. Partners &amp; vendors</h2>
+      <table>
+        <thead>
+          <tr><th>Screen</th><th>Path</th><th>Purpose</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Partners</td>
+            <td><code>/livewell/partners</code></td>
+            <td>Org directory: supplier / installer roles, tiers, ratings</td>
+          </tr>
+          <tr>
+            <td>Vendors</td>
+            <td><code>/livewell/suppliers</code></td>
+            <td>SKU-level vendor costs, MOQ, preferred offers</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>Used when staff pick installers on visits / service requests and when quoting products.</p>
+      <p><strong>API:</strong> <code>/api/v1/home-safety/suppliers</code></p>
+    </section>
+
+    <!-- 8 -->
+    <section id="platform">
+      <h2>8. Platform tools</h2>
+
+      <h3>8.1 AI visualizations — <code>/livewell/ai-jobs</code></h3>
+      <ul>
+        <li>Job board for “before → concept” visualization pipeline (stub or GPU provider).</li>
+        <li>Phases: Assessment → … → Review; staff approve / reject concepts for family.</li>
+      </ul>
+      <p><strong>APIs:</strong> <code>/api/v1/home-safety/ai/*</code>, GPU routes under <code>/home-safety/ai/gpu/v1/*</code></p>
+
+      <h3>8.2 Wearables (B7 / MG7) — <code>/livewell/iot-devices</code>
+        <span class="pill pilot">pilot</span>
+      </h3>
+      <p>Register Minew (or compatible) gateway + SOS band bound to an elder.</p>
+      <ul>
+        <li><strong>Register kit:</strong> creates hub MQTT user/topic + band MAC → elder; shows MinewLink settings.</li>
+        <li><strong>Update MAC:</strong> replace band for same elder without new hub.</li>
+        <li>Ingestor polls <code>GET /api/v1/iot/device-map</code>; SOS → family critical alert + Session activity (System).</li>
+        <li>Hardware config still in vendor apps (BeaconSET / MinewLink); not in LiveWell UI.</li>
+      </ul>
+      <div class="flow">Band --BLE--&gt; Gateway --MQTT/TLS:8883--&gt; Mosquitto
+  --&gt; safehomeops-iot-ingestor --HTTP--&gt; POST /api/v1/iot/events
+  --&gt; Family alert + care-hub incident</div>
+      <p><strong>APIs:</strong>
+        <code>/api/v1/iot/{hubs,devices,register-kit,devices/mac,device-map,events}</code>
+        (events use <code>X-IoT-Ingest-Key</code>, not staff JWT)
+      </p>
+      <div class="note">
+        Full managed-safety product (escalation worker, multi-contact ack, offline monitoring)
+        is <strong>gated</strong> behind initial hardware validation — see
+        <code>docs/livewell/IOT_PILOT_IMPLEMENTATION.md</code>. Do not build escalation in FastAPI background tasks.
+      </div>
+    </section>
+
+    <!-- 9 -->
+    <section id="people">
+      <h2>9. People, documents &amp; admin</h2>
+      <table>
+        <thead>
+          <tr><th>Screen</th><th>Path</th><th>Purpose</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Assessor recruits</td>
+            <td><code>/prospects</code></td>
+            <td>Recruit / pipeline for assessors</td>
+          </tr>
+          <tr>
+            <td>Documents</td>
+            <td><code>/documents</code></td>
+            <td>Upload verification / document workflows</td>
+          </tr>
+          <tr>
+            <td>Users / Team</td>
+            <td><code>/users</code></td>
+            <td>Invite and manage staff (admins)</td>
+          </tr>
+          <tr>
+            <td>Settings</td>
+            <td><code>/settings</code></td>
+            <td>Branding, locale, modules, custom fields, subscription links</td>
+          </tr>
+          <tr>
+            <td>Workflows</td>
+            <td><code>/settings/workflows</code></td>
+            <td>Enable definitions, tasks, scan triggers, event log</td>
+          </tr>
+          <tr>
+            <td>Background jobs</td>
+            <td><code>/settings/background-jobs</code></td>
+            <td>Durable job ledger (platform)</td>
+          </tr>
+          <tr>
+            <td>Tenants</td>
+            <td><code>/tenants</code></td>
+            <td>Multi-tenant admin (SYSTEM_ADMIN)</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- 10 -->
+    <section id="family">
+      <h2>10. Family touchpoints (what ops enables)</h2>
+      <p>Family app is separate; ops staff enable it through clients &amp; visits:</p>
+      <ul>
+        <li>Publish assessment score / plan after conversion.</li>
+        <li>Visit baselines &amp; check-ins feed care stability card + trend.</li>
+        <li>Service requests from family appear for staff triage on Visits.</li>
+        <li>Wearable SOS → family <strong>Alerts</strong> (critical).</li>
+        <li>Emergency contacts today: thin elder fields; multi-contact OTP is post-validation pilot work.</li>
+      </ul>
+      <p>Family guide: <code>docs/livewell/FAMILY_PORTAL_USER_GUIDE.md</code></p>
+    </section>
+
+    <!-- 11 -->
+    <section id="apis">
+      <h2>11. API map (LiveWell-relevant)</h2>
+      <p>Mounted under <code>/api/v1</code> (<code>backend/app/api/v1/router.py</code>). Typical pattern: GET = READ_ROLES; mutations = WRITE_ROLES.</p>
+      <table>
+        <thead>
+          <tr><th>Prefix</th><th>Domain</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>/home-safety/assessments</code></td><td>Assessments</td></tr>
+          <tr><td><code>/home-safety/visits</code></td><td>Visits / stability</td></tr>
+          <tr><td><code>/home-safety/care</code></td><td>Staff care plan &amp; service requests</td></tr>
+          <tr><td><code>/home-safety/family</code></td><td>Family portal</td></tr>
+          <tr><td><code>/home-safety/{catalog,rubric,solutions,pricing,suppliers,master-data}</code></td><td>Config</td></tr>
+          <tr><td><code>/home-safety/ai</code></td><td>Visualizations</td></tr>
+          <tr><td><code>/home-safety/photos</code>, <code>/signed-docs</code>, <code>/recommendation-chat</code></td><td>Media / docs / chat</td></tr>
+          <tr><td><code>/iot</code></td><td>Wearable registry + ingest</td></tr>
+          <tr><td><code>/activity</code></td><td>Session activity</td></tr>
+          <tr><td><code>/elders</code>, <code>/prospects</code></td><td>Clients / pipeline</td></tr>
+          <tr><td><code>/workflows</code>, <code>/users</code>, <code>/tenants</code>, <code>/documents</code>, <code>/subscriptions</code></td><td>Platform</td></tr>
+        </tbody>
+      </table>
+      <p>Interactive OpenAPI: <code>https://ops.kushalaya.com/docs</code></p>
+    </section>
+
+    <!-- 12 -->
+    <section id="flows">
+      <h2>12. End-to-end flows (admin mental model)</h2>
+
+      <h3>A. New home safety customer</h3>
+      <ol>
+        <li>Ops: create lead / client on <strong>Clients</strong>.</li>
+        <li>Assessor: complete assessment on <code>/livewell</code> → score + plan + quote.</li>
+        <li>Ops: convert / link / publish to family.</li>
+        <li>Care manager: baseline visit on <strong>Visits</strong>, then periodic check-ins.</li>
+        <li>Family: sees Independence Score™ + care stability trend + alerts.</li>
+      </ol>
+
+      <h3>B. Configure commercial content</h3>
+      <ol>
+        <li>Tenant admin: edit rubric / solutions / catalog / pricing <em>or</em> import master Excel.</li>
+        <li>Master data: stage → approve → seed tenant overrides.</li>
+        <li>Assessors immediately consume updated matching / quote math.</li>
+      </ol>
+
+      <h3>C. Wearable SOS (pilot)</h3>
+      <ol>
+        <li>Admin: <strong>Wearables</strong> → register kit (MAC + MQTT credentials).</li>
+        <li>Field: configure gateway with shown MQTTS host/port/user/topic.</li>
+        <li>Band SOS → Mosquitto → ingestor → API → family critical alert.</li>
+        <li>Ops: confirm in Session activity (System) and family Alerts.</li>
+      </ol>
+    </section>
+
+    <!-- 13 -->
+    <section id="repo">
+      <h2>13. Repo map &amp; further docs</h2>
+      <pre>frontend/app/(app)/livewell/*/page.tsx     # Ops admin pages
+frontend/app/livewell/(portal)/            # Assessor PWA
+frontend/app/livewell/family/              # Family PWA
+frontend/lib/i18n/nav.ts                   # Sidebar groups + role filter
+frontend/components/AppShell.tsx           # Ops chrome
+backend/app/livewell/                      # Domain services
+backend/app/api/v1/                        # HTTP routers
+backend/iot_ingestor/                      # MQTT → API bridge
+docs/livewell/                             # Product docs
+deploy/mqtt/                               # Mosquitto + IoT install</pre>
+      <table>
+        <thead>
+          <tr><th>Doc</th><th>When to read</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>docs/livewell/README.md</code></td><td>Index of apps &amp; URLs</td></tr>
+          <tr><td><code>docs/livewell/OPS_PORTAL_NAV.md</code></td><td>Sidebar / role matrix</td></tr>
+          <tr><td><code>docs/livewell/SAFEHOME360_ASSESSMENT.md</code></td><td>Assessment framework</td></tr>
+          <tr><td><code>docs/livewell/SOLUTION_CATALOG_PRICING.md</code></td><td>Catalog &amp; quote engine</td></tr>
+          <tr><td><code>docs/livewell/CARE_STABILITY.md</code></td><td>Visits &amp; stability score</td></tr>
+          <tr><td><code>docs/livewell/FAMILY_PORTAL_USER_GUIDE.md</code></td><td>Family features</td></tr>
+          <tr><td><code>docs/livewell/IOT_*.md</code> + <code>IOT_PILOT_IMPLEMENTATION.md</code></td><td>Wearables &amp; pilot gate</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- 14 -->
+    <section id="gaps">
+      <h2>14. Known gaps / pilot notes</h2>
+      <ul>
+        <li><strong>IoT Phase 1:</strong> registry + SOS ingest + in-app alert. No SMS/voice escalation ladder, no installer PWA, no relational <code>safety_incident</code> ack yet.</li>
+        <li><strong>Escalation rule:</strong> use durable Postgres outbox + worker — never FastAPI in-process timers.</li>
+        <li><strong>Care manager vs catalog:</strong> CM does not see Catalog/Platform in nav (admins configure commercial content).</li>
+        <li><strong>Assessments dual shell:</strong> intentional — field chrome differs from ops chrome.</li>
+        <li><strong>Quote → work order / invoice:</strong> planned (Phase D+), not shipped.</li>
+        <li><strong>AI default:</strong> may run as local stub without GPU provider.</li>
+      </ul>
+    </section>
+
+    <footer>
+      Kushalaya / SafeHomeOps — Admin Functional Overview · Generated for developer handoff ·
+      Print this page to PDF from your browser.
+    </footer>
+  </div>
+</body>
+</html>

@@ -1,0 +1,251 @@
+/* SEO landing pages: /faq, /services/*, /elder-care/* (components/marketing/SeoPages.tsx). */
+
+.seo-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 2.5rem;
+}
+
+@media (min-width: 960px) {
+  .seo-layout {
+    grid-template-columns: minmax(0, 1fr) 18rem;
+    align-items: start;
+  }
+  .seo-aside {
+    position: sticky;
+    top: 6rem;
+  }
+}
+
+.seo-prose {
+  max-width: 46rem;
+  min-width: 0;
+  overflow-wrap: break-word;
+}
+
+.seo-prose section + section {
+  margin-top: 2.25rem;
+}
+
+.seo-prose h2 {
+  margin: 0 0 0.75rem;
+  font-size: clamp(1.3rem, 1.1rem + 0.9vw, 1.7rem);
+  line-height: 1.25;
+  color: var(--mk-navy);
+}
+
+.seo-prose p {
+  margin: 0 0 0.9rem;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--mk-ink);
+}
+
+.seo-aside {
+  display: grid;
+  gap: 1.25rem;
+  min-width: 0;
+}
+
+.seo-faq-main {
+  min-width: 0;
+}
+
+/* Same width as the question cards (.mk-faq max-width) so the edges line up. */
+.seo-faq-search {
+  display: block;
+  max-width: 52rem;
+}
+
+.seo-faq-search input {
+  width: 100%;
+  min-height: 48px;
+  margin: 0 0 1.25rem;
+  padding: 0 1rem;
+  border: 1px solid var(--mk-line);
+  border-radius: 999px;
+  background: var(--mk-surface);
+  font: inherit;
+  color: var(--mk-ink);
+}
+
+.seo-faq-search input:focus {
+  outline: 2px solid var(--mk-blue);
+  outline-offset: 2px;
+}
+
+.seo-aside-cta {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.seo-aside-cta .mk-btn {
+  width: 100%;
+  justify-content: center;
+}
+
+.seo-aside-us {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: var(--mk-blue);
+}
+
+.seo-links {
+  padding: 1.1rem 1.15rem;
+  border-radius: var(--mk-radius-sm);
+  background: var(--mk-surface);
+  border: 1px solid var(--mk-line);
+  box-shadow: var(--mk-shadow);
+}
+
+.seo-links h2 {
+  margin: 0 0 0.4rem;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--mk-muted);
+}
+
+.seo-links ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.seo-links a:not(.mk-btn) {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  min-height: 44px;
+  padding: 0.35rem 0;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--mk-blue-deep);
+  text-decoration: none;
+  border-bottom: 1px solid var(--mk-line);
+}
+
+.seo-links li:last-child a {
+  border-bottom: 0;
+}
+
+.seo-links a:not(.mk-btn):hover {
+  color: var(--mk-blue);
+  text-decoration: underline;
+}
+
+.seo-links a svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.seo-link-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1.25rem;
+}
+
+@media (min-width: 760px) {
+  .seo-link-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* FAQ */
+
+.seo-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.seo-chips a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0.4rem 1rem;
+  border-radius: 999px;
+  border: 1px solid var(--mk-line);
+  background: var(--mk-surface);
+  color: var(--mk-blue-deep);
+  font-weight: 700;
+  font-size: 0.9rem;
+  text-decoration: none;
+}
+
+.seo-chips a:hover {
+  background: var(--mk-blue-soft);
+}
+
+.seo-faq-group + .seo-faq-group {
+  margin-top: 2.25rem;
+}
+
+.seo-faq-group h2 {
+  margin: 0 0 0.9rem;
+  font-size: clamp(1.25rem, 1.1rem + 0.7vw, 1.55rem);
+  color: var(--mk-navy);
+  scroll-margin-top: 6rem;
+}
+
+.seo-faq-item summary {
+  min-height: 44px;
+  list-style: none;
+}
+
+.seo-faq-item summary::-webkit-details-marker {
+  display: none;
+}
+
+.seo-faq-item[open] summary svg {
+  transform: rotate(45deg);
+}
+
+/* Footer columns (SeoFooterLinks) */
+
+.seo-footer-col a {
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+}
+
+@media (min-width: 900px) {
+  .seo-footer-col a {
+    min-height: 0;
+    display: block;
+  }
+}
+
+/* Phones: the eight cities sit in two columns across the footer, not one long list. */
+@media (max-width: 1099.98px) {
+  .seo-footer-cities {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 1rem;
+    align-content: start;
+  }
+
+  .seo-footer-cities .mk-footer-label {
+    grid-column: 1 / -1;
+  }
+}
+
+/* CTA: three buttons must wrap cleanly at 390px. */
+.seo-cta .mk-actions .mk-btn {
+  max-width: 100%;
+  white-space: normal;
+}

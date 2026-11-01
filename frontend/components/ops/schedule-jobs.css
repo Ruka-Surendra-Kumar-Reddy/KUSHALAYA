@@ -1,0 +1,163 @@
+/* Schedule panel (components/ops/ScheduleJobs.tsx). */
+
+.sj {
+  margin-bottom: 1rem;
+}
+
+.sj-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.sj-head h2 {
+  margin: 0;
+}
+
+.sj-error {
+  margin: 0 0 0.75rem;
+  padding: 0.6rem 0.8rem;
+  border-radius: 10px;
+  background: #fff4e5;
+  color: #9a5b00;
+}
+
+.sj-form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  border-radius: 14px;
+  background: #f6f8fb;
+}
+
+.sj-form label {
+  display: grid;
+  gap: 0.3rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.sj-form .sj-wide {
+  grid-column: 1 / -1;
+}
+
+.sj-actions {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.sj-empty {
+  margin: 0;
+  padding: 0.9rem;
+  border-radius: 12px;
+  background: #f6f8fb;
+  color: #64748b;
+}
+
+.sj-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.4rem;
+}
+
+.sj-list li {
+  display: grid;
+  grid-template-columns: 11rem minmax(0, 1fr) 11rem 7.5rem auto;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.6rem 0.75rem;
+  border-radius: 12px;
+  border: 1px solid rgba(16, 36, 58, 0.07);
+  font-size: 0.9rem;
+}
+
+.sj-when {
+  font-weight: 800;
+  color: #2f6fd6;
+}
+
+.sj-what {
+  display: grid;
+  min-width: 0;
+}
+
+.sj-what small {
+  color: #64748b;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sj-status {
+  justify-self: start;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  background: #e8f0fc;
+  color: #1f4f9f;
+  font-size: 0.75rem;
+  font-weight: 800;
+}
+
+.sj-status.is-on_the_way,
+.sj-status.is-checked_in {
+  background: #fdf1d8;
+  color: #8a5a00;
+}
+
+.sj-status.is-completed {
+  background: #eef6e2;
+  color: #5a8a1f;
+}
+
+.sj-status.is-cancelled,
+.sj-status.is-missed {
+  background: #f1f5f9;
+  color: #64748b;
+}
+
+.ko-main .sj .sj-cancel {
+  background: none;
+  border: 1px solid rgba(16, 36, 58, 0.14);
+  color: #9a3412;
+  padding: 0.35rem 0.75rem;
+  min-height: 0;
+  box-shadow: none;
+}
+
+.sj-past {
+  margin-top: 0.9rem;
+}
+
+.sj-past summary {
+  cursor: pointer;
+  font-weight: 700;
+  color: #4b5b70;
+  margin-bottom: 0.5rem;
+}
+
+@media (max-width: 900px) {
+  .sj-list li {
+    grid-template-columns: 1fr auto;
+  }
+
+  .sj-what {
+    grid-column: 1 / -1;
+  }
+}
+
+.sj-from {
+  grid-column: 1 / -1;
+  margin: 0;
+  padding: 0.6rem 0.8rem;
+  border-radius: 10px;
+  background: #fdf1d8;
+  color: #8a5a00;
+  font-weight: 600;
+}

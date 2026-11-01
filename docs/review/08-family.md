@@ -1,0 +1,9 @@
+# Family portal (18 tabs, ~6 overlap)
+P1 Home: "Needs you" card at top (quote awaiting Approve & pay, urgent alert, open SOS); remove repeats (next visit ×3, alerts ×3, score ×2, address ×2); "Book a visit" → "Request a visit" → /services.
+P1: merge Updates/Visits/Wellness into one Updates page.
+P1 Requests: request form first ("What would you like?"); timezone — datetime-local in browser tz (Dubai 10:00 → 11:30 IST) → label "India time (IST)" + convert; show IST + local everywhere.
+P1 Alerts: family can "Mark resolved" an SOS (:134-142) → "Seen" only / "We're OK — cancel SOS" with confirm; add Kushalaya care-team tel: + WhatsApp + 112/108 at top of Alerts and header (sidebar "Call team" goes to elder's own contacts FamilyShell.tsx:162).
+P2: last visit summary on Home; FamilyCareStatusCard raw values; jargon (Pathway/ECM, Projected, "Personal normal is 50"); errors raw + no Retry; raw status words (family_care_hub.py:570, visits pill, schedule :150, plan :73, receipts :64, \r\n in plan empty state :36); schedule dead code onRequest (:93-115) + duplicate request list; acknowledged alerts vanish (no history); merge Safety+Plan+Photos → "Score & plan"; merge Receipts into Wallet; Contacts → "Amma's emergency contacts".
+P3: product picture/price on requests; reply-time note in Messages; "who can see" in Documents; digests jargon, add Canada/Australia tz; drop Circle/Notifications from More (in profile menu); "Everything else" → "More".
+Structure: tab bar Home · Updates · Requests · Alerts/SOS · More. More: Score & plan, Messages, Documents, Wallet, Emergency contacts. Settings in profile menu.
+Ideal Home: status sentence "Amma is doing well · last checked Tue 4 Oct by Lakshmi"; Needs you; Next visit (IST + local) + Request a visit; Last visit + Read report; Call care team / Message; score + KushLife row.

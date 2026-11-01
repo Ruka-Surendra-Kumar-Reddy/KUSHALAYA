@@ -1,0 +1,221 @@
+/* Live "on the way" card + map (family Home, schedule, caregiver app). */
+.lv-card {
+  display: grid;
+  gap: 0.6rem;
+}
+.lv-card .lv-head {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+.lv-card .lv-sub {
+  margin: 0;
+  font-size: 0.85rem;
+  opacity: 0.75;
+}
+.lv-map {
+  width: 100%;
+  height: 220px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #e8efe9;
+}
+.lv-map-fallback {
+  margin: 0;
+  padding: 0.75rem;
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.04);
+  font-size: 0.9rem;
+}
+.lv-apps {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+}
+.lv-apps-lead {
+  font-size: 0.85rem;
+  opacity: 0.75;
+  margin-right: 0.2rem;
+}
+.lv-app {
+  display: inline-flex;
+  align-items: center;
+  min-height: 36px;
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  border: 1px solid rgba(0, 0, 0, 0.18);
+  font-size: 0.85rem;
+  text-decoration: none;
+  color: inherit;
+  background: transparent;
+}
+.lv-app:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+.lv-note {
+  margin: 0.4rem 0 0;
+  font-size: 0.8rem;
+  opacity: 0.8;
+}
+.lv-ops {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  align-items: center;
+  font-size: 0.8rem;
+}
+.lv-ops a {
+  text-decoration: underline;
+}
+.lv-ops a.lv-ops-map {
+  display: inline-flex;
+  align-items: center;
+  min-height: 36px;
+  padding: 0 0.85rem;
+  border-radius: 999px;
+  border: 1px solid rgba(16, 36, 58, 0.18);
+  background: #fff;
+  color: #2f6db5;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+@media (prefers-color-scheme: dark) {
+  .lv-app {
+    border-color: rgba(255, 255, 255, 0.25);
+  }
+  .lv-map-fallback {
+    background: rgba(255, 255, 255, 0.06);
+  }
+}
+
+/* Map key: filled dot = caregiver, ring = home (matches LiveVisitMap markers). */
+.lv-card .lv-key {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin: 0.4rem 0 0;
+  font-size: 0.85rem;
+  color: #334155;
+}
+
+.lv-card .lv-key-cg {
+  color: #1f7a5c;
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+.lv-card .lv-key-home {
+  margin-left: 0.6rem;
+  color: #b4532a;
+  font-size: 1.1rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+/* Directions (components/Directions.tsx): one button → Google Maps / Apple Maps / Waze.
+   Desktop: a small popover under the button. Phones and `.is-inline`: opens in place. */
+.ks-directions {
+  position: relative;
+  display: inline-block;
+}
+.ks-directions > summary {
+  list-style: none;
+  cursor: pointer;
+}
+.ks-directions > summary::-webkit-details-marker {
+  display: none;
+}
+.ks-dir-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  min-height: 36px;
+  padding: 0 0.85rem;
+  border-radius: 999px;
+  border: 1px solid rgba(16, 36, 58, 0.18);
+  background: #fff;
+  color: #1d5fb4;
+  font-size: 0.85rem;
+  font-weight: 700;
+  white-space: nowrap;
+  user-select: none;
+}
+.ks-dir-btn:hover,
+.ks-directions[open] > .ks-dir-btn {
+  background: #e8f0fb;
+  border-color: rgba(29, 95, 180, 0.35);
+}
+.ks-dir-btn:focus-visible {
+  outline: 2px solid #1d5fb4;
+  outline-offset: 2px;
+}
+.ks-directions:not(.is-inline)[open] > .lv-apps {
+  position: absolute;
+  z-index: 30;
+  top: calc(100% + 6px);
+  left: 0;
+  flex-wrap: nowrap;
+  padding: 0.5rem 0.6rem;
+  border-radius: 12px;
+  border: 1px solid rgba(16, 36, 58, 0.12);
+  background: #fff;
+  box-shadow: 0 12px 28px -12px rgba(16, 36, 58, 0.35);
+  white-space: nowrap;
+}
+.ks-directions.is-end:not(.is-inline)[open] > .lv-apps {
+  left: auto;
+  right: 0;
+}
+.ks-directions.is-inline[open] {
+  display: grid;
+  gap: 0.5rem;
+  flex-basis: 100%;
+}
+@media (max-width: 640px) {
+  .ks-dir-btn {
+    min-height: 44px;
+  }
+  .ks-directions[open] {
+    display: grid;
+    gap: 0.5rem;
+    flex-basis: 100%;
+  }
+  .ks-directions:not(.is-inline)[open] > .lv-apps {
+    position: static;
+    flex-wrap: wrap;
+    box-shadow: none;
+    white-space: normal;
+  }
+  .ks-directions .lv-app {
+    min-height: 44px;
+  }
+}
+
+/* Route time + distance on the map, like a maps app ("18 min · 6.2 km by road"). */
+.lv-map-wrap {
+  position: relative;
+}
+
+.lv-route-chip {
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  z-index: 500;
+  margin: 0;
+  display: grid;
+  gap: 1px;
+  padding: 7px 12px;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 6px 18px -6px rgba(16, 36, 58, 0.45);
+  color: #10243a;
+  font-size: 0.8rem;
+  line-height: 1.25;
+}
+
+.lv-route-chip strong {
+  color: #1f7a5c;
+  font-size: 1.15rem;
+}

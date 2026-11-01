@@ -1,0 +1,169 @@
+/* SOS siren notice (components/SosSiren.tsx). Own sheet because it is mounted in
+   every portal, including the caregiver app that has no shell. */
+.ks-siren {
+  position: fixed;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2100;
+  width: min(440px, calc(100% - 32px));
+  max-height: calc(100vh - 24px);
+  overflow-y: auto;
+  display: grid;
+  gap: 10px;
+  font: inherit;
+}
+
+.ks-siren-card {
+  padding: 14px 16px 14px;
+  border-radius: 14px;
+  background: #fff;
+  color: #10243a;
+  border: 3px solid #c0392b;
+  box-shadow: 0 18px 44px rgba(120, 20, 10, 0.35);
+}
+
+.ks-siren-card.is-verify {
+  border-color: #d97706;
+}
+
+.ks-siren-kicker {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #c0392b;
+}
+
+.is-verify .ks-siren-kicker {
+  color: #b45309;
+}
+
+.ks-siren-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: currentColor;
+  animation: ks-siren-pulse 0.8s ease-in-out infinite;
+}
+
+@keyframes ks-siren-pulse {
+  50% {
+    opacity: 0.25;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ks-siren-dot {
+    animation: none;
+  }
+}
+
+.ks-siren-badge {
+  margin-left: auto;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: #c0392b;
+  color: #fff;
+  font-size: 0.7rem;
+}
+
+.ks-siren-name {
+  margin: 4px 0 2px;
+  font-size: 1.35rem;
+  line-height: 1.2;
+}
+
+.ks-siren-meta,
+.ks-siren-ack,
+.ks-siren-more,
+.ks-siren-error {
+  margin: 2px 0;
+  font-size: 0.9rem;
+  color: #3b4f63;
+}
+
+.ks-siren-ack {
+  color: #166534;
+  font-weight: 600;
+}
+
+.ks-siren-error {
+  padding: 8px 12px;
+  border-radius: 10px;
+  background: #fdecea;
+  color: #8a1c12;
+}
+
+.ks-siren-more {
+  padding: 6px 12px;
+  border-radius: 10px;
+  background: #fff;
+  text-align: center;
+}
+
+.ks-siren-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.ks-siren-btn {
+  flex: 1 1 auto;
+  min-height: 44px;
+  padding: 0 14px;
+  border-radius: 10px;
+  border: 0;
+  font: inherit;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.ks-siren-btn:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.ks-siren-call,
+.ko-main a.ks-siren-call {
+  /* .ko-main a (ops link colour) otherwise turns the label green on green. */
+  background: #166534;
+  color: #fff;
+}
+
+.ks-siren-confirm {
+  background: #c0392b;
+  color: #fff;
+}
+
+.ks-siren-ackbtn {
+  background: #10243a;
+  color: #fff;
+}
+
+.ks-siren-quiet {
+  background: #eef2f6;
+  color: #10243a;
+}
+
+.ks-siren-sound {
+  justify-self: center;
+  min-height: 40px;
+  padding: 0 16px;
+  border-radius: 999px;
+  border: 2px solid #c0392b;
+  background: #fff;
+  color: #c0392b;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
