@@ -125,6 +125,12 @@ if ! command -v certbot >/dev/null 2>&1; then
   dnf -y -q install oracle-epel-release-el9 || true
   dnf -y -q --enablerepo=ol9_developer_EPEL install certbot python3-certbot-nginx
 fi
+# The vhosts include certbot's standard TLS options; webroot mode never writes them.
+if [[ ! -f /etc/letsencrypt/options-ssl-nginx.conf ]]; then
+  mkdir -p /etc/letsencrypt
+  src=$(rpm -ql python3-certbot-nginx 2>/dev/null | grep "options-ssl-nginx.conf$" | head -1)
+  [[ -n "$src" ]] && cp "$src" /etc/letsencrypt/options-ssl-nginx.conf
+fi
 
 # --- 3. the standard install (packages, db, clone, build, nginx, tls, units, seed)
 DEPLOY_ENV_FILE="$ENV_FILE" bash "$SCRIPT_DIR/deploy-safehome.sh" --env "$ENV_FILE"
