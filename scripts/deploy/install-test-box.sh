@@ -120,6 +120,12 @@ fix_pg_hba() {
 }
 fix_pg_hba
 
+# --- 2d. certbot lives in Oracle's EPEL on OL9 (the bootstrap's EPEL path misses it)
+if ! command -v certbot >/dev/null 2>&1; then
+  dnf -y -q install oracle-epel-release-el9 || true
+  dnf -y -q --enablerepo=ol9_developer_EPEL install certbot python3-certbot-nginx
+fi
+
 # --- 3. the standard install (packages, db, clone, build, nginx, tls, units, seed)
 DEPLOY_ENV_FILE="$ENV_FILE" bash "$SCRIPT_DIR/deploy-safehome.sh" --env "$ENV_FILE"
 

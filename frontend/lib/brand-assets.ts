@@ -14,7 +14,7 @@
  * **Bump this whenever a file in `public/brand` changes.** Same rule as the
  * `?v=` in the service-worker registrations.
  */
-export const BRAND_ASSET_VERSION = "20260929b";
+export const BRAND_ASSET_VERSION = "20261102";
 
 const versioned = (path: string) => `${path}?v=${BRAND_ASSET_VERSION}`;
 

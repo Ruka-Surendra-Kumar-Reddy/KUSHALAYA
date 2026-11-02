@@ -4475,3 +4475,18 @@ a.mk-contact-card strong,
   .ks-chat-quick::-webkit-scrollbar { display: none; }
   .ks-chat-quick button { white-space: nowrap; }
 }
+
+/* Safe homes #ai: the assessment basis (owner text, 2 Nov 2026) above the AI preview. */
+.mk-assess-basis { max-width: 52rem; margin-bottom: clamp(1.75rem, 4vw, 3rem); }
+.mk-assess-basis .mk-sub + .mk-sub { margin-top: 0.75rem; }
+.mk-h2-like { font-size: clamp(1.4rem, 2.6vw, 2rem); line-height: 1.2; margin: 0.25rem 0 0.75rem; }
+
+/* Footer: the full logo (with the "At home" line) on a white card. */
+.mk-footer-brand img.mk-footer-lockup {
+  width: 150px;
+  height: 150px;
+  padding: 8px;
+  border-radius: 16px;
+  background: #fff;
+  object-fit: contain;
+}

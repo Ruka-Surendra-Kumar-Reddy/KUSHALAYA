@@ -357,8 +357,16 @@ export function MarketingShell({
         <div className="mk-wrap mk-footer-grid">
           <div>
             <div className="mk-footer-brand">
-              <Mark />
-              <strong>{publicBrandName()}</strong>
+              {/* Full logo with "Safe. Comfortable. Dignified. At home." (owner, 2 Nov 2026). */}
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                className="mk-footer-lockup"
+                src={BRAND_ASSETS.lockup}
+                width={BRAND_ASSET_SIZE.lockup.width}
+                height={BRAND_ASSET_SIZE.lockup.height}
+                alt={`${publicBrandName()}: safe, comfortable, dignified, at home`}
+                loading="lazy"
+              />
             </div>
             <p>
               Senior home safety and family support. Safe homes. Independent lives. Care that

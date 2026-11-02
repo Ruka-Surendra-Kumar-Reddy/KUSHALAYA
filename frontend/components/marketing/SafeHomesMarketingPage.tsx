@@ -126,11 +126,30 @@ export function SafeHomesMarketingPage() {
         </Link>
       </PageHero>
 
-      <section className="mk-band mk-band-soft" id="ai" aria-labelledby="ai-title">
+      <section className="mk-band mk-band-soft" id="ai" aria-labelledby="assessment-title">
+        <div className="mk-wrap mk-assess-basis">
+          <Reveal>
+            <p className="mk-eyebrow">The KushAlaya Assessment</p>
+            <h2 id="assessment-title">Built on fall-prevention science</h2>
+            <p className="mk-sub">
+              The KushAlaya Assessment is built on respected fall-prevention science, adapted for Indian homes. We start
+              with guidance from <strong>AARP HomeFit</strong> and the <strong>CDC STEADI</strong> framework (STEADI
+              stands for Stopping Elderly Accidents, Deaths &amp; Injuries), covering the home, movement and daily
+              routines that most affect fall risk.
+            </p>
+            <p className="mk-sub">
+              We add proprietary KushAlaya checks of our own, for Indian bathrooms, kitchens, stairs, lighting and the way
+              an elder actually lives in their home. Together, these questions produce a{" "}
+              <strong>KushAlaya Safety Score</strong> and a prioritised report that shows a family exactly what to fix
+              first, rather than a long, unordered list.
+            </p>
+            <p className="mk-note">This is a home-and-elder safety assessment, not a medical diagnosis.</p>
+          </Reveal>
+        </div>
         <div className="mk-wrap mk-two-col mk-ai">
           <Reveal>
             <p className="mk-eyebrow">AI room check &amp; preview</p>
-            <h2 id="ai-title">See it before we fit it</h2>
+            <h3 id="ai-title" className="mk-h2-like">See it before we fit it</h3>
             <p className="mk-sub">
               Send a photo of any room. Our AI points out common risks, and shows the room with the safety products
               already fitted, so you can decide with confidence, even from far away.
