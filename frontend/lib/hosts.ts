@@ -15,6 +15,7 @@
 export const FAMILY_HOSTS: ReadonlySet<string> = new Set([
   "family.kushalaya.com",
   "staging-family.kushalaya.com",
+  "test-family.kushalaya.com",
   "family.localhost",
 ]);
 
@@ -22,6 +23,7 @@ export const MARKETING_HOSTS: ReadonlySet<string> = new Set([
   "www.kushalaya.com",
   "kushalaya.com",
   "staging-www.kushalaya.com",
+  "test.kushalaya.com",
   "kushalaya.localhost",
   // The old *.tekmatrix.ai hostnames used to be listed here as a safety net.
   // They are gone: those vhosts now 301 to the kushalaya.com equivalents in
@@ -33,6 +35,7 @@ export const MARKETING_HOSTS: ReadonlySet<string> = new Set([
 export const CAREGIVER_HOSTS: ReadonlySet<string> = new Set([
   "caregiver.kushalaya.com",
   "staging-caregiver.kushalaya.com",
+  "test-caregiver.kushalaya.com",
   "caregiver.localhost",
 ]);
 
