@@ -156,6 +156,17 @@ fi
 sed "s/family\.kushalaya\.com/$FAMILY_DOMAIN/g" "$APP_ROOT/deploy/nginx/family.kushalaya.com.conf" >/etc/nginx/conf.d/"$FAMILY_DOMAIN".conf
 nginx -t && systemctl reload nginx
 
+# --- 4b. HTTPS vhosts for the other two test names: production's own configs with
+#     the hostname swapped (deploy-safehome.sh only has an HTTP-only template for
+#     names without their own file, even after the certificate exists).
+for pair in "test-ops.kushalaya.com:ops.kushalaya.com" "test.kushalaya.com:www.kushalaya.com"; do
+  name=${pair%%:*}; prod=${pair##*:}
+  if [[ -f /etc/letsencrypt/live/$name/fullchain.pem && -f "$APP_ROOT/deploy/nginx/$prod.conf" ]]; then
+    sed "s/${prod//./\.}/$name/g" "$APP_ROOT/deploy/nginx/$prod.conf" > /etc/nginx/conf.d/$name.conf
+  fi
+done
+nginx -t && systemctl reload nginx
+
 # --- 5. firewall + make sure no ingestor ever runs here ----------------------
 firewall-cmd --permanent --add-service=http >/dev/null; firewall-cmd --permanent --add-service=https >/dev/null; firewall-cmd --reload >/dev/null
 systemctl disable --now safehomeops-iot-ingestor 2>/dev/null || true
