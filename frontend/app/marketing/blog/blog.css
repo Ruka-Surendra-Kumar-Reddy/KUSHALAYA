@@ -177,6 +177,10 @@
 .mb-prose table { width: 100%; min-width: 30rem; border-collapse: collapse; font-size: 0.98rem; line-height: 1.45; }
 .mb-prose th, .mb-prose td { padding: 0.6rem 0.75rem; border: 1px solid #d8e1ea; text-align: left; vertical-align: top; }
 .mb-prose th { background: #eef3f8; color: var(--mk-navy); }
+@media (max-width: 560px) {
+  .mb-prose table { min-width: 0; font-size: 0.82rem; }
+  .mb-prose th, .mb-prose td { padding: 0.45rem 0.4rem; overflow-wrap: anywhere; }
+}
 .mb-prose blockquote {
   margin: 1.5rem 0;
   padding: 0.9rem 1.2rem;
