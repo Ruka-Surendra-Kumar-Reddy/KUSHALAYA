@@ -55,7 +55,7 @@ const STEADI = [
     tag: "Assess",
     steadi: "CDC STEADI: evaluate specific risk factors.",
     title: withPublicBrand("LiveWell360 home assessment"),
-    body: "A respectful visit covering lighting, flooring, bathrooms, stairs, mobility and other recognised fall-risk factors — scored out of 100.",
+    body: "A respectful visit that assesses the home and the elder together — lighting, flooring, bathrooms and stairs, and how your parent moves through them — scored out of 100.",
   },
   {
     tag: "Intervene",
@@ -131,6 +131,10 @@ export function SafeHomesMarketingPage() {
           <Reveal>
             <p className="mk-eyebrow">The KushAlaya Assessment</p>
             <h2 id="assessment-title">Built on fall-prevention science</h2>
+            <p className="mk-sub">
+              We assess the home and the elder together — the house, and how your parent actually lives, moves, bathes,
+              and climbs stairs in it. We give it a Safety Score, and we show the family exactly what to fix first.
+            </p>
             <p className="mk-sub">
               The KushAlaya Assessment is built on respected fall-prevention science, adapted for Indian homes. We start
               with guidance from <strong>AARP HomeFit</strong> and the <strong>CDC STEADI</strong> framework (STEADI

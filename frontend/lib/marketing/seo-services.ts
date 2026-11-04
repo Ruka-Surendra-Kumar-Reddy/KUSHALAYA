@@ -37,7 +37,7 @@ export const SEO_SERVICES: readonly SeoService[] = [
     eyebrow: "Home safety assessment",
     title: "Home safety assessment for elderly parents",
     accent: " — before a fall happens.",
-    lede: "A home safety assessment for elderly parents is a room-by-room check for fall risks: bathrooms, floors, stairs, lighting and wiring. A KushAlaya care manager visits, talks with your parents and gives you a Safety Score out of 100 with a fix-first list.",
+    lede: "A home safety assessment for elderly parents looks at the home and the elder together: bathrooms, floors, stairs, lighting and wiring, and how your parent actually moves, bathes and climbs stairs. A KushAlaya care manager visits, talks with your parents and gives you a Safety Score out of 100 with a fix-first list.",
     image: "/marketing/how-01-assess.webp",
     imageAlt: "A KushAlaya visitor checking a room in an older couple's home",
     sections: [

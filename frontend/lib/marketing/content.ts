@@ -104,7 +104,7 @@ export const SERVICES = [
   {
     id: "assessment",
     title: "Home safety assessment",
-    body: "A professional fall-risk check, plus an AI room check from your photos — reviewed by your care manager — with a preview of the room made safer.",
+    body: "We assess the home and the elder together and show you what to fix first, plus an AI room check from your photos — reviewed by your care manager — with a preview of the room made safer.",
     icon: "home",
     link: { label: "See it before we fit it", href: "/safe-homes#ai" },
   },

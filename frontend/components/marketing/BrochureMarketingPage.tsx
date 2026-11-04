@@ -78,7 +78,7 @@ export function BrochureMarketingPage() {
               <strong>KushCare Discovery</strong> — a short form, then a call back from our team
             </li>
             <li>
-              <strong>Home assessment</strong> — a respectful visit and a {publicSafetyScoreName()}
+              <strong>Home assessment</strong> — the home and the elder together, with a {publicSafetyScoreName()}
             </li>
             <li>
               <strong>Improve &amp; support</strong> — priorities, installs, physiotherapy, SOS
