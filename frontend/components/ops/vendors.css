@@ -25,9 +25,9 @@
 .vn-row {
   display: grid;
   grid-template-columns:
-    minmax(0, 1.5fr) 8.5rem minmax(0, 1.6fr) 6.5rem 6.5rem 6.5rem 9.5rem auto;
+    minmax(0, 1.5fr) 8rem minmax(0, 1fr) 5rem 5.5rem 6rem 9rem 14rem;
   align-items: center;
-  gap: 0.9rem;
+  gap: 0.6rem;
   min-height: 64px;
   padding: 0.55rem 0.9rem;
   border-bottom: 1px solid #edf1f6;
@@ -120,8 +120,8 @@
 .vn-actions { gap: 0.6rem; flex-wrap: wrap; }
 .vn-actions .vn-deact { margin-right: auto; }
 
-/* Tablet / phone: no header; each row is a compact stacked block. */
-@media (max-width: 900px) {
+/* Small laptop / tablet / phone: no header; each row is a compact stacked block. */
+@media (max-width: 1280px) {
   .vn { padding: 0.9rem; }
   .vn-head { display: none; }
   .vn-bar .vn-search { flex: 1 1 100%; max-width: none; }
