@@ -6,6 +6,7 @@ import { PageHeader } from "@/components/PageHeader";
 import { ContractsPanel } from "@/components/contracts/ContractsPanel";
 import { SendContract } from "@/components/contracts/SendContract";
 import { OpsModal } from "@/components/ops/OpsModal";
+import { VendorSignedCopy } from "@/components/ops/VendorSignedCopy";
 import { api } from "@/lib/api";
 import { displayPhone } from "@/lib/display-format";
 import { parseApiTime } from "@/lib/ist";
@@ -31,6 +32,16 @@ export type Vendor = {
   status: "active" | "inactive";
   notes: string | null;
   created_at: string | null;
+  agreement_status: "pending" | "sent" | "signed";
+  signed_agreement_name: string | null;
+  signed_agreement_at: string | null;
+  signed_agreement_by: string | null;
+};
+
+const AGREEMENT_LABEL: Record<Vendor["agreement_status"], string> = {
+  pending: "Agreement pending",
+  sent: "Agreement sent",
+  signed: "Agreement signed",
 };
 
 const GSTIN_RE = /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z][1-9A-Z]Z[0-9A-Z]$/;
@@ -114,6 +125,7 @@ export function VendorsList({ canEdit }: { canEdit: boolean }) {
   const [query, setQuery] = useState("");
   const [service, setService] = useState("");
   const [status, setStatus] = useState("active");
+  const [agreement, setAgreement] = useState("");
   const [error, setError] = useState("");
   const [editing, setEditing] = useState<Vendor | "new" | null>(null);
   const [form, setForm] = useState<Form>(EMPTY);
@@ -127,13 +139,14 @@ export function VendorsList({ canEdit }: { canEdit: boolean }) {
     if (query.trim()) p.set("q", query.trim());
     if (service) p.set("service", service);
     if (status) p.set("status", status);
+    if (agreement) p.set("agreement", agreement);
     api<Vendor[]>(`/api/v1/vendors?${p}`)
       .then((r) => {
         setRows(r);
         setError("");
       })
       .catch((e) => setError(e instanceof Error ? e.message : "Could not load vendors"));
-  }, [query, service, status]);
+  }, [query, service, status, agreement]);
 
   useEffect(() => {
     const t = window.setTimeout(load, 250);
@@ -213,7 +226,7 @@ export function VendorsList({ canEdit }: { canEdit: boolean }) {
     }
   }
 
-  const filtered = !!(query || service || status !== "active");
+  const filtered = !!(query || service || agreement || status !== "active");
   const readOnly = !canEdit;
 
   return (
@@ -257,6 +270,11 @@ export function VendorsList({ canEdit }: { canEdit: boolean }) {
             <option value="active">Active</option>
             <option value="inactive">Inactive</option>
             <option value="">All</option>
+          </select>
+          <select aria-label="Agreement" value={agreement} onChange={(e) => setAgreement(e.target.value)}>
+            <option value="">All agreements</option>
+            <option value="open">Agreement pending</option>
+            <option value="signed">Agreement signed</option>
           </select>
           <span className="vn-count" aria-live="polite">
             {rows ? `${rows.length} vendor${rows.length === 1 ? "" : "s"}` : ""}
@@ -348,6 +366,7 @@ export function VendorsList({ canEdit }: { canEdit: boolean }) {
                   <span className={`vn-pill is-${v.status}`}>
                     {v.status === "active" ? "Active" : "Inactive"}
                   </span>
+                  <span className={`vn-pill vn-agree is-${v.agreement_status}`}>{AGREEMENT_LABEL[v.agreement_status]}</span>
                 </span>
                 <span className="vn-act">
                   {canEdit ? (
@@ -464,6 +483,16 @@ export function VendorsList({ canEdit }: { canEdit: boolean }) {
           </fieldset>
           {editing && editing !== "new" ? (
             <p className="muted cl-hint">Added {formatDay(editing.created_at)}</p>
+          ) : null}
+          {editing && editing !== "new" ? (
+            <VendorSignedCopy
+              vendor={editing}
+              canEdit={canEdit}
+              onChange={(v) => {
+                setEditing(v);
+                load();
+              }}
+            />
           ) : null}
           {editing && editing !== "new" ? (
             <div className="vn-contracts">

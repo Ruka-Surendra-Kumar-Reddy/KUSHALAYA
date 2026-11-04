@@ -91,3 +91,42 @@ def test_tenant_isolation(db, client, seed_tenant, auth_headers):
     assert client.get("/api/v1/vendors", headers=h2).json() == []
     assert client.get(f"/api/v1/vendors/{v['id']}", headers=h2).status_code == 404
     assert client.put(f"/api/v1/vendors/{v['id']}", headers=h2, json=BASE).status_code == 404
+
+
+PDF = b"%PDF-1.4 signed on paper"
+
+
+def _upload(client, headers, vendor_id, content=PDF, name="signed.pdf", mime="application/pdf"):
+    return client.post(
+        f"/api/v1/vendors/{vendor_id}/signed-agreement", headers=headers, files={"file": (name, content, mime)}
+    )
+
+
+def test_signed_copy_marks_vendor_signed(client, seed_tenant, auth_headers):
+    vid = _create(client, auth_headers).json()["id"]
+    url = "/api/v1/vendors"
+    assert client.get(f"{url}/{vid}", headers=auth_headers).json()["agreement_status"] == "pending"
+    assert [v["id"] for v in client.get(f"{url}?agreement=open", headers=auth_headers).json()] == [vid]
+
+    res = _upload(client, auth_headers, vid)
+    assert res.status_code == 200, res.text
+    assert res.json()["agreement_status"] == "signed" and res.json()["signed_agreement_name"] == "signed.pdf"
+    assert client.get(f"{url}?agreement=open", headers=auth_headers).json() == []
+    assert [v["id"] for v in client.get(f"{url}?agreement=signed", headers=auth_headers).json()] == [vid]
+
+    copy = client.get(f"{url}/{vid}/signed-agreement", headers=auth_headers)
+    assert copy.status_code == 200 and copy.content == PDF
+
+    # Saving the vendor form keeps the copy.
+    assert client.put(f"{url}/{vid}", headers=auth_headers, json=BASE).json()["agreement_status"] == "signed"
+
+    assert client.delete(f"{url}/{vid}/signed-agreement", headers=auth_headers).json()["agreement_status"] == "pending"
+    assert client.get(f"{url}/{vid}/signed-agreement", headers=auth_headers).status_code == 404
+
+
+def test_signed_copy_rejects_other_files(client, seed_tenant, auth_headers):
+    vid = _create(client, auth_headers).json()["id"]
+    assert _upload(client, auth_headers, vid, b"not a pdf").status_code == 422
+    assert _upload(client, auth_headers, vid, b"MZ", "a.exe", "application/octet-stream").status_code == 422
+    assert _upload(client, auth_headers, vid, b"").status_code == 422
+    assert _upload(client, auth_headers, vid, PDF + b"x" * (10 * 1024 * 1024)).status_code == 422

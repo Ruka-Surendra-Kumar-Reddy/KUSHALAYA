@@ -1283,10 +1283,22 @@ def migrate_user_phone() -> None:
 
 
 def migrate_vendors() -> None:
-    """Sales -> Vendors: vendors table only."""
+    """Sales -> Vendors: vendors table, plus the uploaded paper agreement."""
     import app.models.vendor  # noqa: F401
 
     _ensure_tables(["vendors"])
+    have = {c["name"] for c in inspect(engine).get_columns("vendors")}
+    stamp = "TIMESTAMP WITH TIME ZONE" if engine.dialect.name == "postgresql" else "DATETIME"
+    with engine.begin() as conn:
+        for name, ddl in (
+            ("signed_agreement_key", "VARCHAR(500)"),
+            ("signed_agreement_name", "VARCHAR(200)"),
+            ("signed_agreement_mime", "VARCHAR(40)"),
+            ("signed_agreement_at", stamp),
+            ("signed_agreement_by", "VARCHAR(200)"),
+        ):
+            if name not in have:
+                conn.execute(text(f"ALTER TABLE vendors ADD COLUMN {name} {ddl}"))
 
 
 def migrate_customer_plans() -> None:
@@ -1303,11 +1315,12 @@ def migrate_blog() -> None:
 
     _ensure_tables(["blog_posts", "blog_images"])
     from app.core.database import SessionLocal
-    from app.livewell.blog_seed import seed_sample_post
+    from app.livewell.blog_seed import seed_marketing_posts, seed_sample_post
 
     db = SessionLocal()
     try:
         seed_sample_post(db)
+        seed_marketing_posts(db)
     finally:
         db.close()
 

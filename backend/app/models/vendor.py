@@ -8,7 +8,9 @@ from __future__ import annotations
 
 from datetime import date
 
-from sqlalchemy import JSON, Date, ForeignKey, Index, Integer, String, Text
+from datetime import datetime
+
+from sqlalchemy import JSON, Date, DateTime, ForeignKey, Index, Integer, String, Text
 from sqlalchemy.orm import Mapped, mapped_column
 
 from app.core.database import Base
@@ -66,3 +68,9 @@ class Vendor(TimestampMixin, Base):
     created_by_user_id: Mapped[int | None] = mapped_column(
         ForeignKey("users.id", ondelete="SET NULL"), nullable=True
     )
+    # Paper agreement signed on a visit, scanned and uploaded.
+    signed_agreement_key: Mapped[str | None] = mapped_column(String(500), nullable=True)
+    signed_agreement_name: Mapped[str | None] = mapped_column(String(200), nullable=True)
+    signed_agreement_mime: Mapped[str | None] = mapped_column(String(40), nullable=True)
+    signed_agreement_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+    signed_agreement_by: Mapped[str | None] = mapped_column(String(200), nullable=True)

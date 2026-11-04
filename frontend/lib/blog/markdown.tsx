@@ -9,7 +9,7 @@ import { blogImageSrc, safeHref, slugify } from "./text";
  * image targets go through safeHref / blogImageSrc.
  *
  * Supports: ## / ### / #### headings (a single # becomes h2: the page title is
- * the only h1), paragraphs, - and 1. lists, > quotes, --- rules, ``` code,
+ * the only h1), paragraphs, - and 1. lists, > quotes, --- rules, ``` code, | tables,
  * **bold**, *italic*, `code`, [links](url) and ![alt](url) images.
  */
 
@@ -20,6 +20,7 @@ type Block =
   | { kind: "quote"; text: string }
   | { kind: "hr" }
   | { kind: "code"; text: string }
+  | { kind: "table"; head: string[]; rows: string[][] }
   | { kind: "img"; alt: string; src: string };
 
 const IMG_LINE = /^!\[([^\]]*)\]\(\s*([^)\s]+)(?:\s+"[^"]*")?\s*\)$/;
@@ -27,6 +28,11 @@ const UL = /^\s*[-*+]\s+(.*)$/;
 const OL = /^\s*\d+[.)]\s+(.*)$/;
 const HEADING = /^(#{1,6})\s+(.*?)\s*#*$/;
 const HR = /^\s*(?:-{3,}|\*{3,}|_{3,})\s*$/;
+const TABLE_RULE = /^\s*\|?\s*:?-{3,}:?\s*(?:\|\s*:?-{3,}:?\s*)*\|?\s*$/;
+
+function tableCells(line: string): string[] {
+  return line.trim().replace(/^\|/, "").replace(/\|$/, "").split("|").map((c) => c.trim());
+}
 
 function isBlockStart(line: string): boolean {
   return HEADING.test(line) || HR.test(line) || UL.test(line) || OL.test(line) || line.startsWith(">") || line.startsWith("```") || IMG_LINE.test(line.trim());
@@ -72,6 +78,14 @@ export function parseBlocks(md: string): Block[] {
       const body: string[] = [];
       while (i < lines.length && lines[i].startsWith(">")) body.push(lines[i++].replace(/^>\s?/, ""));
       blocks.push({ kind: "quote", text: body.join(" ") });
+      continue;
+    }
+    if (line.includes("|") && i + 1 < lines.length && lines[i + 1].includes("-") && TABLE_RULE.test(lines[i + 1])) {
+      const head = tableCells(line);
+      const rows: string[][] = [];
+      i += 2;
+      while (i < lines.length && lines[i].includes("|")) rows.push(tableCells(lines[i++]));
+      blocks.push({ kind: "table", head, rows });
       continue;
     }
     const listRe = UL.test(line) ? UL : OL.test(line) ? OL : null;
@@ -183,6 +197,31 @@ export function Markdown({ source, className }: { source: string; className?: st
             return <blockquote key={k}>{inline(b.text, k)}</blockquote>;
           case "hr":
             return <hr key={k} />;
+          case "table":
+            return (
+              <div key={k} className="mb-table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      {b.head.map((c, j) => (
+                        <th key={j} scope="col">
+                          {inline(c, `${k}-h${j}`)}
+                        </th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {b.rows.map((r, j) => (
+                      <tr key={j}>
+                        {r.map((c, n) => (
+                          <td key={n}>{inline(c, `${k}-${j}-${n}`)}</td>
+                        ))}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            );
           case "code":
             return (
               <pre key={k}>

@@ -3,7 +3,7 @@
 from datetime import datetime, timedelta, timezone
 
 from app.livewell.blog import clean_markdown, reading_minutes, slugify
-from app.livewell.blog_seed import SAMPLE_SLUG, seed_sample_post
+from app.livewell.blog_seed import SAMPLE_SLUG, seed_marketing_posts, seed_sample_post
 from app.models.blog import BlogPost
 
 A = "/api/v1/blog"
@@ -162,3 +162,13 @@ def test_helpers():
     assert reading_minutes("word " * 401) == 3
     assert reading_minutes("") == 1
     assert clean_markdown("a <b>bold</b> move") == "a bold move"
+
+
+def test_marketing_posts_publish_once(client, db, seed_tenant):
+    tid = seed_tenant["tenant"].id
+    assert seed_marketing_posts(db, tid) == 4
+    assert seed_marketing_posts(db, tid) == 0
+    rows = db.query(BlogPost).filter(BlogPost.tenant_id == tid).all()
+    assert len(rows) == 4 and all(p.status == "published" and p.published_at for p in rows)
+    assert all(len(p.excerpt) <= 160 and len(p.seo_title) <= 70 and p.cover_image_alt for p in rows)
+    assert not any(bad in p.body_md for p in rows for bad in ("/how-it-works", "/care-plans", "(/elder-care)"))

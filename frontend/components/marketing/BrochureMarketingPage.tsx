@@ -4,7 +4,7 @@ import { PhoneText } from "./PhoneText";
 import { MkLink as Link } from "./MkLink";
 
 import { BRAND_ASSETS, BRAND_ASSET_SIZE } from "@/lib/brand-assets";
-import { EMAILS, PARENT_CARE_CHECK_HREF, VISION_HREF } from "@/lib/marketing/family-contacts";
+import { BROCHURE_PDF_HREF, EMAILS, PARENT_CARE_CHECK_HREF, VISION_HREF } from "@/lib/marketing/family-contacts";
 import { FOUNDER, KUSHLIFE } from "@/lib/marketing/founder";
 import { publicBrandName, publicSafetyScoreName } from "@/lib/public-brand";
 import { assessmentWording, useSiteConfig } from "@/lib/marketing/site-config";
@@ -23,8 +23,11 @@ export function BrochureMarketingPage() {
           Four-panel brochure — print landscape, or <strong>Print → Save as PDF</strong> for a
           handout.
         </p>
-        <button type="button" className="mk-btn mk-btn-primary" onClick={() => window.print()}>
-          Print / Save PDF
+        <a className="mk-btn mk-btn-primary" href={BROCHURE_PDF_HREF} download>
+          Download PDF
+        </a>
+        <button type="button" className="mk-btn mk-btn-outline" onClick={() => window.print()}>
+          Print
         </button>
       </div>
 

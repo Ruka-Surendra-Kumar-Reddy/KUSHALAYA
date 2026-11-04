@@ -80,6 +80,7 @@ export const PARENT_CARE_CHECK_PATH = "/kushcare-discovery";
 export const VISION_HREF = "/vision";
 /** Printable simple brochure */
 export const BROCHURE_HREF = "/brochure";
+export const BROCHURE_PDF_HREF = "/marketing/kushalaya-brochure.pdf";
 /** Founder page and contact page (clean public paths). */
 export const FOUNDER_HREF = "/founder";
 export const CONTACT_HREF = "/contact";

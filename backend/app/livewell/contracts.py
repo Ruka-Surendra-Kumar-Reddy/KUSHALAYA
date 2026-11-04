@@ -29,6 +29,7 @@ import secrets
 import uuid
 import zipfile
 from datetime import date, datetime, timedelta, timezone
+from pathlib import Path
 from html import escape
 from xml.etree import ElementTree
 
@@ -80,6 +81,8 @@ PLACEHOLDERS: tuple[tuple[str, str, tuple[str, ...]], ...] = (
     ("vendor_phone", "Vendor phone", ("vendor",)),
     ("vendor_services", "Services the vendor provides", ("vendor",)),
     ("vendor_fee", "Vendor fee and basis", ("vendor",)),
+    ("vendor_pan", "Vendor PAN", ("vendor",)),
+    ("vendor_entity_type", "Company, LLP, partnership or proprietorship", ("vendor",)),
 )
 PLACEHOLDER_KEYS = {k for k, _, _ in PLACEHOLDERS}
 _PH = re.compile(r"\{([a-z_]+)\}")
@@ -331,6 +334,11 @@ def _tenant_id(user: User) -> int:
 
 
 _STARTER_NOTE = re.compile(r"^\s*\[PLACEHOLDER[^\]]*\]\s*", re.S)
+#: Wording a person must settle in the template before anything is sent to a vendor or client.
+_UNFILLED = re.compile(r"\[(?:PLACEHOLDER|Lawyer|amount|_)[^\]\n]*\]")
+#: Bharani's full agreement. Added once per tenant beside the short starter, then edited in the app.
+VENDOR_AGREEMENT_TITLE = "KushAlaya Vendor Service Agreement"
+VENDOR_AGREEMENT_FILE = Path(__file__).with_name("vendor_service_agreement.md")
 
 
 def is_starter(body: str | None) -> bool:
@@ -353,6 +361,14 @@ def ensure_default_templates(db: Session, tenant_id: int) -> None:
             db.add(ContractTemplate(tenant_id=tenant_id, kind=kind, group_key=uuid.uuid4().hex, version=1,
                                     is_current=True, title=title, body=body))
             added = True
+    has_full = db.query(ContractTemplate.id).filter(
+        ContractTemplate.tenant_id == tenant_id, ContractTemplate.title == VENDOR_AGREEMENT_TITLE
+    ).first()
+    if not has_full:
+        db.add(ContractTemplate(tenant_id=tenant_id, kind="vendor", group_key=uuid.uuid4().hex, version=1,
+                                is_current=True, title=VENDOR_AGREEMENT_TITLE,
+                                body=VENDOR_AGREEMENT_FILE.read_text(encoding="utf-8").strip()))
+        added = True
     if added:
         db.commit()
 
@@ -764,8 +780,9 @@ def create_contract(db: Session, user: User, data: dict, *, ip: str = "", ua: st
     body = (data.get("body") or "").replace("\r\n", "\n").strip() or render(t.body, values)
     if len(body) > 100_000:
         _bad("The contract text is too long.")
-    if "[PLACEHOLDER" in body:
-        _bad("This template still has placeholder wording. Edit it in Agreement templates before sending.")
+    unfilled = _UNFILLED.search(body)
+    if unfilled:
+        _bad(f"This template still has {unfilled.group(0)[:40]} to settle. Edit it in Agreement templates before sending.")
     c = Contract(
         tenant_id=t.tenant_id, kind=t.kind, template_id=t.id, template_version=t.version,
         elder_id=elder.id if elder else None, vendor_id=vendor.id if vendor else None,

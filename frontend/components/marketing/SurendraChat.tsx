@@ -7,6 +7,7 @@ import {
   CONTACT_HREF,
   PARENT_CARE_CHECK_HREF,
   US_PHONE,
+  BROCHURE_PDF_HREF,
 } from "@/lib/marketing/family-contacts";
 import { CALLBACK_PROMISE, useSiteConfig, whatsAppHref } from "@/lib/marketing/site-config";
 import { phoneError } from "@/lib/marketing/form-checks";
@@ -37,7 +38,7 @@ const AUTO_OPEN_MS = 7000;
 const CLOSED_KEY = "ks-chat-closed";
 
 type Msg = { from: "bot" | "me"; text: string; links?: { label: string; href: string; external?: boolean }[] };
-type Topic = "discovery" | "prices" | "ai" | "emergency" | "abroad" | "callback";
+type Topic = "discovery" | "prices" | "ai" | "emergency" | "abroad" | "brochure" | "callback";
 
 const EMERGENCY_WORDS = /\b(fall|fell|fallen|emergency|ambulance|hospital|unconscious|bleed|bleeding|chest pain|stroke|breath|urgent help)\b/i;
 
@@ -296,6 +297,7 @@ const QUICK: { topic: Topic; label: string }[] = [
   { topic: "ai", label: "Home safety check" },
   { topic: "abroad", label: "I live abroad" },
   { topic: "emergency", label: "Emergency help" },
+  { topic: "brochure", label: "Download brochure" },
   { topic: "callback", label: "Call me back" },
 ];
 
@@ -318,6 +320,12 @@ function ANSWERS(topic: Exclude<Topic, "callback">, phone: string, phoneTel: str
         from: "bot",
         text: "Send us a photo of a room and our AI points out common risks — no grab bar, slippery floor, loose rugs — and shows the room with safety products fitted. A care manager checks every finding.",
         links: [{ label: "See how it works", href: "/safe-homes#ai" }],
+      };
+    case "brochure":
+      return {
+        from: "bot",
+        text: "Here is our brochure: our services, why families choose us and how to reach us.",
+        links: [{ label: "Download brochure (PDF)", href: BROCHURE_PDF_HREF, external: true }],
       };
     case "abroad":
       return {

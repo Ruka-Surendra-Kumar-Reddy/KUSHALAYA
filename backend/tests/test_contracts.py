@@ -35,7 +35,8 @@ def _login(client, email):
 
 def _template(client, headers, kind="client"):
     rows = client.get(f"/api/v1/contracts/templates?kind={kind}", headers=headers).json()
-    assert rows and rows[0]["is_placeholder"]
+    rows = [r for r in rows if r["is_placeholder"]]  # the short starter, not the full vendor agreement
+    assert rows
     return rows[0]
 
 
@@ -290,5 +291,24 @@ def test_placeholder_note_is_stripped_and_cannot_be_sent(db, client, seed_tenant
     row.body = "[PLACEHOLDER — Replace with KushAlaya's own wording before sending to a real vendor.]" + chr(10) * 2 + "# Parties" + chr(10) + "Text."
     db.commit()
     rows = client.get("/api/v1/contracts/templates?kind=vendor", headers=admin_headers).json()
-    assert rows[0]["body"].startswith("# Parties")
+    assert next(r for r in rows if r["id"] == t["id"])["body"].startswith("# Parties")
     assert svc.is_starter("[PLACEHOLDER x] body") and not svc.is_starter("Our own words")
+
+
+def test_full_vendor_agreement_needs_its_blanks_settled(client, seed_tenant, admin_headers):
+    rows = client.get("/api/v1/contracts/templates?kind=vendor", headers=admin_headers).json()
+    t = next(r for r in rows if r["title"] == svc.VENDOR_AGREEMENT_TITLE)
+    assert not t["is_placeholder"] and "{vendor_company}" in t["body"] and "Annexure E" in t["body"]
+    v = client.post("/api/v1/vendors", headers=admin_headers,
+                    json={"company_name": "Sri Sai Plumbing", "phone1": "9876543210"}).json()
+    send = {"template_id": t["id"], "vendor_id": v["id"], "signer_name": "Ramesh", "signer_mobile": "9876543210"}
+    res = client.post("/api/v1/contracts", headers=admin_headers, json=send)
+    assert res.status_code == 422 and "Agreement templates" in res.text
+
+    settled = svc._UNFILLED.sub("agreed", t["body"])
+    assert client.put(f"/api/v1/contracts/templates/{t['id']}", headers=admin_headers,
+                      json={"title": t["title"], "body": settled}).status_code == 200
+    rows = client.get("/api/v1/contracts/templates?kind=vendor", headers=admin_headers).json()
+    send["template_id"] = next(r for r in rows if r["title"] == svc.VENDOR_AGREEMENT_TITLE)["id"]
+    assert client.post("/api/v1/contracts", headers=admin_headers, json=send).status_code == 201
+    assert len([r for r in rows if r["title"] == svc.VENDOR_AGREEMENT_TITLE]) == 1

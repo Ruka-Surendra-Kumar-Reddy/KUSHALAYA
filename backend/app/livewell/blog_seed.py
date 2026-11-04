@@ -7,11 +7,16 @@ re-running migrations never overwrites it (it only inserts when the slug is gone
 
 from __future__ import annotations
 
+import json
 from datetime import datetime, timezone
+from pathlib import Path
 
 from sqlalchemy.orm import Session
 
 SAMPLE_SLUG = "caring-for-ageing-parents-in-hyderabad-from-far-away"
+
+#: Articles written by marketing, published on deploy (November 2026).
+POSTS_FILE = Path(__file__).with_name("blog_posts_2026_11.json")
 
 SAMPLE_TITLE = "Caring for ageing parents in Hyderabad when you live far away: how KushAlaya helps"
 
@@ -206,3 +211,33 @@ def seed_sample_post(db: Session, tenant_id: int | None = None) -> bool:
     )
     db.commit()
     return True
+
+
+def seed_marketing_posts(db: Session, tenant_id: int | None = None) -> int:
+    """Publish the articles in POSTS_FILE whose slug is missing. Returns how many were inserted."""
+    from app.livewell.blog import clean_markdown, reading_minutes, site_tenant
+    from app.models.blog import BlogPost
+
+    if tenant_id is None:
+        site = site_tenant(db)
+        if site is None:
+            return 0
+        tenant_id = site.id
+    added = 0
+    for post in json.loads(POSTS_FILE.read_text(encoding="utf-8")):
+        exists = db.query(BlogPost.id).filter(BlogPost.tenant_id == tenant_id, BlogPost.slug == post["slug"]).first()
+        if exists:
+            continue
+        body = clean_markdown(post["body_md"])
+        db.add(
+            BlogPost(
+                **{**post, "body_md": body},
+                tenant_id=tenant_id,
+                status="published",
+                published_at=datetime.now(timezone.utc),
+                reading_minutes=reading_minutes(body),
+            )
+        )
+        added += 1
+    db.commit()
+    return added

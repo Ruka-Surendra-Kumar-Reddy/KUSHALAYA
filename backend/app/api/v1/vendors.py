@@ -3,15 +3,17 @@
 from __future__ import annotations
 
 import re
-from datetime import date
+from datetime import date, datetime, timezone
 
-from fastapi import APIRouter, Depends, HTTPException, Query
+from fastapi import APIRouter, Depends, File, HTTPException, Query, Response, UploadFile
 from pydantic import BaseModel, Field, field_validator
 from sqlalchemy import or_, select
 from sqlalchemy.orm import Session
 
 from app.core.database import get_db
 from app.core.rbac import READ_ROLES, WRITE_ROLES, require_roles, resolve_tenant_id
+from app.core.storage import get_storage
+from app.models.contract import Contract
 from app.models.user import User
 from app.models.vendor import FEE_BASES, VENDOR_SERVICES, VENDOR_STATUSES, Vendor
 
@@ -90,7 +92,31 @@ class VendorIn(BaseModel):
         return v
 
 
-def _out(v: Vendor) -> dict:
+#: Paper agreements are scans: PDF, or a photo of each page. Checked by file signature too.
+AGREEMENT_TYPES = {"application/pdf": b"%PDF", "image/jpeg": b"\xff\xd8", "image/png": b"\x89PNG"}
+MAX_AGREEMENT_BYTES = 10 * 1024 * 1024
+
+
+def _contract_states(db: Session, vendor_ids: list[int]) -> dict[int, str]:
+    """vendor id -> "signed" or "sent", from agreements signed or waiting in the app."""
+    if not vendor_ids:
+        return {}
+    now = datetime.now(timezone.utc)
+    states: dict[int, str] = {}
+    rows = db.execute(
+        select(Contract.vendor_id, Contract.status, Contract.expires_at).where(
+            Contract.vendor_id.in_(vendor_ids), Contract.status.in_(("sent", "viewed", "signed"))
+        )
+    ).all()
+    for vendor_id, status, expires_at in rows:
+        if status == "signed":
+            states[vendor_id] = "signed"
+        elif expires_at is None or expires_at.replace(tzinfo=expires_at.tzinfo or timezone.utc) >= now:
+            states.setdefault(vendor_id, "sent")
+    return states
+
+
+def _out(v: Vendor, contract_state: str | None = None) -> dict:
     return {
         "id": v.id,
         "company_name": v.company_name,
@@ -109,7 +135,15 @@ def _out(v: Vendor) -> dict:
         "created_at": v.created_at.isoformat() if v.created_at else None,
         "updated_at": v.updated_at.isoformat() if v.updated_at else None,
         "created_by_user_id": v.created_by_user_id,
+        "agreement_status": "signed" if v.signed_agreement_key else (contract_state or "pending"),
+        "signed_agreement_name": v.signed_agreement_name,
+        "signed_agreement_at": v.signed_agreement_at.isoformat() if v.signed_agreement_at else None,
+        "signed_agreement_by": v.signed_agreement_by,
     }
+
+
+def _one(db: Session, v: Vendor) -> dict:
+    return _out(v, _contract_states(db, [v.id]).get(v.id))
 
 
 def _apply(row: Vendor, data: VendorIn) -> None:
@@ -142,6 +176,7 @@ def list_vendors(
     q: str | None = Query(default=None, max_length=100),
     service: str | None = Query(default=None, max_length=40),
     status: str | None = Query(default=None, max_length=10),
+    agreement: str | None = Query(default=None, max_length=10),
     db: Session = Depends(get_db),
     user: User = Depends(require_roles(*READ_ROLES)),
 ):
@@ -167,7 +202,13 @@ def list_vendors(
     rows = db.scalars(stmt.order_by(Vendor.company_name)).all()
     if service:  # JSON list: filter in Python (works on SQLite and Postgres alike)
         rows = [r for r in rows if service in (r.services or [])]
-    return [_out(r) for r in rows]
+    states = _contract_states(db, [r.id for r in rows])
+    out = [_out(r, states.get(r.id)) for r in rows]
+    if agreement == "signed":
+        out = [o for o in out if o["agreement_status"] == "signed"]
+    elif agreement == "open":
+        out = [o for o in out if o["agreement_status"] != "signed"]
+    return out
 
 
 @router.post("", status_code=201)
@@ -179,12 +220,12 @@ def create_vendor(data: VendorIn, db: Session = Depends(get_db), user: User = De
     db.add(row)
     db.commit()
     db.refresh(row)
-    return _out(row)
+    return _one(db, row)
 
 
 @router.get("/{vendor_id}")
 def get_vendor(vendor_id: int, db: Session = Depends(get_db), user: User = Depends(require_roles(*READ_ROLES))):
-    return _out(_get(db, user, vendor_id))
+    return _one(db, _get(db, user, vendor_id))
 
 
 @router.put("/{vendor_id}")
@@ -195,7 +236,7 @@ def update_vendor(
     _apply(row, data)
     db.commit()
     db.refresh(row)
-    return _out(row)
+    return _one(db, row)
 
 
 @router.post("/{vendor_id}/deactivate")
@@ -204,4 +245,60 @@ def deactivate_vendor(vendor_id: int, db: Session = Depends(get_db), user: User 
     row.status = "inactive"
     db.commit()
     db.refresh(row)
-    return _out(row)
+    return _one(db, row)
+
+
+@router.post("/{vendor_id}/signed-agreement")
+async def upload_signed_agreement(
+    vendor_id: int,
+    file: UploadFile = File(...),
+    db: Session = Depends(get_db),
+    user: User = Depends(require_roles(*WRITE_ROLES)),
+):
+    row = _get(db, user, vendor_id)
+    content = await file.read()
+    mime = (file.content_type or "").lower()
+    magic = AGREEMENT_TYPES.get(mime)
+    if not content:
+        raise HTTPException(status_code=422, detail="The file is empty.")
+    if not magic or not content.startswith(magic):
+        raise HTTPException(status_code=422, detail="Upload a PDF, JPG or PNG of the signed agreement.")
+    if len(content) > MAX_AGREEMENT_BYTES:
+        raise HTTPException(status_code=422, detail="The file must be 10 MB or smaller.")
+    name = re.sub(r"[^\w. -]", "_", file.filename or "signed-agreement")[-120:]
+    key, _url = get_storage().save(row.tenant_id, "vendor_agreement", row.id, name, content, mime)
+    row.signed_agreement_key = key
+    row.signed_agreement_name = name
+    row.signed_agreement_mime = mime
+    row.signed_agreement_at = datetime.now(timezone.utc)
+    row.signed_agreement_by = f"{user.first_name} {user.last_name}".strip() or user.email
+    db.commit()
+    db.refresh(row)
+    return _one(db, row)
+
+
+@router.get("/{vendor_id}/signed-agreement")
+def download_signed_agreement(
+    vendor_id: int, db: Session = Depends(get_db), user: User = Depends(require_roles(*READ_ROLES))
+):
+    row = _get(db, user, vendor_id)
+    if not row.signed_agreement_key:
+        raise HTTPException(status_code=404, detail="No signed agreement uploaded.")
+    content, mime = get_storage().read(row.signed_agreement_key)
+    return Response(
+        content=content,
+        media_type=row.signed_agreement_mime or mime,
+        headers={"Content-Disposition": f'attachment; filename="{row.signed_agreement_name or "signed-agreement"}"'},
+    )
+
+
+@router.delete("/{vendor_id}/signed-agreement")
+def remove_signed_agreement(
+    vendor_id: int, db: Session = Depends(get_db), user: User = Depends(require_roles(*WRITE_ROLES))
+):
+    row = _get(db, user, vendor_id)
+    row.signed_agreement_key = row.signed_agreement_name = row.signed_agreement_mime = None
+    row.signed_agreement_at = row.signed_agreement_by = None
+    db.commit()
+    db.refresh(row)
+    return _one(db, row)
