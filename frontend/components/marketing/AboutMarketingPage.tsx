@@ -1,5 +1,6 @@
 "use client";
 
+import { PhoneText } from "./PhoneText";
 import { MkLink as Link } from "./MkLink";
 
 import { CONTACT_HREF, FOUNDER_HREF, PARENT_CARE_CHECK_HREF, US_PHONE } from "@/lib/marketing/family-contacts";
@@ -179,7 +180,7 @@ export function AboutMarketingPage() {
               ) : null}
               <dt>India</dt>
               <dd>
-                <a href={`tel:${site.phone_tel}`}>{site.phone}</a>
+                <a href={`tel:${site.phone_tel}`}><PhoneText value={site.phone} /></a>
               </dd>
               <dt>US &amp; Canada</dt>
               <dd>

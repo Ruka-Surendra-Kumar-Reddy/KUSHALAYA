@@ -1,5 +1,6 @@
 "use client";
 
+import { PhoneText } from "./PhoneText";
 import { MkLink as Link } from "./MkLink";
 
 import { BRAND_ASSETS, BRAND_ASSET_SIZE } from "@/lib/brand-assets";
@@ -99,7 +100,7 @@ export function BrochureMarketingPage() {
             <p>
               <span className="mk-url"><span>kushalaya.com/</span><wbr /><span>kushcare-discovery</span></span>
               <br />
-              {FOUNDER.phoneDisplay}
+              <PhoneText value={FOUNDER.phoneDisplay} />
               <br />
               <span className="mk-break">{EMAILS.contact}</span>
             </p>

@@ -8,9 +8,9 @@
 export const FOUNDER = {
   name: "Krish Posa",
   role: "Founder, KushAlaya",
-  phoneDisplay: "+91 83095 00488",
-  phoneTel: "tel:+918309500488",
-  email: "krishnaposa@kushalaya.com",
+  phoneDisplay: "+91 905 905 1085",
+  phoneTel: "tel:+919059051085",
+  email: "contact@kushalaya.com",
   /** 4:5 portrait, 900×1125 (a 450-wide copy exists for small screens). */
   photo: "/marketing/founder/krish-posa.webp",
   photoSmall: "/marketing/founder/krish-posa-450.webp",

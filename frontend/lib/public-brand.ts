@@ -39,9 +39,9 @@ export const REGISTERED_ADDRESS_PARTS = {
  * contact page and the footer fallback all read these.
  */
 export const PUBLIC_PHONE = {
-  display: "+91 83095 00488",
-  e164: "+918309500488",
-  tel: "tel:+918309500488",
+  display: "+91 905 905 1085",
+  e164: "+919059051085",
+  tel: "tel:+919059051085",
 } as const;
 export const PUBLIC_EMAIL = "contact@kushalaya.com";
 

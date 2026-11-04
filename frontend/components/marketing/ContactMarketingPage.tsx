@@ -1,5 +1,6 @@
 "use client";
 
+import { PhoneText } from "./PhoneText";
 import { COMPANY_CIN, COMPANY_GSTIN, LEGAL_ENTITY_NAME, REGISTERED_ADDRESS } from "@/lib/public-brand";
 
 import { MkLink as Link } from "./MkLink";
@@ -50,7 +51,7 @@ export function ContactMarketingPage() {
         imageAlt="A care coordinator smiling during a phone call at her desk"
       >
         <a className="mk-btn mk-btn-primary mk-btn-lg" href={phoneHref}>
-          {ICONS.phone} Call {phoneLabel}
+          {ICONS.phone} Call <PhoneText value={phoneLabel} />
         </a>
         <a
           className="mk-btn mk-btn-green mk-btn-lg"
@@ -71,7 +72,7 @@ export function ContactMarketingPage() {
                 <span className="mk-card-ico">{ICONS.phone}</span>
                 <span>
                   <small>Phone</small>
-                  <strong>{phoneLabel}</strong>
+                  <strong><PhoneText value={phoneLabel} /></strong>
                   <em>{businessPhone ? "Care team" : `${FOUNDER.name}, founder — direct line`}</em>
                 </span>
               </a>

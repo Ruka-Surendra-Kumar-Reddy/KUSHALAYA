@@ -51,7 +51,7 @@ describe("site fallback", () => {
   });
 
   it("builds a wa.me link with prefilled text", () => {
-    expect(whatsAppHref(SITE_FALLBACK, "Hi there")).toBe("https://wa.me/918309500488?text=Hi%20there");
+    expect(whatsAppHref(SITE_FALLBACK, "Hi there")).toBe("https://wa.me/919059051085?text=Hi%20there");
   });
 });
 

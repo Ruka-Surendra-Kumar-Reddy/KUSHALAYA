@@ -1,5 +1,6 @@
 "use client";
 
+import { PhoneText } from "./PhoneText";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { MkLink as Link } from "./MkLink";
 import { usePathname } from "next/navigation";
@@ -315,7 +316,7 @@ export function MarketingShell({
               </a>
               <a className="mk-btn mk-btn-glass" href={`tel:${site.phone_tel}`}>
                 {ICONS.phone}
-                Call {site.phone}
+                Call <PhoneText value={site.phone} />
               </a>
             </div>
           </aside>
@@ -390,7 +391,7 @@ export function MarketingShell({
             <Link href={CONTACT_HREF}>Contact us</Link>
             <a href={FAMILY_PORTAL_LOGIN}>Family portal login</a>
             {/* Settings care-team number (defaults to the founder's), so one number shows everywhere. */}
-            <a href={`tel:${site.phone_tel}`}>Call {site.phone}</a>
+            <a href={`tel:${site.phone_tel}`}>Call <PhoneText value={site.phone} /></a>
             <a href={US_PHONE.tel}>US &amp; Canada: {US_PHONE.display}</a>
             <a href={`mailto:${EMAILS.contact}`}>{EMAILS.contact}</a>
             <Link href={ABOUT_HREF}>About us</Link>

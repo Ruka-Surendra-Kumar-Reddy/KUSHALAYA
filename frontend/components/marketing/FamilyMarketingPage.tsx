@@ -1,5 +1,6 @@
 "use client";
 
+import { PhoneText } from "./PhoneText";
 import { BRAND_ASSETS } from "@/lib/brand-assets";
 import { useState } from "react";
 import { MkLink as Link } from "./MkLink";
@@ -513,7 +514,7 @@ export function FamilyMarketingPage() {
                 Read the founder&rsquo;s note {ICONS.arrow}
               </Link>
               <a className="mk-btn mk-btn-outline" href={FOUNDER.phoneTel}>
-                {ICONS.phone} Call {FOUNDER.phoneDisplay}
+                {ICONS.phone} Call <PhoneText value={FOUNDER.phoneDisplay} />
               </a>
             </div>
           </Reveal>

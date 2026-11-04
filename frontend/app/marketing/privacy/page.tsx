@@ -341,7 +341,7 @@ export default function PrivacyPage() {
       <ul>
         <li>Grievance Officer, {LEGAL_ENTITY_NAME}</li>
         <li>Name: Krish Posa (Founder)</li>
-        <li>Phone: +91 83095 00488</li>
+        <li>Phone: +91 905 905 1085</li>
         <li>Email: <Mail /></li>
         <li>Address: Uppal, Rangareddy district, Hyderabad, Telangana 500039, India</li>
       </ul>

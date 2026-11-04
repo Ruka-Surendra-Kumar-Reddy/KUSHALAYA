@@ -96,7 +96,7 @@ DEFAULT_GRIEVANCE_OFFICER = {
     "name": "Krish Posa",
     "role": "Grievance Officer (Founder)",
     "email": "contact@kushalaya.com",
-    "phone": "+91 83095 00488",
+    "phone": "+91 905 905 1085",
     "response_days": 30,
 }
 

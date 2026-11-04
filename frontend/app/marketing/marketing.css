@@ -4490,3 +4490,7 @@ a.mk-contact-card strong,
   background: #fff;
   object-fit: contain;
 }
+
+/* "108" in the business number (905 905 1085): the part people remember. */
+.ph-108 { color: #dc2626; font-weight: 800; }
+.mk-footer .ph-108, .mk-btn-primary .ph-108 { color: #ff8a8a; }

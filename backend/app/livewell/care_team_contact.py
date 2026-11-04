@@ -15,8 +15,8 @@ from sqlalchemy.orm.attributes import flag_modified
 from app.models.tenant import Tenant
 
 KEY = "care_team_contact"
-DEFAULT_PHONE = "+91 83095 00488"
-DEFAULT_WHATSAPP = "+91 83095 00488"
+DEFAULT_PHONE = "+91 905 905 1085"
+DEFAULT_WHATSAPP = "+91 905 905 1085"
 EMERGENCY_NUMBERS = [
     {"number": "112", "label": "All emergencies"},
     {"number": "108", "label": "Ambulance"},

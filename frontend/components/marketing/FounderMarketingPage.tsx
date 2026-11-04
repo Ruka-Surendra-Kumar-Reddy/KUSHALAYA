@@ -1,5 +1,6 @@
 "use client";
 
+import { PhoneText } from "./PhoneText";
 import { BRAND_ASSETS } from "@/lib/brand-assets";
 import { MkLink as Link } from "./MkLink";
 
@@ -55,7 +56,7 @@ function ContactCards() {
         <span className="mk-card-ico">{ICONS.phone}</span>
         <span>
           <small>Call</small>
-          <strong>{FOUNDER.phoneDisplay}</strong>
+          <strong><PhoneText value={FOUNDER.phoneDisplay} /></strong>
         </span>
       </a>
       <a className="mk-contact-link" href={US_PHONE.tel}>
@@ -194,7 +195,7 @@ export function FounderMarketingPage() {
             </p>
             <div className="mk-actions">
               <a className="mk-btn mk-btn-white mk-btn-lg" href={FOUNDER.phoneTel}>
-                {ICONS.phone} Call {FOUNDER.phoneDisplay}
+                {ICONS.phone} Call <PhoneText value={FOUNDER.phoneDisplay} />
               </a>
               <Link className="mk-btn mk-btn-glass mk-btn-lg" href={PARENT_CARE_CHECK_HREF}>
                 Book an assessment

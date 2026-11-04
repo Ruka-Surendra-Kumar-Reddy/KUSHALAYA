@@ -43,7 +43,7 @@ EMERGENCY = re.compile(
 )
 EMERGENCY_REPLY = (
     "If someone is hurt or unwell right now, please call 112 (or 108 for an ambulance) first. "
-    "Then call us on +91 83095 00488 and we will help."
+    "Then call us on +91 905 905 1085 and we will help."
 )
 
 FACTS = """
@@ -55,7 +55,7 @@ KushAlaya helps families anywhere in India keep ageing parents safe at home. Man
 - Also available: physiotherapy at home, medicine reminders, help coordinating hospital visits. A complimentary SOS watch with family alerts comes with the Privilege and Signature plans.
 - Every plan has care-manager visits (see PLANS for how many). Do not promise a "named" or "dedicated" care manager.
 - KushAlaya is not an emergency service: in an emergency call 112 or 108 first.
-- Contact: India +91 83095 00488, US & Canada +1 (678) 481-8252, WhatsApp, contact@kushalaya.com. Team: Krish Posa (Founder), Bharani (CTO & Head of Care), Surendra (Software Developer).
+- Contact: India +91 905 905 1085, US & Canada +1 (678) 481-8252, WhatsApp, contact@kushalaya.com. Team: Krish Posa (Founder), Bharani (CTO & Head of Care), Surendra (Software Developer).
 - Payments in rupees with GST invoices; cancelling a paid order before it starts returns the full amount to the family wallet.
 """.strip()
 

@@ -1,5 +1,6 @@
 "use client";
 
+import { PhoneText } from "./PhoneText";
 import { MkLink as Link } from "./MkLink";
 import { assessmentWording, useSiteConfig } from "@/lib/marketing/site-config";
 
@@ -94,7 +95,7 @@ export function VisionMarketingPage() {
               &ldquo;{FOUNDER.statement[1]} {FOUNDER.tagline}&rdquo; — {FOUNDER.name}, {FOUNDER.role}
             </p>
             <p className="mk-note" style={{ marginTop: "0.4rem" }}>
-              Call me directly: <a href={FOUNDER.phoneTel}>{FOUNDER.phoneDisplay}</a> ·{" "}
+              Call me directly: <a href={FOUNDER.phoneTel}><PhoneText value={FOUNDER.phoneDisplay} /></a> ·{" "}
               <a href={founderMailtoHref()}>{FOUNDER.email}</a>
             </p>
           </div>

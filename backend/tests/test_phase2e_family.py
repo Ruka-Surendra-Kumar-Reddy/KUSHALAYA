@@ -68,8 +68,8 @@ def test_care_team_contact_setting_admin_only(client, db, seed_tenant, auth_head
     assert res.status_code == 200, res.text
     body = res.json()
     assert body["is_default"] is True
-    assert body["phone_tel"] == "+918309500488"
-    assert body["whatsapp_link"] == "https://wa.me/918309500488"
+    assert body["phone_tel"] == "+919059051085"
+    assert body["whatsapp_link"] == "https://wa.me/919059051085"
     assert [e["number"] for e in body["emergency"]] == ["112", "108"]
 
     # Managers cannot change it.
