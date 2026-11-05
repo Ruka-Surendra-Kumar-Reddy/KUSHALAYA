@@ -67,6 +67,21 @@ export function StaffDocuments({
     if (input.current) input.current.value = "";
   }
 
+  function view(d: Doc) {
+    // Open the tab inside the click, or the browser blocks it as a popup.
+    const tab = window.open("", "_blank");
+    void run(async () => {
+      try {
+        const url = URL.createObjectURL(await downloadFileBlob(`/api/v1/staff-documents/file/${d.id}`));
+        if (tab) tab.location.href = url;
+        window.setTimeout(() => URL.revokeObjectURL(url), 300_000);
+      } catch (e) {
+        tab?.close();
+        throw e;
+      }
+    });
+  }
+
   function download(d: Doc) {
     void run(async () => {
       const url = URL.createObjectURL(await downloadFileBlob(`/api/v1/staff-documents/file/${d.id}`));
@@ -132,6 +147,9 @@ export function StaffDocuments({
                 </span>
               </span>
               <span className="tm-docs-acts">
+                <button type="button" className="secondary" disabled={busy} onClick={() => view(d)}>
+                  View
+                </button>
                 <button type="button" className="secondary" disabled={busy} onClick={() => download(d)}>
                   Download
                 </button>
