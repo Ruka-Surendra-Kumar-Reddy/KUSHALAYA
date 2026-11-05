@@ -1,5 +1,6 @@
 from fastapi import Depends
 from fastapi import HTTPException
+from fastapi import Request
 from fastapi.security import HTTPBearer
 from fastapi.security import HTTPAuthorizationCredentials
 
@@ -32,7 +33,14 @@ def token_matches_user(payload: dict, user: User) -> bool:
     return True
 
 
+#: Marketing logins read like a care manager but may only change these areas.
+MARKETING_WRITE_PREFIXES = (
+    "/api/v1/auth/", "/api/v1/sales/leads", "/api/v1/vendors", "/api/v1/contracts", "/api/v1/blog",
+)
+
+
 def get_current_user(
+    request: Request,
     credentials: HTTPAuthorizationCredentials = Depends(security),
     db: Session = Depends(get_db)
 ):
@@ -75,5 +83,12 @@ def get_current_user(
             status_code=401,
             detail="Account is not active"
         )
+
+    if (
+        user.access_profile == "marketing"
+        and request.method not in ("GET", "HEAD", "OPTIONS")
+        and not request.url.path.startswith(MARKETING_WRITE_PREFIXES)
+    ):
+        raise HTTPException(status_code=403, detail="Your account can view this but not change it.")
 
     return user

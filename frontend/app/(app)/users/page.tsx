@@ -14,7 +14,7 @@ import type { User } from "@/lib/types";
 import "@/components/ops/team.css";
 import { plural } from "@/lib/run-sheet";
 
-type Staff = User & { status?: string; phone?: string | null };
+type Staff = User & { status?: string; phone?: string | null; access_profile?: string | null };
 type Manager = {
   id: number;
   first_name: string;
@@ -37,9 +37,10 @@ type TeamCaregiver = {
 };
 
 const ROLE_LABEL: Record<string, string> = {
-  SYSTEM_ADMIN: "Owner", // the platform super-admin is the owner
-  TENANT_ADMIN: "Owner", // the business owner's account (admin rights)
+  SYSTEM_ADMIN: "Admin", // the platform super-admin
+  TENANT_ADMIN: "Admin", // the business account with admin rights
   CARE_MANAGER: "Care manager",
+  MARKETING: "Marketing",
   VIEWER: "View-only",
 };
 
@@ -278,7 +279,7 @@ export default function UsersPage() {
           method: "POST",
           body: JSON.stringify({
             email: form.email.trim().toLowerCase(),
-            password: form.password,
+            password: form.password || null,
             first_name: form.first_name,
             last_name: form.last_name,
             role: form.role,
@@ -457,8 +458,9 @@ export default function UsersPage() {
                 <div>
                   <label>Role</label>
                   <select value={pf.role} onChange={setP("role")}>
-                    <option value="TENANT_ADMIN">Owner (full access)</option>
+                    <option value="TENANT_ADMIN">Admin (full access)</option>
                     <option value="CARE_MANAGER">Care manager</option>
+                    <option value="MARKETING">Marketing (Customers view, Operations, Vendors, Blog)</option>
                     <option value="VIEWER">View-only</option>
                   </select>
                 </div>
@@ -536,7 +538,7 @@ export default function UsersPage() {
   return (
     <div className="tm-page">
       <div className="ks-head-row">
-        <PageHeader title="Team" subtitle="Owners, managers and caregivers" />
+        <PageHeader title="Team" subtitle="Admins, managers and caregivers" />
         {canEditCaregivers ? (
           <div className="ks-head-actions">
             <button type="button" onClick={() => setAdding(true)} aria-label="Add team member" title="Add team member">
@@ -566,7 +568,7 @@ export default function UsersPage() {
       </div>
 
       <div className="card" style={{ marginBottom: "1rem" }}>
-        <h2>{staff.some((u) => u.role === "VIEWER") ? "Owners, care managers & view-only" : "Owners & care managers"}</h2>
+        <h2>{staff.some((u) => u.role === "VIEWER") ? "Admins, care managers & view-only" : "Admins & care managers"}</h2>
         <div className="tm-table-wrap">
           <table className="table tm-stack">
             <thead>
@@ -605,7 +607,7 @@ export default function UsersPage() {
                     </td>
                     <td data-label="Email">{u.email}</td>
                     <td data-label="Phone">{u.phone ? <a className="tm-tel" href={`tel:${u.phone.replace(/[^\d+]/g, "")}`}>{u.phone}</a> : <span className="muted">—</span>}</td>
-                    <td data-label="Role">{ROLE_LABEL[u.role]}</td>
+                    <td data-label="Role">{u.access_profile === "marketing" ? ROLE_LABEL.MARKETING : ROLE_LABEL[u.role]}</td>
                     <td data-label="Status">{staffStatus(u)}</td>
                     <td data-label="Clients">{stats ? stats.clients ?? "—" : "—"}</td>
                     <td data-label="Caregivers">
@@ -718,7 +720,8 @@ export default function UsersPage() {
               <select value={form.role} onChange={set("role")}>
                 <option value="CAREGIVER">Caregiver</option>
                 {isAdmin && <option value="CARE_MANAGER">Care manager</option>}
-                {isAdmin && <option value="TENANT_ADMIN">Owner (full access)</option>}
+                {isAdmin && <option value="MARKETING">Marketing</option>}
+                {isAdmin && <option value="TENANT_ADMIN">Admin (full access)</option>}
                 {isAdmin && <option value="VIEWER">View-only</option>}
               </select>
             </div>

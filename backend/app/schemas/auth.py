@@ -50,6 +50,7 @@ class TokenResponse(BaseModel):
     tenant_id: int | None = None
     elder_id: int | None = None
     caregiver_id: int | None = None
+    access_profile: str | None = None
     session_id: str | None = None
     # Always None: there is no sign-out for inactivity (session_policy).
     idle_minutes: int | None = None
@@ -81,6 +82,7 @@ class UserResponse(BaseModel):
     caregiver_id: int | None = None
     elder_id: int | None = None
     status: str = "ACTIVE"
+    access_profile: str | None = None
 
     model_config = {"from_attributes": True}
 

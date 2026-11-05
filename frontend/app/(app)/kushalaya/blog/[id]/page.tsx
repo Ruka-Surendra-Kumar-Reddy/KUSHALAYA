@@ -4,11 +4,11 @@ import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 import { BlogEditor } from "@/components/ops/BlogEditor";
-import { isAdmin as isAdminUser } from "@/lib/roles";
+import { canOpen } from "@/lib/roles";
 
 /** /kushalaya/blog/new or /kushalaya/blog/<id> — admins only (the API refuses everyone else too). */
 export default function BlogEditPage({ params }: { params: { id: string } }) {
-  const isAdmin = isAdminUser();
+  const isAdmin = canOpen("/kushalaya/blog");
   const router = useRouter();
   useEffect(() => {
     if (!isAdmin) router.replace("/unauthorized");

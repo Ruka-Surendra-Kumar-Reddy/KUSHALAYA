@@ -23,6 +23,16 @@ export const ADMIN_ONLY_PATHS = [
   "/settings/security",
 ] as const;
 
+/** The only pages a marketing login can open. */
+export const MARKETING_PATHS = [
+  "/kushalaya/customers",
+  "/kushalaya/enquiries",
+  "/kushalaya/vendors",
+  "/kushalaya/blog",
+  "/kushalaya/contracts",
+] as const;
+export const MARKETING_HOME = "/kushalaya/customers";
+
 /** Pages a read-only VIEWER may not open (staff activity is not theirs to see). */
 export const NO_VIEWER_PATHS = ["/kushalaya/activity"] as const;
 
@@ -42,6 +52,10 @@ function roleOf(who?: Who): string {
   return (u?.role || "").toUpperCase();
 }
 
+export function isMarketing(): boolean {
+  return getStoredAuth()?.access_profile === "marketing";
+}
+
 export function isAdmin(who?: Who): boolean {
   return canManageUsers(roleOf(who));
 }
@@ -52,6 +66,8 @@ export function isViewer(who?: Who): boolean {
 
 export function can(feature: Feature, who?: Who): boolean {
   const r = roleOf(who);
+  // Marketing can read customers but not change them (the API refuses it too).
+  if (isMarketing() && typeof window !== "undefined" && window.location.pathname.startsWith(MARKETING_HOME)) return false;
   if (feature === "admin") return canManageUsers(r);
   if (feature === "edit") return canWrite(r);
   return canWrite(r);
@@ -60,6 +76,7 @@ export function can(feature: Feature, who?: Who): boolean {
 /** True when this user may open `href` (strips query/hash). */
 export function canOpen(href: string, who?: Who): boolean {
   const path = href.split(/[?#]/)[0].replace(/\/+$/, "");
+  if (isMarketing()) return MARKETING_PATHS.some((p) => path === p || path.startsWith(`${p}/`));
   const adminOnly = ADMIN_ONLY_PATHS.some((p) => path === p || path.startsWith(`${p}/`));
   if (adminOnly && !isAdmin(who)) return false;
   const noViewer = NO_VIEWER_PATHS.some((p) => path === p || path.startsWith(`${p}/`));

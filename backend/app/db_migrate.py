@@ -1248,6 +1248,7 @@ def run_migrations():
     migrate_customer_plans()
     migrate_vendors()
     migrate_staff_documents()
+    migrate_access_profile()
     migrate_user_phone()
     migrate_live_share_by()
     migrate_iot_gateway_http()
@@ -1281,6 +1282,13 @@ def migrate_user_phone() -> None:
     if "phone" not in {c["name"] for c in insp.get_columns("users")}:
         with engine.begin() as conn:
             conn.execute(text("ALTER TABLE users ADD COLUMN phone VARCHAR(30)"))
+
+
+def migrate_access_profile() -> None:
+    """Marketing access: users.access_profile."""
+    if "access_profile" not in {c["name"] for c in inspect(engine).get_columns("users")}:
+        with engine.begin() as conn:
+            conn.execute(text("ALTER TABLE users ADD COLUMN access_profile VARCHAR(20)"))
 
 
 def migrate_staff_documents() -> None:

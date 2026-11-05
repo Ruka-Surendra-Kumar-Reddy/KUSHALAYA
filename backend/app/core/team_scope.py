@@ -17,7 +17,7 @@ from app.models.user import User
 
 
 def is_scoped_manager(user: User) -> bool:
-    return user.role == CARE_MANAGER
+    return user.role == CARE_MANAGER and not user.access_profile
 
 
 def team_caregiver_ids(db: Session, user: User) -> set[int] | None:

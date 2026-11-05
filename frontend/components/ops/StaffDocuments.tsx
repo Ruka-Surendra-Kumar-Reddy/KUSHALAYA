@@ -20,7 +20,7 @@ const DOC_TYPES: { code: string; label: string }[] = [
   { code: "other", label: "Other" },
 ];
 
-/** Optional HR papers for one team member. Owners only; the API enforces that too. */
+/** Optional HR papers for one team member. Admins only; the API enforces that too. */
 export function StaffDocuments({
   person,
   onClose,
@@ -88,7 +88,7 @@ export function StaffDocuments({
 
   return (
     <OpsModal open title={`Documents · ${person.name}`} onClose={onClose}>
-      <p className="muted tm-docs-note">Optional. Only owners can see these. PDF, JPG or PNG, 10 MB at most.</p>
+      <p className="muted tm-docs-note">Optional. Only admins can see these. PDF, JPG or PNG, 10 MB at most.</p>
       <div className="tm-docs-add">
         <select aria-label="Document type" value={docType} onChange={(e) => setDocType(e.target.value)}>
           {DOC_TYPES.map((t) => (

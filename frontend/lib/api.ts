@@ -9,6 +9,8 @@ import {
 
 export type AuthUser = AuthSession & {
   session_id?: string | null;
+  /** "marketing": Customers (read), Operations, Vendors and Blog only. */
+  access_profile?: string | null;
   /** Sent by the server (session policy); the browser no longer signs people out when idle. */
   idle_minutes?: number | null;
 };
@@ -84,6 +86,7 @@ type LoginResponse = {
   elder_id?: number | null;
   customer_id?: number | null;
   caregiver_id?: number | null;
+  access_profile?: string | null;
   session_id?: string | null;
   idle_minutes?: number | null;
 };
@@ -98,6 +101,7 @@ export function authFromLoginResponse(data: LoginResponse): AuthUser {
     tenant_id: data.tenant_id,
     customer_id: data.customer_id ?? data.elder_id ?? null,
     caregiver_id: data.caregiver_id ?? null,
+    access_profile: data.access_profile ?? null,
     session_id: data.session_id ?? null,
     idle_minutes: data.idle_minutes ?? null,
   };

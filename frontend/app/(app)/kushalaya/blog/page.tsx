@@ -9,7 +9,7 @@ import { Flash } from "@/components/Flash";
 import { PageHeader } from "@/components/PageHeader";
 import { listBlogPosts, type BlogAdminPost } from "@/lib/blog/api";
 import { blogDate, blogImageSrc } from "@/lib/blog/text";
-import { isAdmin as isAdminUser } from "@/lib/roles";
+import { canOpen } from "@/lib/roles";
 import "@/components/ops/blog.css";
 
 /** What the list shows in the Status column. A scheduled post whose time has passed is live. */
@@ -29,7 +29,7 @@ type FilterKey = (typeof FILTERS)[number]["key"];
 
 /** Blog (Growth): admins write the posts shown on www /blog. */
 export default function BlogListPage() {
-  const isAdmin = isAdminUser();
+  const isAdmin = canOpen("/kushalaya/blog");
   const router = useRouter();
   const [posts, setPosts] = useState<BlogAdminPost[] | null>(null);
   const [error, setError] = useState("");

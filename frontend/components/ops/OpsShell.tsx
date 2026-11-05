@@ -11,7 +11,7 @@ import { OpsProfileMenu } from "./OpsProfileMenu";
 // shared shell sheet; ops-portal.css re-skins them under .ko-app.
 import "@/components/ks-shell.css";
 import "./ops-portal.css";
-import { can } from "@/lib/roles";
+import { can, isMarketing } from "@/lib/roles";
 
 const svg = (body: JSX.Element) => (
   <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
@@ -369,7 +369,7 @@ export function OpsShell({
   );
 
   // The assessor app records assessments, so view-only staff don't get it.
-  const assessor = can("edit", auth.role);
+  const assessor = can("edit", auth.role) && !isMarketing();
   const apps = (
     <div className="ko-side-apps">
       <strong>{t("dashboard.apps")}</strong>

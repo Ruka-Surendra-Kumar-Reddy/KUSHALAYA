@@ -90,7 +90,9 @@ def list_managers(
     db: Session = Depends(get_db),
     current_user: User = Depends(require_roles(*READ_ROLES)),
 ):
-    q = db.query(User).filter(User.role == CARE_MANAGER, User.status == "ACTIVE")
+    q = db.query(User).filter(
+        User.role == CARE_MANAGER, User.status == "ACTIVE", User.access_profile.is_(None)
+    )
     tid = resolve_tenant_id(current_user)
     if tid is not None:
         q = q.filter(User.tenant_id == tid)

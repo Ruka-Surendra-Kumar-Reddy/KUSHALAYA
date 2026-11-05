@@ -56,12 +56,20 @@ def invite_user(
     current_user: User = Depends(require_roles(SYSTEM_ADMIN, TENANT_ADMIN)),
 ):
     data.role = (data.role or "").strip().upper()
+    marketing = data.role == "MARKETING"
+    if marketing:
+        data.role = CARE_MANAGER
     if data.role == ELDER_PORTAL:
         raise_bad_request("Family logins are added from the client's page, not here")
     data.email = data.email.strip().lower()
     if db.query(User).filter(func.lower(User.email) == data.email).first():
         raise_conflict("Email already registered")
     user = AuthService.register(db, data, current_user)
+    if marketing:
+        db.query(User).filter(func.lower(User.email) == data.email).update(
+            {"access_profile": "marketing"}, synchronize_session=False
+        )
+        db.commit()
     if not data.password:
         from app.services.account_setup import send_account_setup
 

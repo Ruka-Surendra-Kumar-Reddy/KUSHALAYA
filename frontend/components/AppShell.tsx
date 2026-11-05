@@ -27,7 +27,7 @@ import { SosBanner } from "@/components/ops/SosBanner";
 import { VisitLocationAlerts } from "@/components/ops/VisitLocationAlerts";
 import { SosSiren } from "@/components/SosSiren";
 import { HeaderSos } from "@/components/ops/HeaderSos";
-import { can } from "@/lib/roles";
+import { MARKETING_HOME, can, canOpen, isMarketing } from "@/lib/roles";
 import { useBranding } from "./BrandingProvider";
 
 /** Staff-side portal name, distinct from the family "Care Hub". */
@@ -141,10 +141,14 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     setPendingHref(null);
   }, [pathname]);
 
+  useEffect(() => {
+    if (isMarketing() && !canOpen(pathname)) router.replace(MARKETING_HOME);
+  }, [pathname, router]);
+
   if (!auth) return null;
 
   const vertical = "LIVEWELL360";
-  const navGroups = withoutRetiredOpsNav(filterNavGroupsForLiveWellRole(
+  const allNavGroups = withoutRetiredOpsNav(filterNavGroupsForLiveWellRole(
     augmentNavGroupsForRole({
       groups: buildAdminNavGroups(t, vertical, branding.market),
       t,
@@ -159,6 +163,9 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     auth.role,
     t,
   ));
+  const navGroups = isMarketing()
+    ? allNavGroups.map((g) => ({ ...g, items: g.items.filter((i) => canOpen(i.href)) })).filter((g) => g.items.length)
+    : allNavGroups;
 
   async function logout() {
     await endSessionRemote();
@@ -188,7 +195,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             Link={NextShellLink}
             localeSwitcher={<LocaleSwitcher compact market={branding.market} />}
             menuBadge={navCounts?.alerts ?? 0}
-            topbarAction={auth && can("edit") ? <HeaderSos /> : null}
+            topbarAction={auth && can("edit") && !isMarketing() ? <HeaderSos /> : null}
           >
             {auth ? <SosBanner /> : null}
             {auth ? <VisitLocationAlerts /> : null}

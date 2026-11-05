@@ -32,6 +32,8 @@ class User(TimestampMixin, Base):
     last_name: Mapped[str] = mapped_column(String(100))
     # Work phone for staff (shown on the Team page; used for call buttons and alerts).
     phone: Mapped[str | None] = mapped_column(String(30), nullable=True)
+    # "marketing": a care manager limited to Customers (read), Operations, Vendors and Blog.
+    access_profile: Mapped[str | None] = mapped_column(String(20), nullable=True)
 
     role: Mapped[str] = mapped_column(
         String(50),

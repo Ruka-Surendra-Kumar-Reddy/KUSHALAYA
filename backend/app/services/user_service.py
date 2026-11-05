@@ -74,6 +74,9 @@ class UserService:
         db: Session, actor: User, user_id: int, role: str, reassign_to: int | None = None, commit: bool = True
     ) -> User:
         new_role = (role or "").strip().upper()
+        profile = "marketing" if new_role == "MARKETING" else None
+        if profile:
+            new_role = CARE_MANAGER
         if new_role not in TENANT_ASSIGNABLE_ROLES:
             raise_bad_request(
                 "role must be one of: " + ", ".join(sorted(TENANT_ASSIGNABLE_ROLES))
@@ -83,7 +86,7 @@ class UserService:
         target = UserService._managed_user(db, actor, user_id)
         if target.role not in TENANT_ASSIGNABLE_ROLES:
             raise_bad_request("Only staff accounts can have their role changed")
-        if target.role == new_role:
+        if target.role == new_role and target.access_profile == profile:
             return target
         if target.role == TENANT_ADMIN:
             UserService._assert_not_last_admin(db, target)
@@ -91,6 +94,7 @@ class UserService:
             UserService._hand_over_team(db, actor, target, reassign_to)
         before = _user_audit_snapshot(target)
         target.role = new_role
+        target.access_profile = profile
         AuditService.log(
             db,
             tenant_id=target.tenant_id,
