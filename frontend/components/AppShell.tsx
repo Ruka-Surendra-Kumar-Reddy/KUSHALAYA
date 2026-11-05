@@ -160,7 +160,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       canManageTenants,
       isNavItemEnabled,
     }),
-    auth.role,
+    // Marketing starts from the full menu (Blog is admin-only there); navGroups cuts it to their pages.
+    isMarketing() ? "TENANT_ADMIN" : auth.role,
     t,
   ));
   const navGroups = isMarketing()
