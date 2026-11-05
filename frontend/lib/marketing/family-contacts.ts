@@ -69,6 +69,11 @@ export const FAMILY_PORTAL_LOGIN =
 export const OPS_PORTAL_LOGIN =
   process.env.NEXT_PUBLIC_OPS_PORTAL_URL || "https://ops.kushalaya.com/login";
 
+/** Public website. The test system sets this so its links stay on test. */
+export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://www.kushalaya.com").replace(/\/$/, "");
+export const SITE_HOST = new URL(SITE_URL).host;
+export const FAMILY_PORTAL_HOST = new URL(FAMILY_PORTAL_LOGIN).host;
+
 /** Clean public paths (rewritten to /marketing/... on www.kushalaya.com). */
 export const PARTNERS_HREF = "/partners";
 export const BECOME_A_PARTNER_HREF = "/become-a-partner";

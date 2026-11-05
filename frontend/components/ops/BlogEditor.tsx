@@ -1,5 +1,6 @@
 "use client";
 
+import { SITE_HOST } from "@/lib/marketing/family-contacts";
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState, type ChangeEvent } from "react";
 import { useRouter } from "next/navigation";
@@ -28,7 +29,7 @@ import {
 } from "@/lib/blog/text";
 import "./blog.css";
 
-const SITE = "www.kushalaya.com";
+const SITE = SITE_HOST;
 
 type Form = {
   title: string;

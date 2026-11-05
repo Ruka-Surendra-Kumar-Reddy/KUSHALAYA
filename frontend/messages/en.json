@@ -245,6 +245,7 @@
     "showPassword": "Show password",
     "hidePassword": "Hide password",
     "emailOrMobile": "Email or mobile number",
+    "emailOrMobile": "Email or mobile number",
     "emailRequired": "Enter your email or mobile number.",
     "emailInvalid": "Enter a valid email address or mobile number.",
     "passwordRequired": "Enter your password.",

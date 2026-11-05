@@ -30,8 +30,8 @@ logger = logging.getLogger(__name__)
 
 KEY = "email_notifications"
 PREFS_KEY = "email_prefs"
-OPS_URL = "https://ops.kushalaya.com"
-FAMILY_URL = "https://family.kushalaya.com"
+OPS_URL = settings.PUBLIC_OPS_URL.rstrip("/")
+FAMILY_URL = settings.PUBLIC_FAMILY_URL.rstrip("/")
 
 STAFF_EVENTS = [
     {"key": "family_message", "label": "A family sends a message"},

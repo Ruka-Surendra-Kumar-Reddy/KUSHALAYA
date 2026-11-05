@@ -367,7 +367,7 @@ function LoginForm() {
           </p>
           <form onSubmit={onSubmit} noValidate>
             <div className={`ko-field${emailError ? " has-error" : ""}`}>
-              <label htmlFor="email">{t("common.email")}</label>
+              <label htmlFor="email">{t("auth.emailOrMobile")}</label>
               <span className="ko-field-input">
                 <span className="ko-field-ico">{Icon.mail}</span>
                 <input
@@ -381,7 +381,6 @@ function LoginForm() {
                   autoComplete="username"
                   autoCapitalize="none"
                   spellCheck={false}
-                  inputMode="email"
                   aria-invalid={emailError ? true : undefined}
                   aria-describedby={emailError ? "email-error" : undefined}
                 />

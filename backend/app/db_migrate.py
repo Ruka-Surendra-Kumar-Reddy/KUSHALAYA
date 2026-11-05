@@ -1247,6 +1247,7 @@ def run_migrations():
     migrate_blog()
     migrate_customer_plans()
     migrate_vendors()
+    migrate_staff_documents()
     migrate_user_phone()
     migrate_live_share_by()
     migrate_iot_gateway_http()
@@ -1280,6 +1281,13 @@ def migrate_user_phone() -> None:
     if "phone" not in {c["name"] for c in insp.get_columns("users")}:
         with engine.begin() as conn:
             conn.execute(text("ALTER TABLE users ADD COLUMN phone VARCHAR(30)"))
+
+
+def migrate_staff_documents() -> None:
+    """Team -> Documents: staff_documents table only."""
+    import app.models.staff_document  # noqa: F401
+
+    _ensure_tables(["staff_documents"])
 
 
 def migrate_vendors() -> None:

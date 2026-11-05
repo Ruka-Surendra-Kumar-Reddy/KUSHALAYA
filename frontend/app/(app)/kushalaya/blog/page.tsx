@@ -1,5 +1,6 @@
 "use client";
 
+import { SITE_HOST } from "@/lib/marketing/family-contacts";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -74,7 +75,7 @@ export default function BlogListPage() {
       ) : posts.length === 0 ? (
         <div className="card bl-empty">
           <h2>No posts yet</h2>
-          <p className="muted">Write your first article for www.kushalaya.com/blog.</p>
+          <p className="muted">Write your first article for {SITE_HOST}/blog.</p>
           <Link className="bl-linkbtn" href="/kushalaya/blog/new">
             + Write a post
           </Link>

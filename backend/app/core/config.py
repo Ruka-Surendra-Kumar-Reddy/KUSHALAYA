@@ -154,6 +154,10 @@ class Settings(BaseSettings):
     IOT_INGEST_API_KEY: str = ""
     IOT_MQTT_RUNTIME: str = "/var/lib/safehomeops/mqtt"
     IOT_MQTT_PUBLIC_HOST: str = "ops.kushalaya.com"
+    # Addresses used in emails and messages. The test system overrides these.
+    PUBLIC_SITE_URL: str = "https://www.kushalaya.com"
+    PUBLIC_OPS_URL: str = "https://ops.kushalaya.com"
+    PUBLIC_FAMILY_URL: str = "https://family.kushalaya.com"
     # Privileged helper for Wearables "Apply to Mosquitto" (sudo -n via install-safehome-sudoers.sh)
     IOT_MQTT_APPLY_SCRIPT: str = "/opt/safehomeops/app/scripts/deploy/apply-mqtt-hub-user.sh"
     IOT_MQTT_INGESTOR_APPLY_SCRIPT: str = "/opt/safehomeops/app/scripts/deploy/apply-mqtt-ingestor.sh"

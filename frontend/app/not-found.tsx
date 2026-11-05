@@ -1,3 +1,4 @@
+import { FAMILY_PORTAL_LOGIN, SITE_URL } from "@/lib/marketing/family-contacts";
 import Link from "next/link";
 import { PublicBrandMark } from "@/components/BrandLogo";
 import { MarketingNotFound } from "@/components/marketing/MarketingNotFound";
@@ -46,13 +47,13 @@ export default function NotFound() {
         The link may be old or mistyped. Choose where you’d like to go:
       </p>
       <div className="not-found-actions">
-        <a className="not-found-btn primary" href="https://family.kushalaya.com/login">
+        <a className="not-found-btn primary" href={FAMILY_PORTAL_LOGIN}>
           Family portal
         </a>
         <Link className="not-found-btn" href="/login">
           Staff sign-in
         </Link>
-        <a className="not-found-btn" href="https://www.kushalaya.com/">
+        <a className="not-found-btn" href={`${SITE_URL}/`}>
           {publicBrandName()} home
         </a>
       </div>

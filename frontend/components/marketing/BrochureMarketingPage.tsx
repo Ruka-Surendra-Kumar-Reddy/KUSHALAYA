@@ -4,14 +4,20 @@ import { PhoneText } from "./PhoneText";
 import { MkLink as Link } from "./MkLink";
 
 import { BRAND_ASSETS, BRAND_ASSET_SIZE } from "@/lib/brand-assets";
-import { BROCHURE_PDF_HREF, EMAILS, PARENT_CARE_CHECK_HREF, VISION_HREF } from "@/lib/marketing/family-contacts";
+import {
+  BROCHURE_PDF_HREF,
+  EMAILS,
+  PARENT_CARE_CHECK_HREF,
+  SITE_URL,
+  VISION_HREF,
+} from "@/lib/marketing/family-contacts";
 import { FOUNDER, KUSHLIFE } from "@/lib/marketing/founder";
 import { publicBrandName, publicSafetyScoreName } from "@/lib/public-brand";
 import { assessmentWording, useSiteConfig } from "@/lib/marketing/site-config";
 import { MarketingShell } from "./MarketingShell";
 
 /** QR target. Still drawn by api.qrserver.com — no QR library is installed. */
-const PCC_URL = "https://www.kushalaya.com/kushcare-discovery";
+const PCC_URL = `${SITE_URL}/kushcare-discovery`;
 const QR_SRC = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&margin=8&color=0e2a4f&data=${encodeURIComponent(PCC_URL)}`;
 
 export function BrochureMarketingPage() {

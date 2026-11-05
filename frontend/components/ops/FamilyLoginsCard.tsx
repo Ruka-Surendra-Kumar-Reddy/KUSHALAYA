@@ -1,5 +1,6 @@
 "use client";
 
+import { FAMILY_PORTAL_HOST } from "@/lib/marketing/family-contacts";
 import { FormEvent, useCallback, useEffect, useState } from "react";
 import {
   addFamilyLogin,
@@ -113,7 +114,7 @@ export function FamilyLoginsCard({ elderId, primaryIds }: { elderId: number; pri
     const email = form.email.trim().toLowerCase();
     const done = await run(
       () => addFamilyLogin(elderId, { ...form, email }),
-      `Login created. They sign in at family.kushalaya.com with ${email} and the password you set.`,
+      `Login created. They sign in at ${FAMILY_PORTAL_HOST} with ${email} and the password you set.`,
     );
     if (done) {
       setForm(EMPTY);

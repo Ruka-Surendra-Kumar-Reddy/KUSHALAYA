@@ -9,6 +9,7 @@ import { canManageUsers, canViewTeam } from "@/lib/auth";
 import { Flash } from "@/components/Flash";
 import { PageHeader } from "@/components/PageHeader";
 import { OpsModal } from "@/components/ops/OpsModal";
+import { StaffDocuments } from "@/components/ops/StaffDocuments";
 import type { User } from "@/lib/types";
 import "@/components/ops/team.css";
 import { plural } from "@/lib/run-sheet";
@@ -89,6 +90,7 @@ export default function UsersPage() {
     }
   }
   const [menu, setMenu] = useState<string | null>(null);
+  const [docsFor, setDocsFor] = useState<{ type: "staff" | "caregiver"; id: number; name: string } | null>(null);
   const [panel, setPanel] = useState<Panel>(null);
   const [pf, setPf] = useState(EMPTY_PANEL_FORM);
   const [showPw, setShowPw] = useState(false);
@@ -507,6 +509,7 @@ export default function UsersPage() {
     const items: { label: string; onClick: () => void; danger?: boolean }[] = [];
     if (isAdmin) {
       items.push({ label: "Edit", onClick: () => openPanel("staff", u.id, "edit") });
+      items.push({ label: "Documents", onClick: () => setDocsFor({ type: "staff", id: u.id, name: `${u.first_name} ${u.last_name}` }) });
       if (!self && u.role !== "SYSTEM_ADMIN") {
         items.push({ label: "Change role", onClick: () => openPanel("staff", u.id, "role") });
         items.push({ label: "Send setup link", onClick: () => void sendSetupLink(u.id, `${u.first_name} ${u.last_name}`) });
@@ -523,6 +526,7 @@ export default function UsersPage() {
     const items: { label: string; onClick: () => void; danger?: boolean }[] = [
       { label: "Edit", onClick: () => openPanel("cg", c.id, "edit") },
     ];
+    if (isAdmin) items.push({ label: "Documents", onClick: () => setDocsFor({ type: "caregiver", id: c.id, name: `${c.first_name} ${c.last_name}` }) });
     if (c.login_user_id) items.push({ label: "Send setup link", onClick: () => void sendSetupLink(c.login_user_id as number, `${c.first_name} ${c.last_name}`) });
     if (c.login_user_id) items.push({ label: "Reset password", onClick: () => openPanel("cg", c.id, "password") });
     items.push({ label: "Mark as left", onClick: () => openPanel("cg", c.id, "left"), danger: true });
@@ -770,6 +774,7 @@ export default function UsersPage() {
             </div>
           </form>
       </OpsModal>
+      {docsFor ? <StaffDocuments person={docsFor} onClose={() => setDocsFor(null)} /> : null}
     </div>
   );
 }

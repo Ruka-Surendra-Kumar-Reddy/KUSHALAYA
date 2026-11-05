@@ -270,3 +270,13 @@
   .ko-main .tm-stack td.tm-actions-cell { top: 0.35rem; right: 0.35rem; }
   .ko-main .tm-team-btn:not(.tm-on) { justify-content: flex-end; }
 }
+
+/* Team → Documents */
+.tm-docs-note { margin: 0 0 0.75rem; }
+.tm-docs-add { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.75rem; }
+.tm-docs-add select { flex: 1 1 12rem; min-height: 44px; }
+.tm-docs { margin: 0; padding: 0; list-style: none; }
+.tm-docs li { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.5rem; padding: 0.65rem 0; border-top: 1px solid #e4e9f0; }
+.tm-docs-info { display: flex; flex: 1 1 14rem; flex-direction: column; min-width: 0; }
+.tm-docs-name { overflow-wrap: anywhere; }
+.tm-docs-acts { display: flex; gap: 0.5rem; }

@@ -11,13 +11,14 @@ import {
   EMAILS,
   PARTNERS_HREF,
   SAFE_HOMES_HREF,
+  SITE_URL,
 } from "@/lib/marketing/family-contacts";
 import { FOUNDER, KUSHLIFE, founderMailtoHref } from "@/lib/marketing/founder";
 import { publicBrandName, withPublicBrand, publicSafetyScoreName } from "@/lib/public-brand";
 import { MarketingShell } from "./MarketingShell";
 
 /** QR target. Still drawn by api.qrserver.com — no QR library is installed. */
-const PCC_URL = "https://www.kushalaya.com/kushcare-discovery";
+const PCC_URL = `${SITE_URL}/kushcare-discovery`;
 const QR_SRC = `https://api.qrserver.com/v1/create-qr-code/?size=240x240&margin=8&color=0e2a4f&data=${encodeURIComponent(PCC_URL)}`;
 
 const WHAT_WE_DO = [

@@ -1,5 +1,6 @@
 "use client";
 
+import { FAMILY_PORTAL_HOST } from "@/lib/marketing/family-contacts";
 import { FormEvent, useEffect, useState } from "react";
 import { Flash } from "@/components/Flash";
 import { PageHeader } from "@/components/PageHeader";
@@ -70,7 +71,7 @@ export default function ClientsPage() {
       });
       setMessage(
         form.fam_email
-          ? `${created.first_name} added. The family signs in at family.kushalaya.com with ${form.fam_email.toLowerCase()} and the password you set.`
+          ? `${created.first_name} added. The family signs in at ${FAMILY_PORTAL_HOST} with ${form.fam_email.toLowerCase()} and the password you set.`
           : `${created.first_name} added.`,
       );
       setForm(EMPTY);
@@ -147,7 +148,7 @@ export default function ClientsPage() {
             ) : null}
           </div>
 
-          <p className="cl-step">2 · Family sign-in (family.kushalaya.com)</p>
+          <p className="cl-step">2 · Family sign-in ({FAMILY_PORTAL_HOST})</p>
           <div className="cl-grid">
             <label>
               Family member&apos;s name

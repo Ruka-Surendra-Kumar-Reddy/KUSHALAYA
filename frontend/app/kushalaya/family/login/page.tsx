@@ -1,5 +1,6 @@
 "use client";
 
+import { SITE_URL } from "@/lib/marketing/family-contacts";
 import { PublicBrandMark } from "@/components/BrandLogo";
 import { PasswordField, looksLikeSignInName, normalizeEmail } from "@/components/PasswordField";
 import { publicBrandFamilyLabel, withPublicBrand } from "@/lib/public-brand";
@@ -35,7 +36,7 @@ const DEV_PREFILL = process.env.NODE_ENV === "development";
 const dashboardPath = familyDashboardPath;
 
 /** Public site, linked from the logo. */
-const MARKETING_HOME = "https://www.kushalaya.com";
+const MARKETING_HOME = SITE_URL;
 
 const HELP_PREFILL = withPublicBrand(
   "Hi LiveWell360 — I use the Family portal and need help signing in.",
@@ -235,10 +236,10 @@ export default function FamilyLoginPage() {
     const ident = normalizeEmail(email);
     let bad = false;
     if (!ident) {
-      setEmailError("Enter your email address.");
+      setEmailError("Enter your email or mobile number.");
       bad = true;
     } else if (!looksLikeSignInName(ident)) {
-      setEmailError("That does not look like an email address.");
+      setEmailError("Enter a valid email address or mobile number.");
       bad = true;
     }
     if (!password) {
@@ -260,7 +261,7 @@ export default function FamilyLoginPage() {
       const message = err instanceof Error ? err.message : "";
       setError(
         /invalid credentials/i.test(message)
-          ? "Email or password is incorrect. Please try again."
+          ? "Email, mobile number or password is incorrect. Please try again."
           : /too many sign-in attempts/i.test(message)
             ? "Too many sign-in attempts. Try again in 15 minutes, or reset your password using “Forgot password?” below."
             : message || "Login failed",
@@ -362,7 +363,7 @@ export default function FamilyLoginPage() {
               className={`home-safety-field fh-field${emailError ? " has-error" : ""}`}
               htmlFor="family-email"
             >
-              <span className="fh-field-label">Email</span>
+              <span className="fh-field-label">Email or mobile number</span>
               <span className="fh-field-input">
                 <span className="fh-field-ico">{Icon.mail}</span>
                 <input
@@ -376,8 +377,6 @@ export default function FamilyLoginPage() {
                   autoComplete="username"
                   autoCapitalize="none"
                   spellCheck={false}
-                  inputMode="email"
-                  placeholder="you@example.com"
                   aria-invalid={emailError ? true : undefined}
                   aria-describedby={emailError ? "family-email-error" : undefined}
                 />

@@ -1,3 +1,4 @@
+import { isFamilyHost } from "@/lib/hosts";
 import { NextResponse, type NextRequest } from "next/server";
 import { withPublicBrand } from "@/lib/public-brand";
 import { BRAND_ASSETS, BRAND_ASSET_VERSION } from "@/lib/brand-assets";
@@ -20,8 +21,7 @@ import { BRAND_ASSETS, BRAND_ASSET_VERSION } from "@/lib/brand-assets";
 export const dynamic = "force-dynamic";
 
 function onFamilyHost(request: NextRequest): boolean {
-  const host = (request.headers.get("host") || "").toLowerCase().split(":")[0];
-  return host === "family.kushalaya.com" || host === "family.localhost";
+  return isFamilyHost(request.headers.get("host") || "");
 }
 
 export function GET(request: NextRequest) {

@@ -5,6 +5,7 @@ from __future__ import annotations
 from datetime import datetime, timedelta, timezone
 from html import escape
 
+from app.core.config import settings
 from app.livewell.brand import brand_name
 
 _IST = timezone(timedelta(hours=5, minutes=30), name="IST")
@@ -204,5 +205,5 @@ def render_iot_alert_sms(
     title = title.replace("—", "-").replace("–", "-").replace("·", "-").replace("→", "->")
     return with_brand(
         f"LiveWell360 ALERT: {title}\n{client_name} - {when}\n"
-        "Acknowledge now: https://ops.kushalaya.com/kushalaya/alerts"
+        f"Acknowledge now: {settings.PUBLIC_OPS_URL.rstrip('/')}/kushalaya/alerts"
     )

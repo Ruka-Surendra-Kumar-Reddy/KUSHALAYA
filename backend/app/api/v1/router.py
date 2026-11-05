@@ -81,6 +81,9 @@ api_router.include_router(_push_devices.router)
 from app.api.v1 import vendors as _vendors  # noqa: E402  (Sales -> Vendors)
 
 api_router.include_router(_vendors.router)
+from app.api.v1 import staff_documents as _staff_documents  # noqa: E402  (Team -> Documents)
+
+api_router.include_router(_staff_documents.router)
 api_router.include_router(incident_reports.router)
 api_router.include_router(incident_reports.checklist_router)
 api_router.include_router(incident_reports.caregiver_router)
