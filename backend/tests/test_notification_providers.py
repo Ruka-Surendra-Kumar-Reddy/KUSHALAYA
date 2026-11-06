@@ -134,3 +134,41 @@ def test_telegram_without_token_fails():
     settings.TELEGRAM_CHAT_ID = "123"
     result = send_telegram_message("hello")
     assert result.status == DeliveryStatus.FAILED
+
+
+def test_system_email_replies_go_to_a_mailbox_the_team_reads(monkeypatch):
+    from app.core.config import settings
+    from app.services.notifications import smtp_email
+
+    sent = []
+
+    class FakeSmtp:
+        def __init__(self, *a, **kw):
+            pass
+
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *a):
+            return False
+
+        def starttls(self, *a, **kw):
+            pass
+
+        def ehlo(self, *a, **kw):
+            pass
+
+        def login(self, *a):
+            pass
+
+        def send_message(self, msg, *a, **kw):
+            sent.append(msg)
+
+    cfg = {
+        "host": "smtp.test", "port": 587, "username": "alerts@test.example", "password": "x",
+        "from_email": "alerts@test.example", "from_name": "KushAlaya",
+    }
+    monkeypatch.setattr(smtp_email.smtplib, "SMTP", FakeSmtp)
+    assert smtp_email.SmtpEmailProvider(cfg).send(to="a@test.example", subject="S", body="B").success
+    assert sent[0]["Reply-To"] == settings.EMAIL_REPLY_TO == "contact@kushalaya.com"
+    assert sent[0]["From"].endswith("<alerts@test.example>")

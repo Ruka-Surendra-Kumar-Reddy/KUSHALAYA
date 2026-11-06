@@ -58,6 +58,8 @@ class Settings(BaseSettings):
     SMTP_PASSWORD: str = ""
     SMTP_FROM_EMAIL: str = ""
     SMTP_FROM_NAME: str = "KushAlaya"
+    # Where replies to system email go: a mailbox the team reads, not the sending one.
+    EMAIL_REPLY_TO: str = "contact@kushalaya.com"
     # Extra SOS/alert recipients (comma-separated). Defaults to SMTP_FROM_EMAIL when empty.
     SMTP_ALERT_TO: str = ""
     # Android app SOS alarm (FCM HTTP v1). Service-account JSON path, or the JSON inline.

@@ -42,6 +42,8 @@ class SmtpEmailProvider(EmailProvider):
         msg["Subject"] = subject
         msg["From"] = f"{from_name} <{from_email}>" if from_name else from_email
         msg["To"] = to
+        if settings.EMAIL_REPLY_TO:
+            msg["Reply-To"] = settings.EMAIL_REPLY_TO
         msg.set_content(body)
         if html:
             msg.add_alternative(html, subtype="html")
