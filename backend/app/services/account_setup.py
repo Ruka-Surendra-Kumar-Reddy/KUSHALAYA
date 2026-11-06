@@ -72,8 +72,8 @@ def send_account_setup(
         )
         try:
             with email_notifications.email_context(path=path):
-                email_notifications.send([user.email], subject, body, family=family)
-            results["email"] = "sent"
+                delivered = email_notifications.send([user.email], subject, body, family=family, background=False)
+            results["email"] = "failed" if delivered is False else "sent"
         except Exception:  # noqa: BLE001
             logger.exception("account_setup_email_failed user=%s", user.id)
             results["email"] = "failed"

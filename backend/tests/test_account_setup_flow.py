@@ -85,3 +85,17 @@ def test_plan_purchase_invoice_and_shared_link(db, client, seed_tenant):
     # delivery with log providers never raises
     invoice_delivery.send_invoice(db, inv, to_email="buyer@example.com", to_phone="9876543210",
                                   name="Buyer One", payment_ref="pay_1", background=False)
+
+
+def test_setup_link_reports_a_failed_email(db, seed_tenant, monkeypatch):
+    from app.livewell import email_notifications
+    from app.services.notifications.types import DeliveryResult, DeliveryStatus
+
+    class Refused:
+        def send(self, **kw):
+            return DeliveryResult(status=DeliveryStatus.FAILED, detail="535 Authentication Failed")
+
+    monkeypatch.setattr("app.services.notifications.get_email_provider", lambda: Refused())
+    user = seed_tenant["admin"] if "admin" in seed_tenant else db.query(User).first()
+    assert send_account_setup(db, user)["email"] == "failed"
+    assert email_notifications.send(["a@test.example"], "T", "B", family=False, background=False) is False

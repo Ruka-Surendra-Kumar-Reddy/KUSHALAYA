@@ -316,17 +316,22 @@ def render_html(title: str, body: str, *, link: str, link_label: str) -> str:
 </table></td></tr></table></body></html>"""
 
 
-def _deliver(recipients: list[str], subject: str, text: str, page: str) -> None:
+def _deliver(recipients: list[str], subject: str, text: str, page: str) -> bool:
+    """True when every address was accepted by the mail server."""
     from app.services.notifications import get_email_provider
 
     provider = get_email_provider()
+    ok = True
     for to in recipients:
         try:
             result = provider.send(to=to, subject=subject, body=text, html=page)
             if not getattr(result, "success", True):
                 logger.warning("email_notify_failed to=%s detail=%s", to, getattr(result, "detail", ""))
+                ok = False
         except Exception:
             logger.exception("email_notify_failed to=%s", to)
+            ok = False
+    return ok
 
 
 # The page an email's button opens and who it is about. Set by email_staff /
@@ -364,9 +369,11 @@ def _subject(title: str, who: str) -> str:
     return f"KushAlaya: {title}"
 
 
-def send(recipients: list[str], title: str, body: str, *, family: bool, background: bool = True) -> None:
+def send(recipients: list[str], title: str, body: str, *, family: bool, background: bool = True) -> bool | None:
+    """With background=False, returns whether delivery worked; a background send cannot know."""
     if not recipients:
-        return
+        return None
+    delivered = True
     path, who = _CONTEXT.get()
     base, label = (FAMILY_URL, "Open the family portal") if family else (OPS_URL, "Open KushAlaya Ops")
     link = base + (path if path.startswith("/") else "")
@@ -388,7 +395,8 @@ def send(recipients: list[str], title: str, body: str, *, family: bool, backgrou
         if background:
             threading.Thread(target=_deliver, args=(group, subject, text, page), daemon=True).start()
         else:
-            _deliver(group, subject, text, page)
+            delivered = _deliver(group, subject, text, page) and delivered
+    return None if background else delivered
 
 
 def _full_name(elder: Elder) -> str:
