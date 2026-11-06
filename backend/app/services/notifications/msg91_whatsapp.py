@@ -99,6 +99,12 @@ class Msg91WhatsAppProvider(WhatsAppProvider):
         logger.info("msg91_whatsapp_sent to=%s template=%s", to, message.template_name)
         return DeliveryResult(status=DeliveryStatus.SENT, detail=detail)
 
+    def send_team_text(self, to: str, body: str) -> DeliveryResult:
+        template = (settings.MSG91_WHATSAPP_TEAM_TEMPLATE or "").strip()
+        if not template:
+            return self.send_text(to, body)
+        return self.send_template(to, WhatsAppTemplateMessage(template_name=template, body_params=(body,)))
+
     def send_text(self, to: str, body: str) -> DeliveryResult:
         template = (settings.MSG91_WHATSAPP_TEXT_TEMPLATE or "").strip()
         if not template:

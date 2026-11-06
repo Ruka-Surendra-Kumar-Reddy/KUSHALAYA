@@ -81,6 +81,8 @@ class Settings(BaseSettings):
     MSG91_WHATSAPP_NUMBER: str = ""
     # Approved utility template with one {{1}} variable; carries every free-text alert.
     MSG91_WHATSAPP_TEXT_TEMPLATE: str = "kushalaya_update"
+    # Staff messages: kushalaya_update is worded for families.
+    MSG91_WHATSAPP_TEAM_TEMPLATE: str = "kushalaya_team_alert"
 
     # Twilio SMS + WhatsApp (lab: trial account + verified personal number)
     TWILIO_ACCOUNT_SID: str = ""

@@ -44,7 +44,7 @@ def _send_whatsapp(phones: list[str], text: str) -> None:
 
     for to in phones:
         try:
-            get_whatsapp_provider().send_text(to, text)
+            get_whatsapp_provider().send_team_text(to, text)
         except Exception:  # noqa: BLE001
             logger.exception("team_alert_whatsapp_failed")
 

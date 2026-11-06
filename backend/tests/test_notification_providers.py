@@ -172,3 +172,16 @@ def test_system_email_replies_go_to_a_mailbox_the_team_reads(monkeypatch):
     assert smtp_email.SmtpEmailProvider(cfg).send(to="a@test.example", subject="S", body="B").success
     assert sent[0]["Reply-To"] == settings.EMAIL_REPLY_TO == "contact@kushalaya.com"
     assert sent[0]["From"].endswith("<alerts@test.example>")
+
+
+def test_staff_whatsapp_uses_the_team_template_not_the_family_one(monkeypatch):
+    from app.services.notifications.msg91_whatsapp import Msg91WhatsAppProvider
+    from app.services.notifications.types import DeliveryResult, DeliveryStatus
+
+    used = []
+    provider = Msg91WhatsAppProvider()
+    monkeypatch.setattr(provider, "send_template", lambda to, m: used.append(m) or DeliveryResult(status=DeliveryStatus.SENT))
+    provider.send_team_text("919000000000", "New lead: Asha")
+    provider.send_text("919000000000", "Visit booked")
+    assert [m.template_name for m in used] == ["kushalaya_team_alert", "kushalaya_update"]
+    assert used[0].body_params == ("New lead: Asha",)

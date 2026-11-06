@@ -26,6 +26,10 @@ class WhatsAppProvider(ABC):
     def send_template(self, to: str, message: WhatsAppTemplateMessage) -> DeliveryResult:
         ...
 
+    def send_team_text(self, to: str, body: str) -> DeliveryResult:
+        """A message to staff; providers with a staff template override this."""
+        return self.send_text(to, body)
+
     def send_text(self, to: str, body: str) -> DeliveryResult:
         return DeliveryResult(
             status=DeliveryStatus.FAILED,

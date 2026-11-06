@@ -82,7 +82,8 @@ def send_account_setup(
     if to:
         short = f"Hi {name}, {intro} Set your password here (valid {SETUP_LINK_HOURS} h): {link}"
         try:
-            wa = get_whatsapp_provider().send_text(to, short)
+            provider = get_whatsapp_provider()
+            wa = provider.send_text(to, short) if family else provider.send_team_text(to, short)
             results["whatsapp"] = wa.status.value.lower()
         except Exception:  # noqa: BLE001
             logger.exception("account_setup_whatsapp_failed user=%s", user.id)
