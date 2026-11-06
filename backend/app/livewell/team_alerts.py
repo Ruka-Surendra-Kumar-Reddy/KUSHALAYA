@@ -67,8 +67,9 @@ def alert_team(
         if not rule or not rule["enabled"]:
             return
         to = {"all": en.agency_recipients(db, tenant_id, event), "extra": rule["extra"], "none": []}[email]
-        with en.email_context(path):
-            en.send(to, title, body, family=False, background=background)
+        if to:
+            with en.email_context(path):
+                en.send(to, title, body, family=False, background=background)
         if rule["whatsapp"]:
             phones = _phones(db, tenant_id, rule)
             line = " ".join(f"{title}. {body}".split())[:900] + (f" {en.OPS_URL}{path}" if path else "")

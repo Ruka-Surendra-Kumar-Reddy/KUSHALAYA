@@ -251,7 +251,7 @@ def test_staff_outside_team_cannot_reply(db, client, seed_tenant, monkeypatch):
 
 def test_question_event_listed_in_settings(db, seed_tenant):
     rules = email_notifications.get_rules(seed_tenant["tenant"])
-    assert rules["staff"]["family_question"] == {"enabled": True, "manager": True, "admins": False, "extra": []}
+    assert rules["staff"]["family_question"] == {"enabled": True, "manager": True, "admins": False, "whatsapp": False, "extra": []}
 
 
 # --- audit fixes --------------------------------------------------------------------
