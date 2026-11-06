@@ -397,6 +397,10 @@ class PublicEnquiryService:
             if row.notes:
                 lines.append(row.notes)
             lines.append("Please call them back today. It's on the ops Dashboard under New enquiries.")
+            from app.livewell.team_alerts import alert_team
+
+            alert_team(db, row.tenant_id, "lead_new", f"New website lead: {name}", "Please call them back today.",
+                       path="/dashboard", email="none")
             send(agency_recipients(db, row.tenant_id, "enquiry"), f"New enquiry: {name}", "\n".join(lines), family=False)
         except Exception:
             logging.getLogger(__name__).exception("enquiry_notify_failed id=%s", row.id)

@@ -1249,6 +1249,7 @@ def run_migrations():
     migrate_vendors()
     migrate_staff_documents()
     migrate_access_profile()
+    migrate_lead_alerts()
     migrate_user_phone()
     migrate_live_share_by()
     migrate_iot_gateway_http()
@@ -1284,6 +1285,14 @@ def migrate_user_phone() -> None:
             conn.execute(text("ALTER TABLE users ADD COLUMN phone VARCHAR(30)"))
 
 
+def migrate_lead_alerts() -> None:
+    """Stuck-lead alerts: elder_prospects.stage_alerted_at."""
+    if "stage_alerted_at" not in {c["name"] for c in inspect(engine).get_columns("elder_prospects")}:
+        kind = "TIMESTAMP" if engine.dialect.name == "postgresql" else "DATETIME"
+        with engine.begin() as conn:
+            conn.execute(text(f"ALTER TABLE elder_prospects ADD COLUMN stage_alerted_at {kind}"))
+
+
 def migrate_access_profile() -> None:
     """Marketing access: users.access_profile."""
     if "access_profile" not in {c["name"] for c in inspect(engine).get_columns("users")}:
@@ -1312,9 +1321,12 @@ def migrate_vendors() -> None:
             ("signed_agreement_mime", "VARCHAR(40)"),
             ("signed_agreement_at", stamp),
             ("signed_agreement_by", "VARCHAR(200)"),
+            ("owner_user_id", "INTEGER"),
         ):
             if name not in have:
                 conn.execute(text(f"ALTER TABLE vendors ADD COLUMN {name} {ddl}"))
+        if "owner_user_id" not in have:  # existing vendors start with whoever added them
+            conn.execute(text("UPDATE vendors SET owner_user_id = created_by_user_id"))
 
 
 def migrate_customer_plans() -> None:

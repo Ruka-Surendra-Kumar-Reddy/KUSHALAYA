@@ -11,10 +11,19 @@ import { EscalationTree } from "@/components/ops/EscalationTree";
 import { EmergencyPartners } from "@/components/ops/EmergencyPartners";
 import "@/components/ops/notifications.css";
 
-type StaffRule = { enabled: boolean; manager: boolean; admins: boolean; extra: string[] };
+type StaffRule = { enabled: boolean; manager: boolean; admins: boolean; whatsapp: boolean; extra: string[] };
+type LeadStuck = { repeat_days: number; days: Record<string, number> };
+const STUCK_PHASES: { key: string; label: string }[] = [
+  { key: "NEW", label: "New" },
+  { key: "ASSESSMENT_SCHEDULED", label: "Assessment booked" },
+  { key: "ASSESSMENT_DONE", label: "Assessment done" },
+  { key: "FOLLOW_UP_1", label: "Follow-up 1" },
+  { key: "FOLLOW_UP_2", label: "Follow-up 2" },
+];
 type Settings = {
   staff: Record<string, StaffRule>;
   family: Record<string, boolean>;
+  lead_stuck: LeadStuck;
   staff_events: { key: string; label: string }[];
   family_events: { key: string; label: string }[];
   status: { provider: string; connected: boolean; from_email: string };
@@ -37,13 +46,20 @@ export default function EmailNotificationsPage() {
       .catch((e) => setError(e instanceof Error ? e.message : String(e)));
   }, []);
 
-  async function save(body: Partial<Pick<Settings, "staff" | "family">>, note: string) {
+  async function save(body: Partial<Pick<Settings, "staff" | "family" | "lead_stuck">>, note: string) {
     try {
       setData(await api<Settings>("/api/v1/team/email-notifications", { method: "PUT", body: JSON.stringify(body) }));
       setMessage(note);
     } catch (e) {
       setError(e instanceof Error ? e.message : "Could not save");
     }
+  }
+
+  function setStuck(patch: Partial<LeadStuck>) {
+    if (!data) return;
+    const lead_stuck = { ...data.lead_stuck, ...patch };
+    setData({ ...data, lead_stuck });
+    void save({ lead_stuck }, "Saved.");
   }
 
   function setRule(key: string, patch: Partial<StaffRule>, note: string) {
@@ -127,6 +143,15 @@ export default function EmailNotificationsPage() {
                           />
                           All admins
                         </label>
+                        <label className="nt-check">
+                          <input
+                            type="checkbox"
+                            checked={r.whatsapp}
+                            disabled={!isAdmin}
+                            onChange={(e) => setRule(ev.key, { whatsapp: e.target.checked }, "Saved.")}
+                          />
+                          Also WhatsApp
+                        </label>
                         <div className="nt-extra">
                           <span className="nt-who-label">Also send to</span>
                           <EmailChips
@@ -142,7 +167,36 @@ export default function EmailNotificationsPage() {
                 );
               })}
             </ul>
-            <p className="muted nt-foot">A client with no care manager: their emails go to the admins instead, so nothing is missed.</p>
+            <div className="nt-stuck">
+              <h3>Days before a lead counts as stuck</h3>
+              <div className="nt-stuck-grid">
+                {STUCK_PHASES.map((p) => (
+                  <label key={p.key}>
+                    {p.label}
+                    <input
+                      type="number"
+                      min={1}
+                      max={365}
+                      disabled={!isAdmin}
+                      value={data.lead_stuck.days[p.key]}
+                      onChange={(e) => setStuck({ days: { ...data.lead_stuck.days, [p.key]: Number(e.target.value) } })}
+                    />
+                  </label>
+                ))}
+                <label>
+                  Repeat every (days)
+                  <input
+                    type="number"
+                    min={1}
+                    max={365}
+                    disabled={!isAdmin}
+                    value={data.lead_stuck.repeat_days}
+                    onChange={(e) => setStuck({ repeat_days: Number(e.target.value) })}
+                  />
+                </label>
+              </div>
+            </div>
+            <p className="muted nt-foot">WhatsApp reaches people with a mobile number saved in Team. A client with no care manager: their emails go to the admins instead, so nothing is missed.</p>
           </section>
 
           <EscalationTree canEdit={isAdmin} />

@@ -13,6 +13,7 @@ from sqlalchemy.orm import Session
 from app.core.database import get_db
 from app.core.rbac import READ_ROLES, WRITE_ROLES, require_roles, resolve_tenant_id
 from app.core.storage import get_storage
+from app.livewell import team_alerts
 from app.models.contract import Contract
 from app.models.user import User
 from app.models.vendor import FEE_BASES, VENDOR_SERVICES, VENDOR_STATUSES, Vendor
@@ -20,6 +21,8 @@ from app.models.vendor import FEE_BASES, VENDOR_SERVICES, VENDOR_STATUSES, Vendo
 router = APIRouter(prefix="/vendors", tags=["Vendors"])
 
 SERVICE_CODES = {c for c, _ in VENDOR_SERVICES}
+#: Who can own a vendor contact.
+OWNER_ROLES = ("SYSTEM_ADMIN", "TENANT_ADMIN", "CARE_MANAGER", "VIEWER")
 BASIS_CODES = {c for c, _ in FEE_BASES}
 #: 2-digit state code, 10-char PAN, entity digit, Z, check character.
 GSTIN_RE = re.compile(r"^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z][1-9A-Z]Z[0-9A-Z]$")
@@ -43,6 +46,7 @@ class VendorIn(BaseModel):
     fee_basis: str | None = None
     last_payment_date: date | None = None
     status: str = "active"
+    owner_user_id: int | None = None
     notes: str | None = Field(default=None, max_length=4000)
 
     @field_validator("company_name", "phone1")
@@ -116,7 +120,15 @@ def _contract_states(db: Session, vendor_ids: list[int]) -> dict[int, str]:
     return states
 
 
-def _out(v: Vendor, contract_state: str | None = None) -> dict:
+def _staff_names(db: Session, tenant_id: int | None) -> dict[int, str]:
+    stmt = select(User)
+    if tenant_id is not None:
+        stmt = stmt.where(User.tenant_id == tenant_id)
+    return {u.id: f"{u.first_name} {u.last_name}".strip() or u.email for u in db.scalars(stmt).all()}
+
+
+def _out(v: Vendor, contract_state: str | None = None, names: dict[int, str] | None = None) -> dict:
+    names = names or {}
     return {
         "id": v.id,
         "company_name": v.company_name,
@@ -135,6 +147,9 @@ def _out(v: Vendor, contract_state: str | None = None) -> dict:
         "created_at": v.created_at.isoformat() if v.created_at else None,
         "updated_at": v.updated_at.isoformat() if v.updated_at else None,
         "created_by_user_id": v.created_by_user_id,
+        "added_by_name": names.get(v.created_by_user_id),
+        "owner_user_id": v.owner_user_id,
+        "owner_staff_name": names.get(v.owner_user_id),
         "agreement_status": "signed" if v.signed_agreement_key else (contract_state or "pending"),
         "signed_agreement_name": v.signed_agreement_name,
         "signed_agreement_at": v.signed_agreement_at.isoformat() if v.signed_agreement_at else None,
@@ -143,16 +158,26 @@ def _out(v: Vendor, contract_state: str | None = None) -> dict:
 
 
 def _one(db: Session, v: Vendor) -> dict:
-    return _out(v, _contract_states(db, [v.id]).get(v.id))
+    return _out(v, _contract_states(db, [v.id]).get(v.id), _staff_names(db, v.tenant_id))
 
 
 def _apply(row: Vendor, data: VendorIn) -> None:
-    for k, val in data.model_dump().items():
+    for k, val in data.model_dump(exclude={"owner_user_id"}).items():
         setattr(row, k, val)
     if "other" not in row.services:
         row.services_other = None
     if row.fee_paise is None:
         row.fee_basis = None
+
+
+def _set_owner(db: Session, row: Vendor, owner_id: int | None) -> None:
+    """Blank keeps the current owner; a new one must be active staff of this tenant."""
+    if owner_id is None:
+        return
+    owner = db.get(User, owner_id)
+    if owner is None or owner.tenant_id != row.tenant_id or owner.role not in OWNER_ROLES:
+        raise HTTPException(status_code=422, detail="Choose a staff member as the owner.")
+    row.owner_user_id = owner_id
 
 
 def _get(db: Session, user: User, vendor_id: int) -> Vendor:
@@ -164,8 +189,14 @@ def _get(db: Session, user: User, vendor_id: int) -> Vendor:
 
 
 @router.get("/options")
-def options(user: User = Depends(require_roles(*READ_ROLES))):
+def options(db: Session = Depends(get_db), user: User = Depends(require_roles(*READ_ROLES))):
+    stmt = select(User).where(User.status == "ACTIVE", User.role.in_(OWNER_ROLES))
+    tid = resolve_tenant_id(user)
+    if tid is not None:
+        stmt = stmt.where(User.tenant_id == tid)
+    staff = [{"id": u.id, "name": f"{u.first_name} {u.last_name}".strip() or u.email} for u in db.scalars(stmt).all()]
     return {
+        "staff": sorted(staff, key=lambda s: s["name"].lower()),
         "services": [{"code": c, "label": lbl} for c, lbl in VENDOR_SERVICES],
         "fee_bases": [{"code": c, "label": lbl} for c, lbl in FEE_BASES],
     }
@@ -203,7 +234,8 @@ def list_vendors(
     if service:  # JSON list: filter in Python (works on SQLite and Postgres alike)
         rows = [r for r in rows if service in (r.services or [])]
     states = _contract_states(db, [r.id for r in rows])
-    out = [_out(r, states.get(r.id)) for r in rows]
+    names = _staff_names(db, tid)
+    out = [_out(r, states.get(r.id), names) for r in rows]
     if agreement == "signed":
         out = [o for o in out if o["agreement_status"] == "signed"]
     elif agreement == "open":
@@ -215,11 +247,16 @@ def list_vendors(
 def create_vendor(data: VendorIn, db: Session = Depends(get_db), user: User = Depends(require_roles(*WRITE_ROLES))):
     if user.tenant_id is None:
         raise HTTPException(status_code=400, detail="Sign in as a staff member of a tenant to add vendors")
-    row = Vendor(tenant_id=user.tenant_id, created_by_user_id=user.id)
+    row = Vendor(tenant_id=user.tenant_id, created_by_user_id=user.id, owner_user_id=user.id)
     _apply(row, data)
+    _set_owner(db, row, data.owner_user_id)
     db.add(row)
     db.commit()
     db.refresh(row)
+    team_alerts.alert_team(
+        db, row.tenant_id, "vendor_new", f"New vendor: {row.company_name}",
+        f"Added by {user.first_name} {user.last_name}".strip(), path="/kushalaya/vendors",
+    )
     return _one(db, row)
 
 
@@ -234,6 +271,7 @@ def update_vendor(
 ):
     row = _get(db, user, vendor_id)
     _apply(row, data)
+    _set_owner(db, row, data.owner_user_id)
     db.commit()
     db.refresh(row)
     return _one(db, row)

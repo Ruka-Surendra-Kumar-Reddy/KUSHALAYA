@@ -34,6 +34,8 @@ class ElderProspect(TimestampMixin, Base):
     source_ip: Mapped[str | None] = mapped_column(String(64), nullable=True)
 
     stage: Mapped[str] = mapped_column(String(50), default="NEW", index=True)
+    # Last "stuck in this phase" alert (team_alerts).
+    stage_alerted_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
     status: Mapped[str] = mapped_column(String(50), default="OPEN", index=True)
 
     owner_user_id: Mapped[int | None] = mapped_column(

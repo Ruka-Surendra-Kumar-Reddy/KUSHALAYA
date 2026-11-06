@@ -68,6 +68,8 @@ class Vendor(TimestampMixin, Base):
     created_by_user_id: Mapped[int | None] = mapped_column(
         ForeignKey("users.id", ondelete="SET NULL"), nullable=True
     )
+    # The staff member whose contact this vendor is. Not owner_name: that is the vendor's own person.
+    owner_user_id: Mapped[int | None] = mapped_column(ForeignKey("users.id", ondelete="SET NULL"), nullable=True)
     # Paper agreement signed on a visit, scanned and uploaded.
     signed_agreement_key: Mapped[str | None] = mapped_column(String(500), nullable=True)
     signed_agreement_name: Mapped[str | None] = mapped_column(String(200), nullable=True)

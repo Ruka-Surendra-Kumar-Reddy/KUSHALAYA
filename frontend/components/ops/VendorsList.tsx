@@ -32,6 +32,9 @@ export type Vendor = {
   status: "active" | "inactive";
   notes: string | null;
   created_at: string | null;
+  added_by_name: string | null;
+  owner_user_id: number | null;
+  owner_staff_name: string | null;
   agreement_status: "pending" | "sent" | "signed";
   signed_agreement_name: string | null;
   signed_agreement_at: string | null;
@@ -97,6 +100,7 @@ const EMPTY = {
   last_payment_date: "",
   status: "active",
   notes: "",
+  owner_user_id: "",
 };
 type Form = typeof EMPTY;
 
@@ -113,6 +117,7 @@ function toForm(v: Vendor): Form {
     fee: paiseToRupees(v.fee_paise),
     fee_basis: v.fee_basis || "per_visit",
     last_payment_date: v.last_payment_date || "",
+    owner_user_id: v.owner_user_id ? String(v.owner_user_id) : "",
     status: v.status,
     notes: v.notes || "",
   };
@@ -121,6 +126,7 @@ function toForm(v: Vendor): Form {
 export function VendorsList({ canEdit }: { canEdit: boolean }) {
   const [rows, setRows] = useState<Vendor[] | null>(null);
   const [services, setServices] = useState<Option[]>([]);
+  const [staff, setStaff] = useState<{ id: number; name: string }[]>([]);
   const [bases, setBases] = useState<Option[]>([]);
   const [query, setQuery] = useState("");
   const [service, setService] = useState("");
@@ -154,10 +160,11 @@ export function VendorsList({ canEdit }: { canEdit: boolean }) {
   }, [load]);
 
   useEffect(() => {
-    api<{ services: Option[]; fee_bases: Option[] }>("/api/v1/vendors/options")
+    api<{ services: Option[]; fee_bases: Option[]; staff: { id: number; name: string }[] }>("/api/v1/vendors/options")
       .then((o) => {
         setServices(o.services);
         setBases(o.fee_bases);
+        setStaff(o.staff);
       })
       .catch(() => undefined);
   }, []);
@@ -196,6 +203,7 @@ export function VendorsList({ canEdit }: { canEdit: boolean }) {
       last_payment_date: form.last_payment_date || null,
       status: form.status,
       notes: form.notes || null,
+      owner_user_id: form.owner_user_id ? Number(form.owner_user_id) : null,
     };
     try {
       if (editing === "new") {
@@ -308,7 +316,7 @@ export function VendorsList({ canEdit }: { canEdit: boolean }) {
               <span>Services</span>
               <span>Fees</span>
               <span>Last paid</span>
-              <span>Added</span>
+              <span>Added by</span>
               <span>Status</span>
               <span />
             </div>
@@ -330,6 +338,7 @@ export function VendorsList({ canEdit }: { canEdit: boolean }) {
                 <span className="vn-who">
                   <strong className="vn-name">{v.company_name}</strong>
                   <small>{v.owner_name || "—"}</small>
+                  {v.owner_staff_name ? <small className="vn-staff-owner">Owner: {v.owner_staff_name}</small> : null}
                 </span>
                 <span className="vn-phones">
                   <span>{displayPhone(v.phone1)}</span>
@@ -360,6 +369,7 @@ export function VendorsList({ canEdit }: { canEdit: boolean }) {
                   {formatDay(v.last_payment_date) || <span className="vn-dim">—</span>}
                 </span>
                 <span className="vn-added" data-label="Added">
+                  {v.added_by_name ? <strong className="vn-by">{v.added_by_name}</strong> : null}
                   {formatDay(v.created_at)}
                 </span>
                 <span className="vn-state">
@@ -473,6 +483,17 @@ export function VendorsList({ canEdit }: { canEdit: boolean }) {
                 <select value={form.status} onChange={set("status")}>
                   <option value="active">Active</option>
                   <option value="inactive">Inactive</option>
+                </select>
+              </label>
+              <label>
+                Owner (our staff)
+                <select value={form.owner_user_id} onChange={set("owner_user_id")}>
+                  <option value="">{editing === "new" ? "Me" : "Choose…"}</option>
+                  {staff.map((m) => (
+                    <option key={m.id} value={m.id}>
+                      {m.name}
+                    </option>
+                  ))}
                 </select>
               </label>
               <label className="cl-wide">

@@ -50,6 +50,11 @@ STAFF_EVENTS = [
     {"key": "enquiry", "label": "A new enquiry from the website"},
     {"key": "reassessment", "label": "Daily list of assessments to book (6-monthly)"},
     {"key": "contract", "label": "A contract needs a KushAlaya signature, or is signed"},
+    {"key": "lead_new", "label": "A new lead is added"},
+    {"key": "assessment_booked", "label": "An assessment is booked"},
+    {"key": "assessment_done", "label": "An assessment is completed"},
+    {"key": "vendor_new", "label": "A new vendor is added"},
+    {"key": "lead_stuck", "label": "A lead stays too long in one phase"},
 ]
 FAMILY_EVENTS = [
     {"key": "visit", "label": "Visits booked, changed or cancelled"},
@@ -66,7 +71,15 @@ FAMILY_EVENTS = [
 # approve a discount, so the manager who asked does not need the email.
 # Band offline / battery is the client's manager's job; admins can opt in.
 # "Call me" / "Ask about…" goes to the client's care manager (admins if there is none).
-_STAFF_DEFAULTS = {"approval": {"manager": False}, "device": {"admins": False}, "family_question": {"admins": False}}
+_BUSINESS_ALERT = {"manager": False, "whatsapp": True}
+#: Open board phases; Won and Lost are never chased.
+STUCK_PHASES = ("NEW", "ASSESSMENT_SCHEDULED", "ASSESSMENT_DONE", "FOLLOW_UP_1", "FOLLOW_UP_2")
+STUCK_DEFAULT_DAYS = 3
+STUCK_DEFAULT_REPEAT_DAYS = 2
+_STAFF_DEFAULTS = {
+    "lead_new": _BUSINESS_ALERT, "assessment_booked": _BUSINESS_ALERT, "assessment_done": _BUSINESS_ALERT,
+    "vendor_new": _BUSINESS_ALERT, "lead_stuck": _BUSINESS_ALERT,
+    "approval": {"manager": False}, "device": {"admins": False}, "family_question": {"admins": False}}
 _STAFF_KEYS = {e["key"] for e in STAFF_EVENTS}
 _FAMILY_KEYS = {e["key"] for e in FAMILY_EVENTS}
 _EMAIL = re.compile(r"^[^@\s]+@[^@\s]+\.[^@\s]+$")
@@ -87,7 +100,22 @@ def _clean_emails(values) -> list[str]:
 
 
 def _default_staff_rule() -> dict:
-    return {"enabled": True, "manager": True, "admins": True, "extra": []}
+    return {"enabled": True, "manager": True, "admins": True, "whatsapp": False, "extra": []}
+
+
+def _days(value, default: int) -> int:
+    try:
+        return min(max(int(value), 1), 365)
+    except (TypeError, ValueError):
+        return default
+
+
+def _lead_stuck(raw: dict) -> dict:
+    days = raw.get("days") or {}
+    return {
+        "repeat_days": _days(raw.get("repeat_days"), STUCK_DEFAULT_REPEAT_DAYS),
+        "days": {s: _days(days.get(s), STUCK_DEFAULT_DAYS) for s in STUCK_PHASES},
+    }
 
 
 def get_rules(tenant: Tenant | None) -> dict:
@@ -101,10 +129,11 @@ def get_rules(tenant: Tenant | None) -> dict:
             "enabled": bool(r["enabled"]),
             "manager": bool(r["manager"]),
             "admins": bool(r["admins"]),
+            "whatsapp": bool(r["whatsapp"]),
             "extra": _clean_emails(r["extra"]),
         }
     family = {e["key"]: bool(family_raw.get(e["key"], True)) for e in FAMILY_EVENTS}
-    return {"staff": staff, "family": family}
+    return {"staff": staff, "family": family, "lead_stuck": _lead_stuck(raw.get("lead_stuck") or {})}
 
 
 def save_rules(db: Session, tenant: Tenant, body: dict) -> dict:
@@ -116,11 +145,18 @@ def save_rules(db: Session, tenant: Tenant, body: dict) -> dict:
                 "enabled": bool(merged["enabled"]),
                 "manager": bool(merged["manager"]),
                 "admins": bool(merged["admins"]),
+                "whatsapp": bool(merged["whatsapp"]),
                 "extra": _clean_emails(merged["extra"]),
             }
     for key, on in (body.get("family") or {}).items():
         if key in _FAMILY_KEYS:
             current["family"][key] = bool(on)
+    stuck = body.get("lead_stuck")
+    if isinstance(stuck, dict):
+        current["lead_stuck"] = _lead_stuck({
+            "repeat_days": stuck.get("repeat_days", current["lead_stuck"]["repeat_days"]),
+            "days": {**current["lead_stuck"]["days"], **(stuck.get("days") or {})},
+        })
     cfg = dict(tenant.workflow_config or {})
     cfg[KEY] = current
     tenant.workflow_config = cfg

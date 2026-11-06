@@ -676,7 +676,15 @@ def create_lead(db: Session, user: User, *, name: str, source: str | None, phone
         ),
         user,
     )
-    return lead_dict(_lead_for(db, user, created["id"]))
+    from app.livewell import team_alerts
+
+    row = _lead_for(db, user, created["id"])
+    team_alerts.alert_team(
+        db, row.tenant_id, "lead_new", f"New lead: {full}",
+        f"Added by {user.first_name} {user.last_name}. Phone: {row.phone or 'not given'}.",
+        path="/kushalaya/enquiries",
+    )
+    return lead_dict(row)
 
 
 def lead_history(db: Session, user: User, lead_id: int) -> list[dict]:

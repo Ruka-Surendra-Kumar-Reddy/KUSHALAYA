@@ -716,6 +716,12 @@ def caregiver_set_status(
         done = note.strip() if note else f"{first} completed the {job.title.lower()}."
         _notify_family(db, elder, f"{job.title} completed", done, "report")
         _notify_staff_done(db, elder, f"{job.title} completed", done)
+        if "assessment" in (job.title or "").lower():
+            from app.livewell.team_alerts import alert_team
+
+            # visit_done has already emailed the admins.
+            alert_team(db, elder.tenant_id, "assessment_done", f"Assessment completed: {elder.first_name} {elder.last_name}",
+                       done, path="/kushalaya/customers", email="extra")
     db.commit()
     db.refresh(job)
     return serialize(db, job)

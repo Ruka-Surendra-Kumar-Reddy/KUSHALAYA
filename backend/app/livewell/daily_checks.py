@@ -136,6 +136,13 @@ def run(db: Session) -> dict:
     missed = mark_missed_visits(db)
     digests = send_reassessment_digests(db)
     try:
+        from app.livewell.team_alerts import run_stuck_lead_alerts
+
+        run_stuck_lead_alerts(db)
+    except Exception:  # a lead alert problem must not stop the other checks
+        db.rollback()
+        logger.exception("stuck_lead_alerts_failed")
+    try:
         from app.livewell.band_checks import check_bands
 
         bands = check_bands(db)

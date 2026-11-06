@@ -373,3 +373,10 @@
     min-height: 44px;
   }
 }
+
+/* Stuck-lead days */
+.nt-stuck { margin-top: 1rem; padding-top: 0.75rem; border-top: 1px solid #e4e9f0; }
+.nt-stuck h3 { margin: 0 0 0.5rem; font-size: 1rem; }
+.nt-stuck-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(9.5rem, 1fr)); gap: 0.6rem; }
+.nt-stuck-grid label { display: flex; flex-direction: column; gap: 0.25rem; font-size: 0.9rem; }
+.nt-stuck-grid input { min-height: 44px; width: 100%; }

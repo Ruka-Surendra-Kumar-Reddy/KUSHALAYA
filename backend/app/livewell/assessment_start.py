@@ -310,6 +310,10 @@ def book(
     when = _aware(scheduled_at).astimezone(IST).strftime("%a %d %b, %I:%M %p IST")
     advance_lead(db, user, lead, "ASSESSMENT_SCHEDULED", f"Assessment booked for {when}")
     db.commit()
+    from app.livewell.team_alerts import alert_team
+
+    alert_team(db, lead.tenant_id, "assessment_booked", f"Assessment booked: {lead.first_name} {lead.last_name}",
+               f"Booked by {user.first_name} {user.last_name}.", path="/kushalaya/enquiries")
     return {"job": job, "lead_id": lead.id, "stage": lead.stage}
 
 

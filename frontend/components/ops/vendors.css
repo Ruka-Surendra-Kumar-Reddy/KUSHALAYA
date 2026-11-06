@@ -84,6 +84,8 @@
 .vn-pill.is-inactive { background: #f1f3f6; color: #5b6b80; }
 .vn-state { display: flex; flex-wrap: wrap; gap: 0.25rem; }
 .vn-agree { white-space: nowrap; }
+.vn-staff-owner { display: block; color: #1e3a5f; font-weight: 600; }
+.vn-by { display: block; font-size: 0.85rem; font-weight: 600; overflow-wrap: anywhere; }
 .vn-agree.is-pending { background: #fff4e5; color: #b54708; }
 .vn-agree.is-sent { background: #eaf2ff; color: #175cd3; }
 .vn-agree.is-signed { background: #ecfdf3; color: #067647; }
