@@ -333,9 +333,9 @@ export default function PrivacyPage() {
       <h2>12. Cookies</h2>
       <p>
         We use the cookies and browser storage needed to keep you signed in and to make the site work. On our public
-        website only, and only if you press Accept, we also use Google and Meta cookies to measure visits and to show
+        website only, and only if you press Accept all, we also use Google and Meta cookies to measure visits and to show
         you relevant KushAlaya ads on other sites. They see the pages you visit, not what you type into our forms. If
-        you press Decline they are not loaded, and you can change your choice at any time under Cookie settings at the
+        you press Essential only they are not loaded, and you can change your choice at any time under Cookie settings at the
         bottom of the website. We never use these cookies on the family or ops portals or in our apps.
       </p>
 

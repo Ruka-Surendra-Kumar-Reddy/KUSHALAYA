@@ -14,7 +14,7 @@ import {
   type Consent,
 } from "@/lib/marketing/tracking";
 
-/** Accept / Decline for ads cookies. Shows nothing until tracking IDs are configured. */
+/** Accept all / Essential only for ads cookies. Shows nothing until tracking IDs are configured. */
 export function CookieNotice() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
@@ -64,14 +64,14 @@ export function CookieNotice() {
   return (
     <div className="mk-cookie" role="region" aria-label="Cookie choice">
       <p>
-        We use cookies to show you relevant KushAlaya ads and see which ones help. <a href="/privacy">Privacy policy</a>
+        We use cookies to run our website, improve your experience and for marketing. <a href="/privacy">Privacy policy</a>
       </p>
       <div className="mk-cookie-acts">
         <button type="button" className="mk-btn mk-btn-outline" onClick={() => choose("declined")}>
-          Decline
+          Essential only
         </button>
         <button type="button" className="mk-btn mk-btn-primary" onClick={() => choose("accepted")}>
-          Accept
+          Accept all
         </button>
       </div>
     </div>
