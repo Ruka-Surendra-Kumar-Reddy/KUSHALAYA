@@ -4494,3 +4494,30 @@ a.mk-contact-card strong,
 /* "108" in the business number (905 905 1085): the part people remember. */
 .ph-108 { color: #dc2626; font-weight: 800; }
 .mk-footer .ph-108, .mk-btn-primary .ph-108 { color: #ff8a8a; }
+
+/* Cookie choice (CookieNotice.tsx). Above Kushi and the phone contact bar. */
+.mk-cookie {
+  position: fixed;
+  left: 16px;
+  bottom: 16px;
+  z-index: 120;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  max-width: 30rem;
+  padding: 0.9rem 1rem;
+  border: 1px solid #d8e1ea;
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 10px 30px rgba(15, 35, 60, 0.18);
+}
+.mk-cookie p { flex: 1 1 15rem; margin: 0; font-size: 0.9rem; line-height: 1.4; color: #22364c; }
+.mk-cookie-acts { display: flex; gap: 0.5rem; }
+.mk-cookie-acts .mk-btn { min-height: 44px; padding: 0 1rem; }
+.mk-cookie-link { padding: 0; border: 0; background: none; color: inherit; font: inherit; text-align: left; cursor: pointer; }
+.mk-cookie-link:hover { text-decoration: underline; }
+@media (max-width: 1099px) {
+  .mk-cookie { left: 10px; right: 10px; bottom: calc(76px + env(safe-area-inset-bottom)); max-width: none; }
+}
+@media print { .mk-cookie { display: none; } }

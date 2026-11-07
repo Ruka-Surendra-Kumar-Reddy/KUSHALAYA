@@ -5,6 +5,7 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 import { getApiUrl } from "@/lib/api";
 import { openRazorpayCheckout } from "@/lib/livewell/razorpayCheckout";
 import { publicBrandName } from "@/lib/public-brand";
+import { track } from "@/lib/marketing/tracking";
 import { apiErrorMessage, emailError, phoneError, pincodeError } from "@/lib/marketing/form-checks";
 import { CALLBACK_PROMISE, captureLead, readLead, useSiteConfig, whatsAppHref, type LeadTouch } from "@/lib/marketing/site-config";
 
@@ -165,6 +166,7 @@ export function EnquiryForm({
         );
       }
       const body = await res.json();
+      track("lead");
       const sent: Sent = {
         status: "sent",
         reference: body.reference,

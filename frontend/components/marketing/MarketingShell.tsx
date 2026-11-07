@@ -1,5 +1,6 @@
 "use client";
 
+import { CookieNotice, CookieSettingsLink } from "./CookieNotice";
 import { PhoneText } from "./PhoneText";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { MkLink as Link } from "./MkLink";
@@ -337,6 +338,7 @@ export function MarketingShell({
       </main>
 
       <SurendraChat />
+      <CookieNotice />
 
       {/* Phone-only sticky bar: the header CTAs are hidden below 1100px. */}
       <div className="mk-mobile-cta" role="region" aria-label="Quick contact">
@@ -384,6 +386,7 @@ export function MarketingShell({
             <Link href="/blog">Blog</Link>
             <Link href={VISION_HREF}>Vision sheet</Link>
             <Link href={BROCHURE_HREF}>Brochure</Link>
+            <CookieSettingsLink />
           </div>
           <div className="mk-footer-col">
             <p className="mk-footer-label">Families</p>
