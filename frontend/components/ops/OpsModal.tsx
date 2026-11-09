@@ -24,11 +24,16 @@ export function OpsModal({
   wide?: boolean;
 }) {
   const box = useRef<HTMLDivElement>(null);
+  // Callers pass a new onClose on every render; keep the latest here so the effect below
+  // runs only when the popup opens. Re-running it moved the cursor back to the first
+  // field on every keystroke.
+  const closeRef = useRef(onClose);
+  closeRef.current = onClose;
 
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
+      if (e.key === "Escape") closeRef.current();
     };
     document.addEventListener("keydown", onKey);
     const prev = document.body.style.overflow;
@@ -41,7 +46,7 @@ export function OpsModal({
       document.removeEventListener("keydown", onKey);
       document.body.style.overflow = prev;
     };
-  }, [open, onClose]);
+  }, [open]);
 
   if (!open || typeof document === "undefined") return null;
   return createPortal(
