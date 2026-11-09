@@ -413,8 +413,7 @@ export function VendorsList({ canEdit }: { canEdit: boolean }) {
             // The Android app shows no browser popup for a missing field, so say it ourselves.
             e.preventDefault();
             const field = e.target as HTMLInputElement;
-            const label = (field.closest("label")?.innerText || "").split(/?
-/)[0].replace("*", "").trim();
+            const label = (field.closest("label")?.firstChild?.textContent || "").replace("*", "").trim();
             setFormError(label ? `Please fill in ${label}.` : "Please fill in the required fields.");
             field.focus({ preventScroll: true });
           }}
