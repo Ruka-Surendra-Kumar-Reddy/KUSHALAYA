@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useCallback, useEffect, useState } from "react";
+import { FormEvent, useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { PageHeader } from "@/components/PageHeader";
 import { ContractsPanel } from "@/components/contracts/ContractsPanel";
@@ -137,6 +137,12 @@ export function VendorsList({ canEdit }: { canEdit: boolean }) {
   const [form, setForm] = useState<Form>(EMPTY);
   const [saving, setSaving] = useState(false);
   const [formError, setFormError] = useState("");
+  const formErrorRef = useRef<HTMLParagraphElement>(null);
+
+  // On a phone the Save button is at the bottom and the message at the top; bring it into view.
+  useEffect(() => {
+    if (formError) formErrorRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+  }, [formError]);
   const [contractFor, setContractFor] = useState<Vendor | null>(null);
   const [contractsKey, setContractsKey] = useState(0);
 
@@ -400,8 +406,24 @@ export function VendorsList({ canEdit }: { canEdit: boolean }) {
         onClose={() => setEditing(null)}
         wide
       >
-        <form className="cl-form vn-form" onSubmit={save}>
-          {formError ? <p className="ks-modal-error" role="alert">{formError}</p> : null}
+        <form
+          className="cl-form vn-form"
+          onSubmit={save}
+          onInvalidCapture={(e) => {
+            // The Android app shows no browser popup for a missing field, so say it ourselves.
+            e.preventDefault();
+            const field = e.target as HTMLInputElement;
+            const label = (field.closest("label")?.innerText || "").split(/?
+/)[0].replace("*", "").trim();
+            setFormError(label ? `Please fill in ${label}.` : "Please fill in the required fields.");
+            field.focus({ preventScroll: true });
+          }}
+        >
+          {formError ? (
+            <p ref={formErrorRef} className="ks-modal-error" role="alert">
+              {formError}
+            </p>
+          ) : null}
           <fieldset disabled={readOnly || saving}>
             <div className="cl-grid">
               <label className="cl-wide">
