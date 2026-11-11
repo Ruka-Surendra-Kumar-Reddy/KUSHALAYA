@@ -235,6 +235,43 @@ def get_iot_broker_settings(
     return _mask_broker(get_broker_settings(db))
 
 
+WATCH_FIELDS = (
+    "immobility_enabled", "immobility_minutes", "offline_enabled", "offline_seconds",
+    "active_hours_start", "active_hours_end", "dedupe_seconds",
+)
+
+
+class WatchSettingsUpdate(BaseModel):
+    immobility_enabled: bool
+    immobility_minutes: int = Field(ge=1, le=1440)
+    offline_enabled: bool
+    offline_seconds: int = Field(ge=30, le=3600)
+    active_hours_start: int = Field(ge=0, le=23)
+    active_hours_end: int = Field(ge=0, le=23)
+
+
+@router.get("/watch-settings")
+def get_watch_settings(db: Session = Depends(get_db), user: User = Depends(require_roles(*ADMIN_ROLES))):
+    """Band alerts (not moving, offline): the band-watch part of the broker settings."""
+    current = get_broker_settings(db)
+    return {k: current[k] for k in WATCH_FIELDS}
+
+
+@router.put("/watch-settings")
+def put_watch_settings(
+    body: WatchSettingsUpdate,
+    request: Request,
+    db: Session = Depends(get_db),
+    user: User = Depends(require_roles(*ADMIN_ROLES)),
+):
+    """Changes only the band-alert fields; broker host and passwords stay as they are."""
+    saved = save_broker_settings(db, {**get_broker_settings(db), **body.model_dump()})
+    _log_staff_iot(request, db, user, action="Updated band alerts",
+                   summary=f"not moving {body.immobility_minutes} min, offline {body.offline_seconds}s")
+    db.commit()
+    return {k: saved[k] for k in WATCH_FIELDS}
+
+
 @router.put("/broker-settings")
 def put_iot_broker_settings(
     body: BrokerSettingsUpdate,

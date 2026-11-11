@@ -156,3 +156,20 @@ def test_docs_disabled_on_a_production_app():
         assert c.get("/docs").status_code == 404
         assert c.get("/redoc").status_code == 404
         assert c.get("/openapi.json").status_code == 404
+
+
+def test_band_alert_settings_change_only_watch_fields(client, admin_headers, auth_headers):
+    url = "/api/v1/iot/watch-settings"
+    before = client.get("/api/v1/iot/broker-settings", headers=admin_headers).json()
+    cur = client.get(url, headers=admin_headers).json()
+    assert {"immobility_enabled", "immobility_minutes", "offline_seconds", "active_hours_start"} <= set(cur)
+    body = {"immobility_enabled": False, "immobility_minutes": 45, "offline_enabled": True,
+            "offline_seconds": 300, "active_hours_start": 8, "active_hours_end": 20}
+    res = client.put(url, headers=admin_headers, json=body)
+    assert res.status_code == 200, res.text
+    assert {k: res.json()[k] for k in body} == body
+    after = client.get("/api/v1/iot/broker-settings", headers=admin_headers).json()
+    for k in ("broker_host", "broker_port", "hub_username", "hub_password_masked", "ingestor_password_masked"):
+        assert after.get(k) == before.get(k), k
+    assert client.put(url, headers=admin_headers, json={**body, "immobility_minutes": 0}).status_code == 422
+    assert client.get(url, headers=auth_headers).status_code == 403

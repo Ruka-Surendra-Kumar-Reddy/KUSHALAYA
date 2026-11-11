@@ -2,6 +2,7 @@
 
 import { FormEvent, useCallback, useEffect, useState, type ReactNode } from "react";
 import { api } from "@/lib/api";
+import { BandAlertSettings } from "@/components/livewell/BandAlertSettings";
 import "@/components/ops/wearables.css";
 import "@/components/ops/commerce.css";
 
@@ -35,6 +36,8 @@ type DeviceRow = {
   notes?: string | null;
   battery_level?: number | null;
   last_seen_at?: string | null;
+  motion_xyz?: string | null;
+  last_motion_at?: string | null;
 };
 type KitResult = {
   hub: HubRow;
@@ -161,6 +164,17 @@ function bandHealth(d: DeviceRow, now: Date): BandHealth {
 /** API times without a zone are UTC (SQLite drops it); never read them as local time. */
 function parseIso(iso: string): number {
   return new Date(/[zZ]|[+-]\d\d:?\d\d$/.test(iso) ? iso : `${iso}Z`).getTime();
+}
+
+/** "Moving · X 0.02g Y -0.98g Z 0.10g" from the band's accelerometer (raw units: 256 = 1 g). */
+function motionText(d: DeviceRow, now: Date): string {
+  const parts = (d.motion_xyz || "").split(",").map(Number);
+  if (parts.length !== 3 || parts.some((n) => !Number.isFinite(n))) return "";
+  const g = (n: number) => `${(n / 256).toFixed(2)}g`;
+  const moved = d.last_motion_at ? parseIso(d.last_motion_at) : null;
+  const moving = moved != null && now.getTime() - moved < 60_000;
+  const state = moving ? "Moving" : moved != null ? `Still, last moved ${timeAgo(d.last_motion_at, now)}` : "Still";
+  return `${state} · X ${g(parts[0])} Y ${g(parts[1])} Z ${g(parts[2])}`;
 }
 
 function timeAgo(iso: string | null | undefined, now: Date): string {
@@ -660,6 +674,7 @@ export function IotDevicesAdminPanel({ header }: { header?: ReactNode } = {}) {
                         ? `Last seen ${timeAgo(d.last_seen_at, clockNow)}`
                         : "Check the gateway is on and the device is charged"}
                     </span>
+                    {motionText(d, clockNow) ? <span className="iot-motion">{motionText(d, clockNow)}</span> : null}
                     {d.notes ? <span>({d.notes})</span> : null}
                   </div>
                   </div>
@@ -871,6 +886,7 @@ export function IotDevicesAdminPanel({ header }: { header?: ReactNode } = {}) {
           </ul>
         )}
       </section>
+      <BandAlertSettings />
       {drawer === "give" ? (
         <div className="cm-drawer-wrap" role="presentation" onClick={() => !busy && setDrawer(null)}>
           <form

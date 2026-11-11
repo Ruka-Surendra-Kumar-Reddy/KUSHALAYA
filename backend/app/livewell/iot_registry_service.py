@@ -722,6 +722,9 @@ class IotRegistryService:
             "last_seen_at": device.last_seen_at,
             "notes": device.notes,
             "created_at": device.created_at,
+            # A103 accelerometer, raw 8.8 fixed point (256 = 1 g), and when it last changed.
+            "motion_xyz": device.motion_xyz,
+            "last_motion_at": device.last_motion_at,
         }
 
     @staticmethod
