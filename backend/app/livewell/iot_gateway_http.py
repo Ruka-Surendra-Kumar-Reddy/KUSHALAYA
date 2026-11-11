@@ -263,6 +263,7 @@ def process_gateway_upload(
             .all()
         )
     summary = {"heard": len(grouped), "registered": len(devices), "events": []}
+    hub.bands_heard = len(grouped)
     due: list[tuple[IotDevice, str, dict]] = []
     for device in devices:
         g = grouped[device.mac_address]

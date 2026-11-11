@@ -20,6 +20,7 @@ type HubRow = {
   elder_id?: number | null;
   http_url?: string | null;
   last_seen_at?: string | null;
+  bands_heard?: number | null;
 };
 type DeviceRow = {
   id: number;
@@ -568,6 +569,15 @@ export function IotDevicesAdminPanel({ header }: { header?: ReactNode } = {}) {
     }
   }
 
+  // "Last heard" times come from the server; reload them so an open page doesn't
+  // keep counting up ("3 min ago") while the gateway is still uploading.
+  useEffect(() => {
+    const id = window.setInterval(() => {
+      if (document.visibilityState === "visible") void load().catch(() => undefined);
+    }, 20_000);
+    return () => window.clearInterval(id);
+  }, [load]);
+
   const registerHint = !mac.trim() ? "Type the MAC to continue." : "";
   const swapHint = !updateElderId ? "Choose a client first." : !updateMac.trim() ? "Type the new Band ID to continue." : "";
   const clientOptions = elders.map((e) => (
@@ -804,6 +814,11 @@ export function IotDevicesAdminPanel({ header }: { header?: ReactNode } = {}) {
                       </div>
                     </details>
                   </div>
+                  {h.bands_heard != null ? (
+                    <p className="muted iot-heard">
+                      Hearing {h.bands_heard} band{h.bands_heard === 1 ? "" : "s"} nearby
+                    </p>
+                  ) : null}
                   {heard[`hubs-${h.id}`] ? (
                     <p className="muted iot-heard" role="status">{heard[`hubs-${h.id}`]}</p>
                   ) : null}
@@ -856,374 +871,6 @@ export function IotDevicesAdminPanel({ header }: { header?: ReactNode } = {}) {
           </ul>
         )}
       </section>
-      <details className="iot-tech">
-        <summary>Technical setup (installer only)</summary>
-      <form
-        onSubmit={onSaveBroker}
-        style={{
-          display: "grid",
-          gap: "0.75rem",
-          borderBottom: "1px solid var(--border, #ddd)",
-          paddingBottom: "1.25rem",
-        }}
-      >
-        <h2 style={{ margin: 0, fontSize: "1.1rem" }}>MQTT broker (source of truth)</h2>
-        <p className="muted" style={{ margin: 0 }}>
-          Configure MinewLink (hub), the MQTT ingestor, and band watch (offline / immobility).{" "}
-          <strong>Save</strong> is enough for watch policy (ingestor refreshes <code>device-map</code> ~30s).{" "}
-          <strong>Apply to Mosquitto</strong> updates passwd/ACL, writes{" "}
-          <code>iot_ingestor.env</code> (including SOS dedupe), and restarts the ingestor.
-          {broker.source ? (
-            <>
-              {" "}
-              Current source: <code>{broker.source}</code>.
-            </>
-          ) : null}
-        </p>
-        <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr", gap: "0.75rem" }}>
-          <label style={{ display: "grid", gap: "0.25rem" }}>
-            Host
-            <input
-              required
-              value={broker.broker_host}
-              onChange={(e) => setBroker((b) => ({ ...b, broker_host: e.target.value }))}
-            />
-          </label>
-          <label style={{ display: "grid", gap: "0.25rem" }}>
-            Port
-            <input
-              required
-              type="number"
-              min={1}
-              max={65535}
-              value={broker.broker_port}
-              onChange={(e) =>
-                setBroker((b) => ({ ...b, broker_port: Number(e.target.value) || 8883 }))
-              }
-            />
-          </label>
-          <label
-            className="iot-check-row"
-            style={{ display: "flex", gap: "0.5rem", alignItems: "end", paddingBottom: "0.35rem" }}
-          >
-            <input
-              type="checkbox"
-              checked={broker.tls}
-              onChange={(e) => setBroker((b) => ({ ...b, tls: e.target.checked }))}
-            />
-            TLS
-          </label>
-        </div>
-        <h3 style={{ margin: "0.25rem 0 0", fontSize: "0.95rem" }}>Hub (MinewLink)</h3>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.75rem" }}>
-          <label style={{ display: "grid", gap: "0.25rem" }}>
-            Hub username
-            <input
-              required
-              value={broker.hub_username}
-              onChange={(e) => setBroker((b) => ({ ...b, hub_username: e.target.value }))}
-            />
-          </label>
-          <label style={{ display: "grid", gap: "0.25rem" }}>
-            <span style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
-              Hub password
-              <button
-                type="button"
-                className="muted"
-                style={{ fontSize: "0.8rem", padding: "0.1rem 0.35rem" }}
-                onClick={() => setShowHubPassword((v) => !v)}
-              >
-                {showHubPassword ? "Hide" : "Show"}
-              </button>
-            </span>
-            <input
-              type={showHubPassword ? "text" : "password"}
-              autoComplete="off"
-              value={broker.hub_password}
-              onChange={(e) => setBroker((b) => ({ ...b, hub_password: e.target.value }))}
-              placeholder={broker.hub_password_set ? "Saved · leave blank to keep" : "from .credentials.app or set here"}
-              style={{ fontFamily: "monospace" }}
-            />
-          </label>
-        </div>
-        <h3 style={{ margin: "0.25rem 0 0", fontSize: "0.95rem" }}>Ingestor (server subscriber)</h3>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.75rem" }}>
-          <label style={{ display: "grid", gap: "0.25rem" }}>
-            Ingestor username
-            <input
-              value={broker.ingestor_username}
-              onChange={(e) => setBroker((b) => ({ ...b, ingestor_username: e.target.value }))}
-              placeholder="leave blank for the server default"
-            />
-          </label>
-          <label style={{ display: "grid", gap: "0.25rem" }}>
-            <span style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
-              Ingestor password
-              <button
-                type="button"
-                className="muted"
-                style={{ fontSize: "0.8rem", padding: "0.1rem 0.35rem" }}
-                onClick={() => setShowIngestorPassword((v) => !v)}
-              >
-                {showIngestorPassword ? "Hide" : "Show"}
-              </button>
-            </span>
-            <input
-              type={showIngestorPassword ? "text" : "password"}
-              autoComplete="off"
-              value={broker.ingestor_password}
-              onChange={(e) => setBroker((b) => ({ ...b, ingestor_password: e.target.value }))}
-              placeholder={broker.ingestor_password_set ? "Saved · leave blank to keep" : "must match Mosquitto + iot_ingestor.env"}
-              style={{ fontFamily: "monospace" }}
-            />
-          </label>
-        </div>
-        <label style={{ display: "grid", gap: "0.25rem" }}>
-          <span style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: "0.5rem" }}>
-            Ingestor subscribe topics (MQTT_TOPIC)
-            <button
-              type="button"
-              className="muted"
-              style={{ fontSize: "0.8rem", padding: "0.1rem 0.35rem" }}
-              onClick={() =>
-                setBroker((b) => ({ ...b, ingestor_mqtt_topic: DEFAULT_INGESTOR_TOPIC }))
-              }
-            >
-              Reset default
-            </button>
-          </span>
-          <input
-            value={broker.ingestor_mqtt_topic}
-            onChange={(e) => setBroker((b) => ({ ...b, ingestor_mqtt_topic: e.target.value }))}
-            placeholder={DEFAULT_INGESTOR_TOPIC}
-            style={{ fontFamily: "monospace", fontSize: "0.85rem" }}
-          />
-          <span className="muted" style={{ fontSize: "0.8rem" }}>
-            Comma-separated. Must include <code>/mg7/+/status</code> for Minew gateway topics.
-          </span>
-        </label>
-        <label style={{ display: "grid", gap: "0.25rem", maxWidth: "16rem" }}>
-          SOS dedupe (seconds)
-          <input
-            type="number"
-            min={1}
-            max={3600}
-            value={broker.dedupe_seconds}
-            onChange={(e) =>
-              setBroker((b) => ({
-                ...b,
-                dedupe_seconds: clampInt(Number(e.target.value), 1, 3600, 65),
-              }))
-            }
-          />
-          <span className="muted" style={{ fontSize: "0.8rem" }}>
-            Suppress repeat SOS for the same band MAC. B7 keeps advertising ~60s after a press —
-            default 65s (60s trigger + slack). Apply to Mosquitto writes this as{" "}
-            <code>IOT_DEDUPE_SECONDS</code> (fallback); live value also comes from device-map policy.
-          </span>
-        </label>
-        <fieldset
-          style={{
-            display: "grid",
-            gap: "0.75rem",
-            margin: 0,
-            padding: "0.75rem 0 0",
-            border: "none",
-            borderTop: "1px solid var(--border, #ddd)",
-          }}
-        >
-          <legend style={{ fontWeight: 600, padding: 0 }}>Band watch</legend>
-          <p className="muted" style={{ margin: 0, fontSize: "0.85rem" }}>
-            Any B7 advertisement updates last-seen. Motion is the Minew accelerometer frame (
-            <code>FFE1 A103</code>): last-motion updates when XYZ changes. iBeacon major=1 / minor=2
-            is often always-on on this firmware — it is not used as the immobility trigger. Power-off
-            is <code>DEVICE_OFFLINE</code>, not immobility. XYZ fall is experimental and not used here.
-          </p>
-          <label
-            className="iot-check-row"
-            style={{ display: "flex", gap: "0.5rem", alignItems: "center" }}
-          >
-            <input
-              type="checkbox"
-              checked={broker.offline_enabled}
-              onChange={(e) => setBroker((b) => ({ ...b, offline_enabled: e.target.checked }))}
-            />
-            Offline warning when the band is not heard
-          </label>
-          <label
-            className="iot-check-row"
-            style={{ display: "flex", gap: "0.5rem", alignItems: "center" }}
-          >
-            <input
-              type="checkbox"
-              checked={broker.immobility_enabled}
-              onChange={(e) => setBroker((b) => ({ ...b, immobility_enabled: e.target.checked }))}
-            />
-            Immobility warning (band online, no accelerometer change)
-          </label>
-          <label style={{ display: "grid", gap: "0.25rem", maxWidth: "16rem" }}>
-            Immobility after (minutes)
-            <input
-              type="number"
-              min={1}
-              max={1440}
-              value={broker.immobility_minutes}
-              onChange={(e) =>
-                setBroker((b) => ({
-                  ...b,
-                  immobility_minutes: clampInt(Number(e.target.value), 1, 1440, b.immobility_minutes || 30),
-                }))
-              }
-            />
-            <span className="muted" style={{ fontSize: "0.8rem" }}>
-              How long the band can stay still before a warning. 1–1440 minutes. Save here — the
-              ingestor picks this up within ~30s (no Mosquitto apply).
-            </span>
-          </label>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.75rem" }}>
-            <label style={{ display: "grid", gap: "0.25rem" }}>
-              Offline after (seconds)
-              <input
-                type="number"
-                min={30}
-                max={3600}
-                value={broker.offline_seconds}
-                onChange={(e) =>
-                  setBroker((b) => ({
-                    ...b,
-                    offline_seconds: clampInt(Number(e.target.value), 30, 3600, 180),
-                  }))
-                }
-              />
-            </label>
-            <label style={{ display: "grid", gap: "0.25rem" }}>
-              Quiet period (minutes)
-              <input
-                type="number"
-                min={1}
-                max={1440}
-                value={broker.quiet_period_minutes}
-                onChange={(e) =>
-                  setBroker((b) => ({
-                    ...b,
-                    quiet_period_minutes: clampInt(Number(e.target.value), 1, 1440, 60),
-                  }))
-                }
-              />
-            </label>
-          </div>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "0.75rem" }}>
-            <label style={{ display: "grid", gap: "0.25rem" }}>
-              Active hours start
-              <input
-                type="number"
-                min={0}
-                max={23}
-                value={broker.active_hours_start}
-                onChange={(e) =>
-                  setBroker((b) => ({
-                    ...b,
-                    active_hours_start: clampInt(Number(e.target.value), 0, 23, 7),
-                  }))
-                }
-              />
-            </label>
-            <label style={{ display: "grid", gap: "0.25rem" }}>
-              Active hours end
-              <input
-                type="number"
-                min={0}
-                max={23}
-                value={broker.active_hours_end}
-                onChange={(e) =>
-                  setBroker((b) => ({
-                    ...b,
-                    active_hours_end: clampInt(Number(e.target.value), 0, 23, 21),
-                  }))
-                }
-              />
-            </label>
-            <label style={{ display: "grid", gap: "0.25rem" }}>
-              Timezone
-              <select
-                value={broker.timezone}
-                onChange={(e) => setBroker((b) => ({ ...b, timezone: e.target.value }))}
-              >
-                {!WEARABLE_TIMEZONES.some((tz) => tz.value === broker.timezone) ? (
-                  <option value={broker.timezone}>{broker.timezone}</option>
-                ) : null}
-                {WEARABLE_TIMEZONES.map((tz) => (
-                  <option key={tz.value} value={tz.value}>
-                    {tz.label}
-                  </option>
-                ))}
-              </select>
-              <span className="muted" style={{ fontSize: "0.8rem", fontVariantNumeric: "tabular-nums" }}>
-                Now: {formatTimeInZone(clockNow, broker.timezone)}
-              </span>
-            </label>
-          </div>
-          <span className="muted" style={{ fontSize: "0.8rem" }}>
-            Immobility only during active hours (local to timezone). Same start and end = 24 hours.
-            Default 07–21. Quiet period suppresses repeat offline/immobility alerts for that band.
-          </span>
-        </fieldset>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "0.75rem" }}>
-          <label style={{ display: "grid", gap: "0.25rem" }}>
-            Topic mode
-            <select
-              value={broker.topic_mode}
-              onChange={(e) => setBroker((b) => ({ ...b, topic_mode: e.target.value }))}
-            >
-              <option value="minew_status">Minew /mg7/&#123;mac&#125;/status</option>
-              <option value="livewell_ble">Per-home topic (homes/…/ble)</option>
-            </select>
-          </label>
-          <label style={{ display: "grid", gap: "0.25rem" }}>
-            Subscribe (optional)
-            <input
-              value={broker.subscribe_topic}
-              onChange={(e) => setBroker((b) => ({ ...b, subscribe_topic: e.target.value }))}
-              placeholder="leave blank"
-            />
-          </label>
-          <label style={{ display: "grid", gap: "0.25rem" }}>
-            Reply (optional)
-            <input
-              value={broker.reply_topic}
-              onChange={(e) => setBroker((b) => ({ ...b, reply_topic: e.target.value }))}
-              placeholder="leave blank"
-            />
-          </label>
-        </div>
-        <label
-          className="iot-check-row"
-          style={{ display: "flex", gap: "0.5rem", alignItems: "center" }}
-        >
-          <input
-            type="checkbox"
-            checked={broker.use_shared_hub}
-            onChange={(e) => setBroker((b) => ({ ...b, use_shared_hub: e.target.checked }))}
-          />
-          Use shared hub credentials for every kit (recommended for lab / Minew MG7)
-        </label>
-        <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem" }}>
-          <button type="submit" disabled={brokerBusy}>
-            {brokerBusy ? "Saving…" : "Save broker settings"}
-          </button>
-          <button type="button" disabled={brokerBusy} onClick={onLoadCredentialsFile}>
-            Load from .credentials.app
-          </button>
-          <button type="button" disabled={brokerBusy} onClick={onApplyMosquitto}>
-            Apply to Mosquitto
-          </button>
-        </div>
-        <p className="muted" style={{ margin: 0, fontSize: "0.85rem" }}>
-          One-time root grant (hub + ingestor helpers):{" "}
-          <code>sudo bash scripts/deploy/install-safehome-sudoers.sh</code> then restart the API.
-        </p>
-      </form>
-      </details>
       {drawer === "give" ? (
         <div className="cm-drawer-wrap" role="presentation" onClick={() => !busy && setDrawer(null)}>
           <form

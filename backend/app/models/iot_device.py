@@ -38,6 +38,8 @@ class IotHub(TimestampMixin, Base):
     mac_address: Mapped[str | None] = mapped_column(String(32), nullable=True, index=True)
     # Secret in the gateway's HTTP upload URL (/api/v1/home-safety/gateway/{token}).
     http_token: Mapped[str | None] = mapped_column(String(80), nullable=True, index=True)
+    # Bands in the gateway's last upload, registered or not (shown on Wearables).
+    bands_heard: Mapped[int | None] = mapped_column(nullable=True)
     # The client home this gateway is installed in (None = not placed yet).
     elder_id: Mapped[int | None] = mapped_column(ForeignKey("elders.id"), nullable=True, index=True)
 

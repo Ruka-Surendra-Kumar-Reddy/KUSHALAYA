@@ -1432,7 +1432,7 @@ def migrate_iot_gateway_http() -> None:
     if insp.has_table("iot_hubs"):
         cols = {c["name"] for c in insp.get_columns("iot_hubs")}
         with engine.begin() as conn:
-            for name, sql_type in (("mac_address", "VARCHAR(32)"), ("http_token", "VARCHAR(80)"), ("elder_id", "INTEGER")):
+            for name, sql_type in (("mac_address", "VARCHAR(32)"), ("http_token", "VARCHAR(80)"), ("elder_id", "INTEGER"), ("bands_heard", "INTEGER")):
                 if name not in cols:
                     conn.execute(text(f"ALTER TABLE iot_hubs ADD COLUMN {name} {sql_type}"))
             if "http_token" not in cols:

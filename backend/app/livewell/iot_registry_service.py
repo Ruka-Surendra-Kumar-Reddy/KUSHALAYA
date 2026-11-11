@@ -695,6 +695,7 @@ class IotRegistryService:
             "mac_address": hub.mac_address,
             "elder_id": hub.elder_id,
             "http_enabled": bool(hub.http_token),
+            "bands_heard": hub.bands_heard,
         }
         if include_secret:
             d["mqtt_password"] = hub.mqtt_password
