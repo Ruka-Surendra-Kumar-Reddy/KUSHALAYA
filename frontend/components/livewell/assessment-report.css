@@ -371,3 +371,6 @@
   .rp-products { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.5rem; }
   .rp-product { break-inside: avoid; }
 }
+
+/* Which answers led to this fix. */
+.rp-because { display: block; margin-top: 0.2rem; font-weight: 400; font-size: 0.85em; color: #5b6b80; }

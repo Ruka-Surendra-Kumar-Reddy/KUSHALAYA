@@ -291,3 +291,39 @@ def test_cleanup_merges_duplicates_and_keeps_admin_linked_ones():
     assert "LW-HS-BTH-005" in sols  # an admin linked it to a question: left alone
     again, changes2 = apply_solution_cleanup(out)
     assert changes2 == [] and again == out
+
+
+def test_v4_wandering_not_from_stove_answer_and_plain_entrance_wording():
+    from app.livewell.rubric_gap_fixes import apply_finding_corrections
+
+    stove = "cognitive_emotional_judgment_safe_for_leaving_stove_doors"
+    cfg = {SOLUTIONS_KEY: {"solutions": [
+        {"id": "LW-COG-WAN-001", "rubricItemIds": ["cognitive_emotional_safe_from_wandering_getting_lost", stove]},
+        {"id": "LW-HS-KIT-001", "rubricItemIds": [stove]},
+        {"id": "LW-HS-ENT-004", "finding": "No accessible main entry", "rubricItemIds": []},
+    ]}}
+    fixed, changes = apply_finding_corrections(cfg)
+    lib = {s["id"]: s for s in fixed[SOLUTIONS_KEY]["solutions"]}
+    assert lib["LW-COG-WAN-001"]["rubricItemIds"] == ["cognitive_emotional_safe_from_wandering_getting_lost"]
+    assert lib["LW-HS-KIT-001"]["rubricItemIds"] == [stove]  # the stove answer keeps its own finding
+    assert lib["LW-HS-ENT-004"]["finding"] == "Steps at the main entrance"
+    assert len(changes) == 2
+    again, more = apply_finding_corrections(fixed)
+    assert more == [] and again == fixed
+    # an admin's own wording is left alone
+    cfg[SOLUTIONS_KEY]["solutions"][2]["finding"] = "Front door has two steps"
+    kept, _ = apply_finding_corrections(cfg)
+    assert kept[SOLUTIONS_KEY]["solutions"][2]["finding"] == "Front door has two steps"
+    # the seed library agrees
+    assert stove not in _solutions_for_seed("LW-COG-WAN-001")
+
+
+def _solutions_for_seed(sol_id):
+    import json
+    from pathlib import Path
+
+    import app.livewell as pkg
+
+    data = json.loads((Path(pkg.__file__).parent / "default_solutions.json").read_text(encoding="utf-8"))
+    sols = data["solutions"] if isinstance(data, dict) else data
+    return next(s for s in sols if s["id"] == sol_id)["rubricItemIds"]

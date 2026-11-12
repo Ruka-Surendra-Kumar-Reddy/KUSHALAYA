@@ -26,7 +26,8 @@ from app.livewell.scoring import QUESTIONS_ADDED_ON
 log = logging.getLogger(__name__)
 
 RUBRIC_GAP_FIXES_KEY = "rubric_gap_fixes"
-RUBRIC_GAP_FIXES_VERSION = 3  # v2: link unused solutions; v3: merge duplicates, drop 2 with no question (2026-10-13)
+RUBRIC_GAP_FIXES_VERSION = 4  # v2: link unused solutions; v3: merge duplicates, drop 2 with no question (2026-10-13);
+# v4: "Wandering risk" no longer raised by the stove/doors answer; plain entrance wording (2026-11-12)
 
 # (category id, insert after this item id, item). Ids match frontend lwa-rubric.ts.
 NEW_ITEMS: list[tuple[str, str, dict]] = [
@@ -81,7 +82,7 @@ NEW_ITEMS: list[tuple[str, str, dict]] = [
 
 # solution id -> rubric item ids that raise it (same as default_solutions.json).
 SOLUTION_LINKS: dict[str, list[str]] = {
-    "LW-COG-WAN-001": ["cognitive_emotional_safe_from_wandering_getting_lost", "cognitive_emotional_judgment_safe_for_leaving_stove_doors"],
+    "LW-COG-WAN-001": ["cognitive_emotional_safe_from_wandering_getting_lost"],
     "LW-EMG-COM-001": ["emergency_sos_alert_method_available", "technology_can_use_phone_for_emergencies"],
     "LW-TECH-LIT-001": ["technology_light_switches_easy_to_reach_and_operate"],
     "LW-TECH-FAL-001": ["technology_smart_safety_devices_appropriate"],
@@ -191,6 +192,40 @@ SOLUTION_MERGES: dict[str, str] = {
 SOLUTION_DELETES: tuple[str, ...] = ("LW-HS-BTH-009", "LW-HS-BED-004")
 
 
+# v4: a question that wrongly raised a solution. Removed only if still linked (an admin
+# can link it again). The stove/doors answer keeps its own kitchen finding (LW-HS-KIT-001).
+SOLUTION_UNLINKS: dict[str, list[str]] = {
+    "LW-COG-WAN-001": ["cognitive_emotional_judgment_safe_for_leaving_stove_doors"],
+}
+# v4: finding wording, changed only where it is still the old seed text.
+FINDING_RENAMES: dict[str, tuple[str, str]] = {
+    "LW-HS-ENT-004": ("No accessible main entry", "Steps at the main entrance"),
+}
+
+
+def apply_finding_corrections(cfg: dict | None) -> tuple[dict, list[str]]:
+    """v4 corrections on a stored library. Idempotent; leaves admin wording alone."""
+    out = deepcopy(cfg or {})
+    changes: list[str] = []
+    library = out.get(SOLUTIONS_KEY)
+    if not isinstance(library, dict):
+        return out, changes
+    for sol in library.get("solutions") or []:
+        if not isinstance(sol, dict):
+            continue
+        drop = SOLUTION_UNLINKS.get(sol.get("id"), [])
+        before = list(sol.get("rubricItemIds") or [])
+        after = [i for i in before if i not in drop]
+        if after != before:
+            sol["rubricItemIds"] = after
+            changes.append(f"solution {sol['id']}: unlinked {sorted(set(before) - set(after))}")
+        rename = FINDING_RENAMES.get(sol.get("id"))
+        if rename and sol.get("finding") == rename[0]:
+            sol["finding"] = rename[1]
+            changes.append(f"solution {sol['id']}: finding -> {rename[1]!r}")
+    return out, changes
+
+
 def apply_solution_cleanup(cfg: dict | None) -> tuple[dict, list[str]]:
     """Merge / remove the solutions above in a stored library. A source an admin has
     linked to questions since is left alone. Idempotent."""
@@ -248,6 +283,8 @@ def apply_rubric_gap_fixes_once(db: Session, tenant) -> bool:
     had_v1 = isinstance(marker, dict) and int(marker.get("version") or 0) >= 1
     fixed, changes = apply_rubric_gap_fixes(cfg, add_questions=not had_v1)
     fixed, cleanup = apply_solution_cleanup(fixed)
+    fixed, corrections = apply_finding_corrections(fixed)
+    cleanup = cleanup + corrections
     changes += cleanup
     fixed[RUBRIC_GAP_FIXES_KEY] = {
         "version": RUBRIC_GAP_FIXES_VERSION,

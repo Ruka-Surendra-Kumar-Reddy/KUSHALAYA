@@ -370,7 +370,7 @@
       "section": "Home Safety",
       "subcategory": "Entry",
       "name": "Provide zero-step or ramped main entry",
-      "finding": "No accessible main entry",
+      "finding": "Steps at the main entrance",
       "riskDescription": "Enable safe entry without high steps (ramp, threshold reduction, or zero-step path).",
       "priority": "high",
       "recommendedSolutions": [
@@ -1050,8 +1050,7 @@
       "maintenanceRequirement": "",
       "futureUpgrades": "",
       "rubricItemIds": [
-        "cognitive_emotional_safe_from_wandering_getting_lost",
-        "cognitive_emotional_judgment_safe_for_leaving_stove_doors"
+        "cognitive_emotional_safe_from_wandering_getting_lost"
       ],
       "sort_order": 39,
       "legacyIds": [

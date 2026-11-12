@@ -229,7 +229,7 @@ DEFAULT_ASSESSMENT_FINDINGS: list[dict] = [
     {"id": "fnd_bath_no_pull_cord", "domain": "Bathroom", "question_id": "", "answer": "", "severity": "high", "label": "No emergency pull cord"},
     {"id": "fnd_bath_loose_mat", "domain": "Bathroom", "question_id": "", "answer": "", "severity": "medium", "label": "Loose bath mat"},
     {"id": "fnd_bath_scald", "domain": "Bathroom", "question_id": "home_safety_hot_water_scald_risk_controlled", "answer": "unsafe", "severity": "high", "label": "Hot water scald risk"},
-    {"id": "fnd_entry_no_zero_step", "domain": "Entry", "question_id": "home_safety_zero_step_or_ramped_main_entry", "answer": "unsafe", "severity": "high", "label": "No accessible main entry"},
+    {"id": "fnd_entry_no_zero_step", "domain": "Entry", "question_id": "home_safety_zero_step_or_ramped_main_entry", "answer": "unsafe", "severity": "high", "label": "Steps at the main entrance"},
     {"id": "fnd_home_loose_rugs", "domain": "Home", "question_id": "home_safety_loose_rugs_secured_or_removed", "answer": "unsafe", "severity": "high", "label": "Loose rugs / trip mats"},
     {"id": "fnd_home_smoke_co", "domain": "Home", "question_id": "home_safety_smoke_and_co_detectors_on_each_level", "answer": "unsafe", "severity": "critical", "label": "Missing smoke or CO detectors"},
     {"id": "fnd_kit_stove_gas", "domain": "Kitchen", "question_id": "home_safety_stove_gas_safety_controls", "answer": "unsafe", "severity": "high", "label": "Stove / gas safety concern"},

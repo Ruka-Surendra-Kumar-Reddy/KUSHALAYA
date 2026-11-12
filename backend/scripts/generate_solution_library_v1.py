@@ -427,7 +427,7 @@ def build() -> list[dict]:
             section="Home Safety",
             subcategory="Entry",
             name="Provide zero-step or ramped main entry",
-            finding="No accessible main entry",
+            finding="Steps at the main entrance",
             description="Enable safe entry without high steps (ramp, threshold reduction, or zero-step path).",
             priority="high",
             actions=["Threshold ramp", "Portable or permanent ramp", "Level landing"],

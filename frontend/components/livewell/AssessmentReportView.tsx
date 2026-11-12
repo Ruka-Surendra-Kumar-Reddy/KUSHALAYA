@@ -247,6 +247,7 @@ type PlanRow = {
   group: (typeof GROUPS)[number];
   actions: string[];
   gain: number;
+  because?: string[];
 };
 
 /**
@@ -385,6 +386,7 @@ export function AssessmentReportView({
         group: groupOf(e.solution.priority),
         actions: (e.solution.recommendedSolutions ?? []).slice(0, 3).map(plain),
         gain: Math.round(Number(e.solution.scoreImprovement) || 0),
+        because: e.findings.map((f) => f.itemLabel),
       }))
     : band.criticalFindings.map((f) => ({
         key: f.id,
@@ -592,7 +594,10 @@ export function AssessmentReportView({
                   {rows.map((r, n) => (
                     <tr key={r.key} className={n >= SHOW_FIRST && !showLater ? "rp-screen-hide" : undefined}>
                       <td className="rp-col-n">{n + 1}</td>
-                      <td className="rp-issue">{r.title}</td>
+                      <td className="rp-issue">
+                        {r.title}
+                        {r.because?.length ? <small className="rp-because">Because: {r.because.join("; ")}</small> : null}
+                      </td>
                       <td data-label="Area">{r.area}</td>
                       <td data-label="When" className="rp-when">
                         <span className={`rp-dot rp-dot-${r.group.key}`} aria-hidden="true" />
