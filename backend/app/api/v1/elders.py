@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from fastapi import APIRouter, Depends, Request
+from fastapi import APIRouter, Depends, Query, Request
 from sqlalchemy.orm import Session
 
 from app.core.database import get_db
@@ -144,6 +144,7 @@ def _elder_response_enriched(db: Session, elder, *, tenant_id: int | None) -> El
 
 @router.get("", response_model=list[ElderResponse])
 def list_elders(
+    include_leads: bool = Query(False, description="Also leads being assessed (Room checks)"),
     db: Session = Depends(get_db),
     current_user: User = Depends(require_roles(*READ_ROLES)),
 ):
@@ -152,8 +153,11 @@ def list_elders(
     from app.livewell.assessment_start import is_lead_record
 
     # Hidden records made to assess a lead (not a client yet) stay out of the list.
-    elders = [e for e in ElderService.list_elders(db, current_user) if not is_lead_record(e)]
-    return [_elder_response_enriched(db, e, tenant_id=tid) for e in elders]
+    elders = [e for e in ElderService.list_elders(db, current_user) if include_leads or not is_lead_record(e)]
+    return [
+        _elder_response_enriched(db, e, tenant_id=tid).model_copy(update={"is_lead": is_lead_record(e)})
+        for e in elders
+    ]
 
 
 @router.get("/{elder_id}", response_model=ElderResponse)

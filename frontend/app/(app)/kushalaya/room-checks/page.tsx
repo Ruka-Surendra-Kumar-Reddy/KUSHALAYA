@@ -10,7 +10,7 @@ import { parseApiTime } from "@/lib/ist";
 import { type HazardCheck } from "@/lib/livewell/aiHazardCheck";
 import "@/components/ops/room-checks.css";
 
-type Client = { id: number; first_name: string; last_name: string | null };
+type Client = { id: number; first_name: string; last_name: string | null; is_lead?: boolean };
 type Row = HazardCheck & { elder_name?: string | null; shared_with_family_at?: string | null };
 
 function day(iso: string | null): string {
@@ -29,9 +29,10 @@ export default function RoomChecksPage() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    api<Client[]>("/api/v1/elders")
-      .then((c) => setClients([...c].sort((a, b) => a.first_name.localeCompare(b.first_name))))
-      .catch(() => undefined);
+    // Leads being assessed count too: rooms are often checked on the assessment visit.
+    api<Client[]>("/api/v1/elders?include_leads=true")
+      .then((c) => setClients([...c].sort((a, b) => (a.first_name || "").localeCompare(b.first_name || ""))))
+      .catch((e) => setError(e instanceof Error ? e.message : "Could not load clients"));
   }, []);
 
   const loadHistory = useCallback(() => {
@@ -78,12 +79,13 @@ export default function RoomChecksPage() {
       {tab === "new" ? (
         <section className="rc-new">
           <label className="rc-client">
-            Client
+            Client or lead
             <select value={clientId} onChange={(e) => setClientId(e.target.value)}>
               <option value="">Choose a client…</option>
               {clients.map((c) => (
                 <option key={c.id} value={c.id}>
                   {`${c.first_name} ${c.last_name || ""}`.trim()}
+                  {c.is_lead ? " (lead)" : ""}
                 </option>
               ))}
             </select>

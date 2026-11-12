@@ -320,3 +320,13 @@
 .tt-idle { display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem; margin-top: 0.75rem; }
 .tt-idle-btn { min-height: 36px; padding: 0 0.75rem; }
 @media (max-width: 480px) { .tt-table { font-size: 0.85rem; } .tt-table th, .tt-table td { padding: 0.35rem 0.25rem; } }
+
+/* Team targets as one table: a row group per person. */
+.tt { margin-top: 0; }
+.tt-scroll { overflow-x: auto; }
+.tt-all { min-width: 34rem; }
+.tt-all .tt-group tr:first-child > * { border-top: 2px solid #d8e1ea; }
+.tt-all .tt-who { vertical-align: top; text-align: left; width: 13rem; padding-right: 0.75rem; white-space: normal; }
+.tt-all .tt-who strong { display: block; margin-bottom: 0.4rem; color: #0f2a4a; }
+.tt-all .tt-set { min-height: 36px; padding: 0 0.75rem; }
+.tt-all thead th:nth-child(2) { text-align: left; }

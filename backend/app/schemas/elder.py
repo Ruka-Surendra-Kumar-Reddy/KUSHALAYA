@@ -47,6 +47,8 @@ class ElderResponse(ElderBase):
     """Prospect that converted/linked to this client, if any."""
     linked_prospect_id: int | None = None
     linked_prospect_name: str | None = None
+    # A record made to assess a lead, not a client yet (only listed with include_leads).
+    is_lead: bool = False
     """Family portal has a published Independence Score™."""
     family_published: bool = False
     independence_score: int | None = None

@@ -96,7 +96,7 @@ export function TeamTargets() {
   return (
     <section className="card tt" aria-labelledby="tt-title">
       <header className="tt-head">
-        <h2 id="tt-title">Team targets · {report ? monthName(report.month) : ""}</h2>
+        <h2 id="tt-title">{report ? monthName(report.month) : ""}</h2>
         {report?.as_of ? <span className="muted">Month to date</span> : null}
       </header>
       {error ? (
@@ -105,29 +105,32 @@ export function TeamTargets() {
         </p>
       ) : null}
       {report && report.people.length === 0 ? <p className="muted">No team members yet.</p> : null}
-      <div className="tt-people">
-        {active.map((p) => (
-          <div key={p.user_id} className="tt-person">
-            <div className="tt-person-head">
-              <strong>{p.name}</strong>
-              {isAdmin && p.user_id !== 0 ? (
-                <button type="button" className="secondary tt-set" onClick={() => openEdit(p)}>
-                  Set targets
-                </button>
-              ) : null}
-            </div>
-            <table className="tt-table">
-              <thead>
-                <tr>
-                  <th scope="col">KPI</th>
-                  <th scope="col">Target</th>
-                  <th scope="col">Done</th>
-                  <th scope="col">%</th>
-                </tr>
-              </thead>
-              <tbody>
-                {p.kpis.map((k) => (
+      {active.length ? (
+        <div className="tt-scroll">
+          <table className="tt-table tt-all">
+            <thead>
+              <tr>
+                <th scope="col">Team member</th>
+                <th scope="col">KPI</th>
+                <th scope="col">Target</th>
+                <th scope="col">Done</th>
+                <th scope="col">%</th>
+              </tr>
+            </thead>
+            {active.map((p) => (
+              <tbody key={p.user_id} className="tt-group">
+                {p.kpis.map((k, i) => (
                   <tr key={k.key}>
+                    {i === 0 ? (
+                      <th scope="rowgroup" rowSpan={p.kpis.length} className="tt-who">
+                        <strong>{p.name}</strong>
+                        {isAdmin && p.user_id !== 0 ? (
+                          <button type="button" className="secondary tt-set" onClick={() => openEdit(p)}>
+                            Set targets
+                          </button>
+                        ) : null}
+                      </th>
+                    ) : null}
                     <th scope="row">{k.label}</th>
                     <td>{value(k, k.target)}</td>
                     <td>{value(k, k.achieved)}</td>
@@ -143,10 +146,10 @@ export function TeamTargets() {
                   </tr>
                 ))}
               </tbody>
-            </table>
-          </div>
-        ))}
-      </div>
+            ))}
+          </table>
+        </div>
+      ) : null}
       {idle.length ? (
         <div className="tt-idle">
           <span className="muted">No target or results yet:</span>
