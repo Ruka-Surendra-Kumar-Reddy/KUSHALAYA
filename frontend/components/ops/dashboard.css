@@ -295,3 +295,23 @@
 @media (min-width: 1100px) {
   .ko-main .dash-action-grid.dash-tiles { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 }
+
+/* Team targets (TeamTargets.tsx) */
+.tt { margin-top: 1rem; }
+.tt-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 0.5rem; margin-bottom: 0.5rem; }
+.tt-head h2 { margin: 0; font-size: 1.1rem; }
+.tt-people { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fill, minmax(min(100%, 22rem), 1fr)); }
+.tt-person { border: 1px solid #e4e9f0; border-radius: 12px; padding: 0.75rem; min-width: 0; }
+.tt-person-head { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; margin-bottom: 0.4rem; }
+.tt-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; font-variant-numeric: tabular-nums; }
+.tt-table th, .tt-table td { padding: 0.4rem 0.35rem; border-bottom: 1px solid #eef2f7; text-align: right; }
+.tt-table th[scope="row"], .tt-table thead th:first-child { text-align: left; font-weight: 500; }
+.tt-table thead th { font-size: 0.75rem; color: #5b6b80; text-transform: uppercase; letter-spacing: 0.04em; }
+.tt-pct { display: inline-block; min-width: 3rem; padding: 0.1rem 0.45rem; border-radius: 999px; font-weight: 700; text-align: center; }
+.tt-pct.is-done { background: #ecfdf3; color: #067647; }
+.tt-pct.is-mid { background: #fff4e5; color: #b54708; }
+.tt-pct.is-low { background: #fee4e2; color: #b42318; }
+.tt-form { display: grid; gap: 0.75rem; }
+.tt-form label { display: grid; gap: 0.25rem; }
+.tt-form input { min-height: 44px; }
+.tt-actions { display: flex; justify-content: flex-end; gap: 0.5rem; }

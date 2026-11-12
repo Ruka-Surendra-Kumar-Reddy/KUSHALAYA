@@ -11,6 +11,7 @@ import { useTranslation } from "@/lib/i18n/context";
 import { listJobs, type CareJob } from "@/lib/jobs";
 import { isStaleCheckIn } from "@/lib/run-sheet";
 import { SmsOffBanner } from "@/components/ops/SmsOffBanner";
+import { TeamTargets } from "@/components/ops/TeamTargets";
 import { dashboardCounts, type DashboardCounts } from "@/lib/sales-pipeline";
 
 /** Only the fields the count tiles read from /dashboard/attention. */
@@ -132,6 +133,8 @@ export default function DashboardPage() {
       </section>
 
       <SmsOffBanner />
+
+      <TeamTargets />
 
       {failed ? (
         <p className="dash-error" role="alert">

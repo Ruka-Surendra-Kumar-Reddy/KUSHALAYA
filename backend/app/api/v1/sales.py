@@ -134,3 +134,47 @@ def authorize_plan(
 @router.post("/plans/{plan_row_id}/mark-paid")
 def mark_paid(plan_row_id: int, data: MarkPaidIn, db: Session = Depends(get_db), user: User = Depends(require_roles(*WRITE_ROLES))):
     return sp.mark_paid(db, user, plan_row_id, payment_mode=data.payment_mode)
+
+
+class TargetsIn(BaseModel):
+    month: str = Field(max_length=7)
+    user_id: int
+    targets: dict[str, int | None]
+
+
+@router.get("/targets")
+def get_targets(
+    month: str | None = Query(default=None, max_length=7),
+    db: Session = Depends(get_db),
+    user: User = Depends(require_roles(*READ_ROLES)),
+):
+    """Team targets: KPI, target, achieved and % for the month. Admins see everyone."""
+    from app.core.rbac import resolve_tenant_id
+    from app.core.responses import raise_bad_request
+    from app.livewell import sales_targets as st
+
+    tid = resolve_tenant_id(user) or user.tenant_id
+    month = month or st.current_month()
+    try:
+        st.month_bounds(month)
+    except ValueError as e:
+        raise_bad_request(str(e))
+    return st.report(db, user, tid, month, everyone=user.role in ADMIN_ROLES)
+
+
+@router.put("/targets")
+def put_targets(data: TargetsIn, db: Session = Depends(get_db), user: User = Depends(require_roles(*ADMIN_ROLES))):
+    from app.core.rbac import resolve_tenant_id
+    from app.core.responses import raise_bad_request
+    from app.livewell import sales_targets as st
+    from app.models.tenant import Tenant
+
+    tid = resolve_tenant_id(user) or user.tenant_id
+    person = db.get(User, data.user_id)
+    if person is None or person.tenant_id != tid:
+        raise_bad_request("Choose someone from your team.")
+    try:
+        st.save_targets(db, db.get(Tenant, tid), data.month, data.user_id, data.targets)
+    except ValueError as e:
+        raise_bad_request(str(e))
+    return st.report(db, user, tid, data.month, everyone=True)
