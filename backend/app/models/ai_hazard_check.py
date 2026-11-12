@@ -47,6 +47,9 @@ class AiHazardCheck(TimestampMixin, Base):
 
     created_by_user_id: Mapped[int | None] = mapped_column(ForeignKey("users.id"), nullable=True)
     finished_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
+    # Room checks are for our team; a care manager shares one with the family on purpose.
+    shared_with_family_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
+    shared_by_user_id: Mapped[int | None] = mapped_column(Integer, nullable=True)
 
 
 class AiHazardFeedback(TimestampMixin, Base):

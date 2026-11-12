@@ -45,8 +45,8 @@ const ELDER_ONLY_HREFS = new Set([
  * Viewers see Today, Assessments and Customers only.
  */
 const TODAY_HREFS = ["/dashboard", "/kushalaya/alerts", "/kushalaya/messages"] as const;
-const SALES_HREFS = ["/kushalaya/enquiries", "/kushalaya/assessments", "/kushalaya/vendors"] as const;
-const CUSTOMER_HREFS = ["/kushalaya/customers", "/kushalaya/visits"] as const;
+const SALES_HREFS = ["/kushalaya/enquiries", "/kushalaya/assessments", "/kushalaya/vendors", "/kushalaya/targets"] as const;
+const CUSTOMER_HREFS = ["/kushalaya/customers", "/kushalaya/visits", "/kushalaya/room-checks"] as const;
 const BUSINESS_HREFS = [
   "/kushalaya/owner",
   "/kushalaya/invoices",
@@ -58,7 +58,7 @@ const BUSINESS_HREFS = [
 const SETUP_HREFS = ["/kushalaya/hiring", "/kushalaya/iot-devices", "/kushalaya/rubric"] as const;
 const ADMIN_ONLY_HREFS = new Set<string>([...BUSINESS_HREFS, "/kushalaya/iot-devices", "/kushalaya/rubric"]);
 /** Sales work viewers don't do. */
-const VIEWER_HIDDEN_HREFS = new Set<string>(["/kushalaya/enquiries", "/kushalaya/hiring"]);
+const VIEWER_HIDDEN_HREFS = new Set<string>(["/kushalaya/enquiries", "/kushalaya/hiring", "/kushalaya/targets"]);
 
 /** Core-layout routes this vertical hides even when nav.json lists them. */
 const HIDDEN_HREFS = new Set<string>(RETIRED_OPS_PATHS);
@@ -104,6 +104,8 @@ function labelForHref(href: string, t: TranslateFn): string {
     "/kushalaya/visits": t("nav.items.liveWellVisits"),
     "/kushalaya/enquiries": t("nav.items.liveWellEnquiries"),
     "/kushalaya/vendors": t("nav.items.liveWellVendors"),
+    "/kushalaya/targets": t("nav.items.liveWellTargets"),
+    "/kushalaya/room-checks": t("nav.items.liveWellRoomChecks"),
     "/kushalaya/hiring": t("nav.items.liveWellHiring"),
     "/kushalaya/blog": t("nav.items.liveWellBlog"),
     "/kushalaya/owner": t("nav.items.liveWellOwner"),

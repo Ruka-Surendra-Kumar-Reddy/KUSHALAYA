@@ -264,15 +264,27 @@ def test_family_sees_confirmed_only(db, client, seed_tenant, mock_provider):
     ensure_family_elder_link(db, fam, elder)
     db.commit()
     fh = _headers(client, "hz.family@test.example")
-    res = client.get("/api/v1/home-safety/family/room-hazards", headers=fh)
+    fam_url = "/api/v1/home-safety/family/room-hazards"
+    share_url = f"/api/v1/home-safety/ai/hazard-checks/{check['id']}/share"
+    # Room checks are internal until a care manager shares them.
+    assert client.get(fam_url, headers=fh).json()["total"] == 0
+    shared = client.post(share_url, headers=headers, json={"shared": True})
+    assert shared.status_code == 200 and shared.json()["shared_with_family_at"]
+    res = client.get(fam_url, headers=fh)
     assert res.status_code == 200, res.text
     data = res.json()
     assert data["total"] == 1
     item = data["hazards"][0]
     assert item["label"] == "No grab bar next to the toilet" and item["room_label"] == "Bathroom"
     assert set(item) == {"room_label", "label", "severity_label", "suggestion"}  # no confidence/boxes/names
-    # Families cannot use the staff API.
+    # Families cannot use the staff API, or share.
     assert client.get(f"/api/v1/home-safety/ai/hazard-checks/{check['id']}", headers=fh).status_code == 403
+    assert client.post(share_url, headers=fh, json={"shared": True}).status_code == 403
+    # Un-sharing hides it again; History lists it with the client's name.
+    assert client.post(share_url, headers=headers, json={"shared": False}).json()["shared_with_family_at"] is None
+    assert client.get(fam_url, headers=fh).json()["total"] == 0
+    recent = client.get("/api/v1/home-safety/ai/hazard-checks?recent=true", headers=headers).json()["checks"]
+    assert any(c["id"] == check["id"] and c["elder_name"] for c in recent)
 
 
 def test_cache_by_image_hash(db, client, seed_tenant, mock_provider):

@@ -780,6 +780,25 @@ def migrate_ai_hazard_checks() -> None:
     import app.models.ai_usage  # noqa: F401
 
     _ensure_tables(["ai_usage_events", "ai_hazard_checks", "ai_hazard_feedback"])
+    cols = {c["name"] for c in inspect(engine).get_columns("ai_hazard_checks")}
+    if "shared_with_family_at" in cols:
+        return
+    with engine.begin() as conn:
+        conn.execute(text("ALTER TABLE ai_hazard_checks ADD COLUMN shared_with_family_at TIMESTAMP"))
+        conn.execute(text("ALTER TABLE ai_hazard_checks ADD COLUMN shared_by_user_id INTEGER"))
+    # Sharing became opt-in (2026-11-12). Families already saw confirmed hazards, so
+    # checks that have any stay shared and nothing disappears from their portal.
+    from app.core.database import SessionLocal
+    from app.models.ai_hazard_check import AiHazardCheck
+
+    db = SessionLocal()
+    try:
+        for row in db.query(AiHazardCheck).filter(AiHazardCheck.status == "succeeded").all():
+            if any((h or {}).get("decision") == "confirmed" for h in row.hazards or []):
+                row.shared_with_family_at = row.finished_at or row.created_at
+        db.commit()
+    finally:
+        db.close()
 
 
 def migrate_home_safety_assessments():

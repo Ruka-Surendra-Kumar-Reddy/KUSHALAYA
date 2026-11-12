@@ -436,6 +436,7 @@ def check_to_dict(
         "error_message": row.error_message,
         "created_at": row.created_at.isoformat() if row.created_at else None,
         "finished_at": row.finished_at.isoformat() if row.finished_at else None,
+        "shared_with_family_at": row.shared_with_family_at.isoformat() if row.shared_with_family_at else None,
     }
 
 
@@ -482,6 +483,7 @@ def list_checks(
     assessment_id: str | None = None,
     elder_id: int | None = None,
     document_id: int | None = None,
+    recent: bool = False,
 ) -> dict:
     tenant = _tenant(db, user)
     q = db.query(AiHazardCheck).filter(AiHazardCheck.tenant_id == tenant.id)
@@ -492,7 +494,7 @@ def list_checks(
         q = q.filter(AiHazardCheck.assessment_id == assessment_id)
     if document_id is not None:
         q = q.filter(AiHazardCheck.document_id == document_id)
-    if not (assessment_id or elder_id is not None or document_id is not None):
+    if not (assessment_id or elder_id is not None or document_id is not None or recent):
         raise_bad_request("assessment_id, elder_id or document_id is required")
     team = team_elder_ids(db, user)
     rows = q.order_by(AiHazardCheck.id.desc()).limit(200).all()
@@ -505,7 +507,26 @@ def list_checks(
     catalog = tenant_catalog(tenant)
     products = _catalog_products(db)
     checks = [check_to_dict(r, catalog, products) for r in latest.values()]
+    if recent:  # Room checks → History: name each client
+        from app.models.elder import Elder
+
+        ids = {c["elder_id"] for c in checks if c["elder_id"]}
+        names = {e.id: f"{e.first_name} {e.last_name or ''}".strip() for e in db.query(Elder).filter(Elder.id.in_(ids)).all()} if ids else {}
+        for c in checks:
+            c["elder_name"] = names.get(c["elder_id"])
     return {"checks": checks, "summary": room_summary(checks)}
+
+
+def set_shared(db: Session, user: User, public_id: str, shared: bool) -> dict:
+    """Show (or stop showing) this check's confirmed hazards on the family portal."""
+    row = _get_row(db, user, public_id)
+    if shared and row.elder_id is None:
+        raise_bad_request("This photo is not linked to a client yet.")
+    row.shared_with_family_at = _now() if shared else None
+    row.shared_by_user_id = user.id if shared else None
+    db.commit()
+    db.refresh(row)
+    return check_to_dict(row, tenant_catalog(_tenant(db, user)), None)
 
 
 # --- decide --------------------------------------------------------------------
@@ -687,6 +708,7 @@ def family_hazards(db: Session, elder_id: int, tenant_id: int) -> dict:
             AiHazardCheck.tenant_id == tenant_id,
             AiHazardCheck.elder_id == elder_id,
             AiHazardCheck.status == "succeeded",
+            AiHazardCheck.shared_with_family_at.isnot(None),
         )
         .order_by(AiHazardCheck.id.desc())
         .all()

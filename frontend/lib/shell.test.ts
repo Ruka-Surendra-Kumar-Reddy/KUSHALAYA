@@ -58,8 +58,8 @@ describe("Kushalaya ops menu (customer journey, 2026-10-26)", () => {
   it("gives admins Today, Sales, Customers, Business and Team & setup", async () => {
     expect(await menu("TENANT_ADMIN")).toEqual([
       "nav.groups.liveWellToday: /dashboard /kushalaya/alerts /kushalaya/messages",
-      "nav.groups.liveWellSales: /kushalaya/enquiries /kushalaya/assessments /kushalaya/vendors",
-      "nav.groups.liveWellCustomersGroup: /kushalaya/customers /kushalaya/visits",
+      "nav.groups.liveWellSales: /kushalaya/enquiries /kushalaya/assessments /kushalaya/vendors /kushalaya/targets",
+      "nav.groups.liveWellCustomersGroup: /kushalaya/customers /kushalaya/visits /kushalaya/room-checks",
       "nav.groups.liveWellBusiness: /kushalaya/owner /kushalaya/invoices /kushalaya/catalog /kushalaya/coupons /kushalaya/blog",
       "nav.groups.liveWellSetup: /users /kushalaya/hiring /kushalaya/iot-devices /kushalaya/rubric /settings",
     ]);
@@ -76,8 +76,8 @@ describe("Kushalaya ops menu (customer journey, 2026-10-26)", () => {
   it("gives managers no Business, Wearables or Assessment questions", async () => {
     expect(await menu("CARE_MANAGER")).toEqual([
       "nav.groups.liveWellToday: /dashboard /kushalaya/alerts /kushalaya/messages",
-      "nav.groups.liveWellSales: /kushalaya/enquiries /kushalaya/assessments /kushalaya/vendors",
-      "nav.groups.liveWellCustomersGroup: /kushalaya/customers /kushalaya/visits",
+      "nav.groups.liveWellSales: /kushalaya/enquiries /kushalaya/assessments /kushalaya/vendors /kushalaya/targets",
+      "nav.groups.liveWellCustomersGroup: /kushalaya/customers /kushalaya/visits /kushalaya/room-checks",
       "nav.groups.liveWellSetup: /users /kushalaya/hiring /settings",
     ]);
   });

@@ -123,11 +123,12 @@ def list_hazard_checks(
     assessment_id: str | None = Query(None),
     elder_id: int | None = Query(None),
     document_id: int | None = Query(None),
+    recent: bool = Query(False, description="All recent checks in your scope (Room checks → History)"),
     db: Session = Depends(get_db),
     current_user: User = Depends(require_roles(*READ_ROLES)),
 ):
     return svc.list_checks(
-        db, current_user, assessment_id=assessment_id, elder_id=elder_id, document_id=document_id
+        db, current_user, assessment_id=assessment_id, elder_id=elder_id, document_id=document_id, recent=recent
     )
 
 
@@ -157,6 +158,28 @@ def get_hazard_check(
     current_user: User = Depends(require_roles(*READ_ROLES)),
 ):
     return svc.get_check(db, current_user, check_id)
+
+
+class ShareRequest(BaseModel):
+    shared: bool
+
+
+@router.post("/{check_id}/share")
+def share_with_family(
+    check_id: str,
+    data: ShareRequest,
+    request: Request,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(require_roles(*WRITE_ROLES)),
+):
+    out = svc.set_shared(db, current_user, check_id, data.shared)
+    SessionActivityService.record_user_action(
+        db, request=request, user=current_user,
+        action="Shared room check with family" if data.shared else "Stopped sharing room check",
+        summary=f"AI room check {check_id}", entity_type="photo", entity_id=str(out.get("document_id")),
+        meta={"check_id": check_id, "shared": data.shared}, commit=True,
+    )
+    return out
 
 
 @router.post("/{check_id}/hazards/{n}")

@@ -153,6 +153,20 @@ const NAV_ICONS: Record<string, JSX.Element> = {
       <path d="M3 8l9 5 9-5M12 13v8" />
     </>,
   ),
+  "/kushalaya/targets": svg(
+    <>
+      <circle cx="12" cy="12" r="9" />
+      <circle cx="12" cy="12" r="5" />
+      <circle cx="12" cy="12" r="1.5" />
+    </>,
+  ),
+  "/kushalaya/room-checks": svg(
+    <>
+      <rect x="3" y="6" width="18" height="14" rx="2" />
+      <circle cx="12" cy="13" r="3.5" />
+      <path d="M8 6l1.5-2h5L16 6" />
+    </>,
+  ),
   "/kushalaya/hiring": svg(
     <>
       <rect x="3" y="7" width="18" height="13" rx="2" />

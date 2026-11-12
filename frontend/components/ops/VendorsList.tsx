@@ -375,7 +375,11 @@ export function VendorsList({ canEdit }: { canEdit: boolean }) {
                   {formatDay(v.last_payment_date) || <span className="vn-dim">—</span>}
                 </span>
                 <span className="vn-added" data-label="Added">
-                  {v.added_by_name ? <strong className="vn-by">{v.added_by_name}</strong> : null}
+                  {v.added_by_name ? (
+                    <strong className="vn-by" title={v.added_by_name}>
+                      {v.added_by_name}
+                    </strong>
+                  ) : null}
                   {formatDay(v.created_at)}
                 </span>
                 <span className="vn-state">
