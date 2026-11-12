@@ -315,3 +315,8 @@
 .tt-form label { display: grid; gap: 0.25rem; }
 .tt-form input { min-height: 44px; }
 .tt-actions { display: flex; justify-content: flex-end; gap: 0.5rem; }
+.tt-table th, .tt-table td { white-space: nowrap; }
+.tt-table th[scope="row"] { white-space: normal; }
+.tt-idle { display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem; margin-top: 0.75rem; }
+.tt-idle-btn { min-height: 36px; padding: 0 0.75rem; }
+@media (max-width: 480px) { .tt-table { font-size: 0.85rem; } .tt-table th, .tt-table td { padding: 0.35rem 0.25rem; } }

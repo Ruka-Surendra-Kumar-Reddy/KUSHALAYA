@@ -88,6 +88,10 @@ export function TeamTargets() {
   }
 
   if (!report && !error) return null;
+  // Full tables only where there is something to read; the rest sit on one line.
+  const hasAny = (p: Person) => p.kpis.some((k) => k.target != null || k.achieved > 0);
+  const active = (report?.people ?? []).filter((p) => hasAny(p) || (report?.people.length ?? 0) === 1);
+  const idle = (report?.people ?? []).filter((p) => !active.includes(p));
 
   return (
     <section className="card tt" aria-labelledby="tt-title">
@@ -102,7 +106,7 @@ export function TeamTargets() {
       ) : null}
       {report && report.people.length === 0 ? <p className="muted">No team members yet.</p> : null}
       <div className="tt-people">
-        {report?.people.map((p) => (
+        {active.map((p) => (
           <div key={p.user_id} className="tt-person">
             <div className="tt-person-head">
               <strong>{p.name}</strong>
@@ -117,8 +121,8 @@ export function TeamTargets() {
                 <tr>
                   <th scope="col">KPI</th>
                   <th scope="col">Target</th>
-                  <th scope="col">Achieved</th>
-                  <th scope="col">Achieved %</th>
+                  <th scope="col">Done</th>
+                  <th scope="col">%</th>
                 </tr>
               </thead>
               <tbody>
@@ -143,6 +147,20 @@ export function TeamTargets() {
           </div>
         ))}
       </div>
+      {idle.length ? (
+        <div className="tt-idle">
+          <span className="muted">No target or results yet:</span>
+          {idle.map((p) =>
+            isAdmin && p.user_id !== 0 ? (
+              <button key={p.user_id} type="button" className="secondary tt-idle-btn" onClick={() => openEdit(p)}>
+                {p.name}
+              </button>
+            ) : (
+              <span key={p.user_id}>{p.name}</span>
+            ),
+          )}
+        </div>
+      ) : null}
       <OpsModal open={editing !== null} title={editing ? `Targets for ${editing.name}` : ""} onClose={() => setEditing(null)}>
         {editing ? (
           <form onSubmit={save} className="tt-form">
