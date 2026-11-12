@@ -201,6 +201,8 @@ export function showItFixedHref(opts: {
   p.set("photo", String(opts.documentId));
   const codes = Array.from(new Set(opts.productCodes.filter(Boolean)));
   if (codes.length) p.set("products", codes.join(","));
+  // Opened from Room checks: the preview's Back link returns there, not to the client page.
+  if (typeof window !== "undefined" && window.location.pathname.startsWith("/kushalaya/room-checks")) p.set("from", "room-checks");
   return `/kushalaya/ai-preview?${p.toString().replace(/%2C/g, ",")}`;
 }
 

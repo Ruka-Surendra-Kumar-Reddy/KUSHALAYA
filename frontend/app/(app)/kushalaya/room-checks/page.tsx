@@ -1,8 +1,8 @@
 "use client";
 
-import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 import { PageHeader } from "@/components/PageHeader";
+import { HazardCheckPanel } from "@/components/livewell/AiHazardCheck";
 import { ClientRoomCheck } from "@/components/ops/ClientRoomCheck";
 import { api } from "@/lib/api";
 import { can } from "@/lib/roles";
@@ -22,6 +22,12 @@ function day(iso: string | null): string {
 export default function RoomChecksPage() {
   const canEdit = can("edit");
   const [tab, setTab] = useState<"new" | "history">("new");
+  const [openRow, setOpenRow] = useState<Row | null>(null);
+
+  // Coming back from a preview lands on History.
+  useEffect(() => {
+    if (new URLSearchParams(window.location.search).get("tab") === "history") setTab("history");
+  }, []);
   const [clients, setClients] = useState<Client[]>([]);
   const [clientId, setClientId] = useState("");
   const [rows, setRows] = useState<Row[] | null>(null);
@@ -68,10 +74,10 @@ export default function RoomChecksPage() {
     <>
       <PageHeader title="Room checks" subtitle="AI photo hazard checks for our team. Families see one only if you share it." />
       <div className="rc-tabs" role="tablist" aria-label="Room checks">
-        <button type="button" role="tab" aria-selected={tab === "new"} className={tab === "new" ? "is-on" : ""} onClick={() => setTab("new")}>
+        <button type="button" role="tab" aria-selected={tab === "new"} className={tab === "new" ? "is-on" : ""} onClick={() => (setOpenRow(null), setTab("new"))}>
           New check
         </button>
-        <button type="button" role="tab" aria-selected={tab === "history"} className={tab === "history" ? "is-on" : ""} onClick={() => setTab("history")}>
+        <button type="button" role="tab" aria-selected={tab === "history"} className={tab === "history" ? "is-on" : ""} onClick={() => (setOpenRow(null), setTab("history"))}>
           History
         </button>
       </div>
@@ -91,6 +97,30 @@ export default function RoomChecksPage() {
             </select>
           </label>
           {clientId ? <ClientRoomCheck key={clientId} elderId={Number(clientId)} /> : <p className="muted">Choose a client to check a room.</p>}
+        </section>
+      ) : openRow ? (
+        <section className="card rc-detail">
+          <button
+            type="button"
+            className="secondary rc-btn"
+            onClick={() => {
+              setOpenRow(null);
+              loadHistory();
+            }}
+          >
+            ← Back to history
+          </button>
+          <h2 className="rc-detail-title">
+            {openRow.elder_name || "Client"} · {openRow.room_label}
+          </h2>
+          <p className="muted">{day(openRow.finished_at || openRow.created_at)}</p>
+          <HazardCheckPanel
+            key={openRow.id}
+            documentId={openRow.document_id}
+            roomType={openRow.room_type}
+            canEdit={canEdit}
+            initialCheck={openRow}
+          />
         </section>
       ) : (
         <section className="card rc-history">
@@ -127,9 +157,9 @@ export default function RoomChecksPage() {
                       <span className={`rc-pill ${r.shared_with_family_at ? "is-shared" : ""}`}>
                         {r.shared_with_family_at ? "Shared with family" : "Team only"}
                       </span>
-                      <Link className="secondary rc-btn" href={`/kushalaya/customers/${r.elder_id}`}>
+                      <button type="button" className="secondary rc-btn" onClick={() => setOpenRow(r)}>
                         Open
-                      </Link>
+                      </button>
                       {canEdit && r.status === "succeeded" ? (
                         <button
                           type="button"

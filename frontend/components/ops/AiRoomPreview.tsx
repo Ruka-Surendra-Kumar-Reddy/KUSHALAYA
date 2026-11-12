@@ -49,6 +49,8 @@ export type AiRoomPreviewProps = {
   photo?: number | null;
   products?: string[];
   job?: string | null;
+  /** "room-checks" when opened from that tab, so Back returns there. */
+  from?: string | null;
 };
 
 /** Ops page: pick photo → products → package → Generate; watch progress; review with a slider. */
@@ -218,11 +220,16 @@ export function AiRoomPreview(props: AiRoomPreviewProps) {
   }
 
   const firstName = ctx?.client?.first_name || "";
-  const backHref = ctx?.client?.elder_id ? `/kushalaya/customers/${ctx.client.elder_id}?tab=health` : "/kushalaya/assessments";
+  const fromRoomChecks = props.from === "room-checks";
+  const backHref = fromRoomChecks
+    ? "/kushalaya/room-checks?tab=history"
+    : ctx?.client?.elder_id
+      ? `/kushalaya/customers/${ctx.client.elder_id}?tab=health`
+      : "/kushalaya/assessments";
 
   return (
     <div className="ap">
-      <BackLink href={backHref} label={firstName ? `Back to ${firstName}` : "Back"} />
+      <BackLink href={backHref} label={fromRoomChecks ? "Back to Room checks" : firstName ? `Back to ${firstName}` : "Back"} />
       <header className="ap-head">
         <h1>See it in their home</h1>
         <p className="muted">

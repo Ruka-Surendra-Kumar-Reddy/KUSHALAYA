@@ -22,6 +22,7 @@ function PreviewFromQuery() {
       photo={num("photo")}
       products={parseProductCodes(q.get("products"))}
       job={q.get("job")}
+      from={q.get("from")}
     />
   );
 }
