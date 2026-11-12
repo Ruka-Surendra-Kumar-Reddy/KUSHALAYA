@@ -88,80 +88,67 @@ export function TeamTargets() {
   }
 
   if (!report && !error) return null;
-  // Full tables only where there is something to read; the rest sit on one line.
-  const hasAny = (p: Person) => p.kpis.some((k) => k.target != null || k.achieved > 0);
-  const active = (report?.people ?? []).filter((p) => hasAny(p) || (report?.people.length ?? 0) === 1);
-  const idle = (report?.people ?? []).filter((p) => !active.includes(p));
+  const people = report?.people ?? [];
+  const cols = people[0]?.kpis ?? [];
 
   return (
     <section className="card tt" aria-labelledby="tt-title">
       <header className="tt-head">
         <h2 id="tt-title">{report ? monthName(report.month) : ""}</h2>
-        {report?.as_of ? <span className="muted">Month to date</span> : null}
+        {report?.as_of ? <span className="muted">Done / target, month to date</span> : null}
       </header>
       {error ? (
         <p className="error" role="alert">
           {error}
         </p>
       ) : null}
-      {report && report.people.length === 0 ? <p className="muted">No team members yet.</p> : null}
-      {active.length ? (
+      {report && people.length === 0 ? <p className="muted">No team members yet.</p> : null}
+      {people.length ? (
         <div className="tt-scroll">
-          <table className="tt-table tt-all">
+          <table className="tt-table tt-grid">
             <thead>
               <tr>
                 <th scope="col">Team member</th>
-                <th scope="col">KPI</th>
-                <th scope="col">Target</th>
-                <th scope="col">Done</th>
-                <th scope="col">%</th>
+                {cols.map((k) => (
+                  <th key={k.key} scope="col">
+                    {k.label}
+                  </th>
+                ))}
+                {isAdmin ? <th scope="col" aria-label="Actions" /> : null}
               </tr>
             </thead>
-            {active.map((p) => (
-              <tbody key={p.user_id} className="tt-group">
-                {p.kpis.map((k, i) => (
-                  <tr key={k.key}>
-                    {i === 0 ? (
-                      <th scope="rowgroup" rowSpan={p.kpis.length} className="tt-who">
-                        <strong>{p.name}</strong>
-                        {isAdmin && p.user_id !== 0 ? (
-                          <button type="button" className="secondary tt-set" onClick={() => openEdit(p)}>
-                            Set targets
-                          </button>
-                        ) : null}
-                      </th>
-                    ) : null}
-                    <th scope="row">{k.label}</th>
-                    <td>{value(k, k.target)}</td>
-                    <td>{value(k, k.achieved)}</td>
-                    <td>
-                      {k.percent == null ? (
-                        "—"
-                      ) : (
+            <tbody>
+              {people.map((p) => (
+                <tr key={p.user_id}>
+                  <th scope="row" className="tt-who">
+                    {p.name}
+                  </th>
+                  {p.kpis.map((k) => (
+                    <td key={k.key}>
+                      <span className="tt-val">
+                        <strong>{value(k, k.achieved)}</strong>
+                        <span className="muted"> / {value(k, k.target)}</span>
+                      </span>
+                      {k.percent == null ? null : (
                         <span className={`tt-pct ${k.percent >= 100 ? "is-done" : k.percent >= 50 ? "is-mid" : "is-low"}`}>
                           {k.percent}%
                         </span>
                       )}
                     </td>
-                  </tr>
-                ))}
-              </tbody>
-            ))}
+                  ))}
+                  {isAdmin ? (
+                    <td>
+                      {p.user_id !== 0 ? (
+                        <button type="button" className="secondary tt-set" onClick={() => openEdit(p)}>
+                          Set targets
+                        </button>
+                      ) : null}
+                    </td>
+                  ) : null}
+                </tr>
+              ))}
+            </tbody>
           </table>
-        </div>
-      ) : null}
-      {idle.length ? (
-        <div className="tt-idle">
-          <span className="muted">No target or results yet:</span>
-          {idle.map((p) =>
-            isAdmin && p.user_id !== 0 ? (
-              <button key={p.user_id} type="button" className="secondary tt-idle-btn" onClick={() => openEdit(p)}>
-                {p.name}
-              </button>
-            ) : (
-              <span key={p.user_id}>{p.name}</span>
-            ),
-          )}
         </div>
       ) : null}
       <OpsModal open={editing !== null} title={editing ? `Targets for ${editing.name}` : ""} onClose={() => setEditing(null)}>

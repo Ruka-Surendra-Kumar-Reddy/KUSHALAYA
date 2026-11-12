@@ -324,9 +324,13 @@
 /* Team targets as one table: a row group per person. */
 .tt { margin-top: 0; }
 .tt-scroll { overflow-x: auto; }
-.tt-all { min-width: 34rem; }
-.tt-all .tt-group tr:first-child > * { border-top: 2px solid #d8e1ea; }
-.tt-all .tt-who { vertical-align: top; text-align: left; width: 13rem; padding-right: 0.75rem; white-space: normal; }
-.tt-all .tt-who strong { display: block; margin-bottom: 0.4rem; color: #0f2a4a; }
-.tt-all .tt-set { min-height: 36px; padding: 0 0.75rem; }
-.tt-all thead th:nth-child(2) { text-align: left; }
+.tt-grid { min-width: 46rem; }
+.tt-grid th, .tt-grid td { padding: 0.7rem 0.6rem; vertical-align: middle; }
+.tt-grid thead th { white-space: normal; vertical-align: bottom; }
+.tt-grid .tt-who { text-align: left; font-weight: 700; color: #0f2a4a; white-space: normal; min-width: 9rem; position: sticky; left: 0; background: #fff; }
+.tt-grid thead th:first-child { position: sticky; left: 0; background: #fff; }
+.tt-grid .tt-val { display: block; }
+.tt-grid .tt-val strong { font-size: 1.05rem; }
+.tt-grid .tt-pct { margin-top: 0.2rem; font-size: 0.8rem; }
+.tt-grid .tt-set { min-height: 36px; padding: 0 0.75rem; white-space: nowrap; }
+.tt-grid tbody tr:hover > * { background: #f7f9fc; }
