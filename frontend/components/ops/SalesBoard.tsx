@@ -29,6 +29,7 @@ import {
   addLeadComment,
   boardColumns,
   createLead,
+  updateLead,
   downloadCsv,
   dropTarget,
   filterLeads,
@@ -269,6 +270,7 @@ function LeadDetail({
   const [events, setEvents] = useState<LeadEvent[] | null>(null);
   const [error, setError] = useState("");
   const [moveTo, setMoveTo] = useState<SalesStage | null>(initialMove);
+  const [editing, setEditing] = useState(false);
   // Move stage: one drop-down (next stage pre-selected) + Move → the same confirm form.
   const [pick, setPick] = useState<SalesStage | "">(nextStage(lead.stage) ?? "");
   const router = useRouter();
@@ -314,6 +316,20 @@ function LeadDetail({
   return (
     <OpsModal open title={lead.name || "Lead"} onClose={onClose}>
       <div className="sb-detail">
+        {editing ? (
+          <EditLead
+            lead={lead}
+            onCancel={() => setEditing(false)}
+            onSaved={() => {
+              setEditing(false);
+              onChanged("Details saved");
+            }}
+          />
+        ) : edit && lead.stage !== "WON" ? (
+          <button type="button" className="secondary sb-edit-btn" style={{ justifySelf: "start", minHeight: 40 }} onClick={() => setEditing(true)}>
+            Edit details
+          </button>
+        ) : null}
         <dl className="sb-facts">
           <Fact label="Name">{lead.name || "—"}</Fact>
           <Fact label="Phone">{lead.phone ? <a href={telHref(lead.phone)}>{lead.phone}</a> : "—"}</Fact>
@@ -468,11 +484,82 @@ function LeadDetail({
   );
 }
 
+function EditLead({ lead, onCancel, onSaved }: { lead: Lead; onCancel: () => void; onSaved: () => void }) {
+  const [name, setName] = useState(lead.name || "");
+  const [phone, setPhone] = useState(lead.phone || "");
+  const [email, setEmail] = useState(lead.email || "");
+  const [address, setAddress] = useState(lead.address || "");
+  const [pincode, setPincode] = useState(lead.pincode || "");
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState("");
+
+  async function submit(e: FormEvent) {
+    e.preventDefault();
+    if (!name.trim()) return setError("Add a name.");
+    if (!phone.trim() && !email.trim()) return setError("Add a mobile number or an email.");
+    setBusy(true);
+    setError("");
+    try {
+      await updateLead(lead.id, {
+        name: name.trim(),
+        phone: phone.trim() || null,
+        email: email.trim() || null,
+        address: address.trim() || null,
+        pincode: pincode.trim() || null,
+      });
+      onSaved();
+    } catch (err) {
+      setError(errText(err, "Could not save"));
+      setBusy(false);
+    }
+  }
+
+  return (
+    <form className="sb-edit" style={{ display: "grid", gap: "0.75rem", marginBottom: "1rem" }} onSubmit={submit}>
+      <label>
+        Name
+        <input value={name} onChange={(e) => setName(e.target.value)} required />
+      </label>
+      <label>
+        Mobile
+        <input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="+91" />
+      </label>
+      <label>
+        Email
+        <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+      </label>
+      <label>
+        Address
+        <textarea rows={2} value={address} maxLength={500} onChange={(e) => setAddress(e.target.value)} placeholder="Flat, street, area, city" />
+      </label>
+      <label>
+        PIN code
+        <input inputMode="numeric" value={pincode} maxLength={10} onChange={(e) => setPincode(e.target.value)} />
+      </label>
+      {error ? (
+        <p className="error-text" role="alert">
+          {error}
+        </p>
+      ) : null}
+      <div className="sb-btns">
+        <button type="button" className="secondary" onClick={onCancel} disabled={busy}>
+          Cancel
+        </button>
+        <button type="submit" className="primary" disabled={busy}>
+          {busy ? "Saving…" : "Save details"}
+        </button>
+      </div>
+    </form>
+  );
+}
+
 function AddLead({ onClose, onSaved }: { onClose: () => void; onSaved: (name: string) => void }) {
   const [name, setName] = useState("");
   const [source, setSource] = useState<string>(LEAD_SOURCES[0]);
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
+  const [address, setAddress] = useState("");
+  const [pincode, setPincode] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
 
@@ -484,7 +571,14 @@ function AddLead({ onClose, onSaved }: { onClose: () => void; onSaved: (name: st
     setBusy(true);
     setError("");
     try {
-      await createLead({ name: full, source: source.trim() || "Other", phone: phone.trim() || null, email: email.trim() || null });
+      await createLead({
+        name: full,
+        source: source.trim() || "Other",
+        phone: phone.trim() || null,
+        email: email.trim() || null,
+        address: address.trim() || null,
+        pincode: pincode.trim() || null,
+      });
       onSaved(full);
     } catch (err) {
       setError(errText(err, "Could not save"));
@@ -518,6 +612,14 @@ function AddLead({ onClose, onSaved }: { onClose: () => void; onSaved: (name: st
         <label>
           Email
           <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+        </label>
+        <label>
+          Address
+          <textarea rows={2} value={address} maxLength={500} onChange={(e) => setAddress(e.target.value)} placeholder="Flat, street, area, city" />
+        </label>
+        <label>
+          PIN code
+          <input inputMode="numeric" value={pincode} maxLength={10} onChange={(e) => setPincode(e.target.value)} />
         </label>
         {error ? (
           <p className="error-text" role="alert">

@@ -440,8 +440,18 @@ export const listLeads = (query = "") => api<Lead[]>(`/api/v1/sales/leads${query
 export const addLeadComment = (id: number, comment: string) =>
   api<{ ok: boolean }>(`/api/v1/sales/leads/${id}/comment`, { method: "POST", body: JSON.stringify({ comment }) });
 export const leadHistory = (id: number) => api<LeadEvent[]>(`/api/v1/sales/leads/${id}/history`);
-export const createLead = (body: { name: string; source: string; phone: string | null; email: string | null }) =>
-  api<Lead>("/api/v1/sales/leads", { method: "POST", body: JSON.stringify(body) });
+export const createLead = (body: {
+  name: string;
+  source: string;
+  phone: string | null;
+  email: string | null;
+  address?: string | null;
+  pincode?: string | null;
+}) => api<Lead>("/api/v1/sales/leads", { method: "POST", body: JSON.stringify(body) });
+export const updateLead = (
+  id: number,
+  body: { name: string; phone: string | null; email: string | null; address: string | null; pincode: string | null },
+) => api<Lead>(`/api/v1/sales/leads/${id}`, { method: "PATCH", body: JSON.stringify(body) });
 export const moveLead = (
   id: number,
   body: { to: SalesStage; comment?: string | null; elder_id?: number | null } & Partial<PlanTerms>,

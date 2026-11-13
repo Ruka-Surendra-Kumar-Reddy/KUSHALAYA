@@ -162,6 +162,11 @@
 .rp-notes { display: grid; gap: 0.4rem; max-width: 48rem; }
 .rp-photos { display: grid; grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr)); gap: 0.75rem; }
 .rp-photo { margin: 0; }
+.rp-ai-list { margin: 0; padding: 0; list-style: none; display: grid; gap: 1rem; }
+.rp-ai-room { margin: 0 0 0.35rem; font-weight: 700; }
+.rp-ai-draft { font-weight: 400; color: var(--rp-muted); font-size: 0.85rem; }
+.rp-ai-imgs { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+@media (max-width: 480px) { .rp-ai-imgs { grid-template-columns: 1fr; } }
 .rp-photo img, .rp-photo-empty { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; background: #f4f6f8; }
 .rp-photo-empty { display: grid; place-items: center; color: var(--rp-muted); font-size: 0.85rem; }
 .rp-photo figcaption { font-size: 0.8rem; color: var(--rp-muted); margin-top: 0.3rem; }

@@ -27,6 +27,7 @@ import { fetchAdminSolutions, getCachedSolutions } from "@/lib/livewell/solution
 import type { SolutionLibrary, SolutionPriority } from "@/lib/livewell/solution-types";
 import { useSafetyRubric } from "@/lib/livewell/useSafetyRubric";
 import { hydratePhotoPreviews } from "@/lib/livewell/photoPersist";
+import { ReportAiPreviews } from "@/components/livewell/ReportAiPreviews";
 import { fetchShowcaseCatalog } from "@/lib/livewell/catalogApi";
 import { catalogProductImageSrc } from "@/lib/livewell/catalogImages";
 import type { SafetyCatalog } from "@/lib/livewell/catalog-types";
@@ -702,6 +703,11 @@ export function AssessmentReportView({
             </div>
           </section>
         ) : null}
+
+        <ReportAiPreviews
+          assessmentId={assessment.id}
+          title={<SectionTitle n={next()}>AI before and after</SectionTitle>}
+        />
 
         <details className="rp-answers">
           <summary>

@@ -653,7 +653,41 @@ def dashboard_counts(db: Session, user: User) -> dict:
     }
 
 
-def create_lead(db: Session, user: User, *, name: str, source: str | None, phone: str | None, email: str | None) -> dict:
+def _clean(v: str | None, limit: int) -> str | None:
+    return " ".join((v or "").split())[:limit] or None
+
+
+def update_lead(
+    db: Session, user: User, lead_id: int, *, name: str, phone: str | None, email: str | None,
+    address: str | None, pincode: str | None,
+) -> dict:
+    """Correct a lead's contact details and address. Won leads are edited on the customer."""
+    row = _lead_for(db, user, lead_id)
+    if board_stage(row) == "WON":
+        _bad("This lead is a customer now. Edit the details on the customer page.")
+    full = " ".join((name or "").split())[:200]
+    if not full:
+        _bad("Add a name.")
+    if not (phone or "").strip() and not (email or "").strip():
+        _bad("Add a mobile number or an email.")
+    first, _, last = full.rpartition(" ")
+    if not first:
+        first, last = full, ""
+    row.first_name, row.last_name = first[:100], last[:100]
+    row.phone = (phone or "").strip()[:50] or None
+    row.email = (email or "").strip()[:255] or None
+    row.address = _clean(address, 500)
+    row.pincode = _clean(pincode, 10)
+    row.updated_at = _now()
+    db.commit()
+    db.refresh(row)
+    return lead_dict(row)
+
+
+def create_lead(
+    db: Session, user: User, *, name: str, source: str | None, phone: str | None, email: str | None,
+    address: str | None = None, pincode: str | None = None,
+) -> dict:
     from app.schemas.prospects import ElderProspectCreate
     from app.services.prospect_service import ProspectService
 
@@ -679,6 +713,10 @@ def create_lead(db: Session, user: User, *, name: str, source: str | None, phone
     from app.livewell import team_alerts
 
     row = _lead_for(db, user, created["id"])
+    if _clean(address, 500) or _clean(pincode, 10):
+        row.address = _clean(address, 500)
+        row.pincode = _clean(pincode, 10)
+        db.commit()
     team_alerts.alert_team(
         db, row.tenant_id, "lead_new", f"New lead: {full}",
         f"Added by {user.first_name} {user.last_name}. Phone: {row.phone or 'not given'}.",

@@ -21,6 +21,16 @@ class LeadIn(BaseModel):
     source: str | None = Field(default=None, max_length=100)
     phone: str | None = Field(default=None, max_length=50)
     email: str | None = Field(default=None, max_length=255)
+    address: str | None = Field(default=None, max_length=500)
+    pincode: str | None = Field(default=None, max_length=10)
+
+
+class LeadEditIn(BaseModel):
+    name: str = Field(max_length=200)
+    phone: str | None = Field(default=None, max_length=50)
+    email: str | None = Field(default=None, max_length=255)
+    address: str | None = Field(default=None, max_length=500)
+    pincode: str | None = Field(default=None, max_length=10)
 
 
 class MoveIn(BaseModel):
@@ -72,7 +82,14 @@ def add_comment(lead_id: int, data: CommentIn, db: Session = Depends(get_db), us
 
 @router.post("/leads", status_code=201)
 def create_lead(data: LeadIn, db: Session = Depends(get_db), user: User = Depends(require_roles(*WRITE_ROLES))):
-    return sp.create_lead(db, user, name=data.name, source=data.source, phone=data.phone, email=data.email)
+    return sp.create_lead(db, user, name=data.name, source=data.source, phone=data.phone, email=data.email,
+                          address=data.address, pincode=data.pincode)
+
+
+@router.patch("/leads/{lead_id}")
+def edit_lead(lead_id: int, data: LeadEditIn, db: Session = Depends(get_db), user: User = Depends(require_roles(*WRITE_ROLES))):
+    return sp.update_lead(db, user, lead_id, name=data.name, phone=data.phone, email=data.email,
+                          address=data.address, pincode=data.pincode)
 
 
 @router.get("/leads/{lead_id}/history")
