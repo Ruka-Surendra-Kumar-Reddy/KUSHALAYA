@@ -4521,3 +4521,14 @@ a.mk-contact-card strong,
   .mk-cookie { left: 10px; right: 10px; bottom: calc(76px + env(safe-area-inset-bottom)); max-width: none; }
 }
 @media print { .mk-cookie { display: none; } }
+
+/* /services cards */
+.sv-card { padding: 0; overflow: hidden; border-top: 4px solid var(--mk-blue-2); }
+.sv-card.is-green { border-top-color: var(--mk-green); }
+.sv-head { display: flex; align-items: center; gap: 0.85rem; padding: 1.1rem 1.25rem; border-bottom: 1px solid var(--mk-line); }
+.sv-head .mk-card-ico { margin: 0; flex: none; }
+.sv-head h3 { margin: 0; font-size: 1.2rem; }
+.sv-head p { margin: 0.1rem 0 0; font-size: 0.92rem; opacity: 0.75; }
+.sv-list { margin: 0; padding: 1.1rem 1.25rem 1.3rem; grid-template-columns: 1fr 1fr; gap: 0.6rem 1rem; }
+.sv-list li { font-size: 1rem; font-weight: 500; }
+@media (max-width: 420px) { .sv-list { grid-template-columns: 1fr; } }

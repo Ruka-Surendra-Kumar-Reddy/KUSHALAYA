@@ -7,34 +7,39 @@ import { withPublicBrand } from "@/lib/public-brand";
 import { MarketingShell } from "./MarketingShell";
 import { ICONS, PageHero, Reveal, SectionHead, type IconName } from "./ui";
 
-type Service = { icon: IconName; title: string; items: string[] };
+type Service = { icon: IconName; title: string; desc: string; items: string[] };
 
 /** Done by the family's own KushAlaya Family Partner. */
 const BY_PARTNER: Service[] = [
-  { icon: "shield", title: "Safety", items: ["Emergency response", "Fall prevention", "Home safety checks", "SOS", "Hospital support"] },
-  { icon: "heart", title: "Health monitoring", items: ["Regular health checks", "Medicine routine", "Doctor visit follow-up"] },
-  { icon: "clipboard", title: "Daily life", items: ["Groceries", "Bills", "Banking", "Pension", "Documentation"] },
-  { icon: "chat", title: "Companionship", items: ["Care friend", "Walks", "Games", "Hobbies", "Conversations", "Events"] },
-  { icon: "users", title: "Family connect", items: ["Family dashboard", "Updates", "Medical records", "Alerts", "KushLife report"] },
-  { icon: "star", title: "Senior life", items: ["Birthday celebrations", "Community events", "Outings"] },
+  { icon: "shield", title: "Safety", desc: "Fewer falls, faster help.", items: ["Emergency response", "Fall prevention", "Home safety checks", "SOS", "Hospital support"] },
+  { icon: "heart", title: "Health monitoring", desc: "We watch the small changes.", items: ["Regular health checks", "Medicine routine", "Doctor visit follow-up"] },
+  { icon: "clipboard", title: "Daily life", desc: "Everyday tasks, taken care of.", items: ["Groceries", "Bills", "Banking", "Pension", "Documentation"] },
+  { icon: "chat", title: "Companionship", desc: "Good company, every visit.", items: ["Care friend", "Walks", "Games", "Hobbies", "Conversations", "Events"] },
+  { icon: "users", title: "Family connect", desc: "You always know how they are.", items: ["Family dashboard", "Updates", "Medical records", "Alerts", "KushLife report"] },
+  { icon: "star", title: "Senior life", desc: "More to look forward to.", items: ["Birthday celebrations", "Community events", "Outings"] },
 ];
 
 /** Delivered by verified partners; the Family Partner arranges and follows up. */
 const THROUGH_PARTNERS: Service[] = [
-  { icon: "pill", title: "Health at home", items: ["Nurse", "Physiotherapy", "Diagnostics", "Medicine delivery"] },
-  { icon: "walk", title: "Caregivers and help", items: ["Caregivers", "Attendants", "Domestic help"] },
-  { icon: "tool", title: "Home and property", items: ["Repairs", "Maintenance", "Cleaning", "Security", "Property upkeep"] },
-  { icon: "pin", title: "Mobility", items: ["Hospital transport", "Airport", "Shopping", "Religious visits", "Travel", "Pilgrimage"] },
+  { icon: "pill", title: "Health at home", desc: "Medical care without the travel.", items: ["Nurse", "Physiotherapy", "Diagnostics", "Medicine delivery"] },
+  { icon: "walk", title: "Caregivers and help", desc: "Trained, verified people at home.", items: ["Caregivers", "Attendants", "Domestic help"] },
+  { icon: "tool", title: "Home and property", desc: "A home that stays in good shape.", items: ["Repairs", "Maintenance", "Cleaning", "Security", "Property upkeep"] },
+  { icon: "pin", title: "Mobility", desc: "Safe trips, door to door.", items: ["Hospital transport", "Airport", "Shopping", "Religious visits", "Travel", "Pilgrimage"] },
 ];
 
-function Tiles({ list }: { list: Service[] }) {
+function Tiles({ list, tone }: { list: Service[]; tone: "blue" | "green" }) {
   return (
     <div className="mk-grid-3 sv-grid">
       {list.map((s, i) => (
-        <Reveal key={s.title} className="mk-card" as="article" delay={i * 60}>
-          <span className={`mk-card-ico ${i % 2 ? "is-green" : ""}`}>{ICONS[s.icon]}</span>
-          <h3>{s.title}</h3>
-          <ul className="mk-chips">
+        <Reveal key={s.title} className={`mk-card sv-card is-${tone}`} as="article" delay={i * 60}>
+          <header className="sv-head">
+            <span className={`mk-card-ico ${tone === "green" ? "is-green" : ""}`}>{ICONS[s.icon]}</span>
+            <div>
+              <h3>{s.title}</h3>
+              <p>{s.desc}</p>
+            </div>
+          </header>
+          <ul className="mk-checklist sv-list">
             {s.items.map((x) => (
               <li key={x}>{x}</li>
             ))}
@@ -73,7 +78,7 @@ export function ServicesMarketingPage() {
             title="What your Family Partner does"
             sub="Done by our own team, on every plan."
           />
-          <Tiles list={BY_PARTNER} />
+          <Tiles list={BY_PARTNER} tone="blue" />
         </div>
       </section>
 
@@ -85,7 +90,7 @@ export function ServicesMarketingPage() {
             title="What we arrange through partners"
             sub="Verified partners do the work. Your Family Partner books it and follows up until it is done."
           />
-          <Tiles list={THROUGH_PARTNERS} />
+          <Tiles list={THROUGH_PARTNERS} tone="green" />
         </div>
       </section>
 
