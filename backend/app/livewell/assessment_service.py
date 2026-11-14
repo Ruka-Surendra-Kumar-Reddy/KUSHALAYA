@@ -5,6 +5,7 @@ from __future__ import annotations
 import logging
 from datetime import datetime, timezone
 
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 from sqlalchemy.orm.attributes import flag_modified
 
@@ -315,8 +316,9 @@ class HomeSafetyAssessmentService:
             )
             .first()
         )
+        created = False
         if row is None:
-            row = HomeSafetyAssessmentRecord(
+            new_row = HomeSafetyAssessmentRecord(
                 assessment_id=assessment_id,
                 tenant_id=tenant.id,
                 created_by_user_id=user.id,
@@ -327,8 +329,22 @@ class HomeSafetyAssessmentService:
                 versions=[_version_entry(user, payload, "completed")] if status == "completed" else [],
                 history=[],
             )
-            db.add(row)
-        else:
+            try:
+                with db.begin_nested():
+                    db.add(new_row)
+                row, created = new_row, True
+            except IntegrityError:
+                # Two saves of a brand-new assessment at the same moment: the other one
+                # created the record first, so this one updates it instead of failing.
+                row = (
+                    db.query(HomeSafetyAssessmentRecord)
+                    .filter(
+                        HomeSafetyAssessmentRecord.tenant_id == tenant.id,
+                        HomeSafetyAssessmentRecord.assessment_id == assessment_id,
+                    )
+                    .one()
+                )
+        if not created:
             previous = row.payload if isinstance(row.payload, dict) else {}
             # versions / history are large deferred text columns: load and rewrite them only
             # when this save adds to them (completing, or reopening a completed one). Parse
