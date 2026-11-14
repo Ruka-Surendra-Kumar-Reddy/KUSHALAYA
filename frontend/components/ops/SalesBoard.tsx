@@ -30,6 +30,7 @@ import {
   boardColumns,
   createLead,
   updateLead,
+  deleteLead,
   downloadCsv,
   dropTarget,
   filterLeads,
@@ -271,6 +272,16 @@ function LeadDetail({
   const [error, setError] = useState("");
   const [moveTo, setMoveTo] = useState<SalesStage | null>(initialMove);
   const [editing, setEditing] = useState(false);
+  async function removeLead() {
+    if (!window.confirm(`Delete the lead "${lead.name}"? This cannot be undone.`)) return;
+    try {
+      await deleteLead(lead.id);
+      onChanged(`Lead ${lead.name} deleted`);
+      onClose();
+    } catch (err) {
+      setError(errText(err, "Could not delete the lead"));
+    }
+  }
   // Move stage: one drop-down (next stage pre-selected) + Move → the same confirm form.
   const [pick, setPick] = useState<SalesStage | "">(nextStage(lead.stage) ?? "");
   const router = useRouter();
@@ -326,9 +337,14 @@ function LeadDetail({
             }}
           />
         ) : edit && lead.stage !== "WON" ? (
-          <button type="button" className="secondary sb-edit-btn" style={{ justifySelf: "start", minHeight: 40 }} onClick={() => setEditing(true)}>
-            Edit details
-          </button>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem" }}>
+            <button type="button" className="secondary sb-edit-btn" style={{ minHeight: 40 }} onClick={() => setEditing(true)}>
+              Edit details
+            </button>
+            <button type="button" className="secondary sb-lost" style={{ minHeight: 40 }} onClick={() => void removeLead()}>
+              Delete lead
+            </button>
+          </div>
         ) : null}
         <dl className="sb-facts">
           <Fact label="Name">{lead.name || "—"}</Fact>

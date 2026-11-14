@@ -684,6 +684,30 @@ def update_lead(
     return lead_dict(row)
 
 
+def delete_lead(db: Session, user: User, lead_id: int) -> dict:
+    """Remove a lead added by mistake (a duplicate). Admins, or the lead's own owner.
+    A lead with an assessment, a plan or a customer keeps its history: mark it lost instead."""
+    from app.core.rbac import ADMIN_ROLES
+    from app.livewell.assessment_start import lead_record
+
+    row = _lead_for(db, user, lead_id)
+    role = getattr(user.role, "value", user.role)
+    if role not in {getattr(r, "value", r) for r in ADMIN_ROLES} and row.owner_user_id != user.id:
+        raise HTTPException(status_code=403, detail="Only an admin or the lead's owner can delete it.")
+    used = (
+        row.converted_elder_id is not None
+        or lead_record(db, row) is not None
+        or db.query(HomeSafetyAssessmentRecord.id).filter(HomeSafetyAssessmentRecord.prospect_id == row.id).first() is not None
+        or db.query(CustomerPlan.id).filter(CustomerPlan.prospect_id == row.id).first() is not None
+    )
+    if used:
+        _bad("This lead has an assessment or a plan, so it can't be deleted. Mark it lost instead.")
+    db.query(PipelineActivity).filter(PipelineActivity.elder_prospect_id == row.id).delete(synchronize_session=False)
+    db.delete(row)
+    db.commit()
+    return {"ok": True}
+
+
 def create_lead(
     db: Session, user: User, *, name: str, source: str | None, phone: str | None, email: str | None,
     address: str | None = None, pincode: str | None = None,

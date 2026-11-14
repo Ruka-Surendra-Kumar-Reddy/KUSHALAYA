@@ -5,6 +5,8 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { api } from "@/lib/api";
 import { assessmentBoard, updateJob, type AssessmentBoardRow } from "@/lib/jobs";
 import { can } from "@/lib/roles";
+import { OpsModal } from "@/components/ops/OpsModal";
+import { formatIST, istInputToISO, istInputValue } from "@/lib/ist";
 import "./assessment-board.css";
 
 type Tab = AssessmentBoardRow["status"];
@@ -88,6 +90,35 @@ export function AssessmentBoard({ reloadToken = 0 }: { reloadToken?: number }) {
       load();
     } catch (e) {
       setError(e instanceof Error ? e.message : "Could not change the care manager");
+    }
+  }
+
+  const [moving, setMoving] = useState<AssessmentBoardRow | null>(null);
+  const [moveDate, setMoveDate] = useState("");
+  const [moveTime, setMoveTime] = useState("10:00");
+  const [moveBusy, setMoveBusy] = useState(false);
+  const [moveError, setMoveError] = useState("");
+
+  function openMove(r: AssessmentBoardRow) {
+    setMoving(r);
+    setMoveDate(istInputValue(86400000).slice(0, 10));
+    setMoveTime("10:00");
+    setMoveError("");
+  }
+
+  async function saveMove(e: React.FormEvent) {
+    e.preventDefault();
+    if (!moving?.job_id || !moveDate || !moveTime) return;
+    setMoveBusy(true);
+    setMoveError("");
+    try {
+      await updateJob(moving.job_id, { scheduled_at: istInputToISO(`${moveDate}T${moveTime}`), force: true });
+      setMoving(null);
+      load();
+    } catch (err) {
+      setMoveError(err instanceof Error ? err.message : "Could not change the date");
+    } finally {
+      setMoveBusy(false);
     }
   }
 
@@ -198,6 +229,11 @@ export function AssessmentBoard({ reloadToken = 0 }: { reloadToken?: number }) {
               </span>
               <span className="ab-actions" role="cell">
                 {action(r)}
+                {edit && r.status === "scheduled" && r.job_id ? (
+                  <button type="button" className="ab-cancel ab-move" onClick={() => openMove(r)}>
+                    Change time
+                  </button>
+                ) : null}
                 {edit && r.status !== "completed" && r.job_id ? (
                   <button type="button" className="ab-cancel" onClick={() => void cancel(r)}>
                     Cancel
@@ -208,6 +244,34 @@ export function AssessmentBoard({ reloadToken = 0 }: { reloadToken?: number }) {
           ))}
         </div>
       ) : null}
+      <OpsModal open={moving !== null} title={moving ? `Change time: ${moving.client_name}` : ""} onClose={() => setMoving(null)}>
+        {moving ? (
+          <form onSubmit={saveMove} style={{ display: "grid", gap: "0.75rem" }}>
+            <p className="muted">Now: {moving.scheduled_at ? formatIST(moving.scheduled_at) : "no time set"}</p>
+            <label>
+              New date
+              <input type="date" value={moveDate} min={istInputValue().slice(0, 10)} required onChange={(e) => setMoveDate(e.target.value)} />
+            </label>
+            <label>
+              New time (IST)
+              <input type="time" value={moveTime} required onChange={(e) => setMoveTime(e.target.value)} />
+            </label>
+            {moveError ? (
+              <p className="error" role="alert">
+                {moveError}
+              </p>
+            ) : null}
+            <div style={{ display: "flex", justifyContent: "flex-end", gap: "0.5rem" }}>
+              <button type="button" className="secondary" onClick={() => setMoving(null)} disabled={moveBusy}>
+                Close
+              </button>
+              <button type="submit" disabled={moveBusy}>
+                {moveBusy ? "Saving…" : "Save new time"}
+              </button>
+            </div>
+          </form>
+        ) : null}
+      </OpsModal>
     </section>
   );
 }

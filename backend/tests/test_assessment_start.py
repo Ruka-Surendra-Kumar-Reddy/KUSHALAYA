@@ -371,3 +371,19 @@ def test_lead_times_are_sent_as_utc(client, db, seed_tenant, auth_headers):
     assert created.utcoffset() == timedelta(0)
     hist = client.get(f"/api/v1/sales/leads/{lead['id']}/history", headers=auth_headers).json()
     assert datetime.fromisoformat(hist[0]["at"]).utcoffset() == timedelta(0)
+
+
+def test_lead_edit_address_and_delete(client, auth_headers):
+    lead = _lead(client, auth_headers, name="Dup Lead")
+    res = client.patch(
+        f"/api/v1/sales/leads/{lead['id']}", headers=auth_headers,
+        json={"name": "Dup Lead", "phone": "9876500011", "email": None, "address": "12 Test Street", "pincode": "500084"},
+    )
+    assert res.status_code == 200 and res.json()["address"] == "12 Test Street" and res.json()["pincode"] == "500084"
+    # A fresh duplicate can be deleted.
+    assert client.delete(f"/api/v1/sales/leads/{lead['id']}", headers=auth_headers).status_code == 200
+    assert all(x["id"] != lead["id"] for x in client.get("/api/v1/sales/leads", headers=auth_headers).json())
+    # A lead with an assessment keeps its history.
+    kept = _lead(client, auth_headers, name="Has Assessment")
+    _start(client, auth_headers, lead_id=kept["id"])
+    assert client.delete(f"/api/v1/sales/leads/{kept['id']}", headers=auth_headers).status_code == 422

@@ -181,3 +181,5 @@
 .ab-client strong > :not(.ab-tag) { min-width: 0; }
 .ab-tag { flex: 0 0 auto; white-space: nowrap; line-height: 1.5; }
 .ab-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+.ab-cancel.ab-move { color: #1e3a5f; }

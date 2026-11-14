@@ -92,6 +92,11 @@ def edit_lead(lead_id: int, data: LeadEditIn, db: Session = Depends(get_db), use
                           address=data.address, pincode=data.pincode)
 
 
+@router.delete("/leads/{lead_id}")
+def delete_lead(lead_id: int, db: Session = Depends(get_db), user: User = Depends(require_roles(*WRITE_ROLES))):
+    return sp.delete_lead(db, user, lead_id)
+
+
 @router.get("/leads/{lead_id}/history")
 def lead_history(lead_id: int, db: Session = Depends(get_db), user: User = Depends(require_roles(*READ_ROLES))):
     return sp.lead_history(db, user, lead_id)

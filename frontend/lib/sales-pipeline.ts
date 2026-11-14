@@ -448,6 +448,7 @@ export const createLead = (body: {
   address?: string | null;
   pincode?: string | null;
 }) => api<Lead>("/api/v1/sales/leads", { method: "POST", body: JSON.stringify(body) });
+export const deleteLead = (id: number) => api<{ ok: boolean }>(`/api/v1/sales/leads/${id}`, { method: "DELETE" });
 export const updateLead = (
   id: number,
   body: { name: string; phone: string | null; email: string | null; address: string | null; pincode: string | null },
