@@ -110,7 +110,7 @@ export function PartnersMarketingPage() {
           <Reveal>
             <Photo
               src="/marketing/partners.webp"
-              alt="A physiotherapist, an installer and a care manager talking with an elderly couple"
+              alt="A physiotherapist, an installer and a Family Partner talking with an elderly couple"
             />
           </Reveal>
           <Reveal delay={120}>

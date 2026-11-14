@@ -135,7 +135,7 @@ export function StabilityScoreChart({
         </li>
       </ul>
       <p className="kl-note">
-        Scored by the care manager from the four KushLife checks on each visit. 50 is their
+        Scored by the Family Partner from the four KushLife checks on each visit. 50 is their
         personal normal — higher is better than usual. Not a medical diagnosis.
       </p>
     </section>

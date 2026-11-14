@@ -20,6 +20,7 @@ const PAGES: { path: string; priority: number }[] = [
   { path: "/blog", priority: 0.7 },
   { path: "/about", priority: 0.6 },
   { path: "/faq", priority: 0.6 },
+  { path: "/services", priority: 0.8 },
   ...SEO_SERVICES.map((s) => ({ path: `/services/${s.slug}`, priority: 0.7 })),
   ...SEO_CITIES.map((c) => ({ path: `/elder-care/${c.slug}`, priority: 0.6 })),
   { path: "/founder", priority: 0.5 },

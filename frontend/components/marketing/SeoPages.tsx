@@ -249,7 +249,7 @@ export function SeoCityPage({ slug }: { slug: string }) {
       title: "When the family lives far away",
       paras: [
         c.family,
-        "After every visit you get an update in the family app, and calls with your care manager are planned around your time zone.",
+        "After every visit you get an update in the family app, and calls with your Family Partner are planned around your time zone.",
       ],
     },
     {

@@ -36,7 +36,7 @@ export function PackagesMarketingPage() {
         accent="Clear, no surprises."
         lede="KushAlaya elder care plans cost ₹55,000 to ₹1,60,000 a year, or ₹6,000 to ₹17,500 a month, GST included. Each of the four plans brings 8 to 70 care-manager visits a year and the family app; Privilege and Signature add an SOS watch."
         image="/marketing/plans-hero.webp"
-        imageAlt="A care manager organising a weekly pill box with an elderly couple at their kitchen table"
+        imageAlt="A Family Partner organising a weekly pill box with an elderly couple at their kitchen table"
       >
         <a className="mk-btn mk-btn-primary mk-btn-lg" href="#plans">
           Compare plans

@@ -82,7 +82,7 @@ export function FamilyCareStatusCard({ status }: { status: FamilyCareStatus }) {
 
       {snap?.family_message || snap?.care_manager_note ? (
         <div className="home-safety-care-status-family-msg">
-          <h3>Message from Care Manager</h3>
+          <h3>Message from Family Partner</h3>
           <p>{snap.family_message || snap.care_manager_note}</p>
         </div>
       ) : null}

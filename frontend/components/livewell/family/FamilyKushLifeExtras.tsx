@@ -25,7 +25,7 @@ export function NpsPrompt() {
     setBusy(true);
     try {
       await familyApi("/feedback/nps", { method: "POST", body: JSON.stringify({ score: value, reason }) });
-      setDone(value == null ? "No problem — we'll ask another time." : "Thank you. Your care manager reads every answer.");
+      setDone(value == null ? "No problem — we'll ask another time." : "Thank you. Your Family Partner reads every answer.");
     } catch (e) {
       setDone(e instanceof Error ? e.message : "Could not send");
     } finally {

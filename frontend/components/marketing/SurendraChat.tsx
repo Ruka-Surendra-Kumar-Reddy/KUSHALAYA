@@ -318,7 +318,7 @@ function ANSWERS(topic: Exclude<Topic, "callback">, phone: string, phoneTel: str
     case "ai":
       return {
         from: "bot",
-        text: "Send us a photo of a room and our AI points out common risks — no grab bar, slippery floor, loose rugs — and shows the room with safety products fitted. A care manager checks every finding.",
+        text: "Send us a photo of a room and our AI points out common risks — no grab bar, slippery floor, loose rugs — and shows the room with safety products fitted. A Family Partner checks every finding.",
         links: [{ label: "See how it works", href: "/safe-homes#ai" }],
       };
     case "brochure":

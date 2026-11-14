@@ -42,7 +42,7 @@ export function FamilyCareSheet() {
       )}
       {view.next_review ? (
         view.next_review.slice(0, 10) < istToday() ? (
-          <p className="muted">Care plan review due soon — your care manager will be in touch.</p>
+          <p className="muted">Care plan review due soon — your Family Partner will be in touch.</p>
         ) : (
           <p className="muted">Next care plan review: {shortDate(view.next_review)}</p>
         )

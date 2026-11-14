@@ -145,7 +145,7 @@ const QUOTES = [
   },
   {
     initials: "L",
-    text: "Lakshmi’s mother-in-law has a named Care Manager. Lakshmi messages her from Chennai whenever something about Atha’s routine changes.",
+    text: "Lakshmi’s mother-in-law has a named Family Partner. Lakshmi messages her from Chennai whenever something about Atha’s routine changes.",
     who: "Lakshmi",
     role: "Daughter-in-law · Chennai",
   },
@@ -474,7 +474,7 @@ export default function FamilyLoginPage() {
             <span className="fh-modal-ico" aria-hidden="true">
               {Icon.phone}
             </span>
-            <h2 id="fh-help-title">Contact your Care Manager</h2>
+            <h2 id="fh-help-title">Contact your Family Partner</h2>
             <p>
               For sign-in help, a forgotten password, or a new device, please contact your Care
               Manager for support. They will sort it out in minutes.

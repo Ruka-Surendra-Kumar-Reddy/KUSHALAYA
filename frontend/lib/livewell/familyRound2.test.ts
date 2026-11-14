@@ -54,8 +54,8 @@ describe("familyWords", () => {
     expect(plainWords("Support safer ambulation indoors and outdoors.")).toBe("Support safer walking indoors and outdoors.");
     expect(plainWords("Hourly ADL support")).toBe("Hourly daily activities support");
     expect(plainWords("Instrumental ADLs")).toBe("Household tasks");
-    expect(plainWords("An Elder Care Manager (ECM) is recommended")).toBe("A care manager is recommended");
-    expect(plainWords("Share plan with family/ECM")).toBe("Share plan with family/care manager");
+    expect(plainWords("An Elder Care Manager (ECM) is recommended")).toBe("A Family Partner is recommended");
+    expect(plainWords("Share plan with family/ECM")).toBe("Share plan with family/Family Partner");
     expect(plainWords("")).toBe("");
   });
 

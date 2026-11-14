@@ -110,7 +110,7 @@ export function ContactMarketingPage() {
                 <span>
                   <small>Already a family?</small>
                   <strong>Sign in to the family portal</strong>
-                  <em>Messages go straight to your care manager</em>
+                  <em>Messages go straight to your Family Partner</em>
                 </span>
               </a>
             </div>

@@ -293,6 +293,7 @@ export function middleware(request: NextRequest) {
     pathname === "/safe-homes" ||
     pathname === "/kushcare-discovery" ||
     pathname === "/vision" ||
+    pathname === "/services" ||
     pathname === "/brochure" ||
     pathname === "/founder" ||
     pathname === "/contact" ||

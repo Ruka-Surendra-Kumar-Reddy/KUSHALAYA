@@ -64,7 +64,7 @@ export function BecomePartnerMarketingPage() {
         title="Grow with families who already trust the plan."
         lede="Join the Trusted Partner Network as a supplier, installer or therapist. You get assessment-led work and co-branded recognition — families get verified, documented delivery."
         image="/marketing/become-partner.webp"
-        imageAlt="A shop owner shaking hands with a care manager at a counter of bathroom safety products"
+        imageAlt="A shop owner shaking hands with a Family Partner at a counter of bathroom safety products"
       >
         <a className="mk-btn mk-btn-green mk-btn-lg" href={enquiry} target="_blank" rel="noopener noreferrer">
           {ICONS.whatsapp} Enquire on WhatsApp

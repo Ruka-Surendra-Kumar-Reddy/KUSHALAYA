@@ -98,7 +98,7 @@ const AI_STEPS = [
   { title: "Send a photo. ", body: "Take a picture of the bathroom, bedroom or stairs on your phone." },
   {
     title: "AI checks for risks. ",
-    body: "It looks for common hazards such as no grab bar, a slippery floor or a loose rug. Your care manager reviews every finding before you see it.",
+    body: "It looks for common hazards such as no grab bar, a slippery floor or a loose rug. Your Family Partner reviews every finding before you see it.",
   },
   { title: "See the room made safer. ", body: "A preview of the room with the recommended products fitted, with prices from our list." },
 ] as const;
@@ -116,7 +116,7 @@ export function SafeHomesMarketingPage() {
           "We use internationally recognised fall-prevention principles — like the CDC’s STEADI framework and AARP home-safety guidance — and tailor them for Indian homes. LiveWell360 is the team that turns that guidance into action in your parents’ home.",
         )}
         image="/marketing/safe-homes-hero.webp"
-        imageAlt="An elderly woman steadying herself on a bathroom grab bar with a care manager close by"
+        imageAlt="An elderly woman steadying herself on a bathroom grab bar with a Family Partner close by"
       >
         <Link className="mk-btn mk-btn-primary mk-btn-lg" href={PARENT_CARE_CHECK_HREF}>
           {ctaLabel}
@@ -170,7 +170,7 @@ export function SafeHomesMarketingPage() {
               ))}
             </ol>
             <p className="mk-note">
-              Pictures are illustrations: your care manager confirms the final products and where they go. Photos are
+              Pictures are illustrations: your Family Partner confirms the final products and where they go. Photos are
               used only for your home&apos;s plan and are never shared or sold.
             </p>
           </Reveal>

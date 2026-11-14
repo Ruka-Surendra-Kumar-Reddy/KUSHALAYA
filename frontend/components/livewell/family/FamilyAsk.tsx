@@ -16,7 +16,7 @@ const WINDOWS: { value: NonNullable<AskInput["window"]>; label: string }[] = [
 
 /**
  * "Call me" / "Ask about…" (K2 #91). With `visit` it asks about that visit (and its
- * KushLife flag, if any). The question goes to the care manager; the whole family sees it.
+ * KushLife flag, if any). The question goes to the Family Partner; the whole family sees it.
  */
 export function FamilyAskButtons({
   visit,
@@ -54,8 +54,8 @@ export function FamilyAskButtons({
         ok: true,
         text:
           mode === "call_me"
-            ? `Sent. Your care manager will call you — ${q.call_window.toLowerCase()}.`
-            : "Sent. Your care manager usually replies within a day — here and in Messages.",
+            ? `Sent. Your Family Partner will call you — ${q.call_window.toLowerCase()}.`
+            : "Sent. Your Family Partner usually replies within a day — here and in Messages.",
       });
       setMode("");
       setText("");
@@ -160,7 +160,7 @@ export function FamilyQuestionsCard() {
   const tz = useFamilyTimezone();
   return (
     <section className="fh-home-card fh-questions" aria-labelledby="fh-q-h">
-      <h2 id="fh-q-h">Talk to your care manager</h2>
+      <h2 id="fh-q-h">Talk to your Family Partner</h2>
       <FamilyAskButtons onSent={load} />
       {recent.length ? (
         <ul className="fh-q-list">
@@ -186,7 +186,7 @@ export function FamilyQuestionsCard() {
           ))}
         </ul>
       ) : rows ? (
-        <p className="muted">Your care manager usually replies within a day.</p>
+        <p className="muted">Your Family Partner usually replies within a day.</p>
       ) : null}
     </section>
   );

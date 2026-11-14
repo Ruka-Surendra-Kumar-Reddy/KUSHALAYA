@@ -36,7 +36,7 @@ export default function PrivacyPage() {
           </thead>
           <tbody>
             <tr><td>Name, email, phone</td><td>When you sign up, enquire or are added by a family member</td><td>Create and secure your account, contact you about care</td><td>Our care team; email/SMS/WhatsApp providers to deliver messages</td></tr>
-            <tr><td>Care recipient details (name, age, address, emergency contacts)</td><td>Entered by the family or our staff</td><td>Plan and deliver visits</td><td>Assigned care manager and caregivers; installation partners when fitting products</td></tr>
+            <tr><td>Care recipient details (name, age, address, emergency contacts)</td><td>Entered by the family or our staff</td><td>Plan and deliver visits</td><td>Assigned Family Partner and caregivers; installation partners when fitting products</td></tr>
             <tr><td>Health and wellbeing notes</td><td>Only with separate consent</td><td>Safe care at each visit</td><td>Assigned care team only</td></tr>
             <tr><td>Photos, voice notes, documents</td><td>When you or our staff upload them</td><td>Visit evidence, assessment reports</td><td>Room photos only: Google Gemini / fal.ai for hazard checks and previews (no names)</td></tr>
             <tr><td>Precise location</td><td>Staff app during a visit; family app only if you share it</td><td>Confirm the visit happened at the home; on-the-way map</td><td>Not shared outside the care team</td></tr>
@@ -179,7 +179,7 @@ export default function PrivacyPage() {
           rule: only the room photo and product names are sent.
         </li>
         <li>
-          AI results are a starting point only. A {B} care manager reviews them before they appear in your report.
+          AI results are a starting point only. A {B} Family Partner reviews them before they appear in your report.
         </li>
       </ul>
 
@@ -238,7 +238,7 @@ export default function PrivacyPage() {
       <h2>7. Who we share it with</h2>
       <ul>
         <li>
-          <strong>Our care team:</strong> care managers and the caregivers assigned to your family member. Each sees
+          <strong>Our care team:</strong> Family Partners and the caregivers assigned to your family member. Each sees
           only what they need.
         </li>
         <li>

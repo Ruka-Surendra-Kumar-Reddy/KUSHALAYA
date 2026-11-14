@@ -34,7 +34,7 @@ export function GET() {
   const assessment = HOME_ASSESSMENT.pricePaise ? inr(HOME_ASSESSMENT.pricePaise) : "free";
   const text = `# KushAlaya
 
-> KushAlaya is elder care at home in India. We make parents' homes safer (home safety assessment, fall-prevention fixes) and send care managers on regular visits, with photo reports and alerts for their families, including families living abroad (NRI).
+> KushAlaya is elder care at home in India. We make parents' homes safer (home safety assessment, fall-prevention fixes) and send Family Partners on regular visits, with photo reports and alerts for their families, including families living abroad (NRI).
 
 ## Who it is for
 - Adult children, in India or abroad, whose parents live at home in India.
@@ -44,14 +44,14 @@ export function GET() {
 - Families across India. Registered office in Hyderabad, Telangana.
 
 ## How it starts
-- KushCare Discovery: a short enquiry form. A care manager then calls and books the home safety assessment (${assessment}). ${o}/kushcare-discovery
+- KushCare Discovery: a short enquiry form. A Family Partner then calls and books the home safety assessment (${assessment}). ${o}/kushcare-discovery
 
 ## Plans (GST included; monthly billing costs more than annual)
 ${plans}
 - ${SINGLE_VISIT.name}: ${inr(SINGLE_VISIT.pricePaise)} + ${inr(SINGLE_VISIT.registrationPaise)} registration (${SINGLE_VISIT.hours} hours, no subscription)
 - Details: ${o}/packages
 
-KushAlaya is not an emergency service. In an emergency in India call 112 or 108 first. An SOS watch (Privilege and Signature plans) alerts the client's care manager, who checks and then informs the family.
+KushAlaya is not an emergency service. In an emergency in India call 112 or 108 first. An SOS watch (Privilege and Signature plans) alerts the client's Family Partner, who checks and then informs the family.
 
 ## Key pages
 - Home: ${o}/

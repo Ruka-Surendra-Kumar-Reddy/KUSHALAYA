@@ -269,7 +269,7 @@ export default function FamilySafetyPage() {
             <section className="card home-safety-section">
               <h2>Incident reports</h2>
               <p className="muted" style={{ fontSize: "0.85rem", marginBottom: "0.75rem" }}>
-                Falls and other incidents, once your care manager has reviewed them.
+                Falls and other incidents, once your Family Partner has reviewed them.
               </p>
               <ul className="fh-rec">
                 {incidents.map((r) => (
@@ -282,7 +282,7 @@ export default function FamilySafetyPage() {
                       <span>{r.summary}</span>
                     </div>
                     <span className={`fh-inc-status${r.status === "Closed" ? " is-closed" : ""}`}>
-                      {r.status === "Closed" ? "Closed" : "Checked by your care manager"}
+                      {r.status === "Closed" ? "Closed" : "Checked by your Family Partner"}
                     </span>
                   </li>
                 ))}

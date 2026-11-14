@@ -105,7 +105,7 @@ BLURBS: dict[str, str] = {
     "WEL-007": "Gentle help with bathing and personal care.",
     "WEL-008": "A caregiver at home for the day (10 hours).",
     "WEL-009": "A caregiver who lives in and helps day and night.",
-    "WEL-010": "One care manager who plans and checks all of your parent's care.",
+    "WEL-010": "One Family Partner who plans and checks all of your parent's care.",
     "WEL-011": "An attendant for a few hours of help with daily tasks.",
     "WEL-012": "Help with insurance, pension and government schemes.",
     "WEL-013": "We set up your parent's phone and show them how to use it.",

@@ -81,7 +81,7 @@ export const EVERY_PLAN_INCLUDES: string[] = [
   "Emergency visits always free — never counted against your visits",
   "Emergency coordination",
   "Free KushAlaya assessment with any annual plan",
-  "Family portal: visit reports with photos, message your care manager, rapid family alerts, live care-manager location, WhatsApp digest",
+  "Family portal: visit reports with photos, message your Family Partner, rapid family alerts, live care-manager location, WhatsApp digest",
   "Doctor and errand accompaniment",
   "Utilities, groceries and repairs coordination",
   "Partner services coordinated by us: home caregivers, physiotherapy, nursing and recovery support",

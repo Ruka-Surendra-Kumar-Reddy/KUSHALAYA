@@ -11,7 +11,7 @@ import "@/components/kushlife/vitals-trend.css";
 
 type Goal = { goal: string; status: string; progress: string };
 
-/** #100: the monthly KushLife letter (approved by the care manager), with a PDF copy. */
+/** #100: the monthly KushLife letter (approved by the Family Partner), with a PDF copy. */
 export default function FamilyLetterPage() {
   const id = String(useParams().id ?? "");
   const [letter, setLetter] = useState<MonthlyLetter | null>(null);
@@ -46,7 +46,7 @@ export default function FamilyLetterPage() {
               </ul>
             </>
           ) : null}
-          {letter.manager_note ? (<><h3>From your care manager</h3><p>{letter.manager_note}</p></>) : null}
+          {letter.manager_note ? (<><h3>From your Family Partner</h3><p>{letter.manager_note}</p></>) : null}
           {letter.next_plan ? (<><h3>Next month</h3><p>{letter.next_plan}</p></>) : null}
           <p className="kq-muted">Care observations by your care team, not a medical diagnosis.</p>
           <div className="kq-actions kq-noprint">

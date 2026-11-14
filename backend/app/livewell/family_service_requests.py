@@ -717,7 +717,7 @@ class FamilyServiceRequestService:
             )
         elif status == "declined":
             title = f"{label}: we couldn't book this"
-            body = note or f"We couldn't schedule {label.lower()} this time. Your care manager will be in touch."
+            body = note or f"We couldn't schedule {label.lower()} this time. Your Family Partner will be in touch."
             note = ""
         elif status == "done":
             title = f"{label} done"

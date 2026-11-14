@@ -74,7 +74,7 @@ export default function FamilyVisitDetailPage() {
       });
       // The rating reply has no photo list; keep the one already shown.
       setVisit((prev) => ({ ...updated, photos: updated.photos?.length ? updated.photos : prev?.photos }));
-      setRateMessage("Thank you. Your care manager reads every rating.");
+      setRateMessage("Thank you. Your Family Partner reads every rating.");
       setComment("");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Could not save rating");
@@ -160,7 +160,7 @@ export default function FamilyVisitDetailPage() {
 
           {visit.family_message ? (
             <section className="home-safety-visit-section home-safety-family-msg-section">
-              <h3>Message from Care Manager</h3>
+              <h3>Message from Family Partner</h3>
               <p>{visit.family_message}</p>
             </section>
           ) : null}

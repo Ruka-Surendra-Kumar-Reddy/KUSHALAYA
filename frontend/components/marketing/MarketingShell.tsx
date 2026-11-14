@@ -38,6 +38,7 @@ export type MarketingNavItem = { href: string; label: string };
 const NAV: MarketingNavItem[] = [
   { href: "/", label: "Home" },
   { href: "/#how", label: "How it works" },
+  { href: "/services", label: "Services" },
   { href: "/kushlife", label: "KushLife" },
   { href: SAFE_HOMES_HREF, label: "Home safety" },
   { href: PARTNERS_HREF, label: "Partners" },
@@ -379,6 +380,7 @@ export function MarketingShell({
           <div className="mk-footer-col">
             <p className="mk-footer-label">Explore</p>
             <Link href="/#how">How it works</Link>
+            <Link href="/services">Our services</Link>
             <Link href="/kushlife">KushLife visits</Link>
             <Link href={PACKAGES_HREF}>Plans &amp; pricing</Link>
             <Link href={SAFE_HOMES_HREF}>Why safe homes matter</Link>

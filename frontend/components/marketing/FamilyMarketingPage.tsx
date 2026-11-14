@@ -102,7 +102,7 @@ function PromiseStrip() {
               </div>
               <div className="mk-stat">
                 <strong>1 tap</strong>
-                <span>SOS watch alerts the care manager</span>
+                <span>SOS watch alerts the Family Partner</span>
               </div>
             </>
           ) : (

@@ -255,7 +255,7 @@ export function BuyNowSheet({
             <p>
               {visit
                 ? "Our care team will call you shortly to confirm the date and time of the visit."
-                : "Your care manager will call you shortly to welcome you and plan the first visit."}
+                : "Your Family Partner will call you shortly to welcome you and plan the first visit."}
             </p>
             <button type="button" className="mk-btn mk-btn-primary" onClick={onClose}>
               Done

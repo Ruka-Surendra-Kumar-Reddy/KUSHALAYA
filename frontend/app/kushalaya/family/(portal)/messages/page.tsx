@@ -59,11 +59,11 @@ export default function FamilyMessagesPage() {
       {error ? <p className="error-text">{error}</p> : null}
       {sent ? (
         <p className="home-safety-family-success" role="status">
-          Sent. Your care manager usually replies within a day. Replies appear here.
+          Sent. Your Family Partner usually replies within a day. Replies appear here.
         </p>
       ) : null}
       <p className="muted home-safety-section-hint">
-        Send a question or update. Your care manager usually replies within a day. Replies appear here.
+        Send a question or update. Your Family Partner usually replies within a day. Replies appear here.
       </p>
 
       <div className="home-safety-family-chat">

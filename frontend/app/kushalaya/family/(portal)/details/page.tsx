@@ -222,7 +222,7 @@ export default function FamilyDetailsPage() {
         ) : null}
         {health ? <FamilyCareSheet /> : null}
         <p className="muted">
-          Something changed? Tell us below. A care manager checks it and updates the record, so the
+          Something changed? Tell us below. A Family Partner checks it and updates the record, so the
           caregivers always see the right details.
         </p>
         <form className="fh-details-form" onSubmit={(e) => void sendChange(e)}>
